@@ -1,8 +1,8 @@
 export function App() {
 
   return (
-    <>
-      teste
-    </>
+    <h1>
+      Test
+    </h1>
   )
 }
