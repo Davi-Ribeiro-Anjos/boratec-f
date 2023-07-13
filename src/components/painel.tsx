@@ -1,6 +1,6 @@
-import { Panel } from 'rsuite';
+import { Panel } from "rsuite";
 
-import React from 'react';
+import React from "react";
 
 interface MainPanelProps {
     title: string;
@@ -12,6 +12,8 @@ interface MainPanelProps {
 
 
 export const MainPanel = ({ title, width = 95, collapsible = true, bordered = false, children }: MainPanelProps) => {
+    console.log("painel")
+
     const shaded = bordered ? false : true;
 
     return (

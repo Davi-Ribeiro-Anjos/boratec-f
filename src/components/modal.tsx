@@ -1,6 +1,6 @@
-import { Modal, Button } from 'rsuite';
+import { Modal, Button } from "rsuite";
 
-import React from 'react';
+import React from "react";
 
 interface MainModalProps {
     send: () => void;
@@ -10,7 +10,7 @@ interface MainModalProps {
     nameButton: string;
     overflow?: boolean;
     isView?: boolean;
-    size?: 'full' | 'lg' | 'md' | 'sm' | 'xs';
+    size?: "full" | "lg" | "md" | "sm" | "xs";
     children: React.ReactNode;
 }
 
@@ -21,7 +21,7 @@ const style: { [key: string]: React.CSSProperties } = {
 }
 
 
-export function MainModal({ send, close, open, title, nameButton, overflow = false, isView = false, size = 'sm', children }: MainModalProps) {
+export function MainModal({ send, close, open, title, nameButton, overflow = false, isView = false, size = "sm", children }: MainModalProps) {
     console.log("modal")
 
     return (
