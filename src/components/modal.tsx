@@ -14,7 +14,7 @@ interface MainModalProps {
     children: React.ReactNode;
 }
 
-const style = {
+const style: { [key: string]: React.CSSProperties } = {
     modal: {
         marginBottom: 30
     }
