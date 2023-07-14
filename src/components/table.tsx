@@ -6,13 +6,12 @@ interface MainTableProps {
     data: any;
     columns: any;
     searchData: () => any;
-    children?: React.ReactNode;
 }
 
 const { Column, HeaderCell, Cell } = Table;
 
 
-function MainTable({ data, columns, searchData, children }: MainTableProps) {
+function MainTable({ data, columns, searchData }: MainTableProps) {
     console.log("main table")
 
     let page: number = 1;
@@ -67,7 +66,6 @@ function MainTable({ data, columns, searchData, children }: MainTableProps) {
                     })
                 }
             </Table >
-            {children}
             <div style={{ padding: 20 }}>
                 <Pagination
                     prev
