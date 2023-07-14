@@ -1,26 +1,26 @@
 import { Table, Pagination } from "rsuite";
 
-import { useState } from "react";
+import { memo, useState, useEffect } from "react";
 
 interface MainTableProps {
     data: any;
     columns: any;
-    children: React.ReactNode;
-
+    searchData: () => any;
+    children?: React.ReactNode;
 }
 
 const { Column, HeaderCell, Cell } = Table;
 
 
-export function MainTable({ data, columns, children }: MainTableProps) {
-    console.log("table")
+function MainTable({ data, columns, searchData, children }: MainTableProps) {
+    console.log("main table")
 
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(30);
+    let page: number = 1;
+    let limit: number = 30;
 
     const getData = () => {
         if (data.length > 0) {
-            const dataFilter = data.filter((v, i) => {
+            const dataFilter = data.filter((v: any, i: number) => {
                 const start = limit * (page - 1);
                 const end = start + limit;
                 return i >= start && i < end;
@@ -30,9 +30,17 @@ export function MainTable({ data, columns, children }: MainTableProps) {
         }
     };
 
+    useEffect(() => {
+        searchData()
+    }, [])
+
+    const changePage = (newPage: number) => {
+        page = newPage;
+    }
+
     const handleChangeLimit = (dataKey: number) => {
-        setPage(1);
-        setLimit(dataKey);
+        page = 1;
+        limit = dataKey;
     };
 
     return (
@@ -47,16 +55,10 @@ export function MainTable({ data, columns, children }: MainTableProps) {
                             title: key[0],
                             dataKey: key[1]["dataKey"],
                             width: key[1]["width"],
-                            align: key[1]["align"],
-                            fixed: key[1]["fixed"],
-                            click: key[1]["click"],
-                            icon: key[1]["icon"],
-                            url: key[1]["url"],
-                            needAuth: key[1]["needAuth"] || false
                         }
 
                         return (
-                            <Column width={myColumn.width || 150} align={myColumn.align || "center"} fixed={myColumn.fixed || false} key={index} >
+                            <Column align="center" width={myColumn.width || 150} key={index} >
                                 <HeaderCell>{myColumn.title}</HeaderCell>
                                 <Cell dataKey={myColumn.dataKey} />
                             </Column>
@@ -66,8 +68,7 @@ export function MainTable({ data, columns, children }: MainTableProps) {
                 }
             </Table >
             {children}
-            < div style={{ padding: 20 }
-            } >
+            <div style={{ padding: 20 }}>
                 <Pagination
                     prev
                     next
@@ -82,10 +83,12 @@ export function MainTable({ data, columns, children }: MainTableProps) {
                     limitOptions={[30, 50, 100]}
                     limit={limit}
                     activePage={page}
-                    onChangePage={setPage}
+                    onChangePage={changePage}
                     onChangeLimit={handleChangeLimit}
                 />
             </div >
         </>
     );
 };
+
+export default MainTable;
