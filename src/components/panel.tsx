@@ -3,7 +3,7 @@ import { Panel } from "rsuite";
 import React from "react";
 
 interface MainPanelProps {
-    title: string;
+    title?: string;
     width?: number;
     collapsible?: boolean;
     bordered?: boolean;
@@ -11,8 +11,8 @@ interface MainPanelProps {
 }
 
 
-export const MainPanel = ({ title, width = 95, collapsible = true, bordered = false, children }: MainPanelProps) => {
-    console.log("painel")
+export const MainPanel = ({ title, width = 95, collapsible = false, bordered = false, children }: MainPanelProps) => {
+    console.log("main painel")
 
     const shaded = bordered ? false : true;
 

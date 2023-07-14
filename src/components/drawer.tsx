@@ -18,7 +18,7 @@ const styles = {
 }
 
 export function MainDrawer({ open, close, title, backdrop = true, size = "sm", children }: MainDrawerProps) {
-    console.log("drawer")
+    console.log("main drawer")
 
     return (
         <Drawer backdrop={backdrop} size={size} open={open} onClose={() => close()}>

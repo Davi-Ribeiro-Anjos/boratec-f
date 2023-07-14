@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export function MainHeader() {
-    console.log("header")
+    console.log("main header")
 
     const navegate = useNavigate();
 
