@@ -3,23 +3,22 @@ import { ReactNode } from "react";
 
 import { PanelRoot } from "./PanelRoot";
 
-interface PanelFilterProps {
+interface PanelFilterProps<T extends Record<string, any>> {
     header?: string;
+    filter: T;
+    send: () => void;
+    setFilter: any;
     clear: () => void;
     children: ReactNode;
 }
 
 
-export function PanelFilter({ header = "Filtros", clear, children }: PanelFilterProps) {
-
-    const pass = () => {
-        console.log("pass")
-    }
+export function PanelFilter<T extends Record<string, any>>({ header = "Filtros", send, filter, setFilter, clear, children }: PanelFilterProps<T>) {
 
     return (
-        <PanelRoot header={header} width={100} bordered collapsible>
+        <PanelRoot header={header} width={100} bordered collapsible defaultExpanded>
             <Grid style={{ width: "100%" }}>
-                <Form fluid onSubmit={pass}>
+                <Form fluid onSubmit={send} onChange={setFilter} formValue={filter}>
                     {children}
                     <Row>
                         <Col xs={20}></Col>
