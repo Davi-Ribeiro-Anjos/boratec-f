@@ -8,7 +8,7 @@ import './main.css'
 import 'rsuite/dist/rsuite.min.css';
 
 import { App } from './App.tsx'
-import { queryClient } from './services/queryClient.ts'
+import { queryClient } from './services/QueryClient.ts'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
