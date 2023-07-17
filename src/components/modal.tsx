@@ -1,10 +1,11 @@
-import { Modal, Button } from "rsuite";
+import { Modal, Button, Form } from "rsuite";
 
 import React from "react";
 
 interface MainModalProps {
     send: () => void;
     close: () => void;
+    form: any;
     open: boolean;
     title: string;
     nameButton: string;
@@ -14,41 +15,49 @@ interface MainModalProps {
     children: React.ReactNode;
 }
 
-const style: { [key: string]: React.CSSProperties } = {
+const styles: { [key: string]: React.CSSProperties } = {
     modal: {
         marginBottom: 30
     }
 }
 
 
-export function MainModal({ send, close, open, title, nameButton, overflow = false, isView = false, size = "sm", children }: MainModalProps) {
-    console.log("modal")
+export function MainModal({ form, send, close, open, title, nameButton, overflow = false, isView = false, size = "sm", children }: MainModalProps) {
+    console.log("main modal")
 
     return (
-        <Modal style={style.modal} overflow={overflow} size={size} open={open} onClose={() => close()}>
+        <Modal style={styles.modal} overflow={overflow} size={size} open={open} onClose={() => close()}>
             <Modal.Header>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                {children}
-            </Modal.Body>
-            <Modal.Footer>
-                {isView === false ?
-                    <>
-                        <Button onClick={() => send()} appearance="primary">
+            {isView === false ? (
+                <Form onSubmit={send} formValue={form} >
+                    <Modal.Body>
+                        {children}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button type="submit" appearance="primary">
                             {nameButton}
                         </Button>
                         <Button onClick={() => close()} appearance="subtle">
                             Cancelar
                         </Button>
+                    </Modal.Footer>
+                </Form>
+            )
+                : (
+                    <>
+                        <Modal.Body>
+                            {children}
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button onClick={() => close()} appearance="subtle">
+                                Cancelar
+                            </Button>
+                        </Modal.Footer>
                     </>
-                    :
-                    <Button onClick={() => close()} appearance="subtle">
-                        Fechar
-                    </Button>
-                }
-
-            </Modal.Footer>
+                )
+            }
         </Modal>
     )
 }
