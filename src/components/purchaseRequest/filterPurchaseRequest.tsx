@@ -1,5 +1,8 @@
 import { Col, DateRangePicker, Form, InputNumber, InputPicker, Row, SelectPicker } from "rsuite"
 
+import { branches } from "../../services/Choices";
+
+
 const styles: { [key: string]: React.CSSProperties } = {
     input: {
         width: 250,
@@ -10,6 +13,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
 }
 
+const typePallet = ["PBR", "CHEP"].map(item => ({ label: item, value: item }));
 
 export function FilterPurchaseRequest() {
 
@@ -25,7 +29,7 @@ export function FilterPurchaseRequest() {
                 <Col xs={12}>
                     <Form.Group >
                         <Form.ControlLabel>Solicitante: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="solicitante" accepter={SelectPicker} />
+                        <Form.Control style={styles.input} name="solicitante" data={typePallet} accepter={SelectPicker} />
                     </Form.Group>
                 </Col>
             </Row>
@@ -39,7 +43,7 @@ export function FilterPurchaseRequest() {
                 <Col xs={12}>
                     <Form.Group >
                         <Form.ControlLabel>Status: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="status" accepter={InputPicker} />
+                        <Form.Control style={styles.input} name="status" data={typePallet} accepter={InputPicker} />
                     </Form.Group>
                 </Col>
             </Row>
@@ -47,7 +51,7 @@ export function FilterPurchaseRequest() {
                 <Col xs={12}>
                     <Form.Group >
                         <Form.ControlLabel>Filial: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="filial" accepter={SelectPicker} />
+                        <Form.Control style={styles.input} name="filial" data={branches} accepter={SelectPicker} />
                     </Form.Group>
                 </Col>
             </Row>
