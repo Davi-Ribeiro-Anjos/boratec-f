@@ -19,7 +19,6 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
 }
 
-const typePallet = ["PBR", "CHEP"].map(item => ({ label: item, value: item }));
 
 function CreatePurchaseRequest({ open, setOpen }: CreatePurchaseRequestProps) {
     console.log("criar solicitacao compra")
@@ -48,7 +47,7 @@ function CreatePurchaseRequest({ open, setOpen }: CreatePurchaseRequestProps) {
                     <Col xs={12}>
                         <Form.Group >
                             <Form.ControlLabel>Filial:</Form.ControlLabel>
-                            <Form.Control style={styles.input} name="filial" data={typePallet} accepter={SelectPicker} />
+                            <Form.Control style={styles.input} name="filial" accepter={SelectPicker} />
                             <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                         </Form.Group>
                     </Col>
