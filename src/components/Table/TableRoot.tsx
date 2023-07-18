@@ -2,7 +2,7 @@ import { IconButton, Table } from "rsuite";
 import { RowDataType } from "rsuite/esm/Table";
 import { Icon } from '@rsuite/icons';
 
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import { ColumnsInterface } from "../../services/Interfaces";
 import { MainTable } from ".";
@@ -17,7 +17,7 @@ interface TableRootProps<T extends readonly RowDataType<never>[]> {
 const accessesUser: string[] = ["solic_compras_edit"]
 
 
-export function TableRoot<T extends readonly RowDataType<never>[]>({ data, columns }: TableRootProps<T>) {
+export const TableRoot = memo(function TableRoot<T extends readonly RowDataType<never>[]>({ data, columns }: TableRootProps<T>) {
     console.log("tabela")
 
     const [page, setPage] = useState<number>(1);
@@ -96,4 +96,4 @@ export function TableRoot<T extends readonly RowDataType<never>[]>({ data, colum
                 handlePageChange={handlePageChange} />
         </>
     )
-}
+})

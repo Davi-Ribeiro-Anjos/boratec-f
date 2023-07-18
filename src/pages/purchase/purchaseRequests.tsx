@@ -2,7 +2,7 @@ import { Message, toaster } from "rsuite";
 import ListIcon from "@rsuite/icons/List";
 import EditIcon from "@rsuite/icons/Edit";
 
-import { useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 
 import { api } from "../../hooks/api";
 import { ColumnsInterface, PurchaseRequest } from "../../services/Interfaces";
@@ -44,7 +44,7 @@ export default function PurchaseRequests() {
 
     // DATA
     const [data, setData] = useState<PurchaseRequest[]>([])
-    const searchData = async () => {
+    const searchData = useCallback(async () => {
         if (typeof filter.numero_solicitacao === "string") filter.numero_solicitacao = null
 
         await api.get("solicitacoes-compras/", { params: { ...filter } }).then((response) => {
@@ -59,27 +59,30 @@ export default function PurchaseRequests() {
             )
             toaster.push(message, { placement: "topEnd", duration: 4000 })
         })
-    }
-    const annotations = (rowData: any) => {
-        console.log(rowData)
-    }
+    }, [])
 
-    const dataEdit = (rowData: any) => {
+    const annotations = useCallback((rowData: any) => {
         console.log(rowData)
-    }
+    }, [])
+
+    const dataEdit = useCallback((rowData: any) => {
+        console.log(rowData)
+    }, [])
 
     // TABLE
-    const columns: ColumnsInterface = {
-        "Nº Solicitação": { dataKey: "numero_solicitacao", width: 130 },
-        "Dt Solicitação": { dataKey: "data_solicitacao_bo", width: 150 },
-        "Status": { dataKey: "status", width: 120 },
-        "Filial": { dataKey: "filial.sigla", width: 120 },
-        "Departamento": { dataKey: "departamento", width: 170 },
-        "Solicitante": { dataKey: "solicitante.username", width: 150 },
-        "Responsável": { dataKey: "responsavel.username", width: 150 },
-        "Entradas": { dataKey: "button", width: 130, click: annotations, icon: ListIcon },
-        "Editar": { dataKey: "button", width: 130, click: dataEdit, icon: EditIcon, needAuth: true, auth: "solic_compras_edit" }
-    };
+    const columns = useMemo<ColumnsInterface>(() => {
+        return {
+            "Nº Solicitação": { dataKey: "numero_solicitacao", width: 130 },
+            "Dt Solicitação": { dataKey: "data_solicitacao_bo", width: 150 },
+            "Status": { dataKey: "status", width: 120 },
+            "Filial": { dataKey: "filial.sigla", width: 120 },
+            "Departamento": { dataKey: "departamento", width: 170 },
+            "Solicitante": { dataKey: "solicitante.username", width: 150 },
+            "Responsável": { dataKey: "responsavel.username", width: 150 },
+            "Entradas": { dataKey: "button", width: 130, click: annotations, icon: ListIcon },
+            "Editar": { dataKey: "button", width: 130, click: dataEdit, icon: EditIcon, needAuth: true, auth: "solic_compras_edit" }
+        }
+    }, [dataEdit, annotations])
 
     return (
         <MainPanel.Root shaded>

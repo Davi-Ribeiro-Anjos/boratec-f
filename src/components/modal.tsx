@@ -1,18 +1,16 @@
-import { Modal, Button, Form } from "rsuite";
+import { Modal, Button, Form, ModalProps } from "rsuite";
 
-import React from "react";
+import { ReactNode } from "react";
 
-interface MainModalProps {
+interface MainModalProps extends ModalProps {
     send: () => void;
     close: () => void;
     form: any;
-    open: boolean;
+    setForm: any;
     title: string;
     nameButton: string;
-    overflow?: boolean;
     isView?: boolean;
-    size?: "full" | "lg" | "md" | "sm" | "xs";
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 const styles: { [key: string]: React.CSSProperties } = {
@@ -22,24 +20,25 @@ const styles: { [key: string]: React.CSSProperties } = {
 }
 
 
-export function MainModal({ form, send, close, open, title, nameButton, overflow = false, isView = false, size = "sm", children }: MainModalProps) {
+export function MainModal({ form, setForm, send, close, open, title, nameButton,
+    overflow = false, isView = false, size = "sm", children, ...props }: MainModalProps) {
     console.log("main modal")
 
     return (
-        <Modal style={styles.modal} overflow={overflow} size={size} open={open} onClose={() => close()}>
+        <Modal style={styles.modal} overflow={overflow} size={size} open={open} onClose={close}>
             <Modal.Header>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             {isView === false ? (
-                <Form onSubmit={send} formValue={form} >
+                <Form onChange={setForm} formValue={form} >
                     <Modal.Body>
                         {children}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button type="submit" appearance="primary">
+                        <Button onClick={send} appearance="primary">
                             {nameButton}
                         </Button>
-                        <Button onClick={() => close()} appearance="subtle">
+                        <Button onClick={close} appearance="subtle">
                             Cancelar
                         </Button>
                     </Modal.Footer>
@@ -51,7 +50,7 @@ export function MainModal({ form, send, close, open, title, nameButton, overflow
                             {children}
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button onClick={() => close()} appearance="subtle">
+                            <Button onClick={close} appearance="subtle">
                                 Cancelar
                             </Button>
                         </Modal.Footer>

@@ -1,9 +1,9 @@
 import { IconButton, Tooltip, Whisper } from "rsuite";
 import PlusIcon from '@rsuite/icons/Plus';
 
-import { useState } from "react";
+import { useState, memo } from "react";
 
-import CreatePurchaseRequest from "./CreatePurchaseRequest";
+import { CreatePurchaseRequest } from "./CreatePurchaseRequest";
 
 interface HeaderPurchaseRequestProps { }
 
@@ -17,7 +17,7 @@ const styles: { [key: string]: React.CSSProperties } = {
 }
 
 
-export function HeaderPurchaseRequest({ }: HeaderPurchaseRequestProps) {
+export const HeaderPurchaseRequest = memo(function HeaderPurchaseRequest({ }: HeaderPurchaseRequestProps) {
     console.log("painel solicitacao compra")
 
     const [open, setOpen] = useState(false)
@@ -33,4 +33,4 @@ export function HeaderPurchaseRequest({ }: HeaderPurchaseRequestProps) {
             <CreatePurchaseRequest open={open} setOpen={setOpen} />
         </div>
     )
-}
+})
