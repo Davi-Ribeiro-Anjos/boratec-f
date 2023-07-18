@@ -5,7 +5,7 @@ import EditIcon from "@rsuite/icons/Edit";
 import { useState } from "react";
 
 import { api } from "../../hooks/api";
-import { ColumnsInterface } from "../../services/Interfaces";
+import { ColumnsInterface, PurchaseRequest } from "../../services/Interfaces";
 
 import { MainTable } from "../../components/Table"
 import { MainPanel } from "../../components/Panel/index"
@@ -20,14 +20,6 @@ interface Filter {
     solicitante: string | null,
 }
 
-interface PurchaseRequest {
-    id: number,
-    numero_solicitacao: number,
-    data_solicitacao_bo: string,
-    status: string,
-    filial: number,
-    solicitante: string,
-}
 
 export default function PurchaseRequests() {
     console.log("solicitacao compra")
@@ -53,16 +45,11 @@ export default function PurchaseRequests() {
     // DATA
     const [data, setData] = useState<PurchaseRequest[]>([])
     const searchData = async () => {
+        if (typeof filter.numero_solicitacao === "string") filter.numero_solicitacao = null
+
         await api.get("solicitacoes-compras/", { params: { ...filter } }).then((response) => {
             let dataResponse = response.data
 
-            for (const line in dataResponse) {
-                if (Object.hasOwnProperty.call(dataResponse, line)) {
-                    const element = dataResponse[line];
-
-                    element.data_solicitacao_bo = element.data_solicitacao_bo.split(" ")[0]
-                }
-            }
             setData(dataResponse)
         }).catch(() => {
             let message = (
@@ -91,7 +78,7 @@ export default function PurchaseRequests() {
         "Solicitante": { dataKey: "solicitante.username", width: 150 },
         "Responsável": { dataKey: "responsavel.username", width: 150 },
         "Entradas": { dataKey: "button", width: 130, click: annotations, icon: ListIcon },
-        "Editar": { dataKey: "button", width: 130, click: dataEdit, icon: EditIcon, needAuth: true, auth: "edit_purchase_requests" }
+        "Editar": { dataKey: "button", width: 130, click: dataEdit, icon: EditIcon, needAuth: true, auth: "solic_compras_edit" }
     };
 
     return (

@@ -2,7 +2,7 @@ import { Form, Uploader, SelectPicker, Grid, Row, Col, InputNumber } from 'rsuit
 
 import { useState } from 'react';
 
-import { branches } from '../../services/Choices';
+import { BranchesChoices } from '../../services/Choices';
 
 import { MainModal } from '../modal';
 
@@ -48,7 +48,7 @@ function CreatePurchaseRequest({ open, setOpen }: CreatePurchaseRequestProps) {
                     <Col xs={12}>
                         <Form.Group >
                             <Form.ControlLabel>Filial:</Form.ControlLabel>
-                            <Form.Control style={styles.input} name="filial" data={branches} accepter={SelectPicker} />
+                            <Form.Control style={styles.input} name="filial" data={BranchesChoices} accepter={SelectPicker} />
                             <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                         </Form.Group>
                     </Col>
