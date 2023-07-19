@@ -26,26 +26,18 @@ export default function PurchaseRequests() {
     console.log("solicitacao compra")
 
     // FILTER
-    const [filter, setFilter] = useState<Filter>({
+    const propsFilter: Filter = {
         numero_solicitacao: null,
         data_solicitacao_bo: null,
         status: null,
         filial: null,
         solicitante: null,
-    })
-    const clearFilter = () => {
-        setFilter({
-            numero_solicitacao: null,
-            data_solicitacao_bo: null,
-            status: null,
-            filial: null,
-            solicitante: null,
-        })
     }
 
     // DATA
     const [data, setData] = useState<PurchaseRequestInterface[]>([])
-    const searchData = useCallback(async () => {
+    const searchData = useCallback(async (filter: any) => {
+        console.log(filter)
         if (typeof filter.numero_solicitacao === "string") filter.numero_solicitacao = null
 
         await api.get("solicitacoes-compras/", { params: { ...filter } }).then((response) => {
@@ -102,7 +94,7 @@ export default function PurchaseRequests() {
                 <HeaderPurchaseRequest />
             </MainPanel.Header>
 
-            <MainPanel.Filter send={searchData} filter={filter} setFilter={setFilter} clear={clearFilter}>
+            <MainPanel.Filter send={searchData} propsFilter={propsFilter}>
                 <FilterPurchaseRequest />
             </MainPanel.Filter>
 

@@ -1,24 +1,29 @@
 import { Button, Col, Form, Grid, Row } from "rsuite";
-import { ReactNode } from "react";
+
+import { ReactNode, useState } from "react";
 
 import { PanelRoot } from "./PanelRoot";
 
-interface PanelFilterProps<T extends Record<string, any>> {
+interface PanelFilterProps<T> {
     header?: string;
-    filter: T;
-    send: () => void;
-    setFilter: any;
-    clear: () => void;
+    propsFilter: T
+    send: (filter: any) => void;
     children: ReactNode;
 }
 
 
-export function PanelFilter<T extends Record<string, any>>({ header = "Filtros", send, filter, setFilter, clear, children }: PanelFilterProps<T>) {
+export function PanelFilter<T>({ header = "Filtros", propsFilter, send, children }: PanelFilterProps<T>) {
+
+    const [filter, setFilter] = useState<any>({})
+
+    const clear = () => {
+        setFilter(propsFilter)
+    }
 
     return (
         <PanelRoot header={header} width={100} bordered collapsible defaultExpanded>
             <Grid style={{ width: "100%" }}>
-                <Form fluid onSubmit={send} onChange={setFilter} formValue={filter}>
+                <Form fluid onSubmit={() => send(filter)} onChange={setFilter} formValue={filter}>
                     {children}
                     <Row>
                         <Col xs={20}></Col>
@@ -28,7 +33,7 @@ export function PanelFilter<T extends Record<string, any>>({ header = "Filtros",
                             </Button>
                         </Col>
                         <Col xs={2}>
-                            <Button onClick={clear}>
+                            <Button onClick={() => clear()}>
                                 Limpar
                             </Button>
                         </Col>
