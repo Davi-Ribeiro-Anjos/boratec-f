@@ -4,14 +4,14 @@ import EditIcon from "@rsuite/icons/Edit";
 
 import { useCallback, useState, useMemo } from "react";
 
-import { api } from "../../hooks/api";
+import { api } from "../../hooks/Api";
 import { ColumnsInterface, PurchaseRequestInterface, AnnotationInterface } from "../../services/Interfaces";
 
 import { MainTable } from "../../components/Table"
-import { MainPanel } from "../../components/Panel/index"
-import { FilterPurchaseRequest } from "../../components/PurchaseRequest/FilterPurchaseRequest"
-import { HeaderPurchaseRequest } from "../../components/PurchaseRequest/HeaderPurchaseRequest"
-import { Annotation } from "../../components/PurchaseRequest/Annotation/Annotation";
+import { MainPanel } from "../../components/Panel"
+import { Annotation } from "../../components/PurchaseRequest/Annotation";
+import { PurchaseRequest } from "../../components/PurchaseRequest";
+import { StringToDate } from "../../services/Date";
 
 interface Filter {
     numero_solicitacao: number | null,
@@ -37,7 +37,6 @@ export default function PurchaseRequests() {
     // DATA
     const [data, setData] = useState<PurchaseRequestInterface[]>([])
     const searchData = useCallback(async (filter: any) => {
-        console.log(filter)
         if (typeof filter.numero_solicitacao === "string") filter.numero_solicitacao = null
 
         await api.get("solicitacoes-compras/", { params: { ...filter } }).then((response) => {
@@ -57,7 +56,7 @@ export default function PurchaseRequests() {
     // ANNOTATION
     const [openAnnotation, setOpenAnnotation] = useState(false)
     const [annotations, setAnnotations] = useState<AnnotationInterface[]>([])
-    const annotationsData = useCallback(async (rowData: any) => {
+    const annotationsData = useCallback(async (rowData: PurchaseRequestInterface) => {
         await api.get(`solicitacoes-entradas/${rowData.id}/`).then((response) => {
             setAnnotations(response.data)
         }).catch((error) => {
@@ -67,11 +66,23 @@ export default function PurchaseRequests() {
         setOpenAnnotation(true)
     }, [])
 
-    const dataEdit = useCallback((rowData: any) => {
-        console.log(rowData)
-    }, [])
+    // EDIT
+    const [row, setRow] = useState<any>({})
+    const [openEdit, setOpenEdit] = useState(false)
+    const editData = useCallback((rowData: PurchaseRequestInterface) => {
+        console.log("EDIT")
+        let row_: any = { ...rowData }
 
+        if (rowData.filial) row_.filial = rowData.filial.id
+        if (!rowData.observacao) row_.observacao = ""
+        if (rowData.responsavel) row_.responsavel = rowData.responsavel?.username
+        if (rowData.data_solicitacao_bo) row_.data_solicitacao_bo = StringToDate(rowData.data_solicitacao_bo, true)
+        if (rowData.data_vencimento_boleto) row_.data_vencimento_boleto = StringToDate(rowData.data_vencimento_boleto)
 
+        setRow(row_)
+
+        setOpenEdit(true)
+    }, [row])
 
     // TABLE
     const columns = useMemo<ColumnsInterface>(() => {
@@ -84,23 +95,24 @@ export default function PurchaseRequests() {
             "Solicitante": { dataKey: "solicitante.username", width: 150 },
             "Responsável": { dataKey: "responsavel.username", width: 150 },
             "Entradas": { dataKey: "button", width: 130, click: annotationsData, icon: ListIcon },
-            "Editar": { dataKey: "button", width: 130, click: dataEdit, icon: EditIcon, needAuth: true, auth: "solic_compras_edit" }
+            "Editar": { dataKey: "button", width: 130, click: editData, icon: EditIcon, needAuth: true, auth: "solic_compras_edit" }
         }
-    }, [dataEdit, annotationsData])
+    }, [editData, annotationsData])
 
     return (
         <MainPanel.Root shaded>
             <MainPanel.Header title="Solicitações compras">
-                <HeaderPurchaseRequest />
+                <PurchaseRequest.Header />
             </MainPanel.Header>
 
             <MainPanel.Filter send={searchData} propsFilter={propsFilter}>
-                <FilterPurchaseRequest />
+                <PurchaseRequest.Filter />
             </MainPanel.Filter>
 
             <MainPanel.Body>
                 <MainTable.Root data={data} columns={columns} />
-                <Annotation annotations={annotations} open={openAnnotation} setOpen={setOpenAnnotation} />
+                <Annotation.View annotations={annotations} open={openAnnotation} setOpen={setOpenAnnotation} />
+                <PurchaseRequest.Edit row={row} setRow={setRow} open={openEdit} setOpen={setOpenEdit} />
             </MainPanel.Body>
 
         </MainPanel.Root >

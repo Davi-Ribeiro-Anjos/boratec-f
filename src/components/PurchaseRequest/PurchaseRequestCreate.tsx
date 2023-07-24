@@ -4,8 +4,8 @@ import { memo, useState, useCallback } from 'react';
 
 import { BranchesChoices } from '../../services/Choices';
 
-import { MainModal } from '../modal';
-import { api } from '../../hooks/api';
+import { MainModal } from '../Modal';
+import { api } from '../../hooks/Api';
 
 interface Form {
     numero_solicitacao: number | null;
@@ -13,7 +13,7 @@ interface Form {
     anexo?: any;
 }
 
-interface CreatePurchaseRequestProps {
+interface PurchaseRequestCreateProps {
     open: boolean;
     setOpen: (value: boolean) => void;
 }
@@ -29,8 +29,8 @@ const styles: { [key: string]: React.CSSProperties } = {
 }
 
 
-export const CreatePurchaseRequest = memo(
-    function CreatePurchaseRequest({ open, setOpen }: CreatePurchaseRequestProps) {
+export const PurchaseRequestCreate = memo(
+    function PurchaseRequestCreate({ open, setOpen }: PurchaseRequestCreateProps) {
         console.log("criar solicitacao compra")
 
         const [form, setForm] = useState<Form>(
@@ -42,11 +42,12 @@ export const CreatePurchaseRequest = memo(
         )
 
         const send = useCallback(async () => {
-            if (form.anexo.length > 0) form.anexo = form.anexo[0].blobFile
-            else form.anexo = null
+            console.log(form)
 
-            const timeElapsed = Date.now();
-            const today = new Date(timeElapsed);
+            if (form.anexo.length > 0) form.anexo = form.anexo[0].blobFile
+
+            const timeElapsed = Date.now()
+            const today = new Date(timeElapsed)
             today.setHours(today.getHours() - 3)
 
             const dataPost = { ...form, data_solicitacao_bo: today.toISOString(), status: "ABERTO", solicitante: 1, autor: 1, ultima_atualizacao: 1 }
@@ -70,6 +71,7 @@ export const CreatePurchaseRequest = memo(
 
         const close = () => {
             setOpen(false);
+            clearForm()
         }
 
         return (

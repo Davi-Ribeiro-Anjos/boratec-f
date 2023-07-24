@@ -3,9 +3,9 @@ import PlusIcon from '@rsuite/icons/Plus';
 
 import { useState, memo } from "react";
 
-import { CreatePurchaseRequest } from "./CreatePurchaseRequest";
+import { PurchaseRequest } from ".";
 
-interface HeaderPurchaseRequestProps { }
+interface PurchaseRequestHeaderProps { }
 
 const styles: { [key: string]: React.CSSProperties } = {
     iconBu: {
@@ -17,7 +17,7 @@ const styles: { [key: string]: React.CSSProperties } = {
 }
 
 
-export const HeaderPurchaseRequest = memo(function HeaderPurchaseRequest({ }: HeaderPurchaseRequestProps) {
+export const PurchaseRequestHeader = memo(function PurchaseRequestHeader({ }: PurchaseRequestHeaderProps) {
     console.log("painel solicitacao compra")
 
     const [open, setOpen] = useState(false)
@@ -30,7 +30,7 @@ export const HeaderPurchaseRequest = memo(function HeaderPurchaseRequest({ }: He
             <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Nova Solicitação</Tooltip>}>
                 <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconBu} onClick={() => createModal()} />
             </Whisper>
-            <CreatePurchaseRequest open={open} setOpen={setOpen} />
+            <PurchaseRequest.Create open={open} setOpen={setOpen} />
         </div>
     )
 })

@@ -1,7 +1,11 @@
 import { Col, DateRangePicker, Form, InputNumber, InputPicker, Row, SelectPicker } from "rsuite"
 
-import { BranchesChoices, StatusChoices } from "../../services/Choices";
+import { useContext } from "react"
 
+import { BranchesChoices, StatusChoices } from "../../services/Choices";
+import { UserContext } from "../../providers/UserProviders";
+
+interface PurchaseRequestFilterProps { }
 
 const styles: { [key: string]: React.CSSProperties } = {
     input: {
@@ -15,7 +19,8 @@ const styles: { [key: string]: React.CSSProperties } = {
 
 
 
-export function FilterPurchaseRequest() {
+export function PurchaseRequestFilter({ }: PurchaseRequestFilterProps) {
+    const { userChoices } = useContext<any>(UserContext)
 
     return (
         <>
@@ -29,7 +34,7 @@ export function FilterPurchaseRequest() {
                 <Col xs={12}>
                     <Form.Group>
                         <Form.ControlLabel>Solicitante: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="solicitante" data={StatusChoices} accepter={SelectPicker} />
+                        <Form.Control style={styles.input} name="solicitante" data={userChoices} accepter={SelectPicker} />
                     </Form.Group>
                 </Col>
             </Row>

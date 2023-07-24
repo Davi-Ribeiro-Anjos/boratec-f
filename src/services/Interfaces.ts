@@ -36,12 +36,12 @@ export interface PurchaseRequestInterface {
 export interface AnnotationInterface {
     id: number;
     observacao: string;
-    arquivo_1: string;
-    arquivo_2: string;
-    arquivo_3: string;
+    arquivo_1?: string;
+    arquivo_2?: string;
+    arquivo_3?: string;
     data_criacao: string;
     solicitacao: SimplePurchaseRequestInterface;
-    autor: UserInterface;
+    autor?: UserInterface;
 }
 
 interface SimplePurchaseRequestInterface {
@@ -56,7 +56,7 @@ interface SimplePurchaseRequestInterface {
 
 interface UserInterface {
     id: number;
-    usernames: string;
+    username: string;
     email: string;
     is_active: boolean;
 }

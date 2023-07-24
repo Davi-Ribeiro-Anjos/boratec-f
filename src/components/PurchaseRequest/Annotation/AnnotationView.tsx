@@ -1,11 +1,12 @@
 import { Button, Col, Grid, Panel, PanelGroup, Row } from "rsuite";
 
-import { baseUrl } from "../../../hooks/api";
+import { baseUrl } from "../../../hooks/Api";
 
-import { MainModal } from "../../modal";
+import { MainModal } from "../../Modal";
+import { AnnotationInterface } from "../../../services/Interfaces";
 
-interface AnnotationProps {
-    annotations: any;
+interface AnnotationViewProps {
+    annotations: AnnotationInterface[];
     open: boolean;
     setOpen: any;
 }
@@ -17,7 +18,7 @@ const styles: { [key: string]: React.CSSProperties } = {
 }
 
 
-export function Annotation({ annotations, open, setOpen }: AnnotationProps) {
+export function AnnotationView({ annotations, open, setOpen }: AnnotationViewProps) {
     console.log("entradas")
 
     const close = () => {

@@ -25,7 +25,7 @@ export const MainModal = memo(function MainModal({ form, setForm, send, close, o
     console.log("main modal")
 
     return (
-        <Modal style={styles.modal} overflow={overflow} size={size} open={open} onClose={close}>
+        <Modal style={styles.modal} overflow={overflow} size={size} open={open} onClose={close} {...props}>
             <Modal.Header>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
