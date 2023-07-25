@@ -10,7 +10,7 @@ export const api = axios.create({
 })
 
 export const apiMedia = axios.create({
-    baseURL: baseUrl,
+    baseURL: `${baseUrl}api/`,
     timeout: 8000,
     headers: { 'Content-Type': 'multipart/form-data' }
 })

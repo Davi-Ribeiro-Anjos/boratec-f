@@ -1,15 +1,17 @@
 import { Form, Uploader, SelectPicker, Grid, Row, Col, InputNumber } from 'rsuite';
 
-import { memo, useState, useCallback } from 'react';
+import { memo, useState, useCallback, useContext } from 'react';
 
+import { apiMedia } from '../../hooks/Api';
+import { UserContext } from '../../providers/UserProviders';
 import { BranchesChoices } from '../../services/Choices';
 
 import { MainModal } from '../Modal';
-import { api } from '../../hooks/Api';
 
 interface Form {
     numero_solicitacao: number | null;
-    filial: any;
+    filial: number | null;
+    solicitante: number | null;
     anexo?: any;
 }
 
@@ -33,38 +35,46 @@ export const PurchaseRequestCreate = memo(
     function PurchaseRequestCreate({ open, setOpen }: PurchaseRequestCreateProps) {
         console.log("criar solicitacao compra")
 
-        const [form, setForm] = useState<Form>(
+        const { userChoices }: any = useContext(UserContext)
+
+        const [data, setData] = useState<Form>(
             {
                 numero_solicitacao: null,
                 filial: null,
+                solicitante: null,
                 anexo: []
             }
         )
 
         const send = useCallback(async () => {
-            console.log(form)
+            let data_ = { ...data }
 
-            if (form.anexo.length > 0) form.anexo = form.anexo[0].blobFile
+            if (data_.anexo.length > 0) {
+                data_.anexo = data_.anexo[0].blobFile
+            } else {
+                data_.anexo = null
+            }
 
             const timeElapsed = Date.now()
             const today = new Date(timeElapsed)
             today.setHours(today.getHours() - 3)
 
-            const dataPost = { ...form, data_solicitacao_bo: today.toISOString(), status: "ABERTO", solicitante: 1, autor: 1, ultima_atualizacao: 1 }
+            const dataPost = { ...data_, data_solicitacao_bo: today.toISOString(), status: "ABERTO", autor: 1, ultima_atualizacao: 1 }
 
-            await api.post('solicitacoes-compras/', { ...dataPost }).then(() => {
+            await apiMedia.post('solicitacoes-compras/', { ...dataPost }).then(() => {
                 clearForm()
                 close()
             }).catch((error) => {
                 console.log(error)
             })
 
-        }, [])
+        }, [data])
 
         const clearForm = () => {
-            setForm({
+            setData({
                 numero_solicitacao: null,
                 filial: null,
+                solicitante: null,
                 anexo: []
             })
         }
@@ -76,9 +86,9 @@ export const PurchaseRequestCreate = memo(
 
         return (
             <MainModal title="Adicionar Solicitação" nameButton="Criar" open={open} send={send} close={close}
-                setForm={setForm} form={form}>
+                data={data} setData={setData}>
                 <Grid fluid>
-                    <Row style={styles.row} >
+                    <Row style={styles.row}>
                         <Col xs={12}>
                             <Form.Group >
                                 <Form.ControlLabel>Código Solicitação:</Form.ControlLabel>
@@ -95,7 +105,14 @@ export const PurchaseRequestCreate = memo(
                         </Col>
                     </Row>
                     <Row style={styles.row} >
-                        <Col xs={24}>
+                        <Col xs={12}>
+                            <Form.Group >
+                                <Form.ControlLabel>Solicitante:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="solicitante" data={userChoices} accepter={SelectPicker} />
+                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12}>
                             <Form.Group >
                                 <Form.ControlLabel>Anexo:</Form.ControlLabel>
                                 <Form.Control style={styles.input} name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />

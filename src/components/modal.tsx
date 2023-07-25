@@ -3,10 +3,10 @@ import { Modal, Button, Form, ModalProps } from "rsuite";
 import { ReactNode, memo } from "react";
 
 interface MainModalProps extends ModalProps {
-    send?: () => void;
+    send?: (data: any) => void;
     close: () => void;
-    form?: any;
-    setForm?: any;
+    data?: any;
+    setData?: any;
     title: string;
     nameButton?: string;
     isView?: boolean;
@@ -20,7 +20,7 @@ const styles: { [key: string]: React.CSSProperties } = {
 }
 
 
-export const MainModal = memo(function MainModal({ form, setForm, send, close, open, title, nameButton,
+export const MainModal = memo(function MainModal({ data, setData, send, close, open, title, nameButton,
     overflow = false, isView = false, size = "sm", children, ...props }: MainModalProps) {
     console.log("main modal")
 
@@ -30,12 +30,12 @@ export const MainModal = memo(function MainModal({ form, setForm, send, close, o
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             {isView === false ? (
-                <Form onChange={setForm} formValue={form} >
+                <Form onSubmit={() => { if (send) send(data) }} onChange={setData} formValue={data}>
                     <Modal.Body>
                         {children}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={send} appearance="primary">
+                        <Button type="submit" appearance="primary">
                             {nameButton}
                         </Button>
                         <Button onClick={close} appearance="subtle">

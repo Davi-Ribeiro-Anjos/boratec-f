@@ -40,7 +40,7 @@ export const StatusChoices = [
 ].map(item => ({ label: item, value: item }));
 
 export const DepartmentChoices = [
-    { label: "NÃO INFORMADO", value: "DEFAULT" },
+    { label: "NÃO INFORMADO", value: "NAO INFORMADO" },
     { label: "DIRETORIA", value: "DIRETORIA" },
     { label: "FATURAMENTO", value: "FATURAMENTO" },
     { label: "FINANCEIRO", value: "FINANCEIRO" },
@@ -59,25 +59,25 @@ export const DepartmentChoices = [
 ].map(item => ({ label: item.label, value: item.value }));
 
 export const FormPaymentChoices = [
-    { label: "NÃO INFORMADO", value: "DEFAULT" },
-    { label: "A VISTA", value: "A_VISTA" },
-    { label: "PARCELADO 1X", value: "PARCELADO_1X" },
-    { label: "PARCELADO 2X", value: "PARCELADO_2X" },
-    { label: "PARCELADO 3X", value: "PARCELADO_3X" },
-    { label: "PARCELADO 4X", value: "PARCELADO_4X" },
-    { label: "PARCELADO 5X", value: "PARCELADO_5X" },
-    { label: "PARCELADO 6X", value: "PARCELADO_6X" },
-    { label: "PARCELADO 7X", value: "PARCELADO_7X" },
-    { label: "PARCELADO 8X", value: "PARCELADO_8X" },
-    { label: "PARCELADO 9X", value: "PARCELADO_9X" },
-    { label: "PARCELADO 10X", value: "PARCELADO_10X" },
-    { label: "PARCELADO 11X", value: "PARCELADO_11X" },
-    { label: "PARCELADO 12X", value: "PARCELADO_12X" },
+    { label: "NÃO INFORMADO", value: "NAO INFORMADO" },
+    { label: "A VISTA", value: "A VISTA" },
+    { label: "PARCELADO 1X", value: "PARCELADO 1X" },
+    { label: "PARCELADO 2X", value: "PARCELADO 2X" },
+    { label: "PARCELADO 3X", value: "PARCELADO 3X" },
+    { label: "PARCELADO 4X", value: "PARCELADO 4X" },
+    { label: "PARCELADO 5X", value: "PARCELADO 5X" },
+    { label: "PARCELADO 6X", value: "PARCELADO 6X" },
+    { label: "PARCELADO 7X", value: "PARCELADO 7X" },
+    { label: "PARCELADO 8X", value: "PARCELADO 8X" },
+    { label: "PARCELADO 9X", value: "PARCELADO 9X" },
+    { label: "PARCELADO 10X", value: "PARCELADO 10X" },
+    { label: "PARCELADO 11X", value: "PARCELADO 11X" },
+    { label: "PARCELADO 12X", value: "PARCELADO 12X" },
 ].map(item => ({ label: item.label, value: item.value }));
 
 export const CategoryChoices = [
-    { label: "DEFAULT", value: "DEFAULT" },
+    { label: "NÃO INFORMADO", value: "NAO INFORMADO" },
     { label: "ALMOXARIFADO", value: "ALMOXARIFADO" },
     { label: "COTAÇÃO", value: "COTACAO" },
-    { label: "NOTA FISCAL", value: "NOTA_FISCAL" },
+    { label: "NOTA FISCAL", value: "NOTA FISCAL" },
 ].map(item => ({ label: item.label, value: item.value }));

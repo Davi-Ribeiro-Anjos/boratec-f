@@ -70,12 +70,11 @@ export default function PurchaseRequests() {
     const [row, setRow] = useState<any>({})
     const [openEdit, setOpenEdit] = useState(false)
     const editData = useCallback((rowData: PurchaseRequestInterface) => {
-        console.log("EDIT")
         let row_: any = { ...rowData }
 
         if (rowData.filial) row_.filial = rowData.filial.id
         if (!rowData.observacao) row_.observacao = ""
-        if (rowData.responsavel) row_.responsavel = rowData.responsavel?.username
+        if (rowData.responsavel) row_.responsavel = rowData.responsavel.id
         if (rowData.data_solicitacao_bo) row_.data_solicitacao_bo = StringToDate(rowData.data_solicitacao_bo, true)
         if (rowData.data_vencimento_boleto) row_.data_vencimento_boleto = StringToDate(rowData.data_vencimento_boleto)
 
@@ -97,7 +96,7 @@ export default function PurchaseRequests() {
             "Entradas": { dataKey: "button", width: 130, click: annotationsData, icon: ListIcon },
             "Editar": { dataKey: "button", width: 130, click: editData, icon: EditIcon, needAuth: true, auth: "solic_compras_edit" }
         }
-    }, [editData, annotationsData])
+    }, [])
 
     return (
         <MainPanel.Root shaded>

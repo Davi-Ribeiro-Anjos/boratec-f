@@ -1,14 +1,15 @@
-import { Checkbox, Col, DatePicker, Form, Grid, IconButton, Input, InputPicker, Panel, Row, SelectPicker, Uploader } from "rsuite"
+import { Checkbox, Col, DatePicker, Form, IconButton, Input, InputPicker, Panel, Row, SelectPicker, Uploader } from "rsuite"
 import FileDownloadIcon from "@rsuite/icons/FileDownload";
 
-import { forwardRef, memo } from 'react';
+import { forwardRef, memo, useContext } from 'react';
 
-import { baseUrl } from "../../hooks/Api"
+import { apiMedia, baseUrl } from "../../hooks/Api"
+import { UserContext } from "../../providers/UserProviders";
 import { BranchesChoices, CategoryChoices, DepartmentChoices, FormPaymentChoices, StatusChoices } from "../../services/Choices"
 import { PurchaseRequestInterface } from "../../services/Interfaces";
 
-import { Annotation } from "./Annotation";
 import { MainModal } from "../Modal";
+import { DateToString } from "../../services/Date";
 
 interface PurchaseRequestEditProps {
     row: PurchaseRequestInterface;
@@ -24,7 +25,8 @@ const styles: { [key: string]: React.CSSProperties } = {
         marginBottom: 20,
     },
     input: {
-        width: 250
+        width: 250,
+        textTransform: "uppercase"
     },
     row: {
         marginBottom: 10,
@@ -41,21 +43,56 @@ const styles: { [key: string]: React.CSSProperties } = {
 }
 
 
-export const PurchaseRequestEdit = memo(function PurchaseRequestEdit({ row, setRow, open, setOpen }: PurchaseRequestEditProps) {
-    console.log("editar compra")
+export const PurchaseRequestEdit = memo(
+    function PurchaseRequestEdit({ row, setRow, open, setOpen }: PurchaseRequestEditProps) {
+        console.log("editar compra")
 
-    const send = () => {
-        console.log(row)
-    }
+        const { userChoices }: any = useContext(UserContext)
 
-    const close = () => {
-        setOpen(false);
-    }
+        const send = async () => {
+            let row_: any = { ...row }
 
-    return (
-        <MainModal title="Editar Solicitação" nameButton="Editar" size="md" open={open}
-            send={send} close={close} form={row} setForm={setRow} >
-            <Grid fluid>
+            delete row_.filial
+            delete row_.autor
+            delete row_.data_solicitacao_bo
+            delete row_.numero_solicitacao
+
+            if (row_.data_vencimento_boleto) row_.data_vencimento_boleto = DateToString(row_.data_vencimento_boleto)
+            if (row_.observacao) row_.observacao = row_.observacao.toUpperCase()
+            if (row_.anexo) {
+                if (typeof (row_.anexo) === "object" && row_.anexo.length > 0) {
+                    row_.anexo = row_.anexo[0].blobFile
+                }
+                else delete row_.anexo
+            }
+            else delete row_.anexo
+
+            let data_patch = { ...row_, ultima_atualizacao: 1 }
+            await apiMedia.patch(
+                `solicitacoes-compras/${row_.id}/`,
+                { ...data_patch }
+            ).then(() => {
+                // criarMensagemOk("Sucesso - Solicitação editada.", toaster)
+                close()
+            }).catch((error) => {
+                console.log(error)
+                // let listMensagem = {
+                //     numero_solicitacao: "Número Solicitação",
+                //     filial: "Filial",
+                //     solicitante: "Solicitante"
+                // }
+                // criarMensagemErro(error, listMensagem, toaster)
+            })
+
+        }
+
+        const close = () => {
+            setOpen(false);
+        }
+
+        return (
+            <MainModal title="Editar Solicitação" nameButton="Editar" size="md" open={open}
+                close={close} send={send} data={row} setData={setRow}>
                 <Panel header="Informações da Solicitação">
                     <Row style={styles.row}>
                         <Col xs={12}>
@@ -79,10 +116,10 @@ export const PurchaseRequestEdit = memo(function PurchaseRequestEdit({ row, setR
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
-                            {/* <Form.Group >
-                            <Form.ControlLabel>Responsavel:</Form.ControlLabel>
-                            <Form.Control style={styles.input} name="responsavel" data={choiceUser} accepter={SelectPicker} />
-                        </Form.Group> */}
+                            <Form.Group >
+                                <Form.ControlLabel>Responsavel:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="responsavel" data={userChoices} accepter={SelectPicker} />
+                            </Form.Group>
                         </Col>
                     </Row>
                     <Row style={styles.row}>
@@ -107,7 +144,7 @@ export const PurchaseRequestEdit = memo(function PurchaseRequestEdit({ row, setR
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
-                            {row.forma_pagamento !== "NÃO INFORMADO" && (
+                            {row.forma_pagamento !== "NAO INFORMADO" && (
                                 <Form.Group >
                                     <Form.ControlLabel>Vencimento:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="data_vencimento_boleto" placeholder="DD-MM-AAAA" format="dd-MM-yyyy" accepter={DatePicker} />
@@ -144,13 +181,11 @@ export const PurchaseRequestEdit = memo(function PurchaseRequestEdit({ row, setR
                         <Col xs={24}>
                             <Form.Group >
                                 <Form.ControlLabel>Observação:</Form.ControlLabel>
-                                <Form.Control style={styles.observacao} rows={5} name="observacao" value={row.observacao} accepter={Textarea} />
+                                <Form.Control style={styles.observation} rows={5} name="observacao" value={row.observacao} accepter={Textarea} />
                             </Form.Group>
                         </Col>
                     </Row>
                 </Panel>
-                <Annotation.Create id={row.id} />
-            </Grid >
-        </MainModal >
-    )
-})
+            </MainModal >
+        )
+    })
