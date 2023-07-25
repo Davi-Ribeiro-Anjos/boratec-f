@@ -37,7 +37,13 @@ export default function PurchaseRequests() {
     // DATA
     const [data, setData] = useState<PurchaseRequestInterface[]>([])
     const searchData = useCallback(async (filter: any) => {
-        if (typeof filter.numero_solicitacao === "string") filter.numero_solicitacao = null
+        if (typeof filter.numero_solicitacao === "string") {
+            try {
+                filter.numero_solicitacao = parseInt(filter.numero_solicitacao)
+            } catch (error) {
+                filter.numero_solicitacao = null
+            }
+        }
 
         await api.get("solicitacoes-compras/", { params: { ...filter } }).then((response) => {
             let dataResponse = response.data
