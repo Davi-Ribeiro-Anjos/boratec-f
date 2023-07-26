@@ -1,4 +1,4 @@
-import { Message, toaster } from "rsuite";
+import { useToaster } from "rsuite";
 import ListIcon from "@rsuite/icons/List";
 import EditIcon from "@rsuite/icons/Edit";
 
@@ -12,6 +12,7 @@ import { MainPanel } from "../../components/Panel"
 import { Annotation } from "../../components/PurchaseRequest/Annotation";
 import { PurchaseRequest } from "../../components/PurchaseRequest";
 import { StringToDate } from "../../services/Date";
+import { MainMessage } from "../../components/Message";
 
 interface Filter {
     numero_solicitacao: number | null,
@@ -24,6 +25,8 @@ interface Filter {
 
 export default function PurchaseRequests() {
     console.log("solicitacao compra")
+
+    const toaster = useToaster()
 
     // FILTER
     const propsFilter: Filter = {
@@ -49,13 +52,8 @@ export default function PurchaseRequests() {
             let dataResponse = response.data
 
             setData(dataResponse)
-        }).catch(() => {
-            let message = (
-                <Message showIcon type="error" closable >
-                    Erro - Ocorreu um erro ao buscar os dados.
-                </Message>
-            )
-            toaster.push(message, { placement: "topEnd", duration: 4000 })
+        }).catch((error) => {
+            MainMessage.Error(toaster, error, undefined, "Erro - Ocorreu um erro ao buscar os dados.")
         })
     }, [])
 
@@ -64,6 +62,7 @@ export default function PurchaseRequests() {
     const [annotations, setAnnotations] = useState<AnnotationInterface[]>([])
     const annotationsData = useCallback(async (rowData: PurchaseRequestInterface) => {
         await api.get(`solicitacoes-entradas/${rowData.id}/`).then((response) => {
+
             setAnnotations(response.data)
         }).catch((error) => {
             console.log(error)
@@ -77,28 +76,44 @@ export default function PurchaseRequests() {
     const [openEdit, setOpenEdit] = useState(false)
     const editData = useCallback((rowData: PurchaseRequestInterface) => {
         let row_: any = { ...rowData }
+        console.log(row_)
 
         if (rowData.filial) row_.filial = rowData.filial.id
         if (!rowData.observacao) row_.observacao = ""
         if (rowData.responsavel) row_.responsavel = rowData.responsavel.id
         if (rowData.data_solicitacao_bo) row_.data_solicitacao_bo = StringToDate(rowData.data_solicitacao_bo, true)
-        if (rowData.data_vencimento_boleto) row_.data_vencimento_boleto = StringToDate(rowData.data_vencimento_boleto)
+        if (rowData.data_vencimento_boleto) row_.data_vencimento_boleto = StringToDate(rowData.data_vencimento_boleto, true)
+
 
         setRow(row_)
 
         setOpenEdit(true)
+
+        if (row_.data_vencimento_boleto && row_.pago === false) {
+            const today = new Date()
+            const timeDifference = row_.data_vencimento_boleto.getTime() - today.getTime()
+            const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+            if (dayDifference > 1) {
+                MainMessage.Info(toaster, `O boleto vence em ${dayDifference - 1} dias.`)
+            } else if (dayDifference < 1) {
+                MainMessage.Info(toaster, `O boleto venceu faz ${(dayDifference - 1) * -1} dias.`)
+            } else {
+                MainMessage.Info(toaster, "O boleto vence hoje!")
+            }
+        }
     }, [row])
 
     // TABLE
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nº Solicitação": { dataKey: "numero_solicitacao", width: 130 },
-            "Dt Solicitação": { dataKey: "data_solicitacao_bo", width: 150 },
+            "Nº Solicitação": { dataKey: "numero_solicitacao", width: 120 },
+            "Dt Solicitação": { dataKey: "data_solicitacao_bo", width: 120 },
             "Status": { dataKey: "status", width: 120 },
-            "Filial": { dataKey: "filial.sigla", width: 120 },
+            "Filial": { dataKey: "filial.sigla", width: 100 },
             "Departamento": { dataKey: "departamento", width: 170 },
-            "Solicitante": { dataKey: "solicitante.username", width: 150 },
-            "Responsável": { dataKey: "responsavel.username", width: 150 },
+            "Solicitante": { dataKey: "solicitante.nome", width: 170 },
+            "Responsável": { dataKey: "responsavel.nome", width: 170 },
             "Entradas": { dataKey: "button", width: 130, click: annotationsData, icon: ListIcon },
             "Editar": { dataKey: "button", width: 130, click: editData, icon: EditIcon, needAuth: true, auth: "solic_compras_edit" }
         }
@@ -115,7 +130,7 @@ export default function PurchaseRequests() {
             </MainPanel.Filter>
 
             <MainPanel.Body>
-                <MainTable.Root data={data} columns={columns} />
+                <MainTable.Root defaultData={data} columns={columns} />
                 <Annotation.View annotations={annotations} open={openAnnotation} setOpen={setOpenAnnotation} />
                 <PurchaseRequest.Edit row={row} setRow={setRow} open={openEdit} setOpen={setOpenEdit} />
             </MainPanel.Body>

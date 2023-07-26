@@ -10,7 +10,7 @@ import { MainTable } from ".";
 const { Column, HeaderCell, Cell } = Table;
 
 interface TableRootProps<T extends readonly RowDataType<never>[]> {
-    data: T;
+    defaultData: T;
     columns: ColumnsInterface;
 }
 
@@ -18,13 +18,17 @@ const accessesUser: string[] = ["solic_compras_edit"]
 
 
 export const TableRoot = memo(
-    function TableRoot<T extends readonly RowDataType<never>[]>({ data, columns }: TableRootProps<T>) {
+    function TableRoot<T extends readonly RowDataType<never>[]>({ defaultData, columns }: TableRootProps<T>) {
         console.log("tabela")
 
         const [page, setPage] = useState<number>(1);
-        const handlePageChange = (page_: number) => {
-            setPage(page_)
-        };
+        const limit = 20
+
+        const data = defaultData.filter((v, i) => {
+            const start = limit * (page - 1);
+            const end = start + limit;
+            return i >= start && i < end;
+        })
 
         return (
             <>
@@ -93,8 +97,7 @@ export const TableRoot = memo(
                         })
                     }
                 </Table >
-                <MainTable.Pagination total={data.length} page={page}
-                    handlePageChange={handlePageChange} />
+                <MainTable.Pagination total={defaultData.length} page={page} setPage={setPage} limit={limit} />
             </>
         )
     })

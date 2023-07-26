@@ -3,13 +3,16 @@ export const StringToDate = (dateString: string | undefined, sum = false) => {
         return null;
     }
 
-    let day, modifiedDate, integralDate: any;
+    let day, modifiedDate, integralDate, date: any;
 
     integralDate = dateString.split(' ')
-    modifiedDate = integralDate[0];
-    modifiedDate = modifiedDate.split('/');
+    date = integralDate[0]
+    modifiedDate = date.split('/')
 
-    // Verificando se a primeira parte da data é o ano
+    if (modifiedDate.length < 3) {
+        modifiedDate = date.split('-')
+    }
+
     if (modifiedDate[0].length === 4) {
         day = parseInt(modifiedDate[2])
         if (day < 10) {
@@ -41,21 +44,21 @@ export const DateToString = (date: Date | undefined, hour = false, pt = false) =
     }
 
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
 
-    let formatDate = `${year}-${month}-${day}`;
+    let formatDate = `${year}-${month}-${day}`
 
     if (pt) {
-        formatDate = `${day}-${month}-${year}`;
+        formatDate = `${day}-${month}-${year}`
     }
 
     if (hour) {
-        const hour = String(date.getHours()).padStart(2, '0');
-        const minuto = String(date.getMinutes()).padStart(2, '0');
-        const segundo = String(date.getSeconds()).padStart(2, '0');
+        const hour = String(date.getHours()).padStart(2, '0')
+        const minute = String(date.getMinutes()).padStart(2, '0')
+        const second = String(date.getSeconds()).padStart(2, '0')
 
-        formatDate += ` ${hour}:${minuto}:${segundo}`
+        formatDate += ` ${hour}:${minute}:${second}`
     }
 
     return formatDate
