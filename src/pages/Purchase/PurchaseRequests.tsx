@@ -44,31 +44,22 @@ export default function PurchaseRequests() {
     }
 
     // DATA
-    const [data, setData] = useState<PurchaseRequestInterface[]>([])
-    const searchData = useCallback(async () => {
-        if (typeof filter.numero_solicitacao === "string") {
-            try {
-                filter.numero_solicitacao = parseInt(filter.numero_solicitacao)
-            } catch (error) {
-                filter.numero_solicitacao = null
-            }
-        }
-
-        return await api.get("solicitacoes-compras/", { params: { ...filter } })
-    }, [])
-    const [enable, setEnable] = useState(false)
-    const { isLoading, refetch } = useQuery({
-        queryKey: ["compras"],
+    const { data, isLoading, refetch } = useQuery({
+        queryKey: "solic_compras",
         queryFn: () => searchData(),
-        onSuccess: (res: any) => {
-            setData(res.data)
-            setEnable(true)
-        },
+        // onSuccess: () => {
+        // },
         onError: (err: any) => {
             MainMessage.Error(toaster, err, undefined, "Erro - Ocorreu um erro ao buscar os dados.")
         },
-        enabled: enable
     })
+    const searchData = useCallback(async () => {
+        if (filter.numero_solicitacao === "") {
+            filter.numero_solicitacao = null
+        }
+
+        return await api.get("solicitacoes-compras/", { params: { ...filter } })
+    }, [filter])
 
     // ANNOTATION
     const [openAnnotation, setOpenAnnotation] = useState(false)
@@ -89,7 +80,6 @@ export default function PurchaseRequests() {
     const [openEdit, setOpenEdit] = useState(false)
     const editData = useCallback((rowData: PurchaseRequestInterface) => {
         let row_: any = { ...rowData }
-        console.log(row_)
 
         if (rowData.filial) row_.filial = rowData.filial.id
         if (!rowData.observacao) row_.observacao = ""
@@ -135,18 +125,18 @@ export default function PurchaseRequests() {
     return (
         <MainPanel.Root shaded>
             <MainPanel.Header title="Solicitações compras">
-                <PurchaseRequest.Header />
+                <PurchaseRequest.Header refetch={refetch} />
             </MainPanel.Header>
 
-            <MainPanel.Filter send={refetch} filter={filter} setFilter={setFilter} >
+            <MainPanel.Filter refetch={refetch} filter={filter} setFilter={setFilter} >
                 <PurchaseRequest.Filter />
                 <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 
             <MainPanel.Body>
-                <MainTable.Root defaultData={data} columns={columns} isLoading={isLoading} />
+                <MainTable.Root data={data ? data.data : []} columns={columns} isLoading={isLoading} />
                 <Annotation.View annotations={annotations} open={openAnnotation} setOpen={setOpenAnnotation} />
-                <PurchaseRequest.Edit row={row} setRow={setRow} open={openEdit} setOpen={setOpenEdit} />
+                <PurchaseRequest.Edit row={row} setRow={setRow} refetch={refetch} open={openEdit} setOpen={setOpenEdit} />
             </MainPanel.Body>
 
         </MainPanel.Root >

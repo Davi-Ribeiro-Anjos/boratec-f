@@ -5,7 +5,9 @@ import { useState, memo } from "react";
 
 import { PurchaseRequest } from ".";
 
-interface PurchaseRequestHeaderProps { }
+interface PurchaseRequestHeaderProps {
+    refetch: any;
+}
 
 const styles: { [key: string]: React.CSSProperties } = {
     iconBu: {
@@ -17,7 +19,7 @@ const styles: { [key: string]: React.CSSProperties } = {
 }
 
 
-export const PurchaseRequestHeader = memo(function PurchaseRequestHeader({ }: PurchaseRequestHeaderProps) {
+export const PurchaseRequestHeader = memo(function PurchaseRequestHeader({ refetch }: PurchaseRequestHeaderProps) {
     console.log("painel solicitacao compra")
 
     const [open, setOpen] = useState(false)
@@ -30,7 +32,7 @@ export const PurchaseRequestHeader = memo(function PurchaseRequestHeader({ }: Pu
             <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Nova Solicitação</Tooltip>}>
                 <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconBu} onClick={() => createModal()} />
             </Whisper>
-            <PurchaseRequest.Create open={open} setOpen={setOpen} />
+            <PurchaseRequest.Create open={open} setOpen={setOpen} refetch={refetch} />
         </div>
     )
 })

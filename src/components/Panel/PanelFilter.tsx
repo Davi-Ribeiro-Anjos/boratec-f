@@ -8,17 +8,17 @@ interface PanelFilterProps {
     header?: string;
     filter: any;
     setFilter: any;
-    send: () => void;
+    refetch: () => void;
     children: ReactNode;
 }
 
 
-export function PanelFilter({ header = "Filtros", filter, setFilter, send, children }: PanelFilterProps) {
+export function PanelFilter({ header = "Filtros", filter, setFilter, refetch, children }: PanelFilterProps) {
 
     return (
         <PanelRoot header={header} width={100} bordered collapsible defaultExpanded>
             <Grid style={{ width: "100%" }}>
-                <Form fluid onSubmit={send} onChange={setFilter} formValue={filter}>
+                <Form fluid onSubmit={refetch} onChange={setFilter} formValue={filter}>
                     {children}
                 </Form>
             </Grid>
