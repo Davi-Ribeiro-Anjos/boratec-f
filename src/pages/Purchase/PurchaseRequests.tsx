@@ -13,13 +13,22 @@ import { Annotation } from "../../components/PurchaseRequest/Annotation";
 import { PurchaseRequest } from "../../components/PurchaseRequest";
 import { StringToDate } from "../../services/Date";
 import { MainMessage } from "../../components/Message";
+import { useQuery } from "react-query";
 
 interface Filter {
-    numero_solicitacao: string | null,
+    numero_solicitacao: string | number | null,
     data_solicitacao_bo: string | null,
     status: string | null,
     filial: number | null,
-    solicitante: string | null,
+    solicitante: number | null,
+}
+
+const initialFilter = {
+    numero_solicitacao: null,
+    data_solicitacao_bo: null,
+    status: null,
+    filial: null,
+    solicitante: null,
 }
 
 
@@ -29,17 +38,14 @@ export default function PurchaseRequests() {
     const toaster = useToaster()
 
     // FILTER
-    const propsFilter: Filter = {
-        numero_solicitacao: null,
-        data_solicitacao_bo: null,
-        status: null,
-        filial: null,
-        solicitante: null,
+    const [filter, setFilter] = useState<Filter>({ ...initialFilter, filial: 1, solicitante: 1, status: "ABERTO" })
+    const clear = () => {
+        setFilter(initialFilter)
     }
 
     // DATA
     const [data, setData] = useState<PurchaseRequestInterface[]>([])
-    const searchData = useCallback(async (filter: any) => {
+    const searchData = useCallback(async () => {
         if (typeof filter.numero_solicitacao === "string") {
             try {
                 filter.numero_solicitacao = parseInt(filter.numero_solicitacao)
@@ -48,14 +54,21 @@ export default function PurchaseRequests() {
             }
         }
 
-        await api.get("solicitacoes-compras/", { params: { ...filter } }).then((response) => {
-            let dataResponse = response.data
-
-            setData(dataResponse)
-        }).catch((error) => {
-            MainMessage.Error(toaster, error, undefined, "Erro - Ocorreu um erro ao buscar os dados.")
-        })
+        return await api.get("solicitacoes-compras/", { params: { ...filter } })
     }, [])
+    const [enable, setEnable] = useState(false)
+    const { isLoading, refetch } = useQuery({
+        queryKey: ["compras"],
+        queryFn: () => searchData(),
+        onSuccess: (res: any) => {
+            setData(res.data)
+            setEnable(true)
+        },
+        onError: (err: any) => {
+            MainMessage.Error(toaster, err, undefined, "Erro - Ocorreu um erro ao buscar os dados.")
+        },
+        enabled: enable
+    })
 
     // ANNOTATION
     const [openAnnotation, setOpenAnnotation] = useState(false)
@@ -125,12 +138,13 @@ export default function PurchaseRequests() {
                 <PurchaseRequest.Header />
             </MainPanel.Header>
 
-            <MainPanel.Filter send={searchData} propsFilter={propsFilter}>
+            <MainPanel.Filter send={refetch} filter={filter} setFilter={setFilter} >
                 <PurchaseRequest.Filter />
+                <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 
             <MainPanel.Body>
-                <MainTable.Root defaultData={data} columns={columns} />
+                <MainTable.Root defaultData={data} columns={columns} isLoading={isLoading} />
                 <Annotation.View annotations={annotations} open={openAnnotation} setOpen={setOpenAnnotation} />
                 <PurchaseRequest.Edit row={row} setRow={setRow} open={openEdit} setOpen={setOpenEdit} />
             </MainPanel.Body>

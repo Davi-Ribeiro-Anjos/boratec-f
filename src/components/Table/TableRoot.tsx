@@ -12,13 +12,14 @@ const { Column, HeaderCell, Cell } = Table;
 interface TableRootProps<T extends readonly RowDataType<never>[]> {
     defaultData: T;
     columns: ColumnsInterface;
+    isLoading: boolean
 }
 
 const accessesUser: string[] = ["solic_compras_edit"]
 
 
 export const TableRoot = memo(
-    function TableRoot<T extends readonly RowDataType<never>[]>({ defaultData, columns }: TableRootProps<T>) {
+    function TableRoot<T extends readonly RowDataType<never>[]>({ defaultData, columns, isLoading }: TableRootProps<T>) {
         console.log("tabela")
 
         const [page, setPage] = useState<number>(1);
@@ -35,6 +36,7 @@ export const TableRoot = memo(
                 <Table
                     height={400}
                     data={data}
+                    loading={isLoading}
                 >
                     {
                         Object.entries(columns).map((key, index) => {

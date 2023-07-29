@@ -16,9 +16,9 @@ const styles: { [key: string]: React.CSSProperties } = {
     }
 }
 
-export function ModalForm({ send, data, setData, children, ...props }: ModalFormProps) {
+export function ModalForm({ send, close, data, setData, children, ...props }: ModalFormProps) {
     return (
-        <Modal style={styles.modal} onClose={close} backdrop="static" {...props}  >
+        <Modal style={styles.modal} onClose={close} {...props}  >
             <Form onSubmit={() => { if (send) send(data) }} onChange={setData} formValue={data}>
                 {children}
             </Form>
