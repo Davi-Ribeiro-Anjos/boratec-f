@@ -7,8 +7,8 @@ import './main.css'
 import 'rsuite/dist/rsuite.min.css';
 
 import { App } from './App.tsx'
-import { queryClient } from './services/QueryClient.ts'
-import { IndexProvider } from './providers/IndexProviders.tsx';
+import { queryClient } from './services/QueryClient'
+import { IndexProvider } from './providers/IndexProviders';
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

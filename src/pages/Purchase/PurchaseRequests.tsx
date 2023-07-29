@@ -15,7 +15,7 @@ import { StringToDate } from "../../services/Date";
 import { MainMessage } from "../../components/Message";
 
 interface Filter {
-    numero_solicitacao: number | null,
+    numero_solicitacao: string | null,
     data_solicitacao_bo: string | null,
     status: string | null,
     filial: number | null,
