@@ -52,6 +52,7 @@ export default function PurchaseRequests() {
         onError: (err: any) => {
             MainMessage.Error(toaster, err, undefined, "Erro - Ocorreu um erro ao buscar os dados.")
         },
+        enabled: false
     })
     const searchData = useCallback(async () => {
         if (filter.numero_solicitacao === "") {
