@@ -1,5 +1,4 @@
 import { IconButton, Table } from "rsuite";
-import { RowDataType } from "rsuite/esm/Table";
 import { Icon } from '@rsuite/icons';
 
 import { memo, useState } from "react";
@@ -9,22 +8,23 @@ import { MainTable } from ".";
 
 const { Column, HeaderCell, Cell } = Table;
 
-interface TableRootProps<T extends readonly RowDataType<never>[]> {
-    defaultData: T;
+interface TableRootProps {
+    data: any;
     columns: ColumnsInterface;
+    isLoading: boolean
 }
 
 const accessesUser: string[] = ["solic_compras_edit"]
 
 
 export const TableRoot = memo(
-    function TableRoot<T extends readonly RowDataType<never>[]>({ defaultData, columns }: TableRootProps<T>) {
+    function TableRoot({ data, columns, isLoading }: TableRootProps) {
         console.log("tabela")
 
         const [page, setPage] = useState<number>(1);
         const limit = 20
 
-        const data = defaultData.filter((v, i) => {
+        const dataFiltered = data.filter((v: any, i: any) => {
             const start = limit * (page - 1);
             const end = start + limit;
             return i >= start && i < end;
@@ -34,7 +34,8 @@ export const TableRoot = memo(
             <>
                 <Table
                     height={400}
-                    data={data}
+                    data={dataFiltered}
+                    loading={isLoading}
                 >
                     {
                         Object.entries(columns).map((key, index) => {
@@ -97,7 +98,7 @@ export const TableRoot = memo(
                         })
                     }
                 </Table >
-                <MainTable.Pagination total={defaultData.length} page={page} setPage={setPage} limit={limit} />
+                <MainTable.Pagination total={data ? data.length : 0} page={page} setPage={setPage} limit={limit} />
             </>
         )
     })

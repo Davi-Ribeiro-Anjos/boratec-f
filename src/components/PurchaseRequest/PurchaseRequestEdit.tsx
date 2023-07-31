@@ -11,12 +11,14 @@ import { PurchaseRequestInterface } from "../../services/Interfaces";
 import { MainModal } from "../Modal";
 import { DateToString } from "../../services/Date";
 import { MainMessage } from "../Message";
+import { useMutation } from "react-query";
 
 interface PurchaseRequestEditProps {
     row: PurchaseRequestInterface;
     setRow: any;
     open: boolean;
     setOpen: any;
+    refetch: any;
 }
 
 const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="textarea" ref={ref} />);
@@ -45,7 +47,7 @@ const styles: { [key: string]: React.CSSProperties } = {
 
 
 export const PurchaseRequestEdit = memo(
-    function PurchaseRequestEdit({ row, setRow, open, setOpen }: PurchaseRequestEditProps) {
+    function PurchaseRequestEdit({ row, setRow, refetch, open, setOpen }: PurchaseRequestEditProps) {
         console.log("editar compra")
 
         const { userChoices }: any = useContext(UserContext)
@@ -72,30 +74,34 @@ export const PurchaseRequestEdit = memo(
             else delete row_.anexo
 
             let data_patch = { ...row_, ultima_atualizacao: 1 }
-            await apiMedia.patch(
-                `solicitacoes-compras/${row_.id}/`,
-                { ...data_patch }
-            ).then(() => {
-                MainMessage.Ok(toaster, "Sucesso - Solicitação editada.")
+            return await apiMedia.patch(`solicitacoes-compras/${row_.id}/`, { ...data_patch })
+        }
 
+        const { mutate } = useMutation({
+            mutationKey: "solic_compras",
+            mutationFn: send,
+            onSuccess: () => {
+                // queryClient.setQueryData("solic_compras", (currentData: any) => currentData.map((value: any) => value.id === data.id ? data : value))
+                refetch()
+                MainMessage.Ok(toaster, "Sucesso - Solicitação editada.")
                 close()
-            }).catch((error) => {
+            },
+            onError: (error: any) => {
                 let listMessage = {
                     numero_solicitacao: "Número Solicitação",
                     filial: "Filial",
                     solicitante: "Solicitante"
                 }
                 MainMessage.Error(toaster, error, listMessage)
-            })
-
-        }
+            }
+        })
 
         const close = () => {
             setOpen(false);
         }
 
         return (
-            <MainModal.Form open={open} close={close} send={send} data={row} setData={setRow} size="md" >
+            <MainModal.Form open={open} close={close} send={mutate} data={row} setData={setRow} size="md" >
                 <MainModal.Header title="Editar Solicitação" />
                 <MainModal.Body>
                     <Panel header="Informações da Solicitação">

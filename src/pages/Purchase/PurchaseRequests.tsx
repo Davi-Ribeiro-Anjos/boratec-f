@@ -13,13 +13,22 @@ import { Annotation } from "../../components/PurchaseRequest/Annotation";
 import { PurchaseRequest } from "../../components/PurchaseRequest";
 import { StringToDate } from "../../services/Date";
 import { MainMessage } from "../../components/Message";
+import { useQuery } from "react-query";
 
 interface Filter {
-    numero_solicitacao: string | null,
+    numero_solicitacao: string | number | null,
     data_solicitacao_bo: string | null,
     status: string | null,
     filial: number | null,
-    solicitante: string | null,
+    solicitante: number | null,
+}
+
+const initialFilter = {
+    numero_solicitacao: null,
+    data_solicitacao_bo: null,
+    status: null,
+    filial: null,
+    solicitante: null,
 }
 
 
@@ -29,33 +38,29 @@ export default function PurchaseRequests() {
     const toaster = useToaster()
 
     // FILTER
-    const propsFilter: Filter = {
-        numero_solicitacao: null,
-        data_solicitacao_bo: null,
-        status: null,
-        filial: null,
-        solicitante: null,
+    const [filter, setFilter] = useState<Filter>({ ...initialFilter, filial: 1, solicitante: 1, status: "ABERTO" })
+    const clear = () => {
+        setFilter(initialFilter)
     }
 
     // DATA
-    const [data, setData] = useState<PurchaseRequestInterface[]>([])
-    const searchData = useCallback(async (filter: any) => {
-        if (typeof filter.numero_solicitacao === "string") {
-            try {
-                filter.numero_solicitacao = parseInt(filter.numero_solicitacao)
-            } catch (error) {
-                filter.numero_solicitacao = null
-            }
+    const { data, isLoading, refetch } = useQuery({
+        queryKey: "solic_compras",
+        queryFn: () => searchData(),
+        // onSuccess: () => {
+        // },
+        onError: (err: any) => {
+            MainMessage.Error(toaster, err, undefined, "Erro - Ocorreu um erro ao buscar os dados.")
+        },
+        enabled: false
+    })
+    const searchData = useCallback(async () => {
+        if (filter.numero_solicitacao === "") {
+            filter.numero_solicitacao = null
         }
 
-        await api.get("solicitacoes-compras/", { params: { ...filter } }).then((response) => {
-            let dataResponse = response.data
-
-            setData(dataResponse)
-        }).catch((error) => {
-            MainMessage.Error(toaster, error, undefined, "Erro - Ocorreu um erro ao buscar os dados.")
-        })
-    }, [])
+        return await api.get("solicitacoes-compras/", { params: { ...filter } })
+    }, [filter])
 
     // ANNOTATION
     const [openAnnotation, setOpenAnnotation] = useState(false)
@@ -76,7 +81,6 @@ export default function PurchaseRequests() {
     const [openEdit, setOpenEdit] = useState(false)
     const editData = useCallback((rowData: PurchaseRequestInterface) => {
         let row_: any = { ...rowData }
-        console.log(row_)
 
         if (rowData.filial) row_.filial = rowData.filial.id
         if (!rowData.observacao) row_.observacao = ""
@@ -122,17 +126,18 @@ export default function PurchaseRequests() {
     return (
         <MainPanel.Root shaded>
             <MainPanel.Header title="Solicitações compras">
-                <PurchaseRequest.Header />
+                <PurchaseRequest.Header refetch={refetch} />
             </MainPanel.Header>
 
-            <MainPanel.Filter send={searchData} propsFilter={propsFilter}>
+            <MainPanel.Filter refetch={refetch} filter={filter} setFilter={setFilter} >
                 <PurchaseRequest.Filter />
+                <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 
             <MainPanel.Body>
-                <MainTable.Root defaultData={data} columns={columns} />
+                <MainTable.Root data={data ? data.data : []} columns={columns} isLoading={isLoading} />
                 <Annotation.View annotations={annotations} open={openAnnotation} setOpen={setOpenAnnotation} />
-                <PurchaseRequest.Edit row={row} setRow={setRow} open={openEdit} setOpen={setOpenEdit} />
+                <PurchaseRequest.Edit row={row} setRow={setRow} refetch={refetch} open={openEdit} setOpen={setOpenEdit} />
             </MainPanel.Body>
 
         </MainPanel.Root >

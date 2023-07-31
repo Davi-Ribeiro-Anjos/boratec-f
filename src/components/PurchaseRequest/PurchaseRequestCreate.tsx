@@ -8,6 +8,7 @@ import { BranchesChoices } from '../../services/Choices';
 
 import { MainMessage } from '../Message';
 import { MainModal } from '../Modal';
+import { useMutation } from 'react-query';
 
 interface Form {
     numero_solicitacao: number | null;
@@ -18,7 +19,8 @@ interface Form {
 
 interface PurchaseRequestCreateProps {
     open: boolean;
-    setOpen: (value: boolean) => void;
+    setOpen: any;
+    refetch: any;
 }
 
 const styles: { [key: string]: React.CSSProperties } = {
@@ -33,7 +35,7 @@ const styles: { [key: string]: React.CSSProperties } = {
 
 
 export const PurchaseRequestCreate = memo(
-    function PurchaseRequestCreate({ open, setOpen }: PurchaseRequestCreateProps) {
+    function PurchaseRequestCreate({ open, setOpen, refetch }: PurchaseRequestCreateProps) {
         console.log("criar solicitacao compra")
 
         const { userChoices }: any = useContext(UserContext)
@@ -49,6 +51,7 @@ export const PurchaseRequestCreate = memo(
         )
 
         const send = useCallback(async () => {
+            console.log(data)
             let data_ = { ...data }
 
             if (data_.anexo.length > 0) {
@@ -63,12 +66,19 @@ export const PurchaseRequestCreate = memo(
 
             const dataPost = { ...data_, data_solicitacao_bo: today.toISOString(), status: "ABERTO", autor: 1, ultima_atualizacao: 1 }
 
-            await apiMedia.post('solicitacoes-compras/', { ...dataPost }).then(() => {
-                MainMessage.Ok(toaster, "Sucesso - Solicitação criada.")
+            return await apiMedia.post('solicitacoes-compras/', { ...dataPost })
+        }, [data])
 
+        const { mutate } = useMutation({
+            mutationKey: "solic_compras",
+            mutationFn: send,
+            onSuccess: () => {
+                refetch()
+                MainMessage.Ok(toaster, "Sucesso - Solicitação criada.")
                 close()
-            }).catch((error) => {
-                let listMessage = {
+            },
+            onError: (error) => {
+                const listMessage = {
                     numero_solicitacao: "Número Solicitação",
                     filial: "Filial",
                     solicitante: "Solicitante",
@@ -76,9 +86,8 @@ export const PurchaseRequestCreate = memo(
                 }
 
                 MainMessage.Error(toaster, error, listMessage)
-            })
-
-        }, [data])
+            }
+        })
 
         const clearForm = () => {
             setData({
@@ -95,7 +104,7 @@ export const PurchaseRequestCreate = memo(
         }
 
         return (
-            <MainModal.Form open={open} close={close} send={send} data={data} setData={setData} size='md'>
+            <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size='md'>
                 <MainModal.Header title="Adicionar Solicitação" />
                 <MainModal.Body>
                     <Grid fluid>
