@@ -1,17 +1,16 @@
 import { Button, Modal } from "rsuite";
 
-interface ModalFooterTwoProps {
-    open: () => void;
+interface ModalFooterFormProps {
     close: () => void;
     name: string;
     appearance?: "default" | "primary" | "subtle" | "link";
 }
 
 
-export function ModalFooterTwo({ open, close, name, appearance = "primary" }: ModalFooterTwoProps) {
+export function ModalFooterForm({ close, name, appearance = "primary" }: ModalFooterFormProps) {
     return (
         <Modal.Footer>
-            <Button onClick={open} appearance={appearance}>
+            <Button type="submit" appearance={appearance}>
                 {name}
             </Button>
             <Button onClick={close} appearance="subtle">

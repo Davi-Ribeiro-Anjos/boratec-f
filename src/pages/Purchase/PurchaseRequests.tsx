@@ -2,18 +2,20 @@ import { useToaster } from "rsuite";
 import ListIcon from "@rsuite/icons/List";
 import EditIcon from "@rsuite/icons/Edit";
 
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState, useMemo, useContext } from "react";
+import { useQuery } from "react-query";
 
-import { api } from "../../hooks/Api";
-import { ColumnsInterface, PurchaseRequestInterface, AnnotationInterface } from "../../services/Interfaces";
+import { AxiosError, AxiosResponse } from "axios";
+import { useApi } from "../../hooks/Api";
+import { UserContext } from "../../providers/UserProviders";
+import { ColumnsInterface, PurchaseRequestInterface } from "../../services/Interfaces";
+import { StringToDate } from "../../services/Date";
 
 import { MainTable } from "../../components/Table"
 import { MainPanel } from "../../components/Panel"
 import { Annotation } from "../../components/PurchaseRequest/Annotation";
 import { PurchaseRequest } from "../../components/PurchaseRequest";
-import { StringToDate } from "../../services/Date";
 import { MainMessage } from "../../components/Message";
-import { useQuery } from "react-query";
 
 interface Filter {
     numero_solicitacao: string | number | null,
@@ -35,46 +37,32 @@ const initialFilter = {
 export default function PurchaseRequests() {
     console.log("solicitacao compra")
 
+    const { token }: any = useContext(UserContext)
+    const api = useApi(token)
     const toaster = useToaster()
 
     // FILTER
-    const [filter, setFilter] = useState<Filter>({ ...initialFilter, filial: 1, solicitante: 1, status: "ABERTO" })
+    const [filter, setFilter] = useState<Filter>({ ...initialFilter, filial: 1 })
     const clear = () => {
         setFilter(initialFilter)
     }
 
     // DATA
-    const { data, isLoading, refetch } = useQuery({
-        queryKey: "solic_compras",
-        queryFn: () => searchData(),
-        // onSuccess: () => {
-        // },
-        onError: (err: any) => {
-            MainMessage.Error(toaster, err, undefined, "Erro - Ocorreu um erro ao buscar os dados.")
-        },
-        enabled: false
-    })
     const searchData = useCallback(async () => {
         if (filter.numero_solicitacao === "") {
             filter.numero_solicitacao = null
         }
-
         return await api.get("solicitacoes-compras/", { params: { ...filter } })
     }, [filter])
-
-    // ANNOTATION
-    const [openAnnotation, setOpenAnnotation] = useState(false)
-    const [annotations, setAnnotations] = useState<AnnotationInterface[]>([])
-    const annotationsData = useCallback(async (rowData: PurchaseRequestInterface) => {
-        await api.get(`solicitacoes-entradas/${rowData.id}/`).then((response) => {
-
-            setAnnotations(response.data)
-        }).catch((error) => {
-            console.log(error)
-        })
-
-        setOpenAnnotation(true)
-    }, [])
+    const { data, isLoading, refetch } = useQuery({
+        queryKey: "solic_compras",
+        queryFn: searchData,
+        onError: (error: AxiosError) => {
+            MainMessage.Error401(toaster, error)
+            MainMessage.Error500(toaster, error)
+        },
+        enabled: false
+    })
 
     // EDIT
     const [row, setRow] = useState<any>({})
@@ -108,6 +96,20 @@ export default function PurchaseRequests() {
         }
     }, [row])
 
+    // ANNOTATION
+    const [openAnnotation, setOpenAnnotation] = useState(false)
+    const [annotations, setAnnotations] = useState()
+    const annotationsData = async (rowData: PurchaseRequestInterface) => {
+        await api.get(`solicitacoes-entradas/${rowData.id}/`).then((response: AxiosResponse) => {
+            setAnnotations(response.data)
+            setRow(rowData)
+            setOpenAnnotation(true)
+        }).catch((error: AxiosError) => {
+            MainMessage.Error401(toaster, error)
+            MainMessage.Error500(toaster, error)
+        })
+    }
+
     // TABLE
     const columns = useMemo<ColumnsInterface>(() => {
         return {
@@ -136,7 +138,8 @@ export default function PurchaseRequests() {
 
             <MainPanel.Body>
                 <MainTable.Root data={data ? data.data : []} columns={columns} isLoading={isLoading} />
-                <Annotation.View annotations={annotations} open={openAnnotation} setOpen={setOpenAnnotation} />
+                <Annotation.View annotations={annotations} id={row.id}
+                    open={openAnnotation} setOpen={setOpenAnnotation} />
                 <PurchaseRequest.Edit row={row} setRow={setRow} refetch={refetch} open={openEdit} setOpen={setOpenEdit} />
             </MainPanel.Body>
 

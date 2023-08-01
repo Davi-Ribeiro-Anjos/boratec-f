@@ -1,5 +1,10 @@
 import { ColumnProps } from "rsuite";
 
+export interface TokenInterface {
+    accessToken: string | null;
+    refreshToken: string | null;
+}
+
 interface Column extends ColumnProps {
     dataKey: string;
     url?: string;

@@ -1,6 +1,11 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 
-import { api } from "../hooks/Api";
+import { useApi } from "../hooks/Api";
+import { getCookie } from "../services/Cookies";
+import { TokenInterface } from "../services/Interfaces";
+import { useQuery } from "react-query";
+import { AxiosError, AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface UserProviderProps {
     children: ReactNode;
@@ -16,32 +21,51 @@ interface User {
     nome: string;
 }
 
+
 export const UserContext = createContext({});
 
 export const UserProvider = ({ children }: UserProviderProps) => {
     console.log("usuario provider")
 
+    const navigate = useNavigate()
+
     const [userChoices, setUserChoices] = useState<UserChoices[]>([])
+    const [token, setToken] = useState<TokenInterface>({
+        accessToken: getCookie("token_access"),
+        refreshToken: getCookie("token_refresh")
+    })
+
+    const api = useApi(token)
 
     useEffect(() => {
-        getUsers()
-        // eslint-disable-next-line
+        refetch()
     }, []);
 
     const getUsers = async () => {
-        await api.get('funcionarios/choices/').then((response) => {
-            let res: User[] = response.data
+        return await api.get('funcionarios/choices/')
+    }
 
+    const { refetch } = useQuery({
+        queryKey: "userChoices",
+        queryFn: getUsers,
+        onSuccess: (response: AxiosResponse) => {
+            let res: User[] = response.data
 
             setUserChoices(res.map((item) => ({
                 label: item.nome,
                 value: item.id
             })))
-        }).catch((error) => console.log(error))
-    }
+        },
+        onError: (error: AxiosError) => {
+            if (error.request.status === 401) {
+                navigate("/login")
+            }
+        },
+        enabled: false
+    })
 
     return (
-        <UserContext.Provider value={{ userChoices }}>
+        <UserContext.Provider value={{ userChoices, token, setToken }}>
             {children}
         </UserContext.Provider>
     );

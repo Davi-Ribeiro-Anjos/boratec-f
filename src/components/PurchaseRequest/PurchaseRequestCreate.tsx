@@ -2,13 +2,14 @@ import { Form, Uploader, SelectPicker, Grid, Row, Col, InputNumber, useToaster }
 
 import { memo, useState, useCallback, useContext } from 'react';
 
-import { apiMedia } from '../../hooks/Api';
+import { useApi } from '../../hooks/Api';
 import { UserContext } from '../../providers/UserProviders';
 import { BranchesChoices } from '../../services/Choices';
 
 import { MainMessage } from '../Message';
 import { MainModal } from '../Modal';
 import { useMutation } from 'react-query';
+import { AxiosError } from 'axios';
 
 interface Form {
     numero_solicitacao: number | null;
@@ -38,7 +39,8 @@ export const PurchaseRequestCreate = memo(
     function PurchaseRequestCreate({ open, setOpen, refetch }: PurchaseRequestCreateProps) {
         console.log("criar solicitacao compra")
 
-        const { userChoices }: any = useContext(UserContext)
+        const { userChoices, token }: any = useContext(UserContext)
+        const api = useApi(token, true)
         const toaster = useToaster()
 
         const [data, setData] = useState<Form>(
@@ -51,7 +53,6 @@ export const PurchaseRequestCreate = memo(
         )
 
         const send = useCallback(async () => {
-            console.log(data)
             let data_ = { ...data }
 
             if (data_.anexo.length > 0) {
@@ -66,7 +67,7 @@ export const PurchaseRequestCreate = memo(
 
             const dataPost = { ...data_, data_solicitacao_bo: today.toISOString(), status: "ABERTO", autor: 1, ultima_atualizacao: 1 }
 
-            return await apiMedia.post('solicitacoes-compras/', { ...dataPost })
+            return await api.post('solicitacoes-compras/', { ...dataPost })
         }, [data])
 
         const { mutate } = useMutation({
@@ -74,10 +75,12 @@ export const PurchaseRequestCreate = memo(
             mutationFn: send,
             onSuccess: () => {
                 refetch()
+
                 MainMessage.Ok(toaster, "Sucesso - Solicitação criada.")
+
                 close()
             },
-            onError: (error) => {
+            onError: (error: AxiosError) => {
                 const listMessage = {
                     numero_solicitacao: "Número Solicitação",
                     filial: "Filial",
@@ -85,7 +88,8 @@ export const PurchaseRequestCreate = memo(
                     anexo: "Anexo"
                 }
 
-                MainMessage.Error(toaster, error, listMessage)
+                MainMessage.Error400(toaster, error, listMessage)
+                MainMessage.Error401(toaster, error)
             }
         })
 
@@ -141,7 +145,7 @@ export const PurchaseRequestCreate = memo(
                         </Row>
                     </Grid >
                 </MainModal.Body>
-                <MainModal.FooterTwo name='Criar' close={close} />
+                <MainModal.FooterForm name='Criar' close={close} />
             </MainModal.Form>
         );
     });

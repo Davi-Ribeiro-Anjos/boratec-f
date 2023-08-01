@@ -13,12 +13,12 @@ import { IndexProvider } from './providers/IndexProviders';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <StrictMode>
-  <IndexProvider>
+  <QueryClientProvider client={queryClient} >
     <BrowserRouter>
-      <QueryClientProvider client={queryClient} >
+      <IndexProvider>
         <App />
-      </QueryClientProvider>
+      </IndexProvider>
     </BrowserRouter>
-  </IndexProvider>
+  </QueryClientProvider>
   // </StrictMode>,
 )
