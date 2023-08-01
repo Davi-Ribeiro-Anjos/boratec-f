@@ -3,7 +3,7 @@ import { Form, Modal, ModalProps } from "rsuite";
 import { ReactNode } from "react";
 
 interface ModalFormProps extends ModalProps {
-    send: (data: any) => void;
+    send: any;
     close: () => void;
     data: any;
     setData: (data: any) => void;

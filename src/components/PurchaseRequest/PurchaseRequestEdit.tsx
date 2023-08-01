@@ -3,7 +3,7 @@ import FileDownloadIcon from "@rsuite/icons/FileDownload";
 
 import { forwardRef, memo, useContext } from 'react';
 
-import { apiMedia, baseUrl } from "../../hooks/Api"
+import { useApi, baseUrl } from "../../hooks/Api"
 import { UserContext } from "../../providers/UserProviders";
 import { BranchesChoices, CategoryChoices, DepartmentChoices, FormPaymentChoices, StatusChoices } from "../../services/Choices"
 import { PurchaseRequestInterface } from "../../services/Interfaces";
@@ -50,7 +50,8 @@ export const PurchaseRequestEdit = memo(
     function PurchaseRequestEdit({ row, setRow, refetch, open, setOpen }: PurchaseRequestEditProps) {
         console.log("editar compra")
 
-        const { userChoices }: any = useContext(UserContext)
+        const { userChoices, token }: any = useContext(UserContext)
+        const api = useApi(token, true)
         const toaster = useToaster()
 
         const auth = false
@@ -62,6 +63,7 @@ export const PurchaseRequestEdit = memo(
             delete row_.autor
             delete row_.data_solicitacao_bo
             delete row_.numero_solicitacao
+            delete row_.solicitante
 
             if (row_.data_vencimento_boleto) row_.data_vencimento_boleto = DateToString(row_.data_vencimento_boleto)
             if (row_.observacao) row_.observacao = row_.observacao.toUpperCase()
@@ -74,7 +76,7 @@ export const PurchaseRequestEdit = memo(
             else delete row_.anexo
 
             let data_patch = { ...row_, ultima_atualizacao: 1 }
-            return await apiMedia.patch(`solicitacoes-compras/${row_.id}/`, { ...data_patch })
+            return await api.patch(`solicitacoes-compras/${row_.id}/`, { ...data_patch })
         }
 
         const { mutate } = useMutation({
@@ -92,7 +94,9 @@ export const PurchaseRequestEdit = memo(
                     filial: "Filial",
                     solicitante: "Solicitante"
                 }
-                MainMessage.Error(toaster, error, listMessage)
+
+                MainMessage.Error400(toaster, error, listMessage)
+                MainMessage.Error401(toaster, error)
             }
         })
 
@@ -198,7 +202,7 @@ export const PurchaseRequestEdit = memo(
                         </Row>
                     </Panel>
                 </MainModal.Body>
-                <MainModal.FooterTwo name="Editar" close={close} />
+                <MainModal.FooterForm name="Editar" close={close} />
             </MainModal.Form >
         )
     })
