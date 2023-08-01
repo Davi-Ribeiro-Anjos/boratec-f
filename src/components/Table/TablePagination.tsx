@@ -1,15 +1,15 @@
 import { Pagination, PaginationProps } from "rsuite";
 
 interface TablePaginationProps extends PaginationProps {
-    data: any[];
+    total: number;
     page: number;
-    setPage: (page: number) => void;
-    limit: number;
-    handleChangeLimit: (limit: number) => void;
+    setPage: any;
 }
 
 
-export function TablePagination({ data, page, setPage, limit, handleChangeLimit, ...props }: TablePaginationProps) {
+export function TablePagination({ total, page, setPage, ...props }: TablePaginationProps) {
+    console.log("paginacao")
+
     return (
         <div style={{ padding: 20 }}>
             <Pagination
@@ -20,15 +20,13 @@ export function TablePagination({ data, page, setPage, limit, handleChangeLimit,
                 ellipsis
                 boundaryLinks
                 maxButtons={5}
-                {...props}
                 size="md"
-                layout={['total', '-', 'limit', '|', 'pager', '-', 'skip']}
-                total={data.length}
-                limitOptions={[30, 50, 100]}
-                limit={limit}
+                layout={['total', '-', '|', 'pager', '-', 'skip']}
+                limitOptions={[10, 30, 50]}
+                total={total}
                 activePage={page}
                 onChangePage={setPage}
-                onChangeLimit={handleChangeLimit}
+                {...props}
             />
         </div >
     )
