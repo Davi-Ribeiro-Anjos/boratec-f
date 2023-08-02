@@ -1,4 +1,4 @@
-import { Form, Uploader, SelectPicker, Grid, Row, Col, InputNumber, useToaster } from 'rsuite';
+import { Form, Uploader, SelectPicker, Row, Col, InputNumber, useToaster } from 'rsuite';
 
 import { memo, useState, useCallback, useContext } from 'react';
 
@@ -111,39 +111,37 @@ export const PurchaseRequestCreate = memo(
             <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size='md'>
                 <MainModal.Header title="Adicionar Solicitação" />
                 <MainModal.Body>
-                    <Grid fluid>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Código Solicitação:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="numero_solicitacao" accepter={InputNumber} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="filial" data={BranchesChoices} accepter={SelectPicker} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row} >
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Solicitante:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="solicitante" data={userChoices} accepter={SelectPicker} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Anexo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                    </Grid >
+                    <Row style={styles.row}>
+                        <Col xs={12}>
+                            <Form.Group >
+                                <Form.ControlLabel>Código Solicitação:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="numero_solicitacao" accepter={InputNumber} />
+                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12}>
+                            <Form.Group >
+                                <Form.ControlLabel>Filial:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="filial" data={BranchesChoices} accepter={SelectPicker} />
+                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row style={styles.row} >
+                        <Col xs={12}>
+                            <Form.Group >
+                                <Form.ControlLabel>Solicitante:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="solicitante" data={userChoices} accepter={SelectPicker} />
+                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12}>
+                            <Form.Group >
+                                <Form.ControlLabel>Anexo:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />
+                            </Form.Group>
+                        </Col>
+                    </Row>
                 </MainModal.Body>
                 <MainModal.FooterForm name='Criar' close={close} />
             </MainModal.Form>

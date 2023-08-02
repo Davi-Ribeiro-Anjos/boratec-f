@@ -71,3 +71,10 @@ interface BranchesInterface {
     id_garagem: number;
     sigla: string;
 }
+
+export interface PalletControl {
+    localizacao_atual: string;
+    CHEP: number;
+    PBR: number;
+    TOTAL: number;
+}

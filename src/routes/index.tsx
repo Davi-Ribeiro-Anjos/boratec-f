@@ -7,11 +7,11 @@ import { getCookie } from "../services/Cookies.ts";
 const Home = lazy(() => import("../pages/home.tsx"));
 const Login = lazy(() => import("../pages/Login/Login.tsx"));
 const PurchaseRequests = lazy(() => import("../pages/Purchase/PurchaseRequests.tsx"));
-const BranchPallet = lazy(() => import("../pages/pallet/branchPallet.tsx"));
-const ClientPallet = lazy(() => import("../pages/pallet/clientPallet.tsx"));
-const Dismissal = lazy(() => import("../pages/pallet/clientPallet.tsx"));
-const RegistrationForm = lazy(() => import("../pages/pallet/clientPallet.tsx"));
-const Employee = lazy(() => import("../pages/pallet/clientPallet.tsx"));
+const BranchPallet = lazy(() => import("../pages/Pallet/BranchPallet.tsx"));
+const ClientPallet = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
+const Dismissal = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
+const RegistrationForm = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
+const Employee = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
 
 
 export function MainRoutes() {

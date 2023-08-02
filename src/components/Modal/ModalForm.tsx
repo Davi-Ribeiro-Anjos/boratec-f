@@ -1,4 +1,4 @@
-import { Form, Modal, ModalProps } from "rsuite";
+import { Form, Grid, Modal, ModalProps } from "rsuite";
 
 import { ReactNode } from "react";
 
@@ -20,7 +20,9 @@ export function ModalForm({ send, close, data, setData, children, ...props }: Mo
     return (
         <Modal style={styles.modal} onClose={close} {...props}  >
             <Form onSubmit={() => { if (send) send(data) }} onChange={setData} formValue={data}>
-                {children}
+                <Grid fluid>
+                    {children}
+                </Grid>
             </Form>
         </Modal>
     )
