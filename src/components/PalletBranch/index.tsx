@@ -1,3 +1,4 @@
+import { BranchConfirmTransfer } from "./BranchConfirmTransfer";
 import { BranchCreatePallet } from "./BranchCreatePallet";
 import { BranchCreateTransfer } from "./BranchCreateTransfer";
 import { BranchFilter } from "./BranchFilter";
@@ -11,5 +12,6 @@ export const PalletBranch = {
     Filter: BranchFilter,
     CreateTransfer: BranchCreateTransfer,
     Info: BranchInfo,
-    CreatePallet: BranchCreatePallet
+    CreatePallet: BranchCreatePallet,
+    ConfirmTransfer: BranchConfirmTransfer
 }

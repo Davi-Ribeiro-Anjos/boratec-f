@@ -72,9 +72,19 @@ interface BranchesInterface {
     sigla: string;
 }
 
-export interface PalletControl {
+export interface PalletControlInterface {
     localizacao_atual: string;
     CHEP: number;
     PBR: number;
     TOTAL: number;
+}
+
+export interface PalletMovementInterface {
+    origem: number | null;
+    destino: number | undefined;
+    quantidade_paletes: number | null;
+    tipo_palete: string | null;
+    placa_veiculo: string;
+    motorista: string;
+    conferente: string;
 }

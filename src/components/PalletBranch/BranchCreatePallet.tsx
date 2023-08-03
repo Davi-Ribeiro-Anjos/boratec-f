@@ -1,15 +1,17 @@
 import { Col, Form, InputNumber, InputPicker, Row, SelectPicker, useToaster } from "rsuite";
 
 import { useState, memo, useContext } from "react"
+import { useMutation } from "react-query";
 
-import { MainModal } from "../Modal";
-import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
+import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
-import { useMutation } from "react-query";
-import { AxiosError, AxiosResponse } from "axios";
-import { MainMessage } from "../Message";
 import { queryClient } from "../../services/QueryClient";
+import { PalletControlInterface } from "../../services/Interfaces";
+import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
+
+import { MainModal } from "../Modal";
+import { MainMessage } from "../Message";
 
 interface BranchCreatePalletProps {
     open: boolean;
@@ -53,7 +55,7 @@ export const BranchCreatePallet = memo(
         const send = async () => {
             let form = { ...data }
 
-            return await api.post('paletes-controles/', form)
+            return await api.post<PalletControlInterface>('paletes-controles/', form)
         }
 
         const { mutate } = useMutation({
