@@ -39,7 +39,7 @@ export function MainHeader() {
                 <Nav pullRight>
                     <Nav.Menu noCaret icon={<CogIcon />} placement="bottomEnd">
                         {/* <Nav.Item panel style={theme === "dark" ? { padding: 10, width: 160, color: "white" } : { padding: 10, width: 160, color: "black" }}> */}
-                        <Nav.Item panel style={{ padding: 10, width: 160, color: "black" }}>
+                        <Nav.Item panel style={{ padding: 10, width: 160, color: "white" }}>
                             <p>Logado como</p>
                             <strong>davi.bezerra</strong>
                         </Nav.Item>

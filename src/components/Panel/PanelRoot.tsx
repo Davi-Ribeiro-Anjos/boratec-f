@@ -8,9 +8,9 @@ interface PanelRootProps extends PanelProps {
 }
 
 
-export function PanelRoot({ width = 95, children, ...rest }: PanelRootProps) {
+export function PanelRoot({ width = 95, children, ...props }: PanelRootProps) {
     return (
-        <Panel {...rest} style={{ margin: "20px auto", width: `${width}%` }}>
+        <Panel style={{ margin: "20px auto", width: `${width}%` }} {...props} >
             {children}
         </Panel>
     )

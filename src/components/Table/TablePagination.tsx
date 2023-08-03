@@ -21,7 +21,7 @@ export function TablePagination({ total, page, setPage, ...props }: TablePaginat
                 boundaryLinks
                 maxButtons={5}
                 size="md"
-                layout={['total', '-', '|', 'pager', '-', 'skip']}
+                layout={['total', '-', 'pager', '-', 'skip']}
                 limitOptions={[10, 30, 50]}
                 total={total}
                 activePage={page}
