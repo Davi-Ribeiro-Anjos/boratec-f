@@ -11,7 +11,7 @@ const BranchPallet = lazy(() => import("../pages/Pallet/BranchPallet.tsx"));
 const ClientPallet = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
 const Dismissal = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
 const RegistrationForm = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
-const Employee = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
+const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
 
 
 export function MainRoutes() {
@@ -69,7 +69,7 @@ export function MainRoutes() {
             } />
             <Route path="/rh/funcionarios-pj" element={
                 <Suspense>
-                    <Employee />
+                    <Employees />
                 </Suspense>
             } />
         </Routes>
