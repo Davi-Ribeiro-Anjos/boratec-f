@@ -12,6 +12,7 @@ import { useMutation } from "react-query";
 import { AxiosError } from "axios";
 import { CompanyChoices } from "../../services/Choices";
 import { DateToString } from "../../services/Date";
+import { queryClient } from "../../services/QueryClient";
 
 interface Form {
     nome: string,
@@ -116,28 +117,65 @@ export const EmployeeCreate = memo(
             }
         )
 
+        // EMPLOYEES
         const sendEmployees = async () => {
-            let form = { ...data }
+            let form: any = { ...data }
 
-            form.nome = form.nome.toUpperCase()
-            form.cargo = form.cargo.toUpperCase()
-            form.banco = form.banco.toUpperCase()
-            if (form.data_admissao) form.data_admissao = DateToString(form.data_admissao)
-            if (form.cnpj.length !== 18 && form.cnpj.length !== 19) {
+            form.cnpj = form.cnpj.replaceAll('.', '').replace('-', '').replace('/', '')
+            if (form.cnpj.length === 15) form.cnpj = form.cnpj.slice(0, -1)
+            if (form.cnpj.length !== 14) {
                 let message = (
                     <Message showIcon type="error" closable >
                         Erro - Complete o campo CNPJ corretamente.
                     </ Message>
                 )
-                toaster.push(message, { placement: "topEnd", duration: 4000 })
-                return null
+                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
             }
 
-            console.log(form)
+            form.nome = form.nome.toUpperCase()
+            form.cargo = form.cargo.toUpperCase()
+            form.banco = form.banco.toUpperCase()
+            if (form.data_admissao) form.data_admissao = DateToString(form.data_admissao)
+
+            return await api.post('funcionarios/', form)
         }
 
+        const { mutate: employeesMutate } = useMutation({
+            mutationKey: ["employees"],
+            mutationFn: sendEmployees,
+            onSuccess: () => {
+                queryClient.invalidateQueries(["employees"])
+
+                MainMessage.Ok(toaster, "Sucesso - Funcionário cadastrado.")
+
+                close()
+            },
+            onError: (error: AxiosError) => {
+                const message = {
+                    nome: 'Nome',
+                    filial: 'Filial',
+                    cargo: 'Cargo',
+                    empresa: 'Empresa',
+                    cnpj: 'CNPJ',
+                    data_admissao: 'Data Admissão',
+                    ativo: 'Ativo',
+                    banco: 'Banco',
+                    agencia: 'Agência',
+                    conta: 'Conta',
+                    pix: 'Pix',
+                }
+
+                MainMessage.Error400(toaster, error, message)
+                MainMessage.Error401(toaster, error)
+                MainMessage.Error500(toaster, error)
+            }
+        })
+
+
+        // COMPLEMENTS
         const sendComplements = async () => {
             let form = { ...data }
+
 
             form.complementos["salario"] = form.salario || null
             form.complementos["faculdade"] = form.faculdade || null
@@ -152,22 +190,33 @@ export const EmployeeCreate = memo(
                 form.complementos["data_pagamento"] = DateToString(form.data_pagamento)
             form.complementos["autor"] = 1
 
-            console.log(form.complementos)
+            // return await api.post('pj-complementos/', form.complementos)
+            return true
         }
 
-        const { mutate: ComplementsMutate } = useMutation({
-            mutationKey: "solic_compras",
+        const { mutate: complementsMutate } = useMutation({
+            mutationKey: ["pj_complements"],
             mutationFn: sendComplements,
             onSuccess: () => {
-                sendEmployees()
-                // close()
+                employeesMutate()
             },
             onError: (error: AxiosError) => {
                 const message = {
+                    salario: "Salário",
+                    faculdade: "Faculdade",
+                    ajuda_custo: "Ajuda Custo",
+                    auxilio_moradia: "Auxílio Moradia",
+                    credito_convenio: "Crédito Convênio",
+                    outros_creditos: "Outros Créditos",
+                    adiantamento: "Adiantamento",
+                    desconto_convenio: "Desconto Convênio",
+                    outros_descontos: "Outros Descontos",
+                    data_pagamento: "Data Pagamento"
                 }
 
                 MainMessage.Error400(toaster, error, message)
                 MainMessage.Error401(toaster, error)
+                MainMessage.Error500(toaster, error)
             }
         })
 
@@ -202,7 +251,7 @@ export const EmployeeCreate = memo(
         }
 
         return (
-            <MainModal.Form open={open} close={close} send={ComplementsMutate} data={data} setData={setData} size="md" overflow={false}>
+            <MainModal.Form open={open} close={close} send={complementsMutate} data={data} setData={setData} size="md" overflow={false}>
                 <MainModal.Header title="Adicionar Funcionário" />
                 <MainModal.Body>
                     <Panel header="Informações Pessoais do Funcionário PJ">
@@ -233,7 +282,7 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Empresa:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="empresa" data={CompanyChoices} accepter={InputPicker} />
+                                    <Form.Control style={styles.input} name="empresa" data={CompanyChoices} accepter={SelectPicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>

@@ -26,7 +26,7 @@ export function EmployeeFilter({ }: EmployeeFilterProps) {
             <Col xs={12}>
                 <Form.Group >
                     <Form.ControlLabel>Funcionário: </Form.ControlLabel>
-                    <Form.Control style={styles.input} name="funcionario" data={userChoices} accepter={SelectPicker} />
+                    <Form.Control style={styles.input} name="id" data={userChoices} accepter={SelectPicker} />
                 </Form.Group>
             </Col>
             <Col xs={12}>

@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 import { getCookie } from "../services/Cookies.ts";
+import { Message, useToaster } from "rsuite";
 
 const Home = lazy(() => import("../pages/home.tsx"));
 const Login = lazy(() => import("../pages/Login/Login.tsx"));
@@ -18,12 +19,19 @@ export function MainRoutes() {
     console.log("route")
 
     const navigate = useNavigate()
+    const toaster = useToaster()
 
     useEffect(() => {
         async function checkTokenAndNavigate() {
             const cookie = await getCookie("token_access");
             if (cookie === undefined) {
                 navigate("/login");
+                let message = (
+                    <Message showIcon type="info" closable >
+                        Sua sessão foi encerrada.
+                    </ Message>
+                )
+                toaster.push(message, { placement: "topEnd", duration: 4000 })
             }
         }
 

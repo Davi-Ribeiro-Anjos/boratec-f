@@ -12,21 +12,19 @@ import { ColumnsInterface } from "../../services/Interfaces";
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
 import { Employee } from "../../components/Employee";
+import { AxiosError } from "axios";
+import { MainMessage } from "../../components/Message";
 
 interface Filter {
-    numero_solicitacao: string | number | null,
-    data_solicitacao_bo: string | null,
-    status: string | null,
+    id: number | null,
     filial: number | null,
-    solicitante: number | null,
+    tipo_contrato: string
 }
 
 const initialFilter = {
-    numero_solicitacao: null,
-    data_solicitacao_bo: null,
-    status: null,
+    id: null,
     filial: null,
-    solicitante: null,
+    tipo_contrato: "PJ"
 }
 
 
@@ -39,23 +37,49 @@ export default function Employees() {
 
     const [filter, setFilter] = useState<Filter>({ ...initialFilter })
 
-    const searchData = () => {
+    const searchData = async () => {
+        const response = await api.get("funcionarios/", { params: { ...filter } })
 
+        let dataRes = response.data
+        for (const line in dataRes) {
+            if (Object.hasOwnProperty.call(dataRes, line)) {
+                const element = dataRes[line];
+
+                element["dados_bancarios"] = `BCO: ${element.banco} | AG: ${element.agencia} | CC: ${element.conta}`
+            }
+        }
+
+        return dataRes
     }
 
     const { data, isLoading, refetch } = useQuery({
         queryKey: ["employees"],
-        queryFn: searchData
+        queryFn: searchData,
+        onError: (error: AxiosError) => {
+            let message = {
+                funcionario: "Funcionário",
+                filial: "Filial",
+                tipo_contrato: "Tipo Contrato",
+            }
+
+            MainMessage.Error400(toaster, error, message)
+            MainMessage.Error401(toaster, error)
+            MainMessage.Error500(toaster, error, "Ocorreu um erro ao buscar os dados")
+        },
+        enabled: false
+
     })
 
-    const clear = () => { }
+    const clear = () => {
+        setFilter(initialFilter)
+    }
 
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nome": { dataKey: "nome", width: 250 },
+            "Nome": { dataKey: "nome", width: 300 },
             "Filial": { dataKey: "filial.sigla", width: 120 },
             "CNPJ": { dataKey: "cnpj", width: 150 },
-            "Dados Bancários": { dataKey: "dados_bancarios", width: 300 },
+            "Dados Bancários": { dataKey: "dados_bancarios", width: 350 },
             "Serviços": { dataKey: "botao", width: 130, click: () => { }, icon: ListIcon },
             "Editar": { dataKey: "botao", width: 130, click: () => { }, icon: EditIcon }
         }
