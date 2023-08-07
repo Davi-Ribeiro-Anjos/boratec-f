@@ -10,7 +10,7 @@ const PurchaseRequests = lazy(() => import("../pages/Purchase/PurchaseRequests.t
 const BranchPallet = lazy(() => import("../pages/Pallet/BranchPallet.tsx"));
 const ClientPallet = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
 const Dismissal = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
-const RegistrationForm = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
+const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
 const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
 
 
@@ -64,7 +64,7 @@ export function MainRoutes() {
             } />
             <Route path="/rh/fichas-cadastrais" element={
                 <Suspense>
-                    <RegistrationForm />
+                    <RegistrationsForms />
                 </Suspense>
             } />
             <Route path="/rh/funcionarios-pj" element={
