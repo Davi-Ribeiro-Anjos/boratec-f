@@ -32,7 +32,7 @@ export function EmployeeFilter({ }: EmployeeFilterProps) {
             <Col xs={12}>
                 <Form.Group >
                     <Form.ControlLabel>Filial: </Form.ControlLabel>
-                    <Form.Control style={styles.input} name="filial" data={BranchesChoices} accepter={SelectPicker} />
+                    <Form.Control style={styles.input} name="branch" data={BranchesChoices} accepter={SelectPicker} />
                 </Form.Group>
             </Col>
         </Row>
