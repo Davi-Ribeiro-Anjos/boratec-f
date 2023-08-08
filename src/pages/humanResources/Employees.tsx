@@ -36,7 +36,11 @@ export default function Employees() {
     const toaster = useToaster()
 
     const [filter, setFilter] = useState<Filter>({ ...initialFilter })
+    const clear = () => {
+        setFilter(initialFilter)
+    }
 
+    // DATA
     const searchData = async () => {
         const response = await api.get("funcionarios/", { params: { ...filter } })
 
@@ -67,12 +71,16 @@ export default function Employees() {
             MainMessage.Error500(toaster, error, "Ocorreu um erro ao buscar os dados")
         },
         enabled: false
-
     })
 
-    const clear = () => {
-        setFilter(initialFilter)
+    // EDIT
+    const [open, setOpen] = useState(false)
+    const edit = () => {
+        setOpen(true)
     }
+
+
+    // TABLE
 
     const columns = useMemo<ColumnsInterface>(() => {
         return {
@@ -80,8 +88,7 @@ export default function Employees() {
             "Filial": { dataKey: "filial.sigla", width: 120 },
             "CNPJ": { dataKey: "cnpj", width: 150 },
             "Dados Bancários": { dataKey: "dados_bancarios", width: 350 },
-            "Serviços": { dataKey: "botao", width: 130, click: () => { }, icon: ListIcon },
-            "Editar": { dataKey: "botao", width: 130, click: () => { }, icon: EditIcon }
+            "Editar": { dataKey: "button", width: 130, click: edit, icon: EditIcon }
         }
     }, [])
 
@@ -100,6 +107,7 @@ export default function Employees() {
 
             <MainPanel.Body>
                 <MainTable.Root data={data ? data : []} columns={columns} isLoading={isLoading} />
+                <Employee.Edit open={open} setOpen={setOpen} />
             </MainPanel.Body>
         </MainPanel.Root>
     )
