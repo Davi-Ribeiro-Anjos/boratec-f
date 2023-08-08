@@ -42,7 +42,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     }, []);
 
     const getUsers = async () => {
-        return await api.get('funcionarios/choices/')
+        return await api.get('employees/choices/')
     }
 
     const { refetch } = useQuery({
