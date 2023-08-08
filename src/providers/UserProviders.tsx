@@ -1,11 +1,11 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 
+import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../hooks/Api";
 import { getCookie } from "../services/Cookies";
 import { TokenInterface } from "../services/Interfaces";
-import { useQuery } from "react-query";
-import { AxiosError, AxiosResponse } from "axios";
-import { useNavigate } from "react-router-dom";
 
 interface UserProviderProps {
     children: ReactNode;
@@ -18,7 +18,7 @@ interface UserChoices {
 
 interface User {
     id: number;
-    nome: string;
+    name: string;
 }
 
 
@@ -42,7 +42,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     }, []);
 
     const getUsers = async () => {
-        return await api.get('funcionarios/choices/')
+        return await api.get('employees/choices/')
     }
 
     const { refetch } = useQuery({
@@ -52,7 +52,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             let res: User[] = response.data
 
             setUserChoices(res.map((item) => ({
-                label: item.nome,
+                label: item.name,
                 value: item.id
             })))
         },

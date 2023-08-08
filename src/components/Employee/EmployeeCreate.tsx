@@ -15,29 +15,29 @@ import { DateToString } from "../../services/Date";
 import { queryClient } from "../../services/QueryClient";
 
 interface Form {
-    nome: string,
-    filial: number | null,
-    cargo: string,
-    empresa: string | null,
-    tipo_contrato: string
+    name: string,
+    branch: number | null,
+    role: string,
+    company: string | null,
+    type_contract: string
     cnpj: string,
-    data_admissao: any,
-    ativo: boolean,
-    banco: string,
-    agencia: number | null,
-    conta: number | null,
+    date_admission: any,
+    active: boolean,
+    bank: string,
+    agency: number | null,
+    account: number | null,
     pix: string,
-    salario: number | null,
-    faculdade: number | null,
-    ajuda_custo: number | null,
-    auxilio_moradia: number | null,
-    credito_convenio: number | null,
-    outros_creditos: number | null,
-    adiantamento: number | null,
-    desconto_convenio: number | null,
-    outros_descontos: number | null,
-    data_pagamento: null,
-    complementos: any
+    salary: number | null,
+    college: number | null,
+    allowance: number | null,
+    housing_allowance: number | null,
+    covenant_credit: number | null,
+    other_credits: number | null,
+    advance_money: number | null,
+    covenant_discount: number | null,
+    others_discounts: number | null,
+    date_payment: null,
+    complements: any
 }
 
 interface EmployeeCreateProps {
@@ -91,29 +91,29 @@ export const EmployeeCreate = memo(
 
         const [data, setData] = useState<Form>(
             {
-                nome: "",
-                filial: null,
-                cargo: "",
-                empresa: null,
+                name: "",
+                branch: null,
+                role: "",
+                company: null,
                 cnpj: "",
-                tipo_contrato: "PJ",
-                data_admissao: null,
-                ativo: true,
-                banco: "",
-                agencia: null,
-                conta: null,
+                type_contract: "PJ",
+                date_admission: null,
+                active: true,
+                bank: "",
+                agency: null,
+                account: null,
                 pix: "",
-                salario: null,
-                faculdade: null,
-                ajuda_custo: null,
-                auxilio_moradia: null,
-                credito_convenio: null,
-                outros_creditos: null,
-                adiantamento: null,
-                desconto_convenio: null,
-                outros_descontos: null,
-                data_pagamento: null,
-                complementos: {}
+                salary: null,
+                college: null,
+                allowance: null,
+                housing_allowance: null,
+                covenant_credit: null,
+                other_credits: null,
+                advance_money: null,
+                covenant_discount: null,
+                others_discounts: null,
+                date_payment: null,
+                complements: {}
             }
         )
 
@@ -132,12 +132,12 @@ export const EmployeeCreate = memo(
                 throw toaster.push(message, { placement: "topEnd", duration: 4000 })
             }
 
-            form.nome = form.nome.toUpperCase()
-            form.cargo = form.cargo.toUpperCase()
-            form.banco = form.banco.toUpperCase()
-            if (form.data_admissao) form.data_admissao = DateToString(form.data_admissao)
+            form.name = form.name.toUpperCase()
+            form.role = form.role.toUpperCase()
+            form.bank = form.bank.toUpperCase()
+            if (form.date_admission) form.date_admission = DateToString(form.date_admission)
 
-            return await api.post('funcionarios/', form)
+            return await api.post('employees/', form)
         }
 
         const { mutate: employeesMutate } = useMutation({
@@ -152,16 +152,16 @@ export const EmployeeCreate = memo(
             },
             onError: (error: AxiosError) => {
                 const message = {
-                    nome: 'Nome',
-                    filial: 'Filial',
-                    cargo: 'Cargo',
-                    empresa: 'Empresa',
+                    name: 'Nome',
+                    branch: 'Filial',
+                    role: 'Cargo',
+                    company: 'Empresa',
                     cnpj: 'CNPJ',
-                    data_admissao: 'Data Admissão',
-                    ativo: 'Ativo',
-                    banco: 'Banco',
-                    agencia: 'Agência',
-                    conta: 'Conta',
+                    date_admission: 'Data Admissão',
+                    active: 'Ativo',
+                    bank: 'Banco',
+                    agency: 'Agência',
+                    account: 'Conta',
                     pix: 'Pix',
                 }
 
@@ -177,20 +177,20 @@ export const EmployeeCreate = memo(
             let form = { ...data }
 
 
-            form.complementos["salario"] = form.salario || null
-            form.complementos["faculdade"] = form.faculdade || null
-            form.complementos["ajuda_custo"] = form.ajuda_custo || null
-            form.complementos["auxilio_moradia"] = form.auxilio_moradia || null
-            form.complementos["credito_convenio"] = form.credito_convenio || null
-            form.complementos["outros_creditos"] = form.outros_creditos || null
-            form.complementos["adiantamento"] = form.adiantamento || null
-            form.complementos["desconto_convenio"] = form.desconto_convenio || null
-            form.complementos["outros_descontos"] = form.outros_descontos || null
-            if (form.data_pagamento)
-                form.complementos["data_pagamento"] = DateToString(form.data_pagamento)
-            form.complementos["autor"] = 1
+            form.complements["salary"] = form.salary || null
+            form.complements["college"] = form.college || null
+            form.complements["allowance"] = form.allowance || null
+            form.complements["housing_allowance"] = form.housing_allowance || null
+            form.complements["covenant_credit"] = form.covenant_credit || null
+            form.complements["other_credits"] = form.other_credits || null
+            form.complements["advance_money"] = form.advance_money || null
+            form.complements["covenant_discount"] = form.covenant_discount || null
+            form.complements["others_discounts"] = form.others_discounts || null
+            if (form.date_payment)
+                form.complements["date_payment"] = DateToString(form.date_payment)
+            form.complements["author"] = 1
 
-            // return await api.post('pj-complementos/', form.complementos)
+            // return await api.post('pj-complements/', form.complements)
             return true
         }
 
@@ -202,16 +202,16 @@ export const EmployeeCreate = memo(
             },
             onError: (error: AxiosError) => {
                 const message = {
-                    salario: "Salário",
-                    faculdade: "Faculdade",
-                    ajuda_custo: "Ajuda Custo",
-                    auxilio_moradia: "Auxílio Moradia",
-                    credito_convenio: "Crédito Convênio",
-                    outros_creditos: "Outros Créditos",
-                    adiantamento: "Adiantamento",
-                    desconto_convenio: "Desconto Convênio",
-                    outros_descontos: "Outros Descontos",
-                    data_pagamento: "Data Pagamento"
+                    salary: "Salário",
+                    college: "Faculdade",
+                    allowance: "Ajuda Custo",
+                    housing_allowance: "Auxílio Moradia",
+                    covenant_credit: "Crédito Convênio",
+                    other_credits: "Outros Créditos",
+                    advance_money: "Adiantamento",
+                    covenant_discount: "Desconto Convênio",
+                    others_discounts: "Outros Descontos",
+                    date_payment: "Data Pagamento"
                 }
 
                 MainMessage.Error400(toaster, error, message)
@@ -224,29 +224,29 @@ export const EmployeeCreate = memo(
             setOpen(false);
 
             setData({
-                nome: "",
-                filial: null,
-                cargo: "",
-                empresa: null,
+                name: "",
+                branch: null,
+                role: "",
+                company: null,
                 cnpj: "",
-                tipo_contrato: "PJ",
-                data_admissao: null,
-                ativo: true,
-                banco: "",
-                agencia: null,
-                conta: null,
+                type_contract: "PJ",
+                date_admission: null,
+                active: true,
+                bank: "",
+                agency: null,
+                account: null,
                 pix: "",
-                salario: null,
-                faculdade: null,
-                ajuda_custo: null,
-                auxilio_moradia: null,
-                credito_convenio: null,
-                outros_creditos: null,
-                adiantamento: null,
-                desconto_convenio: null,
-                outros_descontos: null,
-                data_pagamento: null,
-                complementos: {}
+                salary: null,
+                college: null,
+                allowance: null,
+                housing_allowance: null,
+                covenant_credit: null,
+                other_credits: null,
+                advance_money: null,
+                covenant_discount: null,
+                others_discounts: null,
+                date_payment: null,
+                complements: {}
             })
         }
 
@@ -259,14 +259,14 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Nome Completo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="nome" accepter={Input} />
+                                    <Form.Control style={styles.input} name="name" accepter={Input} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group  >
                                     <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="filial" data={BranchesChoices} accepter={SelectPicker} />
+                                    <Form.Control style={styles.input} name="branch" data={BranchesChoices} accepter={SelectPicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
@@ -275,14 +275,14 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Cargo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="cargo" accepter={Input} />
+                                    <Form.Control style={styles.input} name="role" accepter={Input} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Empresa:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="empresa" data={CompanyChoices} accepter={SelectPicker} />
+                                    <Form.Control style={styles.input} name="company" data={CompanyChoices} accepter={SelectPicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
@@ -298,7 +298,7 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Data Admissão:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="data_admissao" placeholder="DD-MM-AAAA" format="dd-MM-yyyy" accepter={DatePicker} />
+                                    <Form.Control style={styles.input} name="date_admission" placeholder="DD-MM-AAAA" format="dd-MM-yyyy" accepter={DatePicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
@@ -307,7 +307,7 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Ativo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="ativo" checked={data.ativo} onChange={(value: any) => setData({ ...data, ativo: !value })} accepter={Checkbox} />
+                                    <Form.Control style={styles.input} name="active" checked={data.active} onChange={(value: any) => setData({ ...data, active: !value })} accepter={Checkbox} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -317,14 +317,14 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Banco:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="banco" accepter={Input} />
+                                    <Form.Control style={styles.input} name="bank" accepter={Input} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Agência:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="agencia" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="agency" accepter={InputNumber} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
@@ -333,7 +333,7 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Conta:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="conta" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="account" accepter={InputNumber} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
@@ -351,14 +351,14 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Salário:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="salario" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="salary" accepter={InputNumber} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Data Pagamento:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="data_pagamento" placeholder="DD-MM-AAAA" format="dd-MM-yyyy" accepter={DatePicker} />
+                                    <Form.Control style={styles.input} name="date_payment" placeholder="DD-MM-AAAA" format="dd-MM-yyyy" accepter={DatePicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
@@ -367,13 +367,13 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Ajuda de Custo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="ajuda_custo" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="allowance" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Auxílio Moradia:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="auxilio_moradia" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="housing_allowance" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -381,13 +381,13 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Crédito Convênio:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="credito_convenio" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="covenant_credit" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Outros Créditos:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="outros_creditos" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="other_credits" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -395,13 +395,13 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Adiantamento:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="adiantamento" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="advance_money" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Desconto Convênio:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="desconto_convenio" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="covenant_discount" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -409,13 +409,13 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Outros Descontos:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="outros_descontos" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="others_discounts" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Faculdade:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="faculdade" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="college" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                         </Row>

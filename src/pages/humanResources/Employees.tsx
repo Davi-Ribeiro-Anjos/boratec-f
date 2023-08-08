@@ -17,14 +17,14 @@ import { MainMessage } from "../../components/Message";
 
 interface Filter {
     id: number | null,
-    filial: number | null,
-    tipo_contrato: string
+    branch: number | null,
+    type_contract: string
 }
 
 const initialFilter = {
     id: null,
-    filial: null,
-    tipo_contrato: "PJ"
+    branch: null,
+    type_contract: "PJ"
 }
 
 
@@ -42,14 +42,14 @@ export default function Employees() {
 
     // DATA
     const searchData = async () => {
-        const response = await api.get("funcionarios/", { params: { ...filter } })
+        const response = await api.get("employees/", { params: { ...filter } })
 
         let dataRes = response.data
         for (const line in dataRes) {
             if (Object.hasOwnProperty.call(dataRes, line)) {
                 const element = dataRes[line];
 
-                element["dados_bancarios"] = `BCO: ${element.banco} | AG: ${element.agencia} | CC: ${element.conta}`
+                element["bank_details"] = `BCO: ${element.bank} | AG: ${element.agency} | CC: ${element.account}`
             }
         }
 
@@ -62,8 +62,8 @@ export default function Employees() {
         onError: (error: AxiosError) => {
             let message = {
                 funcionario: "Funcionário",
-                filial: "Filial",
-                tipo_contrato: "Tipo Contrato",
+                branch: "Filial",
+                type_contract: "Tipo Contrato",
             }
 
             MainMessage.Error400(toaster, error, message)
@@ -84,10 +84,10 @@ export default function Employees() {
 
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nome": { dataKey: "nome", width: 300 },
-            "Filial": { dataKey: "filial.sigla", width: 120 },
+            "Nome": { dataKey: "name", width: 300 },
+            "Filial": { dataKey: "branch.abbreviation", width: 120 },
             "CNPJ": { dataKey: "cnpj", width: 150 },
-            "Dados Bancários": { dataKey: "dados_bancarios", width: 350 },
+            "Dados Bancários": { dataKey: "bank_details", width: 350 },
             "Editar": { dataKey: "button", width: 130, click: edit, icon: EditIcon }
         }
     }, [])

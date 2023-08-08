@@ -20,43 +20,43 @@ export interface ColumnsInterface {
 
 export interface PurchaseRequestInterface {
     id: number;
-    numero_solicitacao: number;
-    data_solicitacao_bo: string;
-    data_vencimento_boleto?: string;
-    data_conclusao_pedido?: string;
+    number_request: number;
+    date_request: string;
+    date_expiration?: string;
+    date_completion?: string;
     status: string;
-    departamento?: string;
-    categoria?: string;
-    forma_pagamento?: string;
-    pago: boolean;
-    observacao?: string;
-    anexo?: string;
-    filial: BranchesInterface;
-    solicitante?: UserInterface;
-    responsavel?: UserInterface;
-    autor: UserInterface;
-    ultima_atualizacao: UserInterface;
+    department?: string;
+    category?: string;
+    payment_method?: string;
+    paid: boolean;
+    observation?: string;
+    attachment?: string;
+    branch: BranchesInterface;
+    requester?: EmployeesSimpleInterface;
+    responsible?: EmployeesSimpleInterface;
+    author: EmployeesSimpleInterface;
+    latest_updater: EmployeesSimpleInterface;
 }
 
 export interface AnnotationInterface {
     id: number;
-    observacao: string;
-    arquivo_1?: string;
-    arquivo_2?: string;
-    arquivo_3?: string;
-    data_criacao: string;
-    solicitacao: SimplePurchaseRequestInterface;
-    autor?: UserInterface;
+    observation: string;
+    file_1?: string;
+    file_2?: string;
+    file_3?: string;
+    date_creation: string;
+    request: PurchaseRequestSimpleInterface;
+    author?: EmployeesSimpleInterface;
 }
 
-interface SimplePurchaseRequestInterface {
+interface PurchaseRequestSimpleInterface {
     id: number;
-    numero_solicitacao: number;
-    data_solicitacao_bo: string;
-    data_vencimento_boleto?: string;
-    data_conclusao_pedido?: string;
+    number_request: number;
+    date_request: string;
+    date_expiration?: string;
+    date_completion?: string;
     status: string;
-    observacao?: string;
+    observation?: string;
 }
 
 interface UserInterface {
@@ -66,25 +66,31 @@ interface UserInterface {
     is_active: boolean;
 }
 
+interface EmployeesSimpleInterface {
+    id: number,
+    name: string,
+    user: UserInterface,
+}
+
 interface BranchesInterface {
     id: number;
-    id_garagem: number;
-    sigla: string;
+    id_garage: number;
+    abbreviation: string;
 }
 
 export interface PalletControlInterface {
-    localizacao_atual: string;
+    current_location: string;
     CHEP: number;
     PBR: number;
     TOTAL: number;
 }
 
 export interface PalletMovementInterface {
-    origem: number | null;
-    destino: number | undefined;
-    quantidade_paletes: number | null;
-    tipo_palete: string | null;
-    placa_veiculo: string;
-    motorista: string;
-    conferente: string;
+    origin: number | null;
+    destiny: number | undefined;
+    quantity_pallets: number | null;
+    type_pallet: string | null;
+    vehicle_plate: string;
+    driver: string;
+    checker: string;
 }
