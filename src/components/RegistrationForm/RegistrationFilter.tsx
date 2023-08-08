@@ -1,21 +1,12 @@
-import { Col, Form, Input, InputPicker, Row, SelectPicker } from "rsuite"
+import { Col, Form, Input, Row, SelectPicker } from "rsuite"
+import { styles } from "../../assets/styles";
 
 import { useContext } from "react"
 
-import { BranchesChoices } from "../../services/Choices";
+import { BranchesChoices, TypeContractChoices } from "../../services/Choices";
 import { UserContext } from "../../providers/UserProviders";
 
 interface RegistrationFilterProps { }
-
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 300,
-        textTransform: 'uppercase'
-    },
-    row: {
-        marginBottom: 10,
-    },
-}
 
 
 export function RegistrationFilter({ }: RegistrationFilterProps) {
@@ -27,7 +18,7 @@ export function RegistrationFilter({ }: RegistrationFilterProps) {
                 <Col xs={12}>
                     <Form.Group >
                         <Form.ControlLabel>Funcionário: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="funcionario" data={userChoices} accepter={SelectPicker} />
+                        <Form.Control style={styles.input} name="id" data={userChoices} accepter={SelectPicker} />
                     </Form.Group>
                 </Col>
                 <Col xs={12}>
@@ -41,13 +32,13 @@ export function RegistrationFilter({ }: RegistrationFilterProps) {
                 <Col xs={12}>
                     <Form.Group >
                         <Form.ControlLabel>Filial: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="filial" data={BranchesChoices} accepter={SelectPicker} />
+                        <Form.Control style={styles.input} name="branch" data={BranchesChoices} accepter={SelectPicker} />
                     </Form.Group>
                 </Col>
                 <Col xs={12}>
                     <Form.Group >
                         <Form.ControlLabel>Tipo Contrato: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="tipo_contrato" data={BranchesChoices} accepter={InputPicker} />
+                        <Form.Control style={styles.input} name="type_contract" data={TypeContractChoices} accepter={SelectPicker} />
                     </Form.Group>
                 </Col>
             </Row>

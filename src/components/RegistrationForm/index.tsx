@@ -1,5 +1,4 @@
-import { RegistrationFilter } from "./RegistrationHeader";
-
+import { RegistrationFilter } from "./RegistrationFilter";
 
 
 export const RegistrationForm = {

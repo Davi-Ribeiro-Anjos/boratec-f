@@ -1,10 +1,12 @@
 import { ColumnProps } from "rsuite";
 
+// TOKEN
 export interface TokenInterface {
     accessToken: string | null;
     refreshToken: string | null;
 }
 
+// TABLE
 interface Column extends ColumnProps {
     dataKey: string;
     url?: string;
@@ -13,11 +15,12 @@ interface Column extends ColumnProps {
     auth?: string;
     click?: (rowData: any) => void;
 }
-
 export interface ColumnsInterface {
     [key: string]: Column;
 }
 
+
+// PURCHASES
 export interface PurchaseRequestInterface {
     id: number;
     number_request: number;
@@ -37,7 +40,15 @@ export interface PurchaseRequestInterface {
     author: EmployeesSimpleInterface;
     latest_updater: EmployeesSimpleInterface;
 }
-
+interface PurchaseRequestSimpleInterface {
+    id: number;
+    number_request: number;
+    date_request: string;
+    date_expiration?: string;
+    date_completion?: string;
+    status: string;
+    observation?: string;
+}
 export interface AnnotationInterface {
     id: number;
     observation: string;
@@ -49,15 +60,6 @@ export interface AnnotationInterface {
     author?: EmployeesSimpleInterface;
 }
 
-interface PurchaseRequestSimpleInterface {
-    id: number;
-    number_request: number;
-    date_request: string;
-    date_expiration?: string;
-    date_completion?: string;
-    status: string;
-    observation?: string;
-}
 
 interface UserInterface {
     id: number;
@@ -66,25 +68,49 @@ interface UserInterface {
     is_active: boolean;
 }
 
+
+// EMPLOYEES
+export interface EmployeesInterface {
+    id: number;
+    name: string;
+    cpf: string;
+    cnpj: string;
+    type_contract: string;
+    role: string;
+    bank: string;
+    agency: string;
+    account: string;
+    pix: string;
+    date_admission: string;
+    active: boolean;
+    branch: BranchesInterface;
+    pj_complements: number;
+    user: UserInterface;
+
+    cnpj_cpf: string;
+}
 interface EmployeesSimpleInterface {
     id: number,
     name: string,
     user: UserInterface,
 }
 
+
+// BRANCHES
 interface BranchesInterface {
     id: number;
     id_garage: number;
     abbreviation: string;
 }
 
+
+// PALLETS
 export interface PalletControlInterface {
     current_location: string;
     CHEP: number;
     PBR: number;
     TOTAL: number;
 }
-
 export interface PalletMovementInterface {
     origin: number | null;
     destiny: number | undefined;
