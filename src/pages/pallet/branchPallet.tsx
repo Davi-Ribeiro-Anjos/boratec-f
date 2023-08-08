@@ -14,7 +14,6 @@ import { PalletBranch } from "../../components/PalletBranch";
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
 import { MainMessage } from "../../components/Message";
-import { BranchConfirmTransfer } from "../../components/PalletBranch/BranchConfirmTransfer";
 import { DateToString } from "../../services/Date";
 
 interface Filter {
@@ -127,6 +126,7 @@ export default function BranchPallet() {
 
     return (
         <MainPanel.Root shaded>
+
             <MainPanel.Header title="Paletes Filiais">
                 <PalletBranch.Header />
             </MainPanel.Header>

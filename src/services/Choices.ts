@@ -81,3 +81,11 @@ export const CategoryChoices = [
     { label: "COTAÇÃO", value: "COTACAO" },
     { label: "NOTA FISCAL", value: "NOTA FISCAL" },
 ].map(item => ({ label: item.label, value: item.value }));
+
+export const CompanyChoices = [
+    { label: "BORA", value: "BORA" },
+    { label: "BORBON", value: "BORBON" },
+    { label: "JC", value: "JC" },
+    { label: "JSR", value: "JSR" },
+    { label: "TRANSFOOD", value: "TRANSFOOD" },
+].map(item => ({ label: item.label, value: item.value }));

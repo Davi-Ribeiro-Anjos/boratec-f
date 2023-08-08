@@ -18,7 +18,6 @@ const styles: { [key: string]: React.CSSProperties } = {
 }
 
 
-
 export function PurchaseRequestFilter({ }: PurchaseRequestFilterProps) {
     const { userChoices } = useContext<any>(UserContext)
 

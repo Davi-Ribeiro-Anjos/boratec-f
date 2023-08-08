@@ -29,9 +29,9 @@ export function MainHeader() {
                     <Nav.Item onClick={() => navigate("/compras/solicitacoes-compras")} eventKey="50">Solicitações Compras</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu title="Ferramentas RH">
-                    <Nav.Item onClick={() => navigate("/demissoes")} eventKey="60">Demissões</Nav.Item>
-                    <Nav.Item onClick={() => navigate("/funcionarios-pj")} eventKey="61">Funcionários PJ</Nav.Item>
-                    <Nav.Item onClick={() => navigate("/fichas-cadastrais")} eventKey="62">Fixa Cadastral</Nav.Item>
+                    <Nav.Item onClick={() => navigate("/rh/demissoes")} eventKey="60">Demissões</Nav.Item>
+                    <Nav.Item onClick={() => navigate("/rh/funcionarios-pj")} eventKey="61">Funcionários PJ</Nav.Item>
+                    <Nav.Item onClick={() => navigate("/rh/fichas-cadastrais")} eventKey="62">Ficha Cadastral</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu title="Comercial">
                     <Nav.Item onClick={() => navigate("/justificativa")} eventKey="70">Justificativa</Nav.Item>

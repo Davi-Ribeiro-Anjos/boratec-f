@@ -1,4 +1,4 @@
-export const StringToDate = (dateString: string | undefined, sum = false) => {
+export const StringToDate = (dateString: string, sum = false) => {
     if (!dateString) {
         return null;
     }
@@ -38,7 +38,7 @@ export const StringToDate = (dateString: string | undefined, sum = false) => {
     return new Date(finalDate)
 }
 
-export const DateToString = (date: Date | undefined, hour = false, pt = false) => {
+export const DateToString = (date: Date, hour = false, pt = false) => {
     if (!date) {
         return null;
     }

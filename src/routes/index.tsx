@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 import { getCookie } from "../services/Cookies.ts";
+import { Message, useToaster } from "rsuite";
 
 const Home = lazy(() => import("../pages/home.tsx"));
 const Login = lazy(() => import("../pages/Login/Login.tsx"));
@@ -10,20 +11,27 @@ const PurchaseRequests = lazy(() => import("../pages/Purchase/PurchaseRequests.t
 const BranchPallet = lazy(() => import("../pages/Pallet/BranchPallet.tsx"));
 const ClientPallet = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
 const Dismissal = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
-const RegistrationForm = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
-const Employee = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
+const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
+const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
 
 
 export function MainRoutes() {
     console.log("route")
 
     const navigate = useNavigate()
+    const toaster = useToaster()
 
     useEffect(() => {
         async function checkTokenAndNavigate() {
             const cookie = await getCookie("token_access");
             if (cookie === undefined) {
                 navigate("/login");
+                let message = (
+                    <Message showIcon type="info" closable >
+                        Sua sessão foi encerrada.
+                    </ Message>
+                )
+                toaster.push(message, { placement: "topEnd", duration: 4000 })
             }
         }
 
@@ -64,12 +72,12 @@ export function MainRoutes() {
             } />
             <Route path="/rh/fichas-cadastrais" element={
                 <Suspense>
-                    <RegistrationForm />
+                    <RegistrationsForms />
                 </Suspense>
             } />
             <Route path="/rh/funcionarios-pj" element={
                 <Suspense>
-                    <Employee />
+                    <Employees />
                 </Suspense>
             } />
         </Routes>
