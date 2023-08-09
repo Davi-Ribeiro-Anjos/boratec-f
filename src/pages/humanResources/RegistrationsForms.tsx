@@ -43,16 +43,16 @@ export default function RegistrationsForms() {
     const [filter, setFilter] = useState(initialFilter)
 
     const searchData = async () => {
-        if (filter.cnpj_cpf === "") filter.cnpj_cpf = null
+        let fil = { ...filter }
+        if (fil.cnpj_cpf === "") fil.cnpj_cpf = null
 
-        const response = await api.get<EmployeesInterface[]>("employees/", { params: { ...filter } })
+        const response = await api.get<EmployeesInterface[]>("employees/", { params: { ...fil } })
 
         let dataRes = response.data
         for (const line in dataRes) {
             if (Object.hasOwnProperty.call(dataRes, line)) {
                 const element = dataRes[line];
-
-                element.cnpj_cpf = element.cnpj !== "" ? element.cnpj : element.cpf
+                element.cnpj_cpf = Boolean(element.cnpj) == false ? element.cpf : element.cnpj
             }
         }
 
@@ -84,7 +84,7 @@ export default function RegistrationsForms() {
 
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nome": { dataKey: "name", width: 250 },
+            "Nome": { dataKey: "name", width: 300 },
             "Filial": { dataKey: "branch.abbreviation", width: 120 },
             "CNPJ/ CPF": { dataKey: "cnpj_cpf", width: 150 },
             "Tipo Contrato": { dataKey: "type_contract", width: 130 },

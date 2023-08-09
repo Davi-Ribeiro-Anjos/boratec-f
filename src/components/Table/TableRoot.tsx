@@ -22,7 +22,7 @@ export const TableRoot = memo(
         console.log("tabela")
 
         const [page, setPage] = useState<number>(1);
-        const limit = 20
+        const limit = 30
 
         const dataFiltered = data.filter((v: any, i: any) => {
             const start = limit * (page - 1);
