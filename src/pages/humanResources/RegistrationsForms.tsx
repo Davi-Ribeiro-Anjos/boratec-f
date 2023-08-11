@@ -33,15 +33,18 @@ const initialFilter: Filter = {
 
 
 export default function RegistrationsForms() {
-    console.log("ficha cadastral")
 
     const { token }: any = useContext(UserContext)
     const api = useApi(token)
     const toaster = useToaster()
 
-
+    // FILTER
     const [filter, setFilter] = useState(initialFilter)
+    const clear = () => {
+        setFilter(initialFilter)
+    }
 
+    // DATA
     const searchData = async () => {
         let fil = { ...filter }
         if (fil.cnpj_cpf === "") fil.cnpj_cpf = null
@@ -78,8 +81,30 @@ export default function RegistrationsForms() {
         enabled: false
     })
 
-    const clear = () => {
-        setFilter(initialFilter)
+    // TABLE
+    const [row, setRow] = useState<any>({})
+    const [openPJ, setOpenPJ] = useState(false)
+    const [openCLT, setOpenCLT] = useState(false)
+    const details = (rowData: EmployeesInterface) => {
+        if (rowData.type_contract === "CLT") setOpenCLT(true)
+        else setOpenPJ(true)
+
+        setRow(rowData)
+    }
+
+    const [openEPI, setOpenEPI] = useState(false)
+    const [dataEPI, setDataEPI] = useState<any>({})
+    const epis = async (rowData: EmployeesInterface) => {
+        setRow(rowData)
+        await getEPI(rowData.id)
+
+        setOpenEPI(true)
+    }
+
+    const getEPI = async (id: any) => {
+        await api.get(`employees-epis/${id}/`).then(response => {
+            setDataEPI(response.data)
+        })
     }
 
     const columns = useMemo<ColumnsInterface>(() => {
@@ -89,8 +114,8 @@ export default function RegistrationsForms() {
             "CNPJ/ CPF": { dataKey: "cnpj_cpf", width: 150 },
             "Tipo Contrato": { dataKey: "type_contract", width: 130 },
             "Documento": { dataKey: "link", width: 130, url: "", icon: PageIcon },
-            "EPI's": { dataKey: "button", width: 130, click: () => { }, icon: EditIcon, needAuth: false },
-            "Detalhes": { dataKey: "button", width: 130, click: () => { }, icon: ListIcon, needAuth: false }
+            "EPI's": { dataKey: "button", width: 130, click: epis, icon: EditIcon, needAuth: false },
+            "Detalhes": { dataKey: "button", width: 130, click: details, icon: ListIcon, needAuth: false }
         }
     }, [])
 
@@ -108,6 +133,9 @@ export default function RegistrationsForms() {
 
             <MainPanel.Body>
                 <MainTable.Root data={data ? data : []} isLoading={isLoading} columns={columns} />
+                <RegistrationForm.EPI row={row} data={dataEPI} setData={setDataEPI} open={openEPI} setOpen={setOpenEPI} />
+                <RegistrationForm.DetailCLT data={row} open={openCLT} setOpen={setOpenCLT} />
+                <RegistrationForm.DetailPJ data={row} open={openPJ} setOpen={setOpenPJ} />
             </MainPanel.Body>
         </MainPanel.Root>
     )

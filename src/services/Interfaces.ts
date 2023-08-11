@@ -73,16 +73,26 @@ interface UserInterface {
 export interface EmployeesInterface {
     id: number;
     name: string;
+    date_birth: string;
     cpf: string;
+    rg: string;
     cnpj: string;
     type_contract: string;
     role: string;
+    company: string;
+    street: string;
+    number: string;
+    complement: string;
+    cep: string;
+    district: string;
+    city: string;
+    uf: string;
     bank: string;
     agency: string;
     account: string;
     pix: string;
     date_admission: string;
-    active: boolean;
+    status: "ATIVO" | "DEMITIDO" | "AFASTADO";
     branch: BranchesInterface;
     pj_complements: number;
     user: UserInterface;
@@ -90,9 +100,17 @@ export interface EmployeesInterface {
     cnpj_cpf: string;
 }
 interface EmployeesSimpleInterface {
-    id: number,
-    name: string,
-    user: UserInterface,
+    id: number;
+    name: string;
+    user: UserInterface;
+}
+export interface EmployeesEPIsInterface {
+    id: number;
+    phone_model: string;
+    phone_code: string;
+    notebook_model: string;
+    notebook_code: string;
+    observation: string;
 }
 
 
