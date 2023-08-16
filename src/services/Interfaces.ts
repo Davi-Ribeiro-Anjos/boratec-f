@@ -99,7 +99,7 @@ export interface EmployeesInterface {
 
     cnpj_cpf: string;
 }
-interface EmployeesSimpleInterface {
+export interface EmployeesSimpleInterface {
     id: number;
     name: string;
     user: UserInterface;

@@ -28,95 +28,95 @@ export const RegistrationDetailCLT = memo(
                         <Row style={styles.row}>
                             <Col xs={8}>
                                 <label>Nome:</label>
-                                <Input style={styles.input} value={data.name} readOnly />
+                                <Input style={styles.input} value={data.name || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>CPF:</label>
-                                <Input style={styles.input} value={data.cpf} readOnly />
+                                <Input style={styles.input} value={data.cpf || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>RG:</label>
-                                <Input style={styles.input} value={data.rg} readOnly />
+                                <Input style={styles.input} value={data.rg || ""} readOnly />
                             </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col xs={8}>
                                 <label>Data Nascimento:</label>
-                                <Input style={styles.input} value={data.date_birth} readOnly />
+                                <Input style={styles.input} value={data.date_birth || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Data Admissão:</label>
-                                <Input style={styles.input} value={data.date_admission} readOnly />
+                                <Input style={styles.input} value={data.date_admission || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Tipo Cntrato:</label>
-                                <Input style={styles.input} value={data.type_contract} readOnly />
+                                <Input style={styles.input} value={data.type_contract || ""} readOnly />
                             </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col xs={8}>
                                 <label>Cargo:</label>
-                                <Input style={styles.input} value={data.role} readOnly />
+                                <Input style={styles.input} value={data.role || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Filial:</label>
-                                <Input style={styles.input} value={data.branch && data.branch.abbreviation} readOnly />
+                                <Input style={styles.input} value={data.branch && data.branch.abbreviation || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Empresa:</label>
-                                <Input style={styles.input} value={data.company} readOnly />
+                                <Input style={styles.input} value={data.company || ""} readOnly />
                             </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col xs={8}>
                                 <label>Rua:</label>
-                                <Input style={styles.input} value={data.street} readOnly />
+                                <Input style={styles.input} value={data.street || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Número:</label>
-                                <Input style={styles.input} value={data.number} readOnly />
+                                <Input style={styles.input} value={data.number || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Complemento:</label>
-                                <Input style={styles.input} value={data.complement} readOnly />
+                                <Input style={styles.input} value={data.complement || ""} readOnly />
                             </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col xs={8}>
                                 <label>CEP:</label>
-                                <Input style={styles.input} value={data.cep} readOnly />
+                                <Input style={styles.input} value={data.cep || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Bairro:</label>
-                                <Input style={styles.input} value={data.district} readOnly />
+                                <Input style={styles.input} value={data.district || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Cidade:</label>
-                                <Input style={styles.input} value={data.city} readOnly />
+                                <Input style={styles.input} value={data.city || ""} readOnly />
                             </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col xs={8}>
                                 <label>Banco:</label>
-                                <Input style={styles.input} value={data.bank} readOnly />
+                                <Input style={styles.input} value={data.bank || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Agência:</label>
-                                <Input style={styles.input} value={data.agency} readOnly />
+                                <Input style={styles.input} value={data.agency || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Conta:</label>
-                                <Input style={styles.input} value={data.account} readOnly />
+                                <Input style={styles.input} value={data.account || ""} readOnly />
                             </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col xs={8}>
                                 <label>Pix:</label>
-                                <Input style={styles.input} value={data.pix} readOnly />
+                                <Input style={styles.input} value={data.pix || ""} readOnly />
                             </Col>
                             <Col xs={8}>
                                 <label>Status:</label>
-                                <Input style={styles.input} value={data.status} readOnly />
+                                <Input style={styles.input} value={data.status || ""} readOnly />
                             </Col>
                         </Row>
                     </Grid>

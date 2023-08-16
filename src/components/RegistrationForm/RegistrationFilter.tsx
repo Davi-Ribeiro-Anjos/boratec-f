@@ -6,10 +6,39 @@ import { useContext } from "react"
 import { BranchesChoices, TypeContractChoices } from "../../services/Choices";
 import { UserContext } from "../../providers/UserProviders";
 
-interface RegistrationFilterProps { }
+interface RegistrationFilterProps {
+    cnpj_cpf: string;
+}
+
+const cnpjMask = (value: string) => {
+    return value
+        .replace(/\D+/g, "")
+        .replace(/(\d{2})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1/$2")
+        .replace(/(\d{4})(\d)/, "$1-$2")
+        .replace(/(-\d{2})\d+?$/, "$1")
+}
+
+const cpfMask = (value: string) => {
+    return value
+        .replace(/\D+/g, "")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1-$2")
+        .replace(/(-\d{2})\d+?$/, "$1")
+}
+
+const verifyMask = (value: string) => {
+    if (value.length < 15) {
+        return cpfMask(value)
+    } else {
+        return cnpjMask(value)
+    }
+}
 
 
-export function RegistrationFilter({ }: RegistrationFilterProps) {
+export function RegistrationFilter({ cnpj_cpf }: RegistrationFilterProps) {
     const { userChoices } = useContext<any>(UserContext)
 
     return (
@@ -24,7 +53,7 @@ export function RegistrationFilter({ }: RegistrationFilterProps) {
                 <Col xs={12}>
                     <Form.Group >
                         <Form.ControlLabel>CNPJ/ CPF: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="cnpj_cpf" data={userChoices} accepter={Input} />
+                        <Form.Control style={styles.input} name="cnpj_cpf" value={verifyMask(cnpj_cpf)} accepter={Input} />
                     </Form.Group>
                 </Col>
             </Row>

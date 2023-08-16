@@ -1,4 +1,4 @@
-import { useToaster } from "rsuite";
+import { Message, useToaster } from "rsuite";
 import ListIcon from "@rsuite/icons/List";
 import EditIcon from "@rsuite/icons/Edit";
 import PageIcon from "@rsuite/icons/Page";
@@ -11,14 +11,16 @@ import { ColumnsInterface, EmployeesInterface } from "../../services/Interfaces"
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
 import { UserContext } from "../../providers/UserProviders";
-import { useApi } from "../../hooks/Api";
+import { baseUrl, useApi } from "../../hooks/Api";
 import { RegistrationForm } from "../../components/RegistrationForm";
 import { AxiosError } from "axios";
 import { MainMessage } from "../../components/Message";
 
 interface Filter {
     id: number | null;
-    cnpj_cpf: string | null;
+    cnpj_cpf: any;
+    cnpj: string | null;
+    cpf: string | null;
     branch: number | null;
     type_contract: string | null;
 }
@@ -26,6 +28,8 @@ interface Filter {
 const initialFilter: Filter = {
     id: null,
     cnpj_cpf: "",
+    cnpj: null,
+    cpf: null,
     branch: null,
     type_contract: null,
 }
@@ -48,6 +52,26 @@ export default function RegistrationsForms() {
     const searchData = async () => {
         let fil = { ...filter }
         if (fil.cnpj_cpf === "") fil.cnpj_cpf = null
+        else {
+            fil.cnpj_cpf = fil.cnpj_cpf.replaceAll('.', '').replace('-', '').replace('/', '')
+            if (fil.cnpj_cpf.length === 15) fil.cnpj_cpf = fil.cnpj_cpf.slice(0, -1)
+            if (fil.cnpj_cpf.length !== 14 && fil.cnpj_cpf.length !== 11) {
+                let message = (
+                    <Message showIcon type="error" closable >
+                        Erro - Complete o campo CNPJ / CPF corretamente.
+                    </ Message>
+                )
+                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+            }
+
+            if (fil.cnpj_cpf.length === 11) {
+                fil.cpf = fil.cnpj_cpf
+            } else {
+                fil.cnpj = fil.cnpj_cpf
+            }
+
+            delete fil.cnpj_cpf
+        }
 
         const response = await api.get<EmployeesInterface[]>("employees/", { params: { ...fil } })
 
@@ -103,6 +127,11 @@ export default function RegistrationsForms() {
 
     const getEPI = async (id: any) => {
         await api.get(`employees-epis/${id}/`).then(response => {
+            let dataRes = response.data
+
+            if (dataRes.phone_code == null) dataRes.phone_code = ""
+            if (dataRes.notebook_code == null) dataRes.notebook_code = ""
+
             setDataEPI(response.data)
         })
     }
@@ -113,7 +142,7 @@ export default function RegistrationsForms() {
             "Filial": { dataKey: "branch.abbreviation", width: 120 },
             "CNPJ/ CPF": { dataKey: "cnpj_cpf", width: 150 },
             "Tipo Contrato": { dataKey: "type_contract", width: 130 },
-            "Documento": { dataKey: "link", width: 130, url: "", icon: PageIcon },
+            "Documento": { dataKey: "link", width: 130, url: `${baseUrl}/api/employees/document/`, icon: PageIcon },
             "EPI's": { dataKey: "button", width: 130, click: epis, icon: EditIcon, needAuth: false },
             "Detalhes": { dataKey: "button", width: 130, click: details, icon: ListIcon, needAuth: false }
         }
@@ -123,11 +152,11 @@ export default function RegistrationsForms() {
         <MainPanel.Root>
 
             <MainPanel.Header title="Ficha Cadastral">
-
+                <RegistrationForm.Header />
             </MainPanel.Header>
 
             <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch}>
-                <RegistrationForm.Filter />
+                <RegistrationForm.Filter cnpj_cpf={filter.cnpj_cpf} />
                 <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 
