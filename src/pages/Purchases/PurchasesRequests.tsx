@@ -34,7 +34,7 @@ const initialFilter = {
 }
 
 
-export default function PurchaseRequests() {
+export default function PurchasesRequests() {
     console.log("solicitacao compra")
 
     const { token }: any = useContext(UserContext)
