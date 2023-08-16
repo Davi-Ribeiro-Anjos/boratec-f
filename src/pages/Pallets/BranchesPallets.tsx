@@ -33,7 +33,7 @@ const initialFilter = {
 }
 
 
-export default function BranchPallet() {
+export default function BranchesPallets() {
     console.log("palete filial")
 
     const { token }: any = useContext(UserContext)

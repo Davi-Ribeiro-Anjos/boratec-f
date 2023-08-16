@@ -7,12 +7,12 @@ import { Message, useToaster } from "rsuite";
 
 const Home = lazy(() => import("../pages/home.tsx"));
 const Login = lazy(() => import("../pages/Login/Login.tsx"));
-const PurchaseRequests = lazy(() => import("../pages/Purchase/PurchaseRequests.tsx"));
-const BranchPallet = lazy(() => import("../pages/Pallet/BranchPallet.tsx"));
-const ClientPallet = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
-const Dismissal = lazy(() => import("../pages/Pallet/ClientPallet.tsx"));
+const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests.tsx"));
+const BranchesPallets = lazy(() => import("../pages/Pallets/BranchesPallets.tsx"));
+const ClientsPallets = lazy(() => import("../pages/Pallets/ClientsPallets.tsx"));
 const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
 const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
+const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
 
 
 export function MainRoutes() {
@@ -57,17 +57,12 @@ export function MainRoutes() {
             } />
             <Route path="/paletes/filiais" element={
                 <Suspense>
-                    <BranchPallet />
+                    <BranchesPallets />
                 </Suspense>
             } />
             <Route path="/paletes/clientes" element={
                 <Suspense>
-                    <ClientPallet />
-                </Suspense>
-            } />
-            <Route path="/rh/demissoes" element={
-                <Suspense>
-                    <Dismissal />
+                    <ClientsPallets />
                 </Suspense>
             } />
             <Route path="/rh/fichas-cadastrais" element={
@@ -78,6 +73,11 @@ export function MainRoutes() {
             <Route path="/rh/funcionarios-pj" element={
                 <Suspense>
                     <Employees />
+                </Suspense>
+            } />
+            <Route path="/consultas/nf" element={
+                <Suspense>
+                    <QueriesNFs />
                 </Suspense>
             } />
         </Routes>
