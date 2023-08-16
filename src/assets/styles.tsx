@@ -3,7 +3,7 @@ export const styles: { [key: string]: React.CSSProperties } = {
         marginBottom: 20,
     },
     input: {
-        width: 250,
+        width: 300,
         textTransform: 'uppercase'
     },
     row: {

@@ -1,56 +1,28 @@
-import { Col, Form, Input, InputPicker, Row, SelectPicker } from "rsuite"
+import { IconButton, Tooltip, Whisper } from "rsuite";
+import MinusIcon from '@rsuite/icons/Minus';
 
-import { useContext } from "react"
-
-import { BranchesChoices } from "../../services/Choices";
-import { UserContext } from "../../providers/UserProviders";
-
-interface RegistrationFilterProps { }
-
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 300,
-        textTransform: 'uppercase'
-    },
-    row: {
-        marginBottom: 10,
-    },
-}
+import { useState, memo } from "react";
+import { RegistrationForm } from ".";
+import { styles } from "../../assets/styles";
 
 
-export function RegistrationFilter({ }: RegistrationFilterProps) {
-    const { userChoices } = useContext<any>(UserContext)
+interface RegistrationHeaderProps { }
+
+
+export const RegistrationHeader = memo(function RegistrationHeader({ }: RegistrationHeaderProps) {
+    console.log("painel solicitacao compra")
+
+    const [open, setOpen] = useState(false)
+    const demissionModal = () => {
+        setOpen(true)
+    }
 
     return (
-        <>
-            <Row style={styles.row}>
-                <Col xs={12}>
-                    <Form.Group >
-                        <Form.ControlLabel>Funcionário: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="funcionario" data={userChoices} accepter={SelectPicker} />
-                    </Form.Group>
-                </Col>
-                <Col xs={12}>
-                    <Form.Group >
-                        <Form.ControlLabel>CNPJ/ CPF: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="cnpj_cpf" data={userChoices} accepter={Input} />
-                    </Form.Group>
-                </Col>
-            </Row>
-            <Row style={styles.row}>
-                <Col xs={12}>
-                    <Form.Group >
-                        <Form.ControlLabel>Filial: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="filial" data={BranchesChoices} accepter={SelectPicker} />
-                    </Form.Group>
-                </Col>
-                <Col xs={12}>
-                    <Form.Group >
-                        <Form.ControlLabel>Tipo Contrato: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="tipo_contrato" data={BranchesChoices} accepter={InputPicker} />
-                    </Form.Group>
-                </Col>
-            </Row>
-        </>
+        <div>
+            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Checar Demissão</Tooltip>}>
+                <IconButton icon={<MinusIcon />} appearance="primary" color="red" style={styles.iconButton} onClick={demissionModal} />
+            </Whisper>
+            <RegistrationForm.Dismissal open={open} setOpen={setOpen} />
+        </div>
     )
-}
+})

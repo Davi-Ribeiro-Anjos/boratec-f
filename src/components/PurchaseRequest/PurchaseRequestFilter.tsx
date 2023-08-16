@@ -41,7 +41,7 @@ export function PurchaseRequestFilter({ }: PurchaseRequestFilterProps) {
                 <Col xs={12}>
                     <Form.Group>
                         <Form.ControlLabel>Data Solicitação: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="data_solicitacao_bo" placeholder="Selecione a data Inicial e Final" accepter={DateRangePicker} />
+                        <Form.Control style={styles.input} name="data_solicitacao_bo" oneTap format='dd-MM-yyyy' placeholder="Selecione a data Inicial e Final" accepter={DateRangePicker} />
                     </Form.Group>
                 </Col>
                 <Col xs={12}>

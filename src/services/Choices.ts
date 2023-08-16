@@ -33,6 +33,11 @@ export const TypePalletChoices = [
     "PBR", "CHEP"
 ].map(item => ({ label: item, value: item }));
 
+// EMPLOYEES
+export const TypeContractChoices = [
+    "CLT", "PJ"
+].map(item => ({ label: item, value: item }));
+
 
 // PURCHASE REQUEST
 export const StatusChoices = [
