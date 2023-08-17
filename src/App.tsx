@@ -9,7 +9,7 @@ export function App() {
   console.log('app')
 
   return (
-    <CustomProvider theme="dark" locale={ptBr}>
+    <CustomProvider theme="light" locale={ptBr}>
       <MainHeader />
       <MainRoutes />
     </CustomProvider>

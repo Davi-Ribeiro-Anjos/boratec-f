@@ -19,11 +19,11 @@ export function MainHeader() {
                     Home
                 </Nav.Item>
                 {/* <Nav.Menu title="Portaria">
-                    <Nav.Item onClick={() => navigate("/paletes/filiais")} eventKey="20">Paletes Filiais</Nav.Item>
-                    <Nav.Item onClick={() => navigate("/paletes/clientes")} eventKey="21">Paletes Clientes</Nav.Item>
+                    <Nav.Item onClick={() => navigate("/paletes/filiais")} eventKey="30">Controle</Nav.Item>
                 </Nav.Menu> */}
                 <Nav.Menu title="Paletes">
-                    <Nav.Item onClick={() => navigate("/paletes/filiais")} eventKey="30">Controle</Nav.Item>
+                    <Nav.Item onClick={() => navigate("/paletes/filiais")} eventKey="30">Paletes Filiais</Nav.Item>
+                    <Nav.Item onClick={() => navigate("/paletes/clientes")} eventKey="31">Paletes Clientes</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu title="Frotas">
                     <Nav.Item onClick={() => navigate("/paletes/filiais")} eventKey="40">Disponibilidade Frota</Nav.Item>
