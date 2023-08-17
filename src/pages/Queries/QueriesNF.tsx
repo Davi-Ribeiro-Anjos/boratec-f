@@ -1,18 +1,16 @@
 import { Message, useToaster } from "rsuite";
 import DocPassIcon from '@rsuite/icons/DocPass';
+import DetailIcon from '@rsuite/icons/Detail';
 
 import { useContext, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
-import { ColumnsInterface, EmployeesInterface, QueryNFInterface } from "../../services/Interfaces";
+import { ColumnsInterface, QueryNFInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
 import { UserContext } from "../../providers/UserProviders";
-import { baseUrl, useApi } from "../../hooks/Api";
-import { RegistrationForm } from "../../components/RegistrationForm";
-import { AxiosError } from "axios";
-import { MainMessage } from "../../components/Message";
+import { useApi } from "../../hooks/Api";
 import { QueryNF } from "../../components/QueryNF";
 import { FormatDate } from "../../services/Date";
 
@@ -26,16 +24,17 @@ const initialFilter: Filter = {
 
 
 export default function QueriesNFs() {
-
     const { token }: any = useContext(UserContext)
     const api = useApi(token)
     const toaster = useToaster()
+
 
     // FILTER
     const [filter, setFilter] = useState(initialFilter)
     const clear = () => {
         setFilter(initialFilter)
     }
+
 
     // DATA
     const searchData = async () => {
@@ -52,7 +51,6 @@ export default function QueriesNFs() {
 
         return response.data
     }
-
     const { data, isLoading, refetch } = useQuery({
         queryKey: ["query-nf"],
         queryFn: searchData,
@@ -60,6 +58,8 @@ export default function QueriesNFs() {
         enabled: false
     })
 
+
+    // TABLE
     const [row, setRow] = useState<any>({})
     const [openOccurrence, setOpenOccurrence] = useState(false)
     const modalOccurrence = (rowData: QueryNFInterface) => {
@@ -73,14 +73,11 @@ export default function QueriesNFs() {
         setRow(rowData.occurrences)
         setOpenOccurrence(true)
     }
-
     const [openPacking, setOpenPacking] = useState(false)
     const modalPacking = (rowData: QueryNFInterface) => {
         setRow(rowData.packing_list)
         setOpenPacking(true)
     }
-
-
     const columns = useMemo<ColumnsInterface>(() => {
         return {
             "CTE": { dataKey: "knowledge", props: { width: 120 } },
@@ -91,10 +88,11 @@ export default function QueriesNFs() {
             "Previsão Entrega": { dataKey: "date_forecast", props: { width: 130 } },
             "Local Entrega": { dataKey: "delivery_location", props: { width: 130, fullText: true } },
             "Nota Fiscal": { dataKey: "nf", props: { width: 120 } },
-            "Ocorrências": { dataKey: "button", props: { width: 110 }, click: modalOccurrence, icon: DocPassIcon, needAuth: false },
+            "Ocorrências": { dataKey: "button", props: { width: 110 }, click: modalOccurrence, icon: DetailIcon, needAuth: false },
             "Romaneio": { dataKey: "button", props: { width: 110 }, click: modalPacking, icon: DocPassIcon, needAuth: false }
         }
     }, [])
+
 
     return (
         <MainPanel.Root>

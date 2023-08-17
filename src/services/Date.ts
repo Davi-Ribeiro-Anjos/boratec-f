@@ -81,13 +81,13 @@ export const FormatDate = (dateString: string) => {
         if (day < 10) {
             day = '0' + day
         }
-        modifiedDate = `${day}-${modifiedDate[1]}-${modifiedDate[0]}`
+        modifiedDate = `${day}/${modifiedDate[1]}/${modifiedDate[0]}`
     } else {
         day = parseInt(modifiedDate[0])
         if (day < 10) {
             day = '0' + day
         }
-        modifiedDate = `${day}-${modifiedDate[1]}-${modifiedDate[2]}`
+        modifiedDate = `${day}/${modifiedDate[1]}/${modifiedDate[2]}`
     }
     if (integralDate.length === 2) {
         modifiedDate = modifiedDate + ' ' + integralDate[1]

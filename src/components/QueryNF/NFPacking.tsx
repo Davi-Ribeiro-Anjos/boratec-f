@@ -2,11 +2,12 @@ import { Table } from "rsuite";
 
 import { memo } from "react";
 
+import { PackingListInterface } from "../../services/Interfaces";
+
 import { MainModal } from "../Modal";
-import { OccurrencesInterface } from "../../services/Interfaces";
 
 interface NFPackingProps {
-    row: OccurrencesInterface[];
+    row: PackingListInterface[];
     open: boolean;
     setOpen: (value: boolean) => void;
 }
@@ -16,10 +17,6 @@ const { Column, HeaderCell, Cell } = Table;
 
 export const NFPacking = memo(
     function NFPacking({ row, open, setOpen }: NFPackingProps) {
-        console.log("criar solicitacao compra")
-
-        console.log(row)
-
         const close = () => {
             setOpen(false);
         }
@@ -50,16 +47,16 @@ export const NFPacking = memo(
                             <HeaderCell>Placa Veículo</HeaderCell>
                             <Cell dataKey="plate" />
                         </Column>
-                        <Column width={120} align="center">
+                        <Column width={110} align="center">
                             <HeaderCell>Tipo Veículo</HeaderCell>
                             <Cell dataKey="type_vehicle" />
                         </Column>
-                        <Column width={200} align="center" fullText>
+                        <Column width={180} align="center" fullText>
                             <HeaderCell>Motorista</HeaderCell>
                             <Cell dataKey="driver" />
                         </Column>
-                        <Column width={150} align="center">
-                            <HeaderCell>Telefone</HeaderCell>
+                        <Column width={160} align="center">
+                            <HeaderCell>Telefone do Motorista</HeaderCell>
                             <Cell dataKey="phone" />
                         </Column>
                     </Table>

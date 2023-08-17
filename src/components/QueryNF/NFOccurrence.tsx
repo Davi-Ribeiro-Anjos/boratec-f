@@ -2,8 +2,9 @@ import { Table } from "rsuite";
 
 import { memo } from "react";
 
-import { MainModal } from "../Modal";
 import { OccurrencesInterface } from "../../services/Interfaces";
+
+import { MainModal } from "../Modal";
 
 interface NFOccurrenceProps {
     row: OccurrencesInterface[];
@@ -16,16 +17,12 @@ const { Column, HeaderCell, Cell } = Table;
 
 export const NFOccurrence = memo(
     function NFOccurrence({ row, open, setOpen }: NFOccurrenceProps) {
-        console.log("criar solicitacao compra")
-
-        console.log(row)
-
         const close = () => {
             setOpen(false);
         }
 
         return (
-            <MainModal.Root open={open} close={close} size="lg" overflow={false}>
+            <MainModal.Root open={open} close={close} size="sm" overflow={false}>
                 <MainModal.Header title="Lista de Ocorrências" />
                 <MainModal.Body>
                     <Table
@@ -34,11 +31,11 @@ export const NFOccurrence = memo(
                         cellBordered
                         autoHeight
                     >
-                        <Column flexGrow={2} align="center">
+                        <Column flexGrow={1} align="center">
                             <HeaderCell>Descrição da Ocorrência</HeaderCell>
                             <Cell dataKey="description_occurrence" />
                         </Column>
-                        <Column flexGrow={2} align="center">
+                        <Column flexGrow={1} align="center">
                             <HeaderCell>Data da Ocorrência</HeaderCell>
                             <Cell dataKey="date_occurrence" />
                         </Column>
