@@ -47,7 +47,7 @@ export default function QueriesNFs() {
             throw toaster.push(message, { placement: "topEnd", duration: 4000 })
         }
 
-        const response = await api.get(`deliveries-histories/queries-nf/${filter.nf}/`)
+        const response = await api.get(`deliveries-histories/nf/${filter.nf}/`)
 
         return response.data
     }
