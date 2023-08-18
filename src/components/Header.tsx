@@ -26,7 +26,7 @@ export function MainHeader() {
                     <Nav.Item onClick={() => navigate("/paletes/clientes")} eventKey="31">Paletes Clientes</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu title="Frotas">
-                    <Nav.Item onClick={() => navigate("/paletes/filiais")} eventKey="40">Disponibilidade Frota</Nav.Item>
+                    <Nav.Item onClick={() => navigate("/frotas/disponibilidades")} eventKey="40">Disponibilidade Frota</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu title="Compras">
                     <Nav.Item onClick={() => navigate("/compras/solicitacoes-compras")} eventKey="50">Solicitações Compras</Nav.Item>

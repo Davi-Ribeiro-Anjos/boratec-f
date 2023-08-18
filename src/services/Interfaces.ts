@@ -1,4 +1,4 @@
-import { ColumnProps } from "rsuite";
+import { ColumnProps, IconButtonProps } from "rsuite";
 
 // TOKEN
 export interface TokenInterface {
@@ -13,7 +13,8 @@ interface Column extends ColumnProps {
     needAuth?: boolean;
     icon?: any;
     auth?: string;
-    props?: ColumnProps;
+    propsColumn?: ColumnProps;
+    propsIcon?: IconButtonProps;
     click?: (rowData: any) => void;
 }
 export interface ColumnsInterface {

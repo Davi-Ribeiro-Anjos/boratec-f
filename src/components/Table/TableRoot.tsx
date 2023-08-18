@@ -42,7 +42,8 @@ export const TableRoot = memo(
                         Object.entries(columns).map((key, index) => {
                             const title = key[0]
                             const dataKey = key[1].dataKey
-                            const propsColumn = key[1].props
+                            const propsColumn = key[1].propsColumn
+                            const propsIcon = key[1].propsIcon
                             const click = key[1].click
                             const icon = key[1].icon
                             const url = key[1].url
@@ -74,7 +75,7 @@ export const TableRoot = memo(
                                         <HeaderCell>{title}</HeaderCell>
                                         <Cell style={{ padding: '6px' }}>
                                             {rowData => {
-                                                return <IconButton icon={<Icon as={icon} />} onClick={() => click(rowData)} />
+                                                return <IconButton {...propsIcon} icon={<Icon as={icon} />} onClick={() => click(rowData)} />
                                             }}
                                         </Cell>
                                     </Column>
@@ -85,7 +86,7 @@ export const TableRoot = memo(
                                         <Cell style={{ padding: '6px' }}>
                                             {rowData => {
                                                 return <a href={`${url}${rowData.id}/`} rel="noreferrer" target="_blank" >
-                                                    <IconButton icon={<Icon as={icon} />} />
+                                                    <IconButton {...propsIcon} icon={<Icon as={icon} />} />
                                                 </a>
                                             }}
                                         </Cell>
