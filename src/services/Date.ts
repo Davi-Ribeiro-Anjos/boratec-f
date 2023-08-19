@@ -63,3 +63,36 @@ export const DateToString = (date: Date, hour = false, pt = false) => {
 
     return formatDate
 }
+
+export const FormatDate = (dateString: string) => {
+
+    let day, modifiedDate, integralDate, date: any;
+
+    integralDate = dateString.split(' ')
+    date = integralDate[0]
+    modifiedDate = date.split('-')
+
+    if (modifiedDate.length < 3) {
+        modifiedDate = date.split('-')
+    }
+
+    if (modifiedDate[0].length === 4) {
+        day = parseInt(modifiedDate[2])
+        if (day < 10) {
+            day = '0' + day
+        }
+        modifiedDate = `${day}/${modifiedDate[1]}/${modifiedDate[0]}`
+    } else {
+        day = parseInt(modifiedDate[0])
+        if (day < 10) {
+            day = '0' + day
+        }
+        modifiedDate = `${day}/${modifiedDate[1]}/${modifiedDate[2]}`
+    }
+    if (integralDate.length === 2) {
+        modifiedDate = modifiedDate + ' ' + integralDate[1]
+    }
+
+    return modifiedDate
+
+}

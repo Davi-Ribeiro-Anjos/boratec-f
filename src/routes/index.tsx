@@ -7,10 +7,11 @@ import { Message, useToaster } from "rsuite";
 
 const Home = lazy(() => import("../pages/home.tsx"));
 const Login = lazy(() => import("../pages/Login/Login.tsx"));
-const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests.tsx"));
 const BranchesPallets = lazy(() => import("../pages/Pallets/BranchesPallets.tsx"));
 const ClientsPallets = lazy(() => import("../pages/Pallets/ClientsPallets.tsx"));
+const FleetsAvailabilities = lazy(() => import("../pages/Fleets/FleetsAvailabilities.tsx"));
 const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
+const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests.tsx"));
 const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
 const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
 
@@ -63,6 +64,11 @@ export function MainRoutes() {
             <Route path="/paletes/clientes" element={
                 <Suspense>
                     <ClientsPallets />
+                </Suspense>
+            } />
+            <Route path="/frotas/disponibilidades" element={
+                <Suspense>
+                    <FleetsAvailabilities />
                 </Suspense>
             } />
             <Route path="/rh/fichas-cadastrais" element={

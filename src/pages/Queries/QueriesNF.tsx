@@ -1,46 +1,33 @@
 import { Message, useToaster } from "rsuite";
-import ListIcon from "@rsuite/icons/List";
-import EditIcon from "@rsuite/icons/Edit";
-import PageIcon from "@rsuite/icons/Page";
+import DocPassIcon from '@rsuite/icons/DocPass';
+import DetailIcon from '@rsuite/icons/Detail';
 
 import { useContext, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
-import { ColumnsInterface, EmployeesInterface } from "../../services/Interfaces";
+import { ColumnsInterface, QueryNFInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
 import { UserContext } from "../../providers/UserProviders";
-import { baseUrl, useApi } from "../../hooks/Api";
-import { RegistrationForm } from "../../components/RegistrationForm";
-import { AxiosError } from "axios";
-import { MainMessage } from "../../components/Message";
+import { useApi } from "../../hooks/Api";
+import { QueryNF } from "../../components/QueryNF";
+import { FormatDate } from "../../services/Date";
 
 interface Filter {
-    id: number | null;
-    cnpj_cpf: any;
-    cnpj: string | null;
-    cpf: string | null;
-    branch: number | null;
-    type_contract: string | null;
+    nf: number | null;
 }
 
 const initialFilter: Filter = {
-    id: null,
-    cnpj_cpf: "",
-    cnpj: null,
-    cpf: null,
-    branch: null,
-    type_contract: null,
+    nf: null,
 }
 
 
-
 export default function QueriesNFs() {
-
     const { token }: any = useContext(UserContext)
     const api = useApi(token)
     const toaster = useToaster()
+
 
     // FILTER
     const [filter, setFilter] = useState(initialFilter)
@@ -48,33 +35,80 @@ export default function QueriesNFs() {
         setFilter(initialFilter)
     }
 
-    const refetch = () => { }
 
+    // DATA
+    const searchData = async () => {
+        if (filter.nf === null) {
+            let message = (
+                <Message showIcon type="error" closable >
+                    Erro - Preencha o campo Nota Fiscal.
+                </ Message>
+            )
+            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+        }
+
+        const response = await api.get(`deliveries-histories/nf/${filter.nf}/`)
+
+        return response.data
+    }
+    const { data, isLoading, refetch } = useQuery({
+        queryKey: ["query-nf"],
+        queryFn: searchData,
+        onError: () => { },
+        enabled: false
+    })
+
+
+    // TABLE
+    const [row, setRow] = useState<any>({})
+    const [openOccurrence, setOpenOccurrence] = useState(false)
+    const modalOccurrence = (rowData: QueryNFInterface) => {
+        for (const line in rowData.occurrences) {
+            if (Object.hasOwnProperty.call(rowData.occurrences, line)) {
+                const element = rowData.occurrences[line];
+                element.description_occurrence = element.description_occurrence.toUpperCase()
+                element.date_occurrence = FormatDate(element.date_occurrence)
+            }
+        }
+        setRow(rowData.occurrences)
+        setOpenOccurrence(true)
+    }
+    const [openPacking, setOpenPacking] = useState(false)
+    const modalPacking = (rowData: QueryNFInterface) => {
+        setRow(rowData.packing_list)
+        setOpenPacking(true)
+    }
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nome": { dataKey: "name", width: 300 },
-            "Filial": { dataKey: "branch.abbreviation", width: 120 },
-            "CNPJ/ CPF": { dataKey: "cnpj_cpf", width: 150 },
-            "Tipo Contrato": { dataKey: "type_contract", width: 130 },
-            "Documento": { dataKey: "link", width: 130, url: `${baseUrl}/api/employees/document/`, icon: PageIcon },
-            "EPI's": { dataKey: "button", width: 130, click: () => { }, icon: EditIcon, needAuth: false },
-            "Detalhes": { dataKey: "button", width: 130, click: () => { }, icon: ListIcon, needAuth: false }
+            "CTE": { dataKey: "knowledge", props: { width: 120 } },
+            "Data Emissão": { dataKey: "date_emission", props: { width: 120 } },
+            "Remetente": { dataKey: "sender", props: { width: 150, fullText: true } },
+            "Destinatário": { dataKey: "recipient", props: { width: 130, fullText: true } },
+            "Peso": { dataKey: "weight", props: { width: 100 } },
+            "Previsão Entrega": { dataKey: "date_forecast", props: { width: 130 } },
+            "Local Entrega": { dataKey: "delivery_location", props: { width: 130, fullText: true } },
+            "Nota Fiscal": { dataKey: "nf", props: { width: 120 } },
+            "Ocorrências": { dataKey: "button", props: { width: 110 }, click: modalOccurrence, icon: DetailIcon, needAuth: false },
+            "Romaneio": { dataKey: "button", props: { width: 110 }, click: modalPacking, icon: DocPassIcon, needAuth: false }
         }
     }, [])
+
 
     return (
         <MainPanel.Root>
 
             <MainPanel.Header title="Consulta NF">
-                <RegistrationForm.Header />
             </MainPanel.Header>
 
-            <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch}>
-                <RegistrationForm.Filter cnpj_cpf={filter.cnpj_cpf} />
+            <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >
+                <QueryNF.Filter />
                 <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 
             <MainPanel.Body>
+                <MainTable.Root data={data ? data : []} columns={columns} isLoading={isLoading} />
+                <QueryNF.Occurrence row={row} open={openOccurrence} setOpen={setOpenOccurrence} />
+                <QueryNF.Packing row={row} open={openPacking} setOpen={setOpenPacking} />
             </MainPanel.Body>
 
         </MainPanel.Root>

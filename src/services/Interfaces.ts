@@ -1,4 +1,4 @@
-import { ColumnProps } from "rsuite";
+import { ColumnProps, IconButtonProps } from "rsuite";
 
 // TOKEN
 export interface TokenInterface {
@@ -13,6 +13,8 @@ interface Column extends ColumnProps {
     needAuth?: boolean;
     icon?: any;
     auth?: string;
+    propsColumn?: ColumnProps;
+    propsIcon?: IconButtonProps;
     click?: (rowData: any) => void;
 }
 export interface ColumnsInterface {
@@ -61,6 +63,7 @@ export interface AnnotationInterface {
 }
 
 
+// USER
 interface UserInterface {
     id: number;
     username: string;
@@ -137,4 +140,37 @@ export interface PalletMovementInterface {
     vehicle_plate: string;
     driver: string;
     checker: string;
+}
+
+// DELIVERY HISTORY
+export interface QueryNFInterface {
+    garage: number;
+    knowledge: number;
+    date_emission: string;
+    sender: string;
+    recipient: string;
+    weight: Float32Array;
+    date_forecast: string;
+    delivery_location: string;
+    nf: string;
+    occurrences: OccurrencesInterface[];
+    packing_list: PackingListInterface[];
+}
+
+export interface OccurrencesInterface {
+    date_occurrence: string;
+    description_occurrence: string;
+}
+
+export interface PackingListInterface {
+    packing_list: number;
+    delivery_type: string;
+    plate: string;
+    date_exit: string;
+    driver: string;
+    phone: string;
+    garage: number;
+    knowledge: number;
+    type_vehicle: string;
+    nf: string;
 }
