@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../hooks/Api";
 import { getCookie } from "../services/Cookies";
-import { TokenInterface } from "../services/Interfaces";
+import { MeInterface, TokenInterface } from "../services/Interfaces";
+
+import jwt_decode from "jwt-decode";
 
 interface UserProviderProps {
     children: ReactNode;
@@ -29,16 +31,26 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     const navigate = useNavigate()
 
+
+    const [me, setMe] = useState<any>()
     const [userChoices, setUserChoices] = useState<UserChoices[]>([])
     const [token, setToken] = useState<TokenInterface>({
         accessToken: getCookie("token_access"),
         refreshToken: getCookie("token_refresh")
     })
 
-    const api = useApi(token)
+    console.log(me)
+
+    const api = useApi()
 
     useEffect(() => {
         refetch()
+
+        if (getCookie("token_access")) {
+            const access: any = jwt_decode(getCookie("token_access") || "")
+
+            setMe(access.employee)
+        }
     }, []);
 
     const getUsers = async () => {
@@ -65,7 +77,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     })
 
     return (
-        <UserContext.Provider value={{ userChoices, token, setToken }}>
+        <UserContext.Provider value={{ me, setMe, userChoices, token, setToken }}>
             {children}
         </UserContext.Provider>
     );

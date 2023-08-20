@@ -4,14 +4,16 @@ import { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 
+import jwt_decode from "jwt-decode";
+
+import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
 import { MainMessage } from "../../components/Message";
 import { getCookie, setCookie } from "../../services/Cookies";
 import { UserContext } from "../../providers/UserProviders";
-import { AxiosError, AxiosResponse } from "axios";
 
 interface Token {
-    access: string;
+    access: any;
     refresh: string;
 }
 
@@ -19,7 +21,7 @@ interface Token {
 export default function Login() {
     console.log("login");
 
-    const { setToken }: any = useContext(UserContext)
+    const { setMe, setToken }: any = useContext(UserContext)
 
     const api = useApi()
     const toaster = useToaster()
@@ -39,6 +41,11 @@ export default function Login() {
         onSuccess: (res: AxiosResponse<Token>) => {
             const data = res.data
 
+            const access: any = jwt_decode(data.access)
+            setMe(access?.employee)
+            sessionStorage.setItem("me", access?.employee)
+
+            setCookie("me", access?.employee, 1)
             setCookie("token_access", data.access, 1)
             setCookie("token_refresh", data.refresh, 1)
 
