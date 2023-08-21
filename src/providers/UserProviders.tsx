@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../hooks/Api";
 import { getCookie } from "../services/Cookies";
-import { MeInterface, TokenInterface } from "../services/Interfaces";
+import { MeInterface } from "../services/Interfaces";
 
 import jwt_decode from "jwt-decode";
 
@@ -33,10 +33,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     const [me, setMe] = useState<MeInterface>()
     const [userChoices, setUserChoices] = useState<UserChoices[]>([])
-    // const [token, setToken] = useState<TokenInterface>({
-    //     accessToken: getCookie("token_access"),
-    //     refreshToken: getCookie("token_refresh")
-    // })
 
     console.log(me)
 
@@ -107,7 +103,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     })
 
     return (
-        // <UserContext.Provider value={{ me, setMe, userChoices, token, setToken }}>
         <UserContext.Provider value={{ me, setMe, userChoices, verifyPermission }}>
             {children}
         </UserContext.Provider>

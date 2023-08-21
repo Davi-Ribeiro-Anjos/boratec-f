@@ -9,7 +9,7 @@ import jwt_decode from "jwt-decode";
 import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
 import { MainMessage } from "../../components/Message";
-import { getCookie, setCookie } from "../../services/Cookies";
+import { setCookie } from "../../services/Cookies";
 import { UserContext } from "../../providers/UserProviders";
 
 interface Token {
@@ -21,7 +21,7 @@ interface Token {
 export default function Login() {
     console.log("login");
 
-    const { setMe, setToken }: any = useContext(UserContext)
+    const { setMe }: any = useContext(UserContext)
 
     const api = useApi()
     const toaster = useToaster()
@@ -46,11 +46,6 @@ export default function Login() {
 
             setCookie("token_access", data.access, 1)
             setCookie("token_refresh", data.refresh, 1)
-
-            // setToken({
-            //     accessToken: getCookie("token_access"),
-            //     refreshToken: getCookie("token_refresh")
-            // })
 
             navigate("/")
         },
