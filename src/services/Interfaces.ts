@@ -5,6 +5,16 @@ export interface TokenInterface {
     accessToken: string | null;
     refreshToken: string | null;
 }
+export interface MeInterface {
+    id: number;
+    username: string;
+    first_name: string;
+    last_name: string;
+    groups: string[];
+    email: string;
+    is_staff: boolean;
+    is_superuser: boolean;
+}
 
 // TABLE
 interface Column extends ColumnProps {
