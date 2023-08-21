@@ -43,16 +43,14 @@ export default function Login() {
 
             const access: any = jwt_decode(data.access)
             setMe(access?.employee)
-            sessionStorage.setItem("me", access?.employee)
 
-            setCookie("me", access?.employee, 1)
             setCookie("token_access", data.access, 1)
             setCookie("token_refresh", data.refresh, 1)
 
-            setToken({
-                accessToken: getCookie("token_access"),
-                refreshToken: getCookie("token_refresh")
-            })
+            // setToken({
+            //     accessToken: getCookie("token_access"),
+            //     refreshToken: getCookie("token_refresh")
+            // })
 
             navigate("/")
         },

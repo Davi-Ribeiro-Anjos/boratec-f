@@ -10,10 +10,13 @@ export interface MeInterface {
     username: string;
     first_name: string;
     last_name: string;
-    groups: string[];
+    groups: Groups[];
     email: string;
     is_staff: boolean;
     is_superuser: boolean;
+}
+interface Groups {
+    name: string;
 }
 
 // TABLE

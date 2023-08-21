@@ -1,9 +1,10 @@
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 import { getCookie } from "../services/Cookies.ts";
 import { Message, useToaster } from "rsuite";
+import { UserContext } from "../providers/UserProviders.tsx";
 
 const Home = lazy(() => import("../pages/home.tsx"));
 const Login = lazy(() => import("../pages/Login/Login.tsx"));
@@ -14,30 +15,16 @@ const RegistrationsForms = lazy(() => import("../pages/HumanResources/Registrati
 const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests.tsx"));
 const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
 const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
+const Error404 = lazy(() => import("../pages/Errors/Error404.tsx"));
+const Error403 = lazy(() => import("../pages/Errors/Error403.tsx"));
 
 
 export function MainRoutes() {
     console.log("route")
 
+    const { verifyPermission }: any = useContext(UserContext)
     const navigate = useNavigate()
     const toaster = useToaster()
-
-    useEffect(() => {
-        async function checkTokenAndNavigate() {
-            const cookie = await getCookie("token_access");
-            if (cookie === undefined) {
-                navigate("/login");
-                let message = (
-                    <Message showIcon type="info" closable >
-                        Sua sessão foi encerrada.
-                    </ Message>
-                )
-                toaster.push(message, { placement: "topEnd", duration: 4000 })
-            }
-        }
-
-        checkTokenAndNavigate();
-    }, [])
 
     return (
         <Routes>
@@ -52,38 +39,90 @@ export function MainRoutes() {
                 </Suspense>
             } />
             <Route path="/compras/solicitacoes-compras" element={
-                <Suspense>
-                    <PurchaseRequests />
-                </Suspense>
+                verifyPermission("purchase_request") ? (
+                    <Suspense>
+                        <PurchaseRequests />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
             <Route path="/paletes/filiais" element={
-                <Suspense>
-                    <BranchesPallets />
-                </Suspense>
+                verifyPermission("pallet_branch") ? (
+                    <Suspense>
+                        <BranchesPallets />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
             <Route path="/paletes/clientes" element={
-                <Suspense>
-                    <ClientsPallets />
-                </Suspense>
+                verifyPermission("pallet_client") ? (
+                    <Suspense>
+                        <ClientsPallets />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
             <Route path="/frotas/disponibilidades" element={
-                <Suspense>
-                    <FleetsAvailabilities />
-                </Suspense>
+                verifyPermission("fleet_availability") ? (
+                    <Suspense>
+                        <FleetsAvailabilities />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
             <Route path="/rh/fichas-cadastrais" element={
-                <Suspense>
-                    <RegistrationsForms />
-                </Suspense>
+                verifyPermission("employee") ? (
+                    <Suspense>
+                        <RegistrationsForms />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
             <Route path="/rh/funcionarios-pj" element={
-                <Suspense>
-                    <Employees />
-                </Suspense>
+                verifyPermission("employee") ? (
+                    <Suspense>
+                        <Employees />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
             <Route path="/consultas/nf" element={
+                verifyPermission("nf") ? (
+                    <Suspense>
+                        <QueriesNFs />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
+            } />
+            <Route path="/sem-permissao" element={
                 <Suspense>
-                    <QueriesNFs />
+                    <Error403 />
+                </Suspense>
+            } />
+            <Route path="*" element={
+                <Suspense>
+                    <Error404 />
                 </Suspense>
             } />
         </Routes>

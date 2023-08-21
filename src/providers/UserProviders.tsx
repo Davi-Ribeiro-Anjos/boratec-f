@@ -31,27 +31,57 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     const navigate = useNavigate()
 
-
-    const [me, setMe] = useState<any>()
+    const [me, setMe] = useState<MeInterface>()
     const [userChoices, setUserChoices] = useState<UserChoices[]>([])
-    const [token, setToken] = useState<TokenInterface>({
-        accessToken: getCookie("token_access"),
-        refreshToken: getCookie("token_refresh")
-    })
+    // const [token, setToken] = useState<TokenInterface>({
+    //     accessToken: getCookie("token_access"),
+    //     refreshToken: getCookie("token_refresh")
+    // })
 
     console.log(me)
 
     const api = useApi()
 
     useEffect(() => {
-        refetch()
+        if (me) refetch()
 
-        if (getCookie("token_access")) {
-            const access: any = jwt_decode(getCookie("token_access") || "")
+        let token: string | null
+
+        try {
+            token = getCookie("token_access")
+        } catch (error) {
+            token = null
+        }
+
+        if (token) {
+            const access: any = jwt_decode(token || "")
 
             setMe(access.employee)
         }
     }, []);
+
+    const getPermissions = () => {
+        let listPermission: string[] = []
+
+        if (me) {
+            for (const key in me.groups) {
+                if (Object.prototype.hasOwnProperty.call(me.groups, key)) {
+                    const permission = me.groups[key];
+                    listPermission.push(permission.name)
+                }
+            }
+        }
+
+        return listPermission
+    }
+
+    const myPermissions = getPermissions()
+
+    const verifyPermission = (name: string): boolean => {
+        if (me) return (myPermissions.includes(name) || me.is_staff || me.is_superuser)
+
+        return false
+    }
 
     const getUsers = async () => {
         return await api.get('employees/choices/')
@@ -77,7 +107,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     })
 
     return (
-        <UserContext.Provider value={{ me, setMe, userChoices, token, setToken }}>
+        // <UserContext.Provider value={{ me, setMe, userChoices, token, setToken }}>
+        <UserContext.Provider value={{ me, setMe, userChoices, verifyPermission }}>
             {children}
         </UserContext.Provider>
     );
