@@ -18,10 +18,10 @@ interface ClientExitProps {
 }
 
 interface Exit {
-    filial__id: number | null,
-    tipo_palete: string | null,
-    quantidade_paletes: number | null,
-    cliente__id: number | null,
+    branch__id: number | null,
+    type_pallet: string | null,
+    quantity_pallets: number | null,
+    client__id: number | null,
 }
 
 const styles: { [key: string]: React.CSSProperties } = {
@@ -39,15 +39,15 @@ export const ClientExit = memo(
     function ClientExit({ open, setOpen }: ClientExitProps) {
 
 
-        const { token }: any = useContext(UserContext)
-        const api = useApi(token)
+        const { }: any = useContext(UserContext)
+        const api = useApi()
         const toaster = useToaster()
 
         const [data, setData] = useState<Exit>({
-            filial__id: null,
-            tipo_palete: null,
-            quantidade_paletes: null,
-            cliente__id: null,
+            branch__id: null,
+            type_pallet: null,
+            quantity_pallets: null,
+            client__id: null,
         })
 
         const ClientsChoices = queryClient.getQueryData<any>(["get-client"])
@@ -55,9 +55,9 @@ export const ClientExit = memo(
         const send = async () => {
             let form = { ...data }
 
-            if (form.quantidade_paletes) form.quantidade_paletes = form.quantidade_paletes * -1
+            if (form.quantity_pallets) form.quantity_pallets = form.quantity_pallets * -1
 
-            return await api.patch('clientes/', form)
+            return await api.patch('clients/', form)
         }
 
         const { mutate } = useMutation({
@@ -76,10 +76,10 @@ export const ClientExit = memo(
             setOpen(false)
 
             setData({
-                filial__id: null,
-                tipo_palete: null,
-                quantidade_paletes: null,
-                cliente__id: null,
+                branch__id: null,
+                type_pallet: null,
+                quantity_pallets: null,
+                client__id: null,
             })
         }
 
@@ -91,14 +91,14 @@ export const ClientExit = memo(
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="filial__id" data={BranchesChoices} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="branch__id" data={BranchesChoices} accepter={SelectPicker} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Tipo Palete:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="tipo_palete" data={TypePalletChoices} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="type_pallet" data={TypePalletChoices} accepter={SelectPicker} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
@@ -107,14 +107,14 @@ export const ClientExit = memo(
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Razão Social/ Motorista:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="cliente__id" data={ClientsChoices} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="client__id" data={ClientsChoices} accepter={SelectPicker} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Quantidade Paletes:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="quantidade_paletes" accepter={InputNumber} />
+                                <Form.Control style={styles.input} name="quantity_pallets" accepter={InputNumber} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>

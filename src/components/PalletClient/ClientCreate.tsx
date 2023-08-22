@@ -1,4 +1,5 @@
 import { Button, ButtonGroup, ButtonToolbar, Col, Form, Input, Row, useToaster } from "rsuite";
+import { styles } from "../../assets/styles";
 
 import { memo, useState, useContext, forwardRef } from "react"
 import { useMutation } from "react-query";
@@ -17,11 +18,11 @@ interface ClientCreateProps {
 }
 
 interface Client {
-    tipo_cadastro: string | null,
-    razao_social_motorista: string | null,
-    cnpj_cpf: any,
-    observacao: string,
-    autor: number
+    type_registration: string | null,
+    name: string | null,
+    document: any,
+    observation: string,
+    author: number
 }
 
 interface GroupButtonProps {
@@ -62,25 +63,11 @@ const cpfMask = (value: string) => {
 }
 
 
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 250,
-        textTransform: "uppercase"
-    },
-    row: {
-        marginBottom: 10,
-    },
-    observation: {
-        textTransform: "uppercase"
-    }
-}
-
-
 export const ClientCreate = memo(
     function ClientCreate({ open, setOpen }: ClientCreateProps) {
 
-        const { token }: any = useContext(UserContext)
-        const api = useApi(token)
+        const { me }: any = useContext(UserContext)
+        const api = useApi()
         const toaster = useToaster()
 
         // CLIENT
@@ -93,28 +80,28 @@ export const ClientCreate = memo(
 
 
         const [data, setData] = useState<Client>({
-            tipo_cadastro: null,
-            razao_social_motorista: "",
-            cnpj_cpf: "",
-            observacao: "",
-            autor: 1
+            type_registration: null,
+            name: "",
+            document: "",
+            observation: "",
+            author: me.id
         })
 
         const send = async () => {
             const form = { ...data }
 
-            if (form.razao_social_motorista) form.razao_social_motorista = form.razao_social_motorista.toUpperCase()
-            if (form.observacao) form.observacao = form.observacao.toUpperCase()
-            if (form.cnpj_cpf) form.cnpj_cpf = form.cnpj_cpf.replaceAll(".", "").replace("-", "").replace("/", "").slice(0, -1)
+            if (form.name) form.name = form.name.toUpperCase()
+            if (form.observation) form.observation = form.observation.toUpperCase()
+            if (form.document) form.document = form.document.replaceAll(".", "").replace("-", "").replace("/", "").slice(0, -1)
             if (selected) {
                 if (isClient) {
-                    form.tipo_cadastro = "CLIENTE"
+                    form.type_registration = "CLIENTE"
                 } else {
-                    form.tipo_cadastro = "MOTORISTA"
+                    form.type_registration = "MOTORISTA"
                 }
             }
 
-            return await api.post("clientes/", form)
+            return await api.post("clients/", form)
         }
 
         const { mutate } = useMutation({
@@ -128,9 +115,9 @@ export const ClientCreate = memo(
                 close()
             },
             onError: (error: AxiosError<any>) => {
-                if (error.response?.data.tipo_cadastro) delete error.response?.data.tipo_cadastro
+                if (error.response?.data.type_registration) delete error.response?.data.type_registration
                 let message = {
-                    razao_social_motorista: selected ? (isClient ? "Razão Social" : "Motorista") : "Tipo Cliente"
+                    name: selected ? (isClient ? "Razão Social" : "Motorista") : "Tipo Cliente"
                 }
 
                 MainMessage.Error400(toaster, error, message)
@@ -145,11 +132,11 @@ export const ClientCreate = memo(
             setIsClient(false)
 
             setData({
-                tipo_cadastro: null,
-                razao_social_motorista: null,
-                cnpj_cpf: "",
-                observacao: "",
-                autor: 1
+                type_registration: null,
+                name: null,
+                document: "",
+                observation: "",
+                author: me.id
             })
         }
 
@@ -171,14 +158,14 @@ export const ClientCreate = memo(
                             <Col xs={12}>
                                 <Form.Group>
                                     <Form.ControlLabel>{isClient ? "Razão Social" : "Motorista"}:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} value={data.razao_social_motorista} name="razao_social_motorista" accepter={Input} />
+                                    <Form.Control style={styles.input} name="name" accepter={Input} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group>
                                     <Form.ControlLabel>{isClient ? "CNPJ" : "CPF"}:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} value={isClient ? cnpjMask(data.cnpj_cpf) : cpfMask(data.cnpj_cpf)} onChange={(value) => setData({ ...data, cnpj_cpf: value })} name="cnpj_cpf" accepter={Input} />
+                                    <Form.Control style={styles.input} value={isClient ? cnpjMask(data.document) : cpfMask(data.document)} onChange={(value) => setData({ ...data, document: value })} name="document" accepter={Input} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
@@ -188,7 +175,7 @@ export const ClientCreate = memo(
                         <Col xs={24}>
                             <Form.Group >
                                 <Form.ControlLabel>Observação:</Form.ControlLabel>
-                                <Form.Control style={styles.observation} rows={5} name="observacao" value={data.observacao} accepter={Textarea} />
+                                <Form.Control style={styles.observation} rows={5} name="observation" accepter={Textarea} />
                             </Form.Group>
                         </Col>
                     </Row>
