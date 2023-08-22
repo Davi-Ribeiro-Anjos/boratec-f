@@ -1,17 +1,19 @@
 import { Button, ButtonGroup, ButtonToolbar, Col, Form, Grid, Input, InputNumber, Row, SelectPicker, useToaster } from "rsuite"
 
 import { useState, memo, useContext } from "react"
+import { styles } from "../../assets/styles";
 
-import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
+import { useMutation } from "react-query";
+
+import { AxiosError, AxiosResponse } from "axios";
+import { useApi } from "../../hooks/Api";
+import { queryClient } from "../../services/QueryClient";
 import { PalletMovementInterface } from "../../services/Interfaces";
+import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
+import { UserContext } from "../../providers/UserProviders";
 
 import { MainModal } from "../Modal";
-import { useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
-import { useMutation } from "react-query";
 import { MainMessage } from "../Message";
-import { queryClient } from "../../services/QueryClient";
-import { AxiosError, AxiosResponse } from "axios";
 
 interface GroupButtonProps {
     showSimple: () => void;
@@ -34,31 +36,21 @@ const GroupButton = ({ showSimple, showCompound }: GroupButtonProps) => {
     )
 }
 
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 250,
-        textTransform: 'uppercase'
-    },
-    row: {
-        marginBottom: 10,
-    },
-}
-
 
 export const BranchCreateTransfer = memo(
     function BranchCreateTransfer({ open, setOpen }: BranchCreateTransferProps) {
 
-        const { token }: any = useContext(UserContext)
-        const api = useApi(token)
+        const { me }: any = useContext(UserContext)
+        const api = useApi()
         const toaster = useToaster()
 
         const [form, setForm] = useState<any>({
-            origem: null,
+            origin: null,
             destinies: [0],
-            tipo_palete: null,
-            placa_veiculo: '',
-            motorista: '',
-            conferente: ''
+            type_pallet: null,
+            vehicle_plate: '',
+            driver: '',
+            checker: ''
         })
 
         // DESTINY
@@ -84,21 +76,21 @@ export const BranchCreateTransfer = memo(
                     const quantityPallets = form[`quantityPallets-${index}`]
 
                     const newForm = {
-                        origem: form.origem,
-                        tipo_palete: form.tipo_palete,
-                        destino: destiny,
-                        quantidade_paletes: quantityPallets,
-                        placa_veiculo: form.placa_veiculo.toUpperCase(),
-                        motorista: form.motorista.toUpperCase(),
-                        conferente: form.conferente.toUpperCase(),
-                        autor: 1
+                        origin: form.origin,
+                        type_pallet: form.type_pallet,
+                        destiny: destiny,
+                        quantity_pallets: quantityPallets,
+                        vehicle_plate: form.vehicle_plate.toUpperCase(),
+                        driver: form.driver.toUpperCase(),
+                        checker: form.checker.toUpperCase(),
+                        author: me.id
                     }
 
                     listForm.push(newForm)
                 }
             }
 
-            return await api.post<PalletMovementInterface[]>('paletes-movimentos/', listForm)
+            return await api.post<PalletMovementInterface[]>('pallets-movements/', listForm)
         }
 
         const { mutate } = useMutation({
@@ -121,12 +113,12 @@ export const BranchCreateTransfer = memo(
             },
             onError: (error: AxiosError) => {
                 let message = {
-                    conferente: "Conferente",
-                    destino: "Destino",
-                    motorista: "Motorista",
-                    origem: "Origem",
-                    placa_veiculo: "Placa Veiculo",
-                    quantidade_paletes: "Quantidade Paletes",
+                    checker: "Conferente",
+                    destiny: "Destino",
+                    driver: "Motorista",
+                    origin: "Origem",
+                    vehicle_plate: "Placa Veiculo",
+                    quantity_pallets: "Quantidade Paletes",
                     error: "Erro"
                 }
 
@@ -142,12 +134,12 @@ export const BranchCreateTransfer = memo(
             setCompound(false)
 
             setForm({
-                origem: null,
+                origin: null,
                 destinies: [0],
-                tipo_palete: null,
-                placa_veiculo: '',
-                motorista: '',
-                conferente: ''
+                type_pallet: null,
+                vehicle_plate: '',
+                driver: '',
+                checker: ''
             })
         }
 
@@ -160,14 +152,14 @@ export const BranchCreateTransfer = memo(
                             <Col xs={12}>
                                 <Form.Group>
                                     <Form.ControlLabel>Origem:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="origem" data={BranchesChoices} accepter={SelectPicker} />
+                                    <Form.Control style={styles.input} name="origin" data={BranchesChoices} accepter={SelectPicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group>
                                     <Form.ControlLabel>Tipo Palete:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="tipo_palete" data={TypePalletChoices} accepter={SelectPicker} />
+                                    <Form.Control style={styles.input} name="type_pallet" data={TypePalletChoices} accepter={SelectPicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
@@ -187,7 +179,7 @@ export const BranchCreateTransfer = memo(
                                 <Col xs={12}>
                                     <Form.Group>
                                         <Form.ControlLabel>Destino:</Form.ControlLabel>
-                                        <Form.Control style={styles.input} name="destiny-0" data={BranchesChoices} disabledItemValues={[form.origem]} accepter={SelectPicker} />
+                                        <Form.Control style={styles.input} name="destiny-0" data={BranchesChoices} disabledItemValues={[form.origin]} accepter={SelectPicker} />
                                         <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                     </Form.Group>
                                 </Col>
@@ -208,7 +200,7 @@ export const BranchCreateTransfer = memo(
                                             <Col xs={12}>
                                                 <Form.Group >
                                                     <Form.ControlLabel>Destino - {value + 1}:</Form.ControlLabel>
-                                                    <Form.Control style={styles.input} name={`destiny-${value}`} data={BranchesChoices} disabledItemValues={[form.origem]} accepter={SelectPicker} />
+                                                    <Form.Control style={styles.input} name={`destiny-${value}`} data={BranchesChoices} disabledItemValues={[form.origin]} accepter={SelectPicker} />
                                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                                 </Form.Group>
                                             </Col>
@@ -226,7 +218,7 @@ export const BranchCreateTransfer = memo(
                                     <Col xs={12}></Col>
                                     <Col xs={12}>
                                         {form.destinies.length < 5 &&
-                                            <Button onClick={addDestiny} appearance="primary" color='green'>Adicionar novo destino</Button>
+                                            <Button onClick={addDestiny} appearance="primary" color='green'>Adicionar novo destiny</Button>
                                         }
                                     </Col>
                                 </Row>
@@ -236,14 +228,14 @@ export const BranchCreateTransfer = memo(
                             <Col xs={12}>
                                 <Form.Group>
                                     <Form.ControlLabel>Placa do Veiculo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="placa_veiculo" accepter={Input} />
+                                    <Form.Control style={styles.input} name="vehicle_plate" accepter={Input} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group>
                                     <Form.ControlLabel>Motorista:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="motorista" accepter={Input} />
+                                    <Form.Control style={styles.input} name="driver" accepter={Input} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
@@ -252,7 +244,7 @@ export const BranchCreateTransfer = memo(
                             <Col xs={12}>
                                 <Form.Group>
                                     <Form.ControlLabel>Conferente:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="conferente" accepter={Input} />
+                                    <Form.Control style={styles.input} name="checker" accepter={Input} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>

@@ -7,6 +7,12 @@ export interface TokenInterface {
 }
 export interface MeInterface {
     id: number;
+    name: string;
+    branch: BranchesInterface;
+    user: MeUserInterface;
+}
+export interface MeUserInterface {
+    id: number;
     username: string;
     first_name: string;
     last_name: string;
@@ -23,7 +29,6 @@ interface Groups {
 interface Column extends ColumnProps {
     dataKey: string;
     url?: string;
-    needAuth?: boolean;
     icon?: any;
     auth?: string;
     propsColumn?: ColumnProps;

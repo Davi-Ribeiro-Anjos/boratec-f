@@ -1,10 +1,11 @@
 import { IconButton, Table, TableProps } from "rsuite";
 import { Icon } from '@rsuite/icons';
 
-import { memo, useState } from "react";
+import { memo, useContext, useState } from "react";
 
 import { ColumnsInterface } from "../../services/Interfaces";
 import { MainTable } from ".";
+import { UserContext } from "../../providers/UserProviders";
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -14,12 +15,12 @@ interface TableRootProps extends TableProps<any, any> {
     isLoading: boolean;
 }
 
-const accessesUser: string[] = ["solic_compras_edit"]
-
 
 export const TableRoot = memo(
     function TableRoot({ data, columns, isLoading, ...props }: TableRootProps) {
         console.log("tabela")
+
+        const { verifyPermission }: any = useContext(UserContext)
 
         const [page, setPage] = useState<number>(1);
         const limit = 30
@@ -47,7 +48,6 @@ export const TableRoot = memo(
                             const click = key[1].click
                             const icon = key[1].icon
                             const url = key[1].url
-                            const needAuth = key[1].needAuth || false
                             const auth = key[1].auth
 
                             const column = {
@@ -57,14 +57,8 @@ export const TableRoot = memo(
                             }
 
                             let access = true
-                            if (needAuth) {
-                                if (auth) {
-                                    if (accessesUser.includes(auth)) {
-                                        access = true
-                                    } else {
-                                        access = false
-                                    }
-                                } else {
+                            if (auth) {
+                                if (!verifyPermission(auth)) {
                                     access = false
                                 }
                             }
@@ -91,11 +85,12 @@ export const TableRoot = memo(
                                             }}
                                         </Cell>
                                     </Column>
-                                ) ||
-                                <Column {...column} >
-                                    <HeaderCell>{title}</HeaderCell>
-                                    <Cell dataKey={dataKey} />
-                                </Column>
+                                ) || access && (
+                                    <Column {...column} >
+                                        <HeaderCell>{title}</HeaderCell>
+                                        <Cell dataKey={dataKey} />
+                                    </Column>
+                                )
                             )
                         })
                     }

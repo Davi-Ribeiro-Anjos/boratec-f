@@ -1,15 +1,15 @@
 import { Suspense, lazy, useContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
-import { getCookie } from "../services/Cookies.ts";
-import { Message, useToaster } from "rsuite";
+// import { getCookie } from "../services/Cookies.ts";
+// import { Message, useToaster } from "rsuite";
 import { UserContext } from "../providers/UserProviders.tsx";
 
 const Home = lazy(() => import("../pages/home.tsx"));
 const Login = lazy(() => import("../pages/Login/Login.tsx"));
-const BranchesPallets = lazy(() => import("../pages/Pallets/BranchesPallets.tsx"));
-const ClientsPallets = lazy(() => import("../pages/Pallets/ClientsPallets.tsx"));
+const PalletsBranches = lazy(() => import("../pages/Pallets/PalletsBranches.tsx"));
+const PalletsClients = lazy(() => import("../pages/Pallets/PalletsClients.tsx"));
 const FleetsAvailabilities = lazy(() => import("../pages/Fleets/FleetsAvailabilities.tsx"));
 const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
 const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests.tsx"));
@@ -23,8 +23,8 @@ export function MainRoutes() {
     console.log("route")
 
     const { verifyPermission }: any = useContext(UserContext)
-    const navigate = useNavigate()
-    const toaster = useToaster()
+    // const navigate = useNavigate()
+    // const toaster = useToaster()
 
     return (
         <Routes>
@@ -52,7 +52,7 @@ export function MainRoutes() {
             <Route path="/paletes/filiais" element={
                 verifyPermission("pallet_branch") ? (
                     <Suspense>
-                        <BranchesPallets />
+                        <PalletsBranches />
                     </Suspense>
                 ) : (
                     <Suspense>
@@ -63,7 +63,7 @@ export function MainRoutes() {
             <Route path="/paletes/clientes" element={
                 verifyPermission("pallet_client") ? (
                     <Suspense>
-                        <ClientsPallets />
+                        <PalletsClients />
                     </Suspense>
                 ) : (
                     <Suspense>

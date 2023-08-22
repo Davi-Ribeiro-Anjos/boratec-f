@@ -25,7 +25,7 @@ const initialFilter = {
 }
 
 
-export default function ClientsPallets() {
+export default function PalletsClients() {
     console.log("palete cliente")
 
     const { token }: any = useContext(UserContext)

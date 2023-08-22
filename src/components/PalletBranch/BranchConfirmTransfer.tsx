@@ -1,6 +1,7 @@
 import { Col, Input, InputNumber, Row, useToaster } from "rsuite";
+import { styles } from "../../assets/styles";
 
-import { useState, memo, useContext } from "react"
+import { memo, useContext } from "react"
 import { useMutation } from "react-query";
 
 import { AxiosError, AxiosResponse } from "axios";
@@ -19,17 +20,6 @@ interface BranchConfirmTransferProps {
     setRow: (value: any) => void;
 }
 
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 200,
-        textTransform: 'uppercase'
-    },
-    row: {
-        marginBottom: 10,
-    },
-}
-
-
 
 export const BranchConfirmTransfer = memo(
     function BranchConfirmTransfer({ open, setOpen, row, setRow }: BranchConfirmTransferProps) {
@@ -40,16 +30,16 @@ export const BranchConfirmTransfer = memo(
         const toaster = useToaster()
 
         const send = async () => {
-            const date: any = StringToDate(row.data_recebimento)
+            const date: any = StringToDate(row.date_received)
 
             let data = {
-                data_recebimento: DateToString(date, true),
-                quantidade_paletes: row.quantidadeInicial,
-                recebido: true,
-                destino: row.destino.id
+                date_received: DateToString(date, true),
+                quantity_pallets: row.quantityInitial,
+                received: true,
+                destiny: row.destiny.id
             }
 
-            return await api.patch(`paletes-movimentos/confirmar/${row.id}/`, data)
+            return await api.patch(`pallets-movements/confirm/${row.id}/`, data)
         }
 
         const { mutate } = useMutation({
@@ -74,9 +64,9 @@ export const BranchConfirmTransfer = memo(
             },
             onError: (error: AxiosError) => {
                 const message = {
-                    data_recebimento: "Data Recebimento",
-                    quantidade_paletes: "Quantidade de Paletes",
-                    recebido: 'Recebido',
+                    date_received: "Data Recebimento",
+                    quantity_pallets: "Quantidade de Paletes",
+                    received: 'Recebido',
                 }
 
                 MainMessage.Error400(toaster, error, message)
@@ -103,10 +93,10 @@ export const BranchConfirmTransfer = memo(
                             Nº da Solicitação
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.solicitacao} />
+                            <Input style={styles.input} disabled value={row.request} />
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.solicitacao} />
+                            <Input style={styles.input} disabled value={row.request} />
                         </Col>
                     </Row>
                     <Row style={styles.row}>
@@ -114,10 +104,10 @@ export const BranchConfirmTransfer = memo(
                             Data solicitação
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.data_solicitacao} />
+                            <Input style={styles.input} disabled value={row.data_request} />
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.data_recebimento} />
+                            <Input style={styles.input} disabled value={row.date_received} />
                         </Col>
                     </Row>
                     <Row style={styles.row}>
@@ -125,10 +115,10 @@ export const BranchConfirmTransfer = memo(
                             Quantidade
                         </Col>
                         <Col xs={9}>
-                            <InputNumber style={styles.input} disabled value={row.quantidadeInicial} />
+                            <InputNumber style={styles.input} disabled value={row.quantityInitial} />
                         </Col>
                         <Col xs={9}>
-                            <InputNumber style={styles.input} value={row.quantidade_paletes} onChange={(valor) => setRow({ ...row, quantidade_paletes: valor })} />
+                            <InputNumber style={styles.input} value={row.quantity_pallets} onChange={(valor) => setRow({ ...row, quantity_pallets: valor })} />
                         </Col>
                     </Row>
                     <Row style={styles.row}>
@@ -136,10 +126,10 @@ export const BranchConfirmTransfer = memo(
                             Origem
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.origem && row.origem.sigla} />
+                            <Input style={styles.input} disabled value={row.origin && row.origin.abbreviation} />
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.origem && row.origem.sigla} />
+                            <Input style={styles.input} disabled value={row.origin && row.origin.abbreviation} />
                         </Col>
                     </Row>
                     <Row style={styles.row}>
@@ -147,10 +137,10 @@ export const BranchConfirmTransfer = memo(
                             Destino
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.destino && row.destino.sigla} />
+                            <Input style={styles.input} disabled value={row.destiny && row.destiny.abbreviation} />
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.destino && row.destino.sigla} />
+                            <Input style={styles.input} disabled value={row.destiny && row.destiny.abbreviation} />
                         </Col>
                     </Row>
                     <Row style={styles.row}>
@@ -158,10 +148,10 @@ export const BranchConfirmTransfer = memo(
                             Placa do Veículo
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.placa_veiculo} />
+                            <Input style={styles.input} disabled value={row.vehicle_plate} />
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.placa_veiculo} />
+                            <Input style={styles.input} disabled value={row.vehicle_plate} />
                         </Col>
                     </Row>
                     <Row style={styles.row}>
@@ -169,10 +159,10 @@ export const BranchConfirmTransfer = memo(
                             Autor
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.autor && row.autor.username} />
+                            <Input style={styles.input} disabled value={row.author && row.author.username} />
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.autor && row.autor.username} />
+                            <Input style={styles.input} disabled value={row.author && row.author.username} />
                         </Col>
                     </Row>
                     <Row style={styles.row}>
@@ -180,10 +170,10 @@ export const BranchConfirmTransfer = memo(
                             Motorista
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.motorista} />
+                            <Input style={styles.input} disabled value={row.driver} />
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.motorista} />
+                            <Input style={styles.input} disabled value={row.driver} />
                         </Col>
                     </Row>
                     <Row style={styles.row}>
@@ -191,10 +181,10 @@ export const BranchConfirmTransfer = memo(
                             Conferente
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.conferente} />
+                            <Input style={styles.input} disabled value={row.checker} />
                         </Col>
                         <Col xs={9}>
-                            <Input style={styles.input} disabled value={row.conferente} />
+                            <Input style={styles.input} disabled value={row.checker} />
                         </Col>
                     </Row>
                 </MainModal.Body>
