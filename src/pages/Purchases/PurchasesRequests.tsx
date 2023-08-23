@@ -18,44 +18,44 @@ import { PurchaseRequest } from "../../components/PurchaseRequest";
 import { MainMessage } from "../../components/Message";
 
 interface Filter {
-    numero_solicitacao: string | number | null,
-    data_solicitacao_bo: string | null,
+    number_request: string | number | null,
+    date_request: string | null,
     status: string | null,
-    filial: number | null,
-    solicitante: number | null,
+    branch: number | null,
+    requester: number | null,
 }
 
 const initialFilter = {
-    numero_solicitacao: null,
-    data_solicitacao_bo: null,
+    number_request: null,
+    date_request: null,
     status: null,
-    filial: null,
-    solicitante: null,
+    branch: null,
+    requester: null,
 }
 
 
 export default function PurchasesRequests() {
     console.log("solicitacao compra")
 
-    const { token }: any = useContext(UserContext)
-    const api = useApi(token)
+    const { me }: any = useContext(UserContext)
+    const api = useApi()
     const toaster = useToaster()
 
     // FILTER
-    const [filter, setFilter] = useState<Filter>({ ...initialFilter, filial: 1 })
+    const [filter, setFilter] = useState<Filter>({ ...initialFilter, branch: me.branch.id })
     const clear = () => {
         setFilter(initialFilter)
     }
 
     // DATA
     const searchData = useCallback(async () => {
-        if (filter.numero_solicitacao === "") {
-            filter.numero_solicitacao = null
+        if (filter.number_request === "") {
+            filter.number_request = null
         }
-        return await api.get("solicitacoes-compras/", { params: { ...filter } })
+        return await api.get("purchases-requests/", { params: { ...filter } })
     }, [filter])
     const { data, isLoading, refetch } = useQuery({
-        queryKey: "solic_compras",
+        queryKey: ["purchases-requests"],
         queryFn: searchData,
         onError: (error: AxiosError) => {
             MainMessage.Error401(toaster, error)
@@ -70,20 +70,20 @@ export default function PurchasesRequests() {
     const editData = useCallback((rowData: PurchaseRequestInterface) => {
         let row_: any = { ...rowData }
 
-        if (rowData.filial) row_.filial = rowData.filial.id
-        if (!rowData.observacao) row_.observacao = ""
-        if (rowData.responsavel) row_.responsavel = rowData.responsavel.id
-        if (rowData.data_solicitacao_bo) row_.data_solicitacao_bo = StringToDate(rowData.data_solicitacao_bo, true)
-        if (rowData.data_vencimento_boleto) row_.data_vencimento_boleto = StringToDate(rowData.data_vencimento_boleto, true)
+        if (rowData.branch) row_.branch = rowData.branch.id
+        if (!rowData.observation) row_.observation = ""
+        if (rowData.responsible) row_.responsible = rowData.responsible.id
+        if (rowData.date_request) row_.date_request = StringToDate(rowData.date_request, true)
+        if (rowData.date_expiration) row_.date_expiration = StringToDate(rowData.date_expiration, true)
 
 
         setRow(row_)
 
         setOpenEdit(true)
 
-        if (row_.data_vencimento_boleto && row_.pago === false) {
+        if (row_.date_expiration && row_.paid === false) {
             const today = new Date()
-            const timeDifference = row_.data_vencimento_boleto.getTime() - today.getTime()
+            const timeDifference = row_.date_expiration.getTime() - today.getTime()
             const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
             if (dayDifference > 1) {
@@ -100,7 +100,7 @@ export default function PurchasesRequests() {
     const [openAnnotation, setOpenAnnotation] = useState(false)
     const [annotations, setAnnotations] = useState()
     const annotationsData = async (rowData: PurchaseRequestInterface) => {
-        await api.get(`solicitacoes-entradas/${rowData.id}/`).then((response: AxiosResponse) => {
+        await api.get(`purchases-entries/${rowData.id}/`).then((response: AxiosResponse) => {
             setAnnotations(response.data)
             setRow(rowData)
             setOpenAnnotation(true)
@@ -113,15 +113,15 @@ export default function PurchasesRequests() {
     // TABLE
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nº Solicitação": { dataKey: "numero_solicitacao", width: 120 },
-            "Dt Solicitação": { dataKey: "data_solicitacao_bo", width: 120 },
-            "Status": { dataKey: "status", width: 120 },
-            "Filial": { dataKey: "filial.sigla", width: 100 },
-            "Departamento": { dataKey: "departamento", width: 170 },
-            "Solicitante": { dataKey: "solicitante.nome", width: 170 },
-            "Responsável": { dataKey: "responsavel.nome", width: 170 },
-            "Entradas": { dataKey: "button", width: 130, click: annotationsData, icon: ListIcon },
-            "Editar": { dataKey: "button", width: 130, click: editData, icon: EditIcon, needAuth: true, auth: "solic_compras_edit" }
+            "Nº Solicitação": { dataKey: "number_request", propsColumn: { width: 120 } },
+            "Dt Solicitação": { dataKey: "date_request", propsColumn: { width: 120 } },
+            "Status": { dataKey: "status", propsColumn: { width: 120 } },
+            "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 100 } },
+            "Departamento": { dataKey: "department", propsColumn: { width: 170 } },
+            "Solicitante": { dataKey: "requester.name", propsColumn: { width: 170, fullText: true } },
+            "Responsável": { dataKey: "responsible.name", propsColumn: { width: 170, fullText: true } },
+            "Entradas": { dataKey: "button", propsColumn: { width: 130 }, click: annotationsData, icon: ListIcon },
+            "Editar": { dataKey: "button", propsColumn: { width: 130 }, click: editData, icon: EditIcon }
         }
     }, [])
 

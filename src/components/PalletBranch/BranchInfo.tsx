@@ -1,18 +1,17 @@
 import { Col, Loader, Row, useToaster } from "rsuite";
 
-import { useState, memo, useContext } from "react"
+import { useState, memo } from "react"
 import { useQuery } from "react-query";
 
 import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
-import { PalletControl } from "../../services/Interfaces";
+import { PalletControlInterface } from "../../services/Interfaces";
 
 
 import { MainPanel } from "../Panel";
 import { MainDrawer } from "../Drawer";
-import { PalletBranch } from ".";
 import { MainMessage } from "../Message";
+import { PalletBranch } from ".";
 
 interface BranchInfoProps {
     open: boolean;
@@ -21,7 +20,7 @@ interface BranchInfoProps {
 
 interface CardProps {
     title: string;
-    quantity: PalletControl;
+    quantity: PalletControlInterface;
 }
 
 const styles: { [key: string]: React.CSSProperties } = {
@@ -52,12 +51,11 @@ export const BranchInfo = memo(
     function BranchInfo({ open, setOpen }: BranchInfoProps) {
         console.log("filial info")
 
-        const { token }: any = useContext(UserContext)
-        const api = useApi(token)
+        const api = useApi()
         const toaster = useToaster()
 
         const getData = async () => {
-            const response = await api.get<PalletControl[]>("paletes-controles/")
+            const response = await api.get<PalletControlInterface[]>("pallets-controls/")
             return response.data
         }
 
@@ -66,9 +64,9 @@ export const BranchInfo = memo(
             queryFn: getData,
             onError: (error: AxiosError) => {
                 let message = {
-                    localizacao_atual: "Filial",
-                    quantidade_paletes: "Quantidade de Paletes",
-                    tipo_palete: 'Tipo Palete',
+                    current_location: "Filial",
+                    quantity_pallets: "Quantidade de Paletes",
+                    type_pallet: 'Tipo Palete',
                 }
 
                 MainMessage.Error400(toaster, error, message)
@@ -96,13 +94,14 @@ export const BranchInfo = memo(
         return (
             <>
                 <MainDrawer.Root open={open} close={close} placement="bottom">
-                    <MainDrawer.Header openModal={openModal} close={close} title="Quantidade de Paletes por Filial" name="Adicionar paletes" />
+                    <MainDrawer.Header openModal={openModal} close={close} title="Quantidade de Paletes por Filial"
+                        name="Adicionar paletes" auth="pallet_branch_admin" />
                     <MainDrawer.Body>
                         <Row>
                             {data && data.length > 0 ? (
                                 data.map((value, index) => {
                                     return (
-                                        <Card key={index} title={value.localizacao_atual} quantity={value} />
+                                        <Card key={index} title={value.current_location} quantity={value} />
                                     )
                                 })
                             ) : (

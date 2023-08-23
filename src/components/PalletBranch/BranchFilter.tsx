@@ -1,23 +1,14 @@
 import { Checkbox, Col, Form, Input, Row, SelectPicker } from "rsuite"
+import { styles } from "../../assets/styles";
 
 import { useContext } from "react"
 
-import { UserContext } from "../../providers/UserProviders";
 import { BranchesChoices } from "../../services/Choices";
+import { UserContext } from "../../providers/UserProviders";
 
 interface BranchFilterProps {
     filter: any;
     setFilter: (value: any) => void;
-}
-
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 300,
-        textTransform: 'uppercase'
-    },
-    row: {
-        marginBottom: 10,
-    },
 }
 
 
@@ -31,13 +22,13 @@ export function BranchFilter({ filter, setFilter }: BranchFilterProps) {
                 <Col xs={12}>
                     <Form.Group>
                         <Form.ControlLabel>Origem:</Form.ControlLabel>
-                        <Form.Control style={styles.input} name="origem" data={BranchesChoices} accepter={SelectPicker} />
+                        <Form.Control style={styles.input} name="origin" data={BranchesChoices} accepter={SelectPicker} />
                     </Form.Group>
                 </Col>
                 <Col xs={12}>
                     <Form.Group>
                         <Form.ControlLabel>Destino:</Form.ControlLabel>
-                        <Form.Control style={styles.input} name="destino" data={BranchesChoices} accepter={SelectPicker} />
+                        <Form.Control style={styles.input} name="destiny" data={BranchesChoices} accepter={SelectPicker} />
                     </Form.Group>
                 </Col>
             </Row>
@@ -45,13 +36,13 @@ export function BranchFilter({ filter, setFilter }: BranchFilterProps) {
                 <Col xs={12}>
                     <Form.Group>
                         <Form.ControlLabel>Placa do Veículo:</Form.ControlLabel>
-                        <Form.Control style={styles.input} name="placa_veiculo" accepter={Input} />
+                        <Form.Control style={styles.input} name="vehicle_plate" accepter={Input} />
                     </Form.Group>
                 </Col>
                 <Col xs={12}>
                     <Form.Group>
                         <Form.ControlLabel>Autor:</Form.ControlLabel>
-                        <Form.Control style={styles.input} name="autor" data={userChoices} accepter={SelectPicker} />
+                        <Form.Control style={styles.input} name="author" data={userChoices} accepter={SelectPicker} />
                     </Form.Group>
                 </Col>
             </Row>
@@ -59,7 +50,7 @@ export function BranchFilter({ filter, setFilter }: BranchFilterProps) {
                 <Col xs={12}>
                     <Form.Group>
                         <Form.ControlLabel>Transferências Recebidas:</Form.ControlLabel>
-                        <Form.Control style={styles.input} name="recebido" checked={filter.recebido} onChange={(value) => setFilter({ ...filter, recebido: !value })} accepter={Checkbox} />
+                        <Form.Control style={styles.input} name="received" checked={filter.received} onChange={(value) => setFilter({ ...filter, received: !value })} accepter={Checkbox} />
                     </Form.Group>
                 </Col>
             </Row>

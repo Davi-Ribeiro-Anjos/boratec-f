@@ -2,14 +2,13 @@ import { Message, useToaster } from "rsuite";
 import DocPassIcon from '@rsuite/icons/DocPass';
 import DetailIcon from '@rsuite/icons/Detail';
 
-import { useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
 import { ColumnsInterface, QueryNFInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
-import { UserContext } from "../../providers/UserProviders";
 import { useApi } from "../../hooks/Api";
 import { QueryNF } from "../../components/QueryNF";
 import { FormatDate } from "../../services/Date";
@@ -24,8 +23,7 @@ const initialFilter: Filter = {
 
 
 export default function QueriesNFs() {
-    const { token }: any = useContext(UserContext)
-    const api = useApi(token)
+    const api = useApi()
     const toaster = useToaster()
 
 
@@ -80,16 +78,16 @@ export default function QueriesNFs() {
     }
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "CTE": { dataKey: "knowledge", props: { width: 120 } },
-            "Data Emissão": { dataKey: "date_emission", props: { width: 120 } },
-            "Remetente": { dataKey: "sender", props: { width: 150, fullText: true } },
-            "Destinatário": { dataKey: "recipient", props: { width: 130, fullText: true } },
-            "Peso": { dataKey: "weight", props: { width: 100 } },
-            "Previsão Entrega": { dataKey: "date_forecast", props: { width: 130 } },
-            "Local Entrega": { dataKey: "delivery_location", props: { width: 130, fullText: true } },
-            "Nota Fiscal": { dataKey: "nf", props: { width: 120 } },
-            "Ocorrências": { dataKey: "button", props: { width: 110 }, click: modalOccurrence, icon: DetailIcon, needAuth: false },
-            "Romaneio": { dataKey: "button", props: { width: 110 }, click: modalPacking, icon: DocPassIcon, needAuth: false }
+            "CTE": { dataKey: "knowledge", propsColumn: { width: 120 } },
+            "Data Emissão": { dataKey: "date_emission", propsColumn: { width: 120 } },
+            "Remetente": { dataKey: "sender", propsColumn: { width: 150, fullText: true } },
+            "Destinatário": { dataKey: "recipient", propsColumn: { width: 130, fullText: true } },
+            "Peso": { dataKey: "weight", propsColumn: { width: 100 } },
+            "Previsão Entrega": { dataKey: "date_forecast", propsColumn: { width: 130 } },
+            "Local Entrega": { dataKey: "delivery_location", propsColumn: { width: 130, fullText: true } },
+            "Nota Fiscal": { dataKey: "nf", propsColumn: { width: 120 } },
+            "Ocorrências": { dataKey: "button", propsColumn: { width: 110 }, click: modalOccurrence, icon: DetailIcon, needAuth: false },
+            "Romaneio": { dataKey: "button", propsColumn: { width: 110 }, click: modalPacking, icon: DocPassIcon, needAuth: false }
         }
     }, [])
 

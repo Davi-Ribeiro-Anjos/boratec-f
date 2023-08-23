@@ -15,21 +15,21 @@ import { MainMessage } from "../../components/Message";
 import { PalletClient } from "../../components/PalletClient";
 
 interface Filter {
-    filial: number | null,
-    cliente_id: number | null,
+    branch: number | null,
+    client_id: number | null,
 }
 
 const initialFilter = {
-    filial: null,
-    cliente_id: null,
+    branch: null,
+    client_id: null,
 }
 
 
-export default function ClientsPallets() {
+export default function PalletsClients() {
     console.log("palete cliente")
 
-    const { token }: any = useContext(UserContext)
-    const api = useApi(token)
+    const { }: any = useContext(UserContext)
+    const api = useApi()
     const toaster = useToaster()
 
     const [filter, setFilter] = useState<Filter>(initialFilter)
@@ -38,7 +38,7 @@ export default function ClientsPallets() {
     }
 
     const searchData = async () => {
-        const response = await api.get('clientes/', { params: { ...filter } })
+        const response = await api.get('clients/', { params: { ...filter } })
 
         const dataRes = [...response.data]
 
@@ -46,12 +46,12 @@ export default function ClientsPallets() {
             if (Object.hasOwnProperty.call(dataRes, value)) {
                 const element = dataRes[value];
 
-                if (element.saldo) {
-                    if (element.saldo > 0) {
+                if (element.balance) {
+                    if (element.balance > 0) {
                         element.status = "A BORA DEVE"
                     } else {
                         element.status = "O CLIENTE DEVE"
-                        element.saldo *= -1
+                        element.balance *= -1
                     }
                 }
             }
@@ -72,12 +72,12 @@ export default function ClientsPallets() {
 
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            'Filial': { dataKey: 'filial.sigla', width: 150 },
-            'Saldo': { dataKey: 'saldo', width: 110 },
-            'Tipo Palete': { dataKey: 'tipo_palete', width: 110 },
-            'Razão Social/ Motorista': { dataKey: 'cliente.razao_social_motorista', width: 250 },
-            'Status': { dataKey: 'status', width: 130 },
-            'Documento': { dataKey: "link", width: 130, url: `${baseUrl}api/clientes/documento/`, icon: PageIcon }
+            'Filial': { dataKey: 'branch.abbreviation', propsColumn: { width: 150 } },
+            'Saldo': { dataKey: 'balance', propsColumn: { width: 110 } },
+            'Tipo Palete': { dataKey: 'type_pallet', propsColumn: { width: 110 } },
+            'Razão Social/ Motorista': { dataKey: 'client.name', propsColumn: { width: 250, fullText: true } },
+            'Status': { dataKey: 'status', propsColumn: { width: 130 } },
+            'Documento': { dataKey: "link", propsColumn: { width: 130 }, url: `${baseUrl}/api/clients/document/`, icon: PageIcon }
         }
     }, [])
 

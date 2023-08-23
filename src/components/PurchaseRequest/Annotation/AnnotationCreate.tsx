@@ -1,4 +1,5 @@
 import { Col, Form, Input, Row, Uploader, useToaster } from "rsuite"
+import { styles } from "../../../assets/styles";
 
 import { forwardRef, useState, useContext } from "react"
 
@@ -18,54 +19,45 @@ interface AnnotationCreateProps {
 
 const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="textarea" ref={ref} />);
 
-const styles: { [key: string]: React.CSSProperties } = {
-    row: {
-        marginBottom: 10,
-    },
-    observation: {
-        textTransform: "uppercase"
-    }
-}
-
 
 export function AnnotationCreate({ open, setOpen, id }: AnnotationCreateProps) {
     console.log("entrada criar")
 
-    const { token }: any = useContext(UserContext)
-    const api = useApi(token, true)
+    const { me }: any = useContext(UserContext)
+    const api = useApi(true)
     const toaster = useToaster();
 
     const [data, setData] = useState<any>(
         {
-            observacao: '',
-            anexo: []
+            observation: '',
+            attachment: []
         }
     )
 
     const send = async () => {
-        let dado = { ...data, autor: 1, solicitacao: id }
+        let body = { ...data, author: me.id, request: id }
 
-        if (dado.observacao) dado.observacao = dado.observacao.toUpperCase()
-        if (Boolean(dado.anexo.length)) {
-            for (let index in dado.anexo) {
-                dado[`arquivo_${parseInt(index) + 1}`] = dado.anexo[index].blobFile
+        if (body.observation) body.observation = body.observation.toUpperCase()
+        if (Boolean(body.attachment.length)) {
+            for (let index in body.attachment) {
+                body[`file_${parseInt(index) + 1}`] = body.attachment[index].blobFile
             }
         }
-        delete dado.anexo
+        delete body.attachment
 
-        await api.post('solicitacoes-entradas/', { ...dado }).then(() => {
+        await api.post('purchases-entries/', { ...body }).then(() => {
             MainMessage.Ok(toaster, "Sucesso - Entrada criada.")
 
             setData({
-                observacao: '',
-                anexo: []
+                observation: '',
+                attachment: []
             })
 
             close()
         }).catch((error: AxiosError) => {
             let message = {
-                observacao: "Descrição",
-                anexo: "Anexo"
+                observation: "Descrição",
+                attachment: "Anexo"
             }
 
             MainMessage.Error400(toaster, error, message)
@@ -77,8 +69,8 @@ export function AnnotationCreate({ open, setOpen, id }: AnnotationCreateProps) {
         setOpen(false)
 
         setData({
-            observacao: '',
-            anexo: []
+            observation: '',
+            attachment: []
         })
     }
 
@@ -90,7 +82,7 @@ export function AnnotationCreate({ open, setOpen, id }: AnnotationCreateProps) {
                     <Col xs={24}>
                         <Form.Group>
                             <Form.ControlLabel>Descrição da Entrada:</Form.ControlLabel>
-                            <Form.Control style={styles.observacao} rows={8} name="observacao" value={data.observacao} accepter={Textarea} />
+                            <Form.Control style={styles.observation} rows={8} name="observation" value={data.observation} accepter={Textarea} />
                         </Form.Group>
                     </Col>
                 </Row>
@@ -98,7 +90,7 @@ export function AnnotationCreate({ open, setOpen, id }: AnnotationCreateProps) {
                     <Col xs={24}>
                         <Form.Group>
                             <Form.ControlLabel>Anexo:</Form.ControlLabel>
-                            <Form.Control name="anexo" multiple={true} accepter={Uploader} action='' autoUpload={false} />
+                            <Form.Control name="attachment" multiple={true} accepter={Uploader} action='' autoUpload={false} />
                         </Form.Group>
                     </Col>
                 </Row>

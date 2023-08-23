@@ -1,4 +1,5 @@
 import { Col, Form, InputNumber, Row, SelectPicker, useToaster } from "rsuite";
+import { styles } from "../../assets/styles";
 
 import { memo, useState, useContext } from "react"
 import { useMutation } from "react-query";
@@ -18,20 +19,10 @@ interface ClientEntryProps {
 }
 
 interface Entry {
-    filial__id: number | null,
-    tipo_palete: string | null,
-    quantidade_paletes: number | string | null,
-    cliente__id: number | null,
-}
-
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 250,
-        textTransform: "uppercase"
-    },
-    row: {
-        marginBottom: 10,
-    },
+    branch__id: number | null,
+    type_pallet: string | null,
+    quantity_pallets: number | string | null,
+    client__id: number | null,
 }
 
 
@@ -45,14 +36,14 @@ export const ClientEntry = memo(
         const ClientsChoices = queryClient.getQueryData<any>(["get-client"])
 
         const [data, setData] = useState<Entry>({
-            filial__id: null,
-            tipo_palete: null,
-            quantidade_paletes: null,
-            cliente__id: null,
+            branch__id: null,
+            type_pallet: null,
+            quantity_pallets: null,
+            client__id: null,
         })
 
         const send = async () => {
-            return await api.patch('clientes/', data)
+            return await api.patch('clients/', data)
         }
 
         const { mutate } = useMutation({
@@ -66,7 +57,7 @@ export const ClientEntry = memo(
                 close()
             },
             onError: (error: AxiosError<any>) => {
-                if (error.response?.data.tipo_cadastro) delete error.response?.data.tipo_cadastro
+                if (error.response?.data.type_registration) delete error.response?.data.type_registration
 
                 MainMessage.Error401(toaster, error)
                 MainMessage.Error500(toaster, error)
@@ -77,10 +68,10 @@ export const ClientEntry = memo(
             setOpen(false)
 
             setData({
-                filial__id: null,
-                tipo_palete: null,
-                quantidade_paletes: null,
-                cliente__id: null,
+                branch__id: null,
+                type_pallet: null,
+                quantity_pallets: null,
+                client__id: null,
             })
         }
 
@@ -92,14 +83,14 @@ export const ClientEntry = memo(
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="filial__id" data={BranchesChoices} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="branch__id" data={BranchesChoices} accepter={SelectPicker} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Tipo Palete:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="tipo_palete" data={TypePalletChoices} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="type_pallet" data={TypePalletChoices} accepter={SelectPicker} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
@@ -108,14 +99,14 @@ export const ClientEntry = memo(
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Razão Social/ Motorista:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="cliente__id" data={ClientsChoices} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="client__id" data={ClientsChoices} accepter={SelectPicker} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Quantidade Paletes:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="quantidade_paletes" accepter={InputNumber} />
+                                <Form.Control style={styles.input} name="quantity_pallets" accepter={InputNumber} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>

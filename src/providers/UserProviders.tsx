@@ -40,7 +40,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     useEffect(() => {
         if (me) refetch()
+    }, [me]);
 
+    useEffect(() => {
         let token: string | null
 
         try {
@@ -56,13 +58,14 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         }
     }, []);
 
+    // PERMISSIONS
     const getPermissions = () => {
         let listPermission: string[] = []
 
         if (me) {
-            for (const key in me.groups) {
-                if (Object.prototype.hasOwnProperty.call(me.groups, key)) {
-                    const permission = me.groups[key];
+            for (const key in me.user.groups) {
+                if (Object.prototype.hasOwnProperty.call(me.user.groups, key)) {
+                    const permission = me.user.groups[key];
                     listPermission.push(permission.name)
                 }
             }
@@ -70,11 +73,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
         return listPermission
     }
-
     const myPermissions = getPermissions()
-
     const verifyPermission = (name: string): boolean => {
-        if (me) return (myPermissions.includes(name) || me.is_staff || me.is_superuser)
+        if (me) return (myPermissions.includes(name) || me.user.is_staff || me.user.is_superuser)
 
         return false
     }
@@ -95,7 +96,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             })))
         },
         onError: (error: AxiosError) => {
-            if (error.request.status === 401) {
+            if (error.request.status === 401 || error.request.status === 403) {
                 navigate("/login")
             }
         },

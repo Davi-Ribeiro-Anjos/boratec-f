@@ -1,4 +1,5 @@
 import { Col, Form, InputNumber, InputPicker, Row, SelectPicker, useToaster } from "rsuite";
+import { styles } from "../../assets/styles";
 
 import { useState, memo, useContext } from "react"
 import { useMutation } from "react-query";
@@ -20,20 +21,10 @@ interface BranchCreatePalletProps {
 }
 
 interface Data {
-    localizacao_atual: string | null,
-    quantidade_paletes: number | null,
-    tipo_palete: string | null,
-    autor: number;
-}
-
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 200,
-        textTransform: 'uppercase'
-    },
-    row: {
-        marginBottom: 10,
-    },
+    current_location: string | null,
+    quantity_pallets: number | null,
+    type_pallet: string | null,
+    author: number;
 }
 
 
@@ -41,21 +32,21 @@ export const BranchCreatePallet = memo(
     function BranchCreatePallet({ open, setOpen, setOpenInfo }: BranchCreatePalletProps) {
         console.log("filial create palette")
 
-        const { token }: any = useContext(UserContext)
-        const api = useApi(token)
+        const { me }: any = useContext(UserContext)
+        const api = useApi()
         const toaster = useToaster()
 
         const [data, setData] = useState<Data>({
-            localizacao_atual: '',
-            quantidade_paletes: null,
-            tipo_palete: '',
-            autor: 1
+            current_location: '',
+            quantity_pallets: null,
+            type_pallet: '',
+            author: me.id
         })
 
         const send = async () => {
             let form = { ...data }
 
-            return await api.post<PalletControlInterface>('paletes-controles/', form)
+            return await api.post<PalletControlInterface>('pallets-controls/', form)
         }
 
         const { mutate } = useMutation({
@@ -67,7 +58,7 @@ export const BranchCreatePallet = memo(
                 queryClient.setQueryData("pallet-by-branch", (currentData: any) => {
                     let myData: any[] = []
                     currentData.map((branch: any) => {
-                        branch.localizacao_atual === dataRes.localizacao_atual ? myData.push(dataRes) : myData.push(branch)
+                        branch.current_location === dataRes.current_location ? myData.push(dataRes) : myData.push(branch)
                     })
                     return myData
                 })
@@ -77,9 +68,9 @@ export const BranchCreatePallet = memo(
             },
             onError: (error: AxiosError) => {
                 let message = {
-                    localizacao_atual: "Filial",
-                    quantidade_paletes: "Quantidade de Paletes",
-                    tipo_palete: 'Tipo Palete',
+                    current_location: "Filial",
+                    quantity_pallets: "Quantidade de Paletes",
+                    type_pallet: 'Tipo Palete',
                 }
 
                 MainMessage.Error400(toaster, error, message)
@@ -92,29 +83,29 @@ export const BranchCreatePallet = memo(
             setOpenInfo(true)
 
             setData({
-                quantidade_paletes: null,
-                localizacao_atual: null,
-                tipo_palete: null,
-                autor: 1
+                quantity_pallets: null,
+                current_location: null,
+                type_pallet: null,
+                author: me.id
             })
         }
 
         return (
-            <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} >
+            <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} size="md" >
                 <MainModal.Header title="Adicionar Paletes" />
                 <MainModal.Body>
                     <Row style={styles.row}>
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="localizacao_atual" data={BranchesChoices} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="current_location" data={BranchesChoices} accepter={SelectPicker} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Tipo Palete:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="tipo_palete" data={TypePalletChoices} accepter={InputPicker} />
+                                <Form.Control style={styles.input} name="type_pallet" data={TypePalletChoices} accepter={InputPicker} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
@@ -123,7 +114,7 @@ export const BranchCreatePallet = memo(
                         <Col xs={12}>
                             <Form.Group >
                                 <Form.ControlLabel>Quantidade Paletes:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="quantidade_paletes" accepter={InputNumber} />
+                                <Form.Control style={styles.input} name="quantity_pallets" accepter={InputNumber} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
