@@ -138,13 +138,13 @@ export default function RegistrationsForms() {
 
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nome": { dataKey: "name", width: 300 },
-            "Filial": { dataKey: "branch.abbreviation", width: 120 },
-            "CNPJ/ CPF": { dataKey: "cnpj_cpf", width: 150 },
-            "Tipo Contrato": { dataKey: "type_contract", width: 130 },
-            "Documento": { dataKey: "link", width: 130, url: `${baseUrl}/api/employees/document/`, icon: PageIcon },
-            "EPI's": { dataKey: "button", width: 130, click: epis, icon: EditIcon, needAuth: false },
-            "Detalhes": { dataKey: "button", width: 130, click: details, icon: ListIcon, needAuth: false }
+            "Nome": { dataKey: "name", propsColumn: { width: 300 } },
+            "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 120 } },
+            "CNPJ/ CPF": { dataKey: "cnpj_cpf", propsColumn: { width: 150 } },
+            "Tipo Contrato": { dataKey: "type_contract", propsColumn: { width: 130 } },
+            "Documento": { dataKey: "link", propsColumn: { width: 130 }, url: `${baseUrl}/api/employees/document/`, icon: PageIcon },
+            "EPI's": { dataKey: "button", propsColumn: { width: 130 }, click: epis, icon: EditIcon },
+            "Detalhes": { dataKey: "button", propsColumn: { width: 130 }, click: details, icon: ListIcon }
         }
     }, [])
 

@@ -108,7 +108,7 @@ export function MainHeader() {
                                 {/* <Nav.Item panel style={theme === "dark" ? { padding: 10, width: 160, color: "white" } : { padding: 10, width: 160, color: "black" }}> */}
                                 <Nav.Item panel style={{ padding: 10, width: 160, color: "white" }}>
                                     <p>Logado como</p>
-                                    <strong>{me.username}</strong>
+                                    <strong>{me.user.username}</strong>
                                 </Nav.Item>
                                 <Dropdown.Separator />
                                 <Nav.Item >
