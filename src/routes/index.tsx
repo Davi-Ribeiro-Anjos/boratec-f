@@ -1,4 +1,4 @@
-import { Suspense, lazy, useContext, useEffect } from "react";
+import { Suspense, lazy, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 
@@ -11,9 +11,11 @@ const Login = lazy(() => import("../pages/Login/Login.tsx"));
 const PalletsBranches = lazy(() => import("../pages/Pallets/PalletsBranches.tsx"));
 const PalletsClients = lazy(() => import("../pages/Pallets/PalletsClients.tsx"));
 const FleetsAvailabilities = lazy(() => import("../pages/Fleets/FleetsAvailabilities.tsx"));
-const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
 const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests.tsx"));
 const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
+const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
+const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
+const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
 const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
 const Error404 = lazy(() => import("../pages/Errors/Error404.tsx"));
 const Error403 = lazy(() => import("../pages/Errors/Error403.tsx"));
@@ -97,6 +99,28 @@ export function MainRoutes() {
                 verifyPermission("employee") ? (
                     <Suspense>
                         <Employees />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
+            } />
+            <Route path="/estoques/solicitacoes-epis" element={
+                verifyPermission("stocks") ? (
+                    <Suspense>
+                        <EPIsRequests />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
+            } />
+            <Route path="/estoques/controles-epis" element={
+                verifyPermission("stocks") ? (
+                    <Suspense>
+                        <EPIsControls />
                     </Suspense>
                 ) : (
                     <Suspense>
