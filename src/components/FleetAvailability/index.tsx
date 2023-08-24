@@ -1,11 +1,9 @@
 import { FleetAvailabilityFilter } from "./FleetAvailabilityFilter";
-import { FleetAvailabilityPreventive } from "./FleetAvailabilityPreventive";
-import { FleetAvailabilityStopped } from "./FleetAvailabilityStopped";
+import { FleetAvailabilityStatus } from "./FleetAvailabilityStatus";
 
 
 
 export const FleetAvailability = {
     Filter: FleetAvailabilityFilter,
-    Stopped: FleetAvailabilityStopped,
-    Preventive: FleetAvailabilityPreventive
+    Status: FleetAvailabilityStatus,
 } 

@@ -174,12 +174,10 @@ export interface QueryNFInterface {
     occurrences: OccurrencesInterface[];
     packing_list: PackingListInterface[];
 }
-
 export interface OccurrencesInterface {
     date_occurrence: string;
     description_occurrence: string;
 }
-
 export interface PackingListInterface {
     packing_list: number;
     delivery_type: string;
@@ -191,4 +189,18 @@ export interface PackingListInterface {
     knowledge: number;
     type_vehicle: string;
     nf: string;
+}
+
+// VEHICLE
+export interface VehicleInterface {
+    id: number;
+    type_vehicle: string | null;
+    vehicle_plate: string;
+    vehicle_mileage: number;
+    renavam: number;
+    model_vehicle: string;
+    observation: string | null;
+    last_movement: string | null,
+    active: boolean;
+    branch: BranchesInterface;
 }
