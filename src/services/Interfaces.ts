@@ -204,3 +204,23 @@ export interface VehicleInterface {
     active: boolean;
     branch: BranchesInterface;
 }
+
+// EPIS
+export interface EpiGroupInterface {
+    name: string;
+    epis_items: EpiItemInterface[];
+}
+export interface EpiItemInterface {
+    id: number;
+    description: string;
+    ca?: string;
+    validity: string;
+    epis_sizes: EpiSizeInterface[];
+}
+export interface EpiSizeInterface {
+    id: number;
+    size: string;
+    quantity: number;
+    quantity_minimum: number;
+    quantity_provisory: number;
+}

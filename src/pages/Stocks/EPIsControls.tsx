@@ -1,26 +1,15 @@
 import { Message, useToaster } from "rsuite";
-import DocPassIcon from '@rsuite/icons/DocPass';
 import DetailIcon from '@rsuite/icons/Detail';
 
 import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
 import { useApi } from "../../hooks/Api";
-import { FormatDate } from "../../services/Date";
-import { ColumnsInterface, QueryNFInterface } from "../../services/Interfaces";
+import { ColumnsInterface, EpiGroupInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
-import { QueryNF } from "../../components/QueryNF";
-import { EPIRequest } from "../../components/EPIRequest";
-
-interface Filter {
-    nf: number | null;
-}
-
-const initialFilter: Filter = {
-    nf: null,
-}
+import { EPIControl } from "../../components/EPIControl";
 
 
 export default function EPIsControls() {
@@ -28,46 +17,64 @@ export default function EPIsControls() {
     const toaster = useToaster()
 
 
-    // FILTER
-    const [filter, setFilter] = useState(initialFilter)
-    const clear = () => {
-        setFilter(initialFilter)
-    }
-
-
     // DATA
     const searchData = async () => {
-        // if (filter.nf === null) {
-        //     let message = (
-        //         <Message showIcon type="error" closable >
-        //             Erro - Preencha o campo Nota Fiscal.
-        //         </ Message>
-        //     )
-        //     throw toaster.push(message, { placement: "topEnd", duration: 4000 })
-        // }
+        const response = await api.get("epis/groups/")
 
-        // const response = await api.get(`deliveries-histories/nf/${filter.nf}/`)
+        const dataRes = response.data
 
-        // return response.data
+        let dataFiltered: any = []
+        dataRes.map((group: EpiGroupInterface) => {
+            const data: any = {
+                group: group.name
+            }
+
+            group.epis_items.map((item) => {
+                const data_item = {
+                    ...data,
+                    description: item.description,
+                    ca: item.ca,
+                    validity: item.validity
+                }
+
+                item.epis_sizes.map((size) => {
+                    const data_size = {
+                        ...data_item,
+                        size: size.size,
+                        quantity: size.quantity
+                    }
+
+                    dataFiltered.push(data_size)
+                })
+            })
+        })
+
+        return dataFiltered
     }
-    const { data, isLoading, refetch } = useQuery({
-        queryKey: ["epis-requests"],
+    const { data, isLoading } = useQuery({
+        queryKey: ["epis-groups"],
         queryFn: searchData,
         onError: () => { },
-        enabled: false
     })
 
 
     // TABLE
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Id": { dataKey: "knowledge", propsColumn: { width: 120 } },
-            "Funcionário": { dataKey: "date_emission", propsColumn: { width: 120 } },
-            "Filial": { dataKey: "sender", propsColumn: { width: 150, fullText: true } },
-            "Data Solicitação": { dataKey: "recipient", propsColumn: { width: 130, fullText: true } },
-            "Solicitante": { dataKey: "weight", propsColumn: { width: 100 } },
-            "Vizualizar": { dataKey: "button", propsColumn: { width: 110 }, click: () => { }, icon: DetailIcon, needAuth: false },
-            "Editar": { dataKey: "button", propsColumn: { width: 110 }, click: () => { }, icon: DocPassIcon, needAuth: false }
+            "Grupo": {
+                dataKey: "name",
+                propsColumn: {
+                    flexGrow: 1,
+                    rowSpan: (rowData) => {
+
+                        // return rowData.epi_items.length
+                    }
+                }
+            },
+            "CA": { dataKey: "ca", propsColumn: { flexGrow: 1 } },
+            "Validade": { dataKey: "validity", propsColumn: { flexGrow: 1 } },
+            // "Itens": { dataKey: "button", propsColumn: { flexGrow: 1 }, click: () => { }, icon: DetailIcon },
+            // "Visualizar": { dataKey: "button", propsColumn: { flexGrow: 1 }, click: () => { }, icon: DetailIcon },
         }
     }, [])
 
@@ -75,13 +82,12 @@ export default function EPIsControls() {
     return (
         <MainPanel.Root>
 
-            <MainPanel.Header title="Solicitações EPI's">
+            <MainPanel.Header title="Controle EPI's">
+                <EPIControl.Header />
             </MainPanel.Header>
 
-            <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >
-                <EPIRequest.Filter />
-                <MainPanel.FilterFooter clear={clear} />
-            </MainPanel.Filter>
+            <br />
+            <br />
 
             <MainPanel.Body>
                 <MainTable.Root data={data ? data : []} columns={columns} isLoading={isLoading} />
