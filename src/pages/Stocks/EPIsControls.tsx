@@ -5,13 +5,14 @@ import DetailIcon from '@rsuite/icons/Detail';
 import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
+import { useApi } from "../../hooks/Api";
+import { FormatDate } from "../../services/Date";
 import { ColumnsInterface, QueryNFInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
-import { useApi } from "../../hooks/Api";
 import { QueryNF } from "../../components/QueryNF";
-import { FormatDate } from "../../services/Date";
+import { EPIRequest } from "../../components/EPIRequest";
 
 interface Filter {
     nf: number | null;
@@ -36,21 +37,21 @@ export default function EPIsControls() {
 
     // DATA
     const searchData = async () => {
-        if (filter.nf === null) {
-            let message = (
-                <Message showIcon type="error" closable >
-                    Erro - Preencha o campo Nota Fiscal.
-                </ Message>
-            )
-            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
-        }
+        // if (filter.nf === null) {
+        //     let message = (
+        //         <Message showIcon type="error" closable >
+        //             Erro - Preencha o campo Nota Fiscal.
+        //         </ Message>
+        //     )
+        //     throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+        // }
 
-        const response = await api.get(`deliveries-histories/nf/${filter.nf}/`)
+        // const response = await api.get(`deliveries-histories/nf/${filter.nf}/`)
 
-        return response.data
+        // return response.data
     }
     const { data, isLoading, refetch } = useQuery({
-        queryKey: ["query-nf"],
+        queryKey: ["epis-requests"],
         queryFn: searchData,
         onError: () => { },
         enabled: false
@@ -58,36 +59,15 @@ export default function EPIsControls() {
 
 
     // TABLE
-    const [row, setRow] = useState<any>({})
-    const [openOccurrence, setOpenOccurrence] = useState(false)
-    const modalOccurrence = (rowData: QueryNFInterface) => {
-        for (const line in rowData.occurrences) {
-            if (Object.hasOwnProperty.call(rowData.occurrences, line)) {
-                const element = rowData.occurrences[line];
-                element.description_occurrence = element.description_occurrence.toUpperCase()
-                element.date_occurrence = FormatDate(element.date_occurrence)
-            }
-        }
-        setRow(rowData.occurrences)
-        setOpenOccurrence(true)
-    }
-    const [openPacking, setOpenPacking] = useState(false)
-    const modalPacking = (rowData: QueryNFInterface) => {
-        setRow(rowData.packing_list)
-        setOpenPacking(true)
-    }
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "CTE": { dataKey: "knowledge", propsColumn: { width: 120 } },
-            "Data Emissão": { dataKey: "date_emission", propsColumn: { width: 120 } },
-            "Remetente": { dataKey: "sender", propsColumn: { width: 150, fullText: true } },
-            "Destinatário": { dataKey: "recipient", propsColumn: { width: 130, fullText: true } },
-            "Peso": { dataKey: "weight", propsColumn: { width: 100 } },
-            "Previsão Entrega": { dataKey: "date_forecast", propsColumn: { width: 130 } },
-            "Local Entrega": { dataKey: "delivery_location", propsColumn: { width: 130, fullText: true } },
-            "Nota Fiscal": { dataKey: "nf", propsColumn: { width: 120 } },
-            "Ocorrências": { dataKey: "button", propsColumn: { width: 110 }, click: modalOccurrence, icon: DetailIcon, needAuth: false },
-            "Romaneio": { dataKey: "button", propsColumn: { width: 110 }, click: modalPacking, icon: DocPassIcon, needAuth: false }
+            "Id": { dataKey: "knowledge", propsColumn: { width: 120 } },
+            "Funcionário": { dataKey: "date_emission", propsColumn: { width: 120 } },
+            "Filial": { dataKey: "sender", propsColumn: { width: 150, fullText: true } },
+            "Data Solicitação": { dataKey: "recipient", propsColumn: { width: 130, fullText: true } },
+            "Solicitante": { dataKey: "weight", propsColumn: { width: 100 } },
+            "Vizualizar": { dataKey: "button", propsColumn: { width: 110 }, click: () => { }, icon: DetailIcon, needAuth: false },
+            "Editar": { dataKey: "button", propsColumn: { width: 110 }, click: () => { }, icon: DocPassIcon, needAuth: false }
         }
     }, [])
 
@@ -95,18 +75,16 @@ export default function EPIsControls() {
     return (
         <MainPanel.Root>
 
-            <MainPanel.Header title="Consulta NF">
+            <MainPanel.Header title="Solicitações EPI's">
             </MainPanel.Header>
 
             <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >
-                <QueryNF.Filter />
+                <EPIRequest.Filter />
                 <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 
             <MainPanel.Body>
                 <MainTable.Root data={data ? data : []} columns={columns} isLoading={isLoading} />
-                <QueryNF.Occurrence row={row} open={openOccurrence} setOpen={setOpenOccurrence} />
-                <QueryNF.Packing row={row} open={openPacking} setOpen={setOpenPacking} />
             </MainPanel.Body>
 
         </MainPanel.Root>
