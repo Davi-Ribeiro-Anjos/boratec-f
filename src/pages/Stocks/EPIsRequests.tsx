@@ -12,6 +12,7 @@ import { ColumnsInterface, QueryNFInterface } from "../../services/Interfaces";
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
 import { QueryNF } from "../../components/QueryNF";
+import { EPIRequest } from "../../components/EPIRequest";
 
 interface Filter {
     nf: number | null;
@@ -78,7 +79,7 @@ export default function EPIsRequests() {
             </MainPanel.Header>
 
             <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >
-                <QueryNF.Filter />
+                <EPIRequest.Filter />
                 <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 
