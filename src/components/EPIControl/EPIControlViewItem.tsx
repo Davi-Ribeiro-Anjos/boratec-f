@@ -40,7 +40,7 @@ export const EpiControlViewItem = memo(
 
         return (
             <>
-                <MainDrawer.Root open={open} close={close} size='sm'>
+                <MainDrawer.Root open={open} close={close} size='md'>
                     <MainDrawer.Header title="Itens Cadastrados" close={close} name='Cadastrar Item' openModal={openCreateItem} />
                     <MainDrawer.Body>
                         <Table
