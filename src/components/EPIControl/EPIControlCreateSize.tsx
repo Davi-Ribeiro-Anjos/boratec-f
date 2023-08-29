@@ -1,36 +1,36 @@
-import { Form, Row, Col, useToaster, Grid, Input, DatePicker, InputNumber } from 'rsuite';
+import { Form, Row, Col, useToaster, Grid, Input, InputNumber } from 'rsuite';
 import { styles } from '../../assets/styles';
 
 import { memo, useState, useContext } from 'react';
 import { useMutation } from 'react-query';
 
-import { AxiosError } from 'axios';
+// import { AxiosError } from 'axios';
 import { useApi } from '../../hooks/Api';
 import { UserContext } from '../../providers/UserProviders';
 import { queryClient } from '../../services/QueryClient';
 
 import { MainMessage } from '../Message';
 import { MainModal } from '../Modal';
-import { DateToString } from '../../services/Date';
 
 interface Form {
-    description: string;
-    ca: number | null;
-    validity: any;
-    group: number | undefined;
+    size?: string;
+    quantity: number | null;
+    quantity_minimum: number | null;
+    quantity_provisory: number | null;
+    item: number | undefined;
     author: number;
 }
 
-interface EpiControlCreateItemProps {
+interface EpiControlCreateSizeProps {
     open: boolean;
     setOpen: (value: boolean) => void;
-    idGroup: number | undefined;
+    idItem: number | undefined;
     modalView: (value: boolean) => void;
 }
 
 
-export const EpiControlCreateItem = memo(
-    function EpiControlCreateItem({ open, setOpen, idGroup, modalView }: EpiControlCreateItemProps) {
+export const EpiControlCreateSize = memo(
+    function EpiControlCreateSize({ open, setOpen, idItem, modalView }: EpiControlCreateSizeProps) {
         console.log("create - item")
 
         const { me }: any = useContext(UserContext)
@@ -38,10 +38,11 @@ export const EpiControlCreateItem = memo(
         const toaster = useToaster()
 
         const initialData = {
-            description: "",
-            ca: null,
-            validity: null,
-            group: undefined,
+            size: "",
+            quantity: null,
+            quantity_minimum: null,
+            quantity_provisory: null,
+            item: undefined,
             author: me.id
         }
         const [data, setData] = useState<Form>(initialData)
@@ -49,12 +50,15 @@ export const EpiControlCreateItem = memo(
         const send = async () => {
             let body = { ...data }
 
-            if (body.validity) body.validity = DateToString(body.validity)
-            body.description = body.description.toUpperCase()
+            body.size = body.size?.toUpperCase()
+            if (body.size === "") delete body.size
+            body.quantity_provisory = body.quantity
 
-            body.group = idGroup
+            body.item = idItem
 
-            return await api.post('epis/items/', { ...body })
+            console.log(body)
+
+            return await api.post('epis/sizes/', { ...body })
         }
 
         const { mutate } = useMutation({
@@ -63,16 +67,18 @@ export const EpiControlCreateItem = memo(
             onSuccess: () => {
                 queryClient.invalidateQueries(["epis-groups"])
 
-                MainMessage.Ok(toaster, "Sucesso - Item criado.")
+                MainMessage.Ok(toaster, "Sucesso - Tamanho criado.")
 
                 setOpen(false)
                 setData(initialData)
             },
-            onError: (error: AxiosError) => {
+            onError: (error: any) => {
+                delete error.response?.data.quantity_provisory
+
                 const listMessage = {
-                    description: "Descrição",
-                    ca: "CA",
-                    validity: "Vadidade",
+                    size: "Tamanho",
+                    quantity: "Quantidade",
+                    quantity_minimum: "Quantidade Mínima",
                 }
 
                 MainMessage.Error400(toaster, error, listMessage)
@@ -88,29 +94,28 @@ export const EpiControlCreateItem = memo(
 
         return (
             <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size='md'>
-                <MainModal.Header title="Adicionar Item" />
+                <MainModal.Header title="Adicionar Tamanho" />
                 <MainModal.Body>
                     <Grid fluid>
                         <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
-                                    <Form.ControlLabel>Descrição:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="description" accepter={Input} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                    <Form.ControlLabel>Tamanho:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="size" accepter={Input} />
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
-                                    <Form.ControlLabel>CA:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="ca" min={0} accepter={InputNumber} />
+                                    <Form.ControlLabel>Quantidade:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="quantity" min={0} accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col xs={24}>
                                 <Form.Group >
-                                    <Form.ControlLabel>Validade do EPI:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="validity" placeholder="DD-MM-AAAA" format="dd-MM-yyyy" accepter={DatePicker} />
+                                    <Form.ControlLabel>Quantidade Mínima:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="quantity_minimum" min={0} accepter={InputNumber} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>

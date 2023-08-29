@@ -207,6 +207,7 @@ export interface VehicleInterface {
 
 // EPIS
 export interface EpiGroupInterface {
+    id: number;
     name: string;
     epis_items: EpiItemInterface[];
 }
