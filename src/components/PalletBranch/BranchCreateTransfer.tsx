@@ -218,7 +218,7 @@ export const BranchCreateTransfer = memo(
                                     <Col xs={12}></Col>
                                     <Col xs={12}>
                                         {form.destinies.length < 5 &&
-                                            <Button onClick={addDestiny} appearance="primary" color='green'>Adicionar novo destiny</Button>
+                                            <Button onClick={addDestiny} appearance="primary" color='green'>Adicionar Destino</Button>
                                         }
                                     </Col>
                                 </Row>
