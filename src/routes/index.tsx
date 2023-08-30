@@ -107,7 +107,7 @@ export function MainRoutes() {
                 )
             } />
             <Route path="/estoques/epis/solicitacoes" element={
-                verifyPermission("stocks") ? (
+                verifyPermission("stocks_epis") ? (
                     <Suspense>
                         <EPIsRequests />
                     </Suspense>
@@ -118,7 +118,7 @@ export function MainRoutes() {
                 )
             } />
             <Route path="/estoques/epis/controles" element={
-                verifyPermission("stocks") ? (
+                verifyPermission("stocks_epis") ? (
                     <Suspense>
                         <EPIsControls />
                     </Suspense>
