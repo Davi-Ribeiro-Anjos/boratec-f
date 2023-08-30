@@ -206,6 +206,25 @@ export interface VehicleInterface {
 }
 
 // EPIS
+export interface EpiRequestInterface {
+    id: number;
+    date_requested: string;
+    date_send: string;
+    date_confirmed: string;
+    date_canceled: string;
+    attachment_confirm: any;
+    status: string;
+    branch: BranchesInterface;
+    employee: EmployeesInterface;
+    author_create: EmployeesInterface;
+    epis_carts: EpiCartInterface[];
+}
+export interface EpiCartInterface {
+    id: number;
+    quantity: number;
+    size: EpiSizeRequestInterface[];
+}
+
 export interface EpiGroupInterface {
     id: number;
     name: string;
@@ -218,10 +237,22 @@ export interface EpiItemInterface {
     validity: string;
     epis_sizes: EpiSizeInterface[];
 }
+export interface EpiItemRequestInterface {
+    id: number;
+    description: string;
+    ca?: string;
+    validity: string;
+}
 export interface EpiSizeInterface {
     id: number;
     size: string;
     quantity: number;
     quantity_minimum: number;
     quantity_provisory: number;
+}
+export interface EpiSizeRequestInterface {
+    id: number;
+    size: string;
+    quantity: number;
+    item: EpiItemRequestInterface;
 }
