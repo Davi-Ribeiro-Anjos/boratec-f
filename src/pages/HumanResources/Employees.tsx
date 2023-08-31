@@ -1,4 +1,4 @@
-import { Uploader, useToaster } from "rsuite";
+import { useToaster } from "rsuite";
 import EditIcon from "@rsuite/icons/Edit";
 
 import { useContext, useMemo, useState } from "react";
@@ -88,7 +88,6 @@ export default function Employees() {
         row_.covenant_discount = rowData.pj_complements.covenant_discount || null
         row_.others_discounts = rowData.pj_complements.others_discounts || null
 
-        console.log(row_)
         setRow(row_)
         setOpenEdit(true)
     }

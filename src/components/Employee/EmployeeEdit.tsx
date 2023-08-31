@@ -1,8 +1,8 @@
-import { Form, Uploader, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, InputPicker, Checkbox, Message } from "rsuite";
+import { Form, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, Message } from "rsuite";
 import { styles } from "../../assets/styles";
 
 import { AxiosError, AxiosResponse } from "axios";
-import { memo, useState, useCallback, useContext } from "react";
+import { memo, useContext } from "react";
 import { useMutation } from "react-query";
 
 import { useApi } from "../../hooks/Api";
@@ -11,7 +11,6 @@ import { BranchesChoices, StatusEmployeeChoices } from "../../services/Choices";
 import { CompanyChoices } from "../../services/Choices";
 import { DateToString } from "../../services/Date";
 import { queryClient } from "../../services/QueryClient";
-import { EmployeesInterface } from "../../services/Interfaces";
 
 import { MainMessage } from "../Message";
 import { MainModal } from "../Modal";
@@ -74,7 +73,6 @@ export const EmployeeEdit = memo(
             mutationFn: editEmployees,
             onSuccess: (response: AxiosResponse) => {
                 const dataRes = response.data
-                // queryClient.invalidateQueries(["employees"])
 
                 queryClient.setQueryData(["employees"], (currentData: any) => {
 
