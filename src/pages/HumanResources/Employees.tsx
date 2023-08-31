@@ -1,5 +1,4 @@
 import { useToaster } from "rsuite";
-import ListIcon from "@rsuite/icons/List";
 import EditIcon from "@rsuite/icons/Edit";
 
 import { useContext, useMemo, useState } from "react";
@@ -7,7 +6,7 @@ import { useQuery } from "react-query";
 
 import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
-import { ColumnsInterface } from "../../services/Interfaces";
+import { ColumnsInterface, EmployeesInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
@@ -29,16 +28,18 @@ const initialFilter = {
 
 
 export default function Employees() {
-    console.log("funcionarios pj")
+    console.log("employees pj")
 
     const { token }: any = useContext(UserContext)
-    const api = useApi(token)
+    const api = useApi()
     const toaster = useToaster()
 
+    // FILTER
     const [filter, setFilter] = useState<Filter>({ ...initialFilter })
     const clear = () => {
         setFilter(initialFilter)
     }
+
 
     // DATA
     const searchData = async () => {
@@ -55,40 +56,33 @@ export default function Employees() {
 
         return dataRes
     }
-
     const { data, isLoading, refetch } = useQuery({
         queryKey: ["employees"],
         queryFn: searchData,
         onError: (error: AxiosError) => {
-            let message = {
-                funcionario: "Funcionário",
-                branch: "Filial",
-                type_contract: "Tipo Contrato",
-            }
-
-            MainMessage.Error400(toaster, error, message)
             MainMessage.Error401(toaster, error)
             MainMessage.Error500(toaster, error, "Ocorreu um erro ao buscar os dados")
         },
         enabled: false
     })
 
+
     // EDIT
-    const [open, setOpen] = useState(false)
-    const edit = () => {
-        setOpen(true)
+    const [row, setRow] = useState<EmployeesInterface>()
+    const [openEdit, setOpenEdit] = useState(false)
+    const modalEdit = (rowData: any) => {
+        setOpenEdit(true)
     }
 
 
     // TABLE
-
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nome": { dataKey: "name", width: 300 },
-            "Filial": { dataKey: "branch.abbreviation", width: 120 },
-            "CNPJ": { dataKey: "cnpj", width: 150 },
-            "Dados Bancários": { dataKey: "bank_details", width: 350 },
-            "Editar": { dataKey: "button", width: 130, click: edit, icon: EditIcon }
+            "Nome": { dataKey: "name", propsColumn: { width: 300 } },
+            "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 120 } },
+            "CNPJ": { dataKey: "cnpj", propsColumn: { width: 150 } },
+            "Dados Bancários": { dataKey: "bank_details", propsColumn: { width: 350 } },
+            "Editar": { dataKey: "button", propsColumn: { width: 130 }, click: modalEdit, icon: EditIcon }
         }
     }, [])
 
@@ -107,8 +101,9 @@ export default function Employees() {
 
             <MainPanel.Body>
                 <MainTable.Root data={data ? data : []} columns={columns} isLoading={isLoading} />
-                <Employee.Edit open={open} setOpen={setOpen} />
+                <Employee.Edit open={openEdit} setOpen={setOpenEdit} />
             </MainPanel.Body>
+
         </MainPanel.Root>
     )
 }
