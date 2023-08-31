@@ -3,42 +3,42 @@ import PlusIcon from '@rsuite/icons/Plus';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 import ListIcon from '@rsuite/icons/List';
 
-import { styles } from "../../assets/styles";
+import { styles } from "../../../assets/styles";
 
-interface EmployeeServiceHolidayProps {
+interface EmployeeServiceBonusProps {
 
 }
 
 
-export function EmployeeServiceHoliday({ }: EmployeeServiceHolidayProps) {
+export function EmployeeServiceBonus({ }: EmployeeServiceBonusProps) {
     return (
-        <Panel header="Férias" eventKey={3}>
+        <Panel header="Bônus" eventKey={4}>
             <Row style={styles.row}>
                 <Col xs={20}>
-                    <em>Criar Férias</em>
+                    <em>Criar Bônus</em>
                 </Col>
                 <Col xs={4}>
-                    <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Criar Férias</Tooltip>}>
+                    <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Criar Bônus</Tooltip>}>
                         <IconButton icon={<PlusIcon />} style={styles.iconBu} />
                     </Whisper>
                 </Col>
             </Row>
             <Row style={styles.row}>
                 <Col xs={20}>
-                    <em>Listar Férias</em>
+                    <em>Listar Bônus</em>
                 </Col>
                 <Col xs={4}>
-                    <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Listar Férias</Tooltip>}>
+                    <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Listar Bônus</Tooltip>}>
                         <IconButton icon={<ListIcon />} style={styles.iconBu} />
                     </Whisper>
                 </Col>
             </Row>
             <Row style={styles.row}>
                 <Col xs={20}>
-                    <em>Exportar Férias</em>
+                    <em>Exportar Bônus</em>
                 </Col>
                 <Col xs={4}>
-                    <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Exportar Férias</Tooltip>}>
+                    <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Exportar Bônus</Tooltip>}>
                         <IconButton icon={<FileDownloadIcon />} style={styles.iconBu} />
                     </Whisper>
                 </Col>

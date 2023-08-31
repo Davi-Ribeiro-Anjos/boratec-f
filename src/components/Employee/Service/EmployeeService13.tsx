@@ -3,7 +3,7 @@ import PlusIcon from '@rsuite/icons/Plus';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 import ListIcon from '@rsuite/icons/List';
 
-import { styles } from "../../assets/styles";
+import { styles } from "../../../assets/styles";
 
 interface EmployeeService13Props {
 
