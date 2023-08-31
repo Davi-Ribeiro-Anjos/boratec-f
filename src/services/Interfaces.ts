@@ -242,6 +242,7 @@ export interface EpiItemRequestInterface {
     description: string;
     ca?: string;
     validity: string;
+    time_for_use: number;
 }
 export interface EpiSizeInterface {
     id: number;

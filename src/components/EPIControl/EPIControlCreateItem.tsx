@@ -17,6 +17,7 @@ interface Form {
     description: string;
     ca: number | null;
     validity: any;
+    time_for_use: number | null;
     group: number | undefined;
     author: number;
 }
@@ -41,6 +42,7 @@ export const EpiControlCreateItem = memo(
             description: "",
             ca: null,
             validity: null,
+            time_for_use: null,
             group: undefined,
             author: me.id
         }
@@ -107,11 +109,17 @@ export const EpiControlCreateItem = memo(
                             </Col>
                         </Row>
                         <Row style={styles.row}>
-                            <Col xs={24}>
+                            <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Validade do EPI:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="validity" placeholder="DD-MM-AAAA" format="dd-MM-yyyy" accepter={DatePicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Período para troca:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="time_for_use" min={0} accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                         </Row>

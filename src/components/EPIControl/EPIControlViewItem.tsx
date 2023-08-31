@@ -20,10 +20,10 @@ export const EpiControlViewItem = memo(
     function EpiControlViewItem({ open, setOpen, row }: EpiControlViewItemProps) {
         console.log("view - item")
 
-        const [sizes, setSizes] = useState<EpiItemInterface>()
+        const [size, setSize] = useState<EpiItemInterface>()
         const [modalSize, setModalSize] = useState(false)
         const openModalSize = (rowData: EpiItemInterface) => {
-            setSizes(rowData)
+            setSize(rowData)
             setModalSize(true)
             close()
         }
@@ -52,7 +52,7 @@ export const EpiControlViewItem = memo(
                                 openModalSize(rowData)
                             }}
                         >
-                            <Column align="center" flexGrow={1}>
+                            <Column align="center" flexGrow={1} fullText>
                                 <HeaderCell>Descrição</HeaderCell>
                                 <Cell dataKey="description" />
                             </Column>
@@ -64,11 +64,15 @@ export const EpiControlViewItem = memo(
                                 <HeaderCell>Validade</HeaderCell>
                                 <Cell dataKey="validity" />
                             </Column>
+                            <Column align="center" flexGrow={1}>
+                                <HeaderCell>Período de Troca</HeaderCell>
+                                <Cell dataKey="time_for_use" />
+                            </Column>
                         </Table>
                     </MainDrawer.Body>
                 </MainDrawer.Root>
                 <EPIControl.CreateItem open={modalCrate} setOpen={setModalCrate} idGroup={row?.id} modalView={setOpen} />
-                <EPIControl.ViewSize open={modalSize} setOpen={setModalSize} row={sizes} modalItem={setOpen} />
+                <EPIControl.ViewSize open={modalSize} setOpen={setModalSize} row={size} modalItem={setOpen} />
             </>
         );
     });

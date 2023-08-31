@@ -1,64 +1,39 @@
 import { Form, Row, Col, useToaster, Grid, Input, InputNumber } from 'rsuite';
 import { styles } from '../../assets/styles';
 
-import { memo, useState, useContext } from 'react';
+import { memo } from 'react';
 import { useMutation } from 'react-query';
 
 // import { AxiosError } from 'axios';
 import { useApi } from '../../hooks/Api';
-import { UserContext } from '../../providers/UserProviders';
 import { queryClient } from '../../services/QueryClient';
 
 import { MainMessage } from '../Message';
 import { MainModal } from '../Modal';
+import { EpiSizeInterface } from '../../services/Interfaces';
 
-interface Form {
-    size?: string;
-    quantity: number | null;
-    quantity_minimum: number | null;
-    quantity_provisory: number | null;
-    item: number | undefined;
-    author: number;
-}
 
-interface EpiControlCreateSizeProps {
+interface EpiControlEditSizeProps {
     open: boolean;
     setOpen: (value: boolean) => void;
-    idItem: number | undefined;
+    row: EpiSizeInterface | undefined;
+    setRow: any;
     modalView: (value: boolean) => void;
 }
 
 
-export const EpiControlCreateSize = memo(
-    function EpiControlCreateSize({ open, setOpen, idItem, modalView }: EpiControlCreateSizeProps) {
-        console.log("create - item")
+export const EpiControlEditSize = memo(
+    function EpiControlEditSize({ open, setOpen, row, setRow, modalView }: EpiControlEditSizeProps) {
+        console.log("edit - item")
 
-        const { me }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()
 
-        const initialData = {
-            size: "",
-            quantity: null,
-            quantity_minimum: null,
-            quantity_provisory: null,
-            item: undefined,
-            author: me.id
-        }
-        const [data, setData] = useState<Form>(initialData)
 
         const send = async () => {
-            let body = { ...data }
+            let body = { ...row }
 
-            body.size = body.size?.toUpperCase()
-            if (body.size === "") delete body.size
-            body.quantity_provisory = body.quantity
-
-            body.item = idItem
-
-            console.log(body)
-
-            return await api.post('epis/sizes/', { ...body })
+            return await api.patch(`epis/sizes/${row?.id}/`, { ...body })
         }
 
         const { mutate } = useMutation({
@@ -67,10 +42,9 @@ export const EpiControlCreateSize = memo(
             onSuccess: () => {
                 queryClient.invalidateQueries(["epis-groups"])
 
-                MainMessage.Ok(toaster, "Sucesso - Tamanho criado.")
+                MainMessage.Ok(toaster, "Sucesso - Tamanho editado.")
 
                 setOpen(false)
-                setData(initialData)
             },
             onError: (error: any) => {
                 delete error.response?.data.quantity_provisory
@@ -79,22 +53,23 @@ export const EpiControlCreateSize = memo(
                     size: "Tamanho",
                     quantity: "Quantidade",
                     quantity_minimum: "Quantidade Mínima",
+                    message: "Erro"
                 }
 
                 MainMessage.Error400(toaster, error, listMessage)
                 MainMessage.Error401(toaster, error)
+                MainMessage.Error500(toaster, error)
             }
         })
 
         const close = () => {
             setOpen(false);
-            setData(initialData)
             modalView(true)
         }
 
         return (
-            <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size='md'>
-                <MainModal.Header title="Adicionar Tamanho" />
+            <MainModal.Form open={open} close={close} send={mutate} data={row} setData={setRow} size='md'>
+                <MainModal.Header title="Editar Tamanho" />
                 <MainModal.Body>
                     <Grid fluid>
                         <Row style={styles.row}>
@@ -108,22 +83,26 @@ export const EpiControlCreateSize = memo(
                                 <Form.Group >
                                     <Form.ControlLabel>Quantidade:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="quantity" min={0} accepter={InputNumber} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                         </Row>
                         <Row style={styles.row}>
-                            <Col xs={24}>
+                            <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Quantidade Mínima:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="quantity_minimum" min={0} accepter={InputNumber} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Quantidade Provisória:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="quantity_provisory" min={0} accepter={Input} disabled />
                                 </Form.Group>
                             </Col>
                         </Row>
                     </Grid>
                 </MainModal.Body>
-                <MainModal.FooterForm name='Criar' close={close} />
+                <MainModal.FooterForm name='Editar' close={close} />
             </MainModal.Form>
         );
     });
