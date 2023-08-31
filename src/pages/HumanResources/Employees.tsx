@@ -1,4 +1,4 @@
-import { useToaster } from "rsuite";
+import { Uploader, useToaster } from "rsuite";
 import EditIcon from "@rsuite/icons/Edit";
 
 import { useContext, useMemo, useState } from "react";
@@ -13,15 +13,16 @@ import { MainTable } from "../../components/Table";
 import { Employee } from "../../components/Employee";
 import { AxiosError } from "axios";
 import { MainMessage } from "../../components/Message";
+import { StringToDate } from "../../services/Date";
 
 interface Filter {
-    id: number | null,
+    name__contains: string,
     branch: number | null,
     type_contract: string
 }
 
 const initialFilter = {
-    id: null,
+    name__contains: "",
     branch: null,
     type_contract: "PJ"
 }
@@ -30,7 +31,7 @@ const initialFilter = {
 export default function Employees() {
     console.log("employees pj")
 
-    const { token }: any = useContext(UserContext)
+    const { }: any = useContext(UserContext)
     const api = useApi()
     const toaster = useToaster()
 
@@ -71,6 +72,24 @@ export default function Employees() {
     const [row, setRow] = useState<EmployeesInterface>()
     const [openEdit, setOpenEdit] = useState(false)
     const modalEdit = (rowData: any) => {
+        let row_: any = { ...rowData }
+
+        row_.branch = rowData.branch.id
+        row_.date_admission = StringToDate(rowData.date_admission)
+
+        // COMPLEMENTS
+        row_.salary = rowData.pj_complements.salary || null
+        row_.college = rowData.pj_complements.college || null
+        row_.allowance = rowData.pj_complements.allowance || null
+        row_.housing_allowance = rowData.pj_complements.housing_allowance || null
+        row_.covenant_credit = rowData.pj_complements.covenant_credit || null
+        row_.others_credits = rowData.pj_complements.others_credits || null
+        row_.advance_money = rowData.pj_complements.advance_money || null
+        row_.covenant_discount = rowData.pj_complements.covenant_discount || null
+        row_.others_discounts = rowData.pj_complements.others_discounts || null
+
+        console.log(row_)
+        setRow(row_)
         setOpenEdit(true)
     }
 
@@ -101,7 +120,7 @@ export default function Employees() {
 
             <MainPanel.Body>
                 <MainTable.Root data={data ? data : []} columns={columns} isLoading={isLoading} />
-                <Employee.Edit open={openEdit} setOpen={setOpenEdit} />
+                <Employee.Edit open={openEdit} setOpen={setOpenEdit} row={row} setRow={setRow} />
             </MainPanel.Body>
 
         </MainPanel.Root>

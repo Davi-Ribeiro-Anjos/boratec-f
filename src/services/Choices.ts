@@ -25,24 +25,27 @@ export const BranchesChoices = [
     { label: 'FMA', value: 23 },
     { label: 'JSR', value: 24 },
     { label: 'JC', value: 25 },
-].map(item => ({ label: item.label, value: item.value }));
+].map(item => ({ label: item.label, value: item.value }))
 
 
 // PALLET
 export const TypePalletChoices = [
     "PBR", "CHEP"
-].map(item => ({ label: item, value: item }));
+].map(item => ({ label: item, value: item }))
 
 // EMPLOYEES
 export const TypeContractChoices = [
     "CLT", "PJ"
-].map(item => ({ label: item, value: item }));
+].map(item => ({ label: item, value: item }))
+export const StatusEmployeeChoices = [
+    "ATIVO", "DEMITIDO", "AFASTADO"
+].map(item => ({ label: item, value: item }))
 
 
 // PURCHASE REQUEST
 export const StatusChoices = [
     "ABERTO", "ANDAMENTO", "CONCLUIDO", "CANCELADO",
-].map(item => ({ label: item, value: item }));
+].map(item => ({ label: item, value: item }))
 
 export const DepartmentChoices = [
     { label: "NÃO INFORMADO", value: "NAO INFORMADO" },
@@ -61,7 +64,7 @@ export const DepartmentChoices = [
     { label: "TI", value: "TI" },
     { label: "FILIAIS", value: "FILIAIS" },
     { label: "COMPRAS", value: "COMPRAS" },
-].map(item => ({ label: item.label, value: item.value }));
+].map(item => ({ label: item.label, value: item.value }))
 
 export const FormPaymentChoices = [
     { label: "NÃO INFORMADO", value: "NAO INFORMADO" },
@@ -78,14 +81,14 @@ export const FormPaymentChoices = [
     { label: "PARCELADO 10X", value: "PARCELADO 10X" },
     { label: "PARCELADO 11X", value: "PARCELADO 11X" },
     { label: "PARCELADO 12X", value: "PARCELADO 12X" },
-].map(item => ({ label: item.label, value: item.value }));
+].map(item => ({ label: item.label, value: item.value }))
 
 export const CategoryChoices = [
     { label: "NÃO INFORMADO", value: "NAO INFORMADO" },
     { label: "ALMOXARIFADO", value: "ALMOXARIFADO" },
     { label: "COTAÇÃO", value: "COTACAO" },
     { label: "NOTA FISCAL", value: "NOTA FISCAL" },
-].map(item => ({ label: item.label, value: item.value }));
+].map(item => ({ label: item.label, value: item.value }))
 
 export const CompanyChoices = [
     { label: "BORA", value: "BORA" },
@@ -93,4 +96,4 @@ export const CompanyChoices = [
     { label: "JC", value: "JC" },
     { label: "JSR", value: "JSR" },
     { label: "TRANSFOOD", value: "TRANSFOOD" },
-].map(item => ({ label: item.label, value: item.value }));
+].map(item => ({ label: item.label, value: item.value }))
