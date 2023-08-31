@@ -37,6 +37,7 @@ export const TableRoot = memo(
                     height={400}
                     data={dataFiltered}
                     loading={isLoading}
+                    hover={false}
                     {...props}
                 >
                     {

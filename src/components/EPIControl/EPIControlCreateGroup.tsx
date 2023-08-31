@@ -1,16 +1,16 @@
-import { Form, Uploader, SelectPicker, Row, Col, InputNumber, useToaster, Grid, Input } from 'rsuite';
+import { Form, Row, Col, useToaster, Grid, Input } from 'rsuite';
 import { styles } from '../../assets/styles';
 
 import { memo, useState, useContext } from 'react';
 import { useMutation } from 'react-query';
 
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { useApi } from '../../hooks/Api';
 import { UserContext } from '../../providers/UserProviders';
+import { queryClient } from '../../services/QueryClient';
 
 import { MainMessage } from '../Message';
 import { MainModal } from '../Modal';
-import { queryClient } from '../../services/QueryClient';
 
 interface Form {
     name: string;
@@ -28,7 +28,7 @@ export const EpiControlCreateGroup = memo(
         console.log("create - group")
 
         const { me }: any = useContext(UserContext)
-        const api = useApi(true)
+        const api = useApi()
         const toaster = useToaster()
 
         const initialData = {
@@ -48,18 +48,8 @@ export const EpiControlCreateGroup = memo(
         const { mutate } = useMutation({
             mutationKey: ["epis-groups"],
             mutationFn: send,
-            onSuccess: (response: AxiosResponse) => {
-                let dataRes = response.data
-
-                queryClient.setQueryData("epis-groups", (currentData: any) => {
-                    let myData: any[] = []
-
-                    currentData.map((group: any) => {
-                        group.name === dataRes.name ? myData.push(dataRes) : myData.push(group)
-                    })
-
-                    return myData
-                })
+            onSuccess: () => {
+                queryClient.invalidateQueries(["epis-groups"])
 
                 MainMessage.Ok(toaster, "Sucesso - Grupo criado.")
 

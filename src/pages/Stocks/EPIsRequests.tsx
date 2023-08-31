@@ -1,25 +1,22 @@
-import { Message, useToaster } from "rsuite";
+import { useToaster } from "rsuite";
 import DocPassIcon from '@rsuite/icons/DocPass';
 import DetailIcon from '@rsuite/icons/Detail';
+import CheckIcon from '@rsuite/icons/Check';
 
 import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
+import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
-import { FormatDate } from "../../services/Date";
-import { ColumnsInterface, QueryNFInterface } from "../../services/Interfaces";
+import { ColumnsInterface, EpiRequestInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
-import { QueryNF } from "../../components/QueryNF";
 import { EPIRequest } from "../../components/EPIRequest";
+import { MainMessage } from "../../components/Message";
 
 interface Filter {
-    nf: number | null;
-}
-
-const initialFilter: Filter = {
-    nf: null,
+    status: "ABERTO" | "ANDAMENTO" | "CONCLUIDO" | "CANCELADO";
 }
 
 
@@ -29,6 +26,9 @@ export default function EPIsRequests() {
 
 
     // FILTER
+    const initialFilter: Filter = {
+        status: "ABERTO",
+    }
     const [filter, setFilter] = useState(initialFilter)
     const clear = () => {
         setFilter(initialFilter)
@@ -37,37 +37,61 @@ export default function EPIsRequests() {
 
     // DATA
     const searchData = async () => {
-        // if (filter.nf === null) {
-        //     let message = (
-        //         <Message showIcon type="error" closable >
-        //             Erro - Preencha o campo Nota Fiscal.
-        //         </ Message>
-        //     )
-        //     throw toaster.push(message, { placement: "topEnd", duration: 4000 })
-        // }
+        const response = await api.get("epis/requests/", { params: { ...filter } })
 
-        // const response = await api.get(`deliveries-histories/nf/${filter.nf}/`)
-
-        // return response.data
+        return response.data
     }
     const { data, isLoading, refetch } = useQuery({
         queryKey: ["epis-requests"],
         queryFn: searchData,
-        onError: () => { },
+        onError: (error: AxiosError) => {
+            MainMessage.Error401(toaster, error)
+            MainMessage.Error500(toaster, error)
+        },
         enabled: false
     })
 
 
     // TABLE
+    const [row, setRow] = useState<EpiRequestInterface>()
+    const [openView, setOpenView] = useState(false)
+    const modalView = (rowData: any) => {
+        setRow(rowData)
+        setOpenView(true)
+    }
+    const [openSend, setOpenSend] = useState(false)
+    const modalSend = (rowData: any) => {
+        setRow(rowData)
+        setOpenSend(true)
+    }
+    const [openConfirm, setOpenConfirm] = useState(false)
+    const modalConfirm = (rowData: any) => {
+        setRow(rowData)
+        setOpenConfirm(true)
+    }
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Id": { dataKey: "knowledge", propsColumn: { width: 120 } },
-            "Funcionário": { dataKey: "date_emission", propsColumn: { width: 120 } },
-            "Filial": { dataKey: "sender", propsColumn: { width: 150, fullText: true } },
-            "Data Solicitação": { dataKey: "recipient", propsColumn: { width: 130, fullText: true } },
-            "Solicitante": { dataKey: "weight", propsColumn: { width: 100 } },
-            "Vizualizar": { dataKey: "button", propsColumn: { width: 110 }, click: () => { }, icon: DetailIcon, needAuth: false },
-            "Editar": { dataKey: "button", propsColumn: { width: 110 }, click: () => { }, icon: DocPassIcon, needAuth: false }
+            "Id": { dataKey: "id", propsColumn: { width: 120 } },
+            "Funcionário": { dataKey: "employee.name", propsColumn: { width: 200, fullText: true } },
+            "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 150 } },
+            "Data Solicitação": { dataKey: "date_requested", propsColumn: { width: 130 } },
+            "Solicitante": { dataKey: "author_create.name", propsColumn: { width: 200, fullText: true } },
+        }
+    }, [])
+    const send = useMemo<ColumnsInterface>(() => {
+        return {
+            "Vizualizar": { dataKey: "button", propsColumn: { width: 130 }, click: modalView, icon: DetailIcon },
+            "Enviar": { dataKey: "button", propsColumn: { width: 130 }, click: modalSend, icon: DocPassIcon }
+        }
+    }, [])
+    const confirm = useMemo<ColumnsInterface>(() => {
+        return {
+            "Confirmar": { dataKey: "button", propsColumn: { width: 130 }, click: modalConfirm, icon: CheckIcon }
+        }
+    }, [])
+    const view = useMemo<ColumnsInterface>(() => {
+        return {
+            "Vizualizar": { dataKey: "button", propsColumn: { width: 130 }, click: modalView, icon: DetailIcon },
         }
     }, [])
 
@@ -76,6 +100,7 @@ export default function EPIsRequests() {
         <MainPanel.Root>
 
             <MainPanel.Header title="Solicitações EPI's">
+                <EPIRequest.Header />
             </MainPanel.Header>
 
             <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >
@@ -84,7 +109,20 @@ export default function EPIsRequests() {
             </MainPanel.Filter>
 
             <MainPanel.Body>
-                <MainTable.Root data={data ? data : []} columns={columns} isLoading={isLoading} />
+                <MainTable.Root data={data ? data : []} isLoading={isLoading}
+                    columns={
+                        data && data.length > 0 ?
+                            data[0].status == "ABERTO" && { ...columns, ...send } ||
+                            data[0].status == "ANDAMENTO" && { ...columns, ...confirm } ||
+                            data[0].status == "CONCLUIDO" && { ...columns, ...view } ||
+                            data[0].status == "CANCELADO" && { ...columns, ...view } ||
+                            { ...columns, ...send }
+                            :
+                            columns
+                    } />
+                <EPIRequest.View open={openView} setOpen={setOpenView} row={row} />
+                <EPIRequest.Send open={openSend} setOpen={setOpenSend} row={row} />
+                <EPIRequest.Confirm open={openConfirm} setOpen={setOpenConfirm} row={row} />
             </MainPanel.Body>
 
         </MainPanel.Root>
