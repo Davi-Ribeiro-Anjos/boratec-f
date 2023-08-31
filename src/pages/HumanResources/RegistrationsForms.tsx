@@ -17,7 +17,7 @@ import { AxiosError } from "axios";
 import { MainMessage } from "../../components/Message";
 
 interface Filter {
-    id: number | null;
+    name__contains: string;
     cnpj_cpf: any;
     cnpj: string | null;
     cpf: string | null;
@@ -26,7 +26,7 @@ interface Filter {
 }
 
 const initialFilter: Filter = {
-    id: null,
+    name__contains: "",
     cnpj_cpf: "",
     cnpj: null,
     cpf: null,
@@ -161,7 +161,7 @@ export default function RegistrationsForms() {
             </MainPanel.Filter>
 
             <MainPanel.Body>
-                <MainTable.Root data={data ? data : []} isLoading={isLoading} columns={columns} />
+                <MainTable.Root data={data ? data : []} isLoading={isLoading} columns={columns} virtualized />
                 <RegistrationForm.EPI row={row} data={dataEPI} setData={setDataEPI} open={openEPI} setOpen={setOpenEPI} />
                 <RegistrationForm.DetailCLT data={row} open={openCLT} setOpen={setOpenCLT} />
                 <RegistrationForm.DetailPJ data={row} open={openPJ} setOpen={setOpenPJ} />
