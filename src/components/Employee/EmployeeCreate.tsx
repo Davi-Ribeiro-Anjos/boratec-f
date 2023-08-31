@@ -1,10 +1,10 @@
-import { Form, Uploader, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, InputPicker, Checkbox, Message } from "rsuite";
+import { Form, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, Message } from "rsuite";
 
-import { memo, useState, useCallback, useContext } from "react";
+import { memo, useState, useContext } from "react";
 
 import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
-import { BranchesChoices } from "../../services/Choices";
+import { BranchesChoices, StatusEmployeeChoices } from "../../services/Choices";
 
 import { MainMessage } from "../Message";
 import { MainModal } from "../Modal";
@@ -23,7 +23,7 @@ interface Form {
     type_contract: string
     cnpj: string,
     date_admission: any,
-    active: boolean,
+    status: string,
     bank: string,
     agency: number | null,
     account: number | null,
@@ -33,7 +33,7 @@ interface Form {
     allowance: number | null,
     housing_allowance: number | null,
     covenant_credit: number | null,
-    other_credits: number | null,
+    others_credits: number | null,
     advance_money: number | null,
     covenant_discount: number | null,
     others_discounts: number | null,
@@ -72,7 +72,7 @@ export const EmployeeCreate = memo(
             cnpj: "",
             type_contract: "PJ",
             date_admission: null,
-            active: true,
+            status: "ATIVO",
             bank: "",
             agency: null,
             account: null,
@@ -82,7 +82,7 @@ export const EmployeeCreate = memo(
             allowance: null,
             housing_allowance: null,
             covenant_credit: null,
-            other_credits: null,
+            others_credits: null,
             advance_money: null,
             covenant_discount: null,
             others_discounts: null,
@@ -93,11 +93,11 @@ export const EmployeeCreate = memo(
 
         // EMPLOYEES
         const sendEmployees = async () => {
-            let form: any = { ...data }
+            let body: any = { ...data }
 
-            form.cnpj = form.cnpj.replaceAll('.', '').replace('-', '').replace('/', '')
-            if (form.cnpj.length === 15) form.cnpj = form.cnpj.slice(0, -1)
-            if (form.cnpj.length !== 14) {
+            body.cnpj = body.cnpj.replaceAll('.', '').replace('-', '').replace('/', '')
+            if (body.cnpj.length === 15) body.cnpj = body.cnpj.slice(0, -1)
+            if (body.cnpj.length !== 14) {
                 let message = (
                     <Message showIcon type="error" closable >
                         Erro - Complete o campo CNPJ corretamente.
@@ -106,12 +106,12 @@ export const EmployeeCreate = memo(
                 throw toaster.push(message, { placement: "topEnd", duration: 4000 })
             }
 
-            form.name = form.name.toUpperCase()
-            form.role = form.role.toUpperCase()
-            form.bank = form.bank.toUpperCase()
-            if (form.date_admission) form.date_admission = DateToString(form.date_admission)
+            body.name = body.name.toUpperCase()
+            body.role = body.role.toUpperCase()
+            body.bank = body.bank.toUpperCase()
+            if (body.date_admission) body.date_admission = DateToString(body.date_admission)
 
-            return await api.post('employees/', form)
+            return await api.post('employees/', body)
         }
 
         const { mutate: employeesMutate } = useMutation({
@@ -140,7 +140,7 @@ export const EmployeeCreate = memo(
                     company: 'Empresa',
                     cnpj: 'CNPJ',
                     date_admission: 'Data Admissão',
-                    active: 'Ativo',
+                    status: 'Ativo',
                     bank: 'Banco',
                     agency: 'Agência',
                     account: 'Conta',
@@ -156,20 +156,20 @@ export const EmployeeCreate = memo(
 
         // COMPLEMENTS
         const sendComplements = async () => {
-            let form = { ...data }
+            let body = { ...data }
 
-            if (form.salary) form.complements["salary"] = form.salary
-            if (form.college) form.complements["college"] = form.college
-            if (form.allowance) form.complements["allowance"] = form.allowance
-            if (form.housing_allowance) form.complements["housing_allowance"] = form.housing_allowance
-            if (form.covenant_credit) form.complements["covenant_credit"] = form.covenant_credit
-            if (form.other_credits) form.complements["other_credits"] = form.other_credits
-            if (form.advance_money) form.complements["advance_money"] = form.advance_money
-            if (form.covenant_discount) form.complements["covenant_discount"] = form.covenant_discount
-            if (form.others_discounts) form.complements["others_discounts"] = form.others_discounts
-            form.complements["author"] = me.id
+            if (body.salary) body.complements["salary"] = body.salary
+            if (body.college) body.complements["college"] = body.college
+            if (body.allowance) body.complements["allowance"] = body.allowance
+            if (body.housing_allowance) body.complements["housing_allowance"] = body.housing_allowance
+            if (body.covenant_credit) body.complements["covenant_credit"] = body.covenant_credit
+            if (body.others_credits) body.complements["others_credits"] = body.others_credits
+            if (body.advance_money) body.complements["advance_money"] = body.advance_money
+            if (body.covenant_discount) body.complements["covenant_discount"] = body.covenant_discount
+            if (body.others_discounts) body.complements["others_discounts"] = body.others_discounts
+            body.complements["author"] = me.id
 
-            return await api.post('pj/complements/', form.complements)
+            return await api.post('pj/complements/', body.complements)
         }
 
         const { mutate: complementsMutate } = useMutation({
@@ -185,7 +185,7 @@ export const EmployeeCreate = memo(
                     allowance: "Ajuda Custo",
                     housing_allowance: "Auxílio Moradia",
                     covenant_credit: "Crédito Convênio",
-                    other_credits: "Outros Créditos",
+                    others_credits: "Outros Créditos",
                     advance_money: "Adiantamento",
                     covenant_discount: "Desconto Convênio",
                     others_discounts: "Outros Descontos",
@@ -257,10 +257,10 @@ export const EmployeeCreate = memo(
                             </Col>
                         </Row>
                         <Row style={styles.row}>
-                            <Col xs={12}>
+                            <Col xs={24}>
                                 <Form.Group >
-                                    <Form.ControlLabel>Ativo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="active" checked={data.active} onChange={(value: any) => setData({ ...data, active: !value })} accepter={Checkbox} />
+                                    <Form.ControlLabel>Status:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="status" data={StatusEmployeeChoices} accepter={SelectPicker} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -333,7 +333,7 @@ export const EmployeeCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Outros Créditos:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="other_credits" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="others_credits" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
