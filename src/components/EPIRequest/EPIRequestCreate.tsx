@@ -149,7 +149,7 @@ export const EPIRequestCreate = memo(
                     item.epis_sizes.map((size) => {
                         const data_ = {
                             group: group.name,
-                            label: item.description + ` - ${size.size}`,
+                            label: item.description + ` - ${size.size}` + ` (${size.quantity_provisory})`,
                             value: size.id
                         }
 
