@@ -48,13 +48,11 @@ export default function EmployeesPayments({ }: EmployeePaymentProps) {
     // TABLE
     const [checkedKeys, setCheckedKeys] = useState([])
 
-    console.log(checkedKeys)
-
     return (
         <MainPanel.Root shaded>
 
             <MainPanel.Header title="Pagamento Funcionários">
-                <Payment.Header />
+                <Payment.Header checkedKeys={checkedKeys} />
             </MainPanel.Header>
 
             <br />
