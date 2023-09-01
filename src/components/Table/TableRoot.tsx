@@ -13,19 +13,20 @@ interface TableRootProps extends TableProps<any, any> {
     data: any;
     columns: ColumnsInterface;
     isLoading: boolean;
+    limit?: number;
 }
 
 
 export const TableRoot = memo(
-    function TableRoot({ data, columns, isLoading, ...props }: TableRootProps) {
+    function TableRoot({ data, columns, isLoading, limit = 30, ...props }: TableRootProps) {
         console.log("tabela")
 
         const { verifyPermission }: any = useContext(UserContext)
 
-        const [page, setPage] = useState<number>(1);
-        const limit = 30
+        const [page, setPage] = useState<number>(1)
 
         const dataFiltered = data.filter((v: any, i: number) => {
+            v
             const start = limit * (page - 1);
             const end = start + limit;
             return i >= start && i < end;
