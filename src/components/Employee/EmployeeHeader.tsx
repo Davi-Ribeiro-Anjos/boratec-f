@@ -9,8 +9,7 @@ import { Employee } from ".";
 import { styles } from "../../assets/styles";
 import { useNavigate } from "react-router-dom";
 
-interface EmployeeHeaderProps {
-}
+interface EmployeeHeaderProps { }
 
 
 export const EmployeeHeader = memo(function EmployeeHeader({ }: EmployeeHeaderProps) {
