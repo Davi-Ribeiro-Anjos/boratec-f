@@ -1,37 +1,13 @@
-import { Col, Grid, IconButton, Loader, Panel, PanelGroup, Row, Tooltip, Whisper, useToaster } from "rsuite";
-import PlusIcon from '@rsuite/icons/Plus';
-import FileDownloadIcon from '@rsuite/icons/FileDownload';
-import ListIcon from '@rsuite/icons/List';
+import { Grid, PanelGroup } from "rsuite";
 
-import { useState, memo, useContext } from "react"
-import { useQuery } from "react-query";
+import { memo } from "react"
 
-import { AxiosError } from "axios";
-import { useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
-
-
-import { MainPanel } from "../Panel";
-import { MainDrawer } from "../Drawer";
-import { MainMessage } from "../Message";
-import { Employee } from ".";
+import { MainDrawer } from "../../Drawer";
+import { Employee } from "..";
 
 interface EmployeeServiceProps {
     open: boolean;
     setOpen: (value: any) => void;
-}
-
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 250,
-        textTransform: 'uppercase'
-    },
-    row: {
-        marginBottom: 10,
-    },
-    col: {
-        margin: "10px 0",
-    },
 }
 
 

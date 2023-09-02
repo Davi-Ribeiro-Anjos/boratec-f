@@ -1,6 +1,6 @@
 import { IconButton, Tooltip, Whisper } from "rsuite"
 import PlusIcon from '@rsuite/icons/Plus';
-import MinusIcon from '@rsuite/icons/Minus';
+import ExitIcon from '@rsuite/icons/Exit';
 import MemberIcon from '@rsuite/icons/Member';
 import { styles } from "../../assets/styles";
 
@@ -30,11 +30,11 @@ export const ClientHeader = memo(
                     <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={() => setOpenEntry(true)} />
                 </Whisper>
                 <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Cadastrar Saída</Tooltip>}>
-                    <IconButton icon={<MinusIcon />} appearance="primary" color="red" style={styles.iconButton} onClick={() => setOpenExit(true)} />
+                    <IconButton icon={<ExitIcon />} appearance="primary" color="red" style={styles.iconButton} onClick={() => setOpenExit(true)} />
                 </Whisper>
                 {verifyPermission("pallet_client_admin") && (
                     <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Cadastrar Cliente</Tooltip>}>
-                        <IconButton icon={<MemberIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={() => setOpenCreate(true)} />
+                        <IconButton icon={<MemberIcon />} appearance="primary" color="blue" style={styles.iconButton} onClick={() => setOpenCreate(true)} />
                     </Whisper>
                 )}
                 <PalletClient.Create open={openCreate} setOpen={setOpenCreate} />

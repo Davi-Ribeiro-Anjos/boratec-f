@@ -2,11 +2,11 @@ import { EmployeeCreate } from "./EmployeeCreate";
 import { EmployeeEdit } from "./EmployeeEdit";
 import { EmployeeFilter } from "./EmployeeFilter";
 import { EmployeeHeader } from "./EmployeeHeader";
-import { EmployeeService } from "./EmployeeService";
-import { EmployeeService13 } from "./EmployeeService13";
-import { EmployeeServiceBonus } from "./EmployeeServiceBonus";
-import { EmployeeServiceContract } from "./EmployeeServiceContract";
-import { EmployeeServiceHoliday } from "./EmployeeServiceHoliday";
+import { EmployeeService } from "./Service/EmployeeService";
+import { EmployeeService13 } from "./Service/EmployeeService13";
+import { EmployeeServiceBonus } from "./Service/EmployeeServiceBonus";
+import { EmployeeServiceContract } from "./Service/EmployeeServiceContract";
+import { EmployeeServiceHoliday } from "./Service/EmployeeServiceHoliday";
 
 
 

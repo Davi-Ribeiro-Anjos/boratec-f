@@ -47,7 +47,7 @@ export function RegistrationFilter({ cnpj_cpf }: RegistrationFilterProps) {
                 <Col xs={12}>
                     <Form.Group >
                         <Form.ControlLabel>Funcionário: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="id" data={userChoices} accepter={SelectPicker} />
+                        <Form.Control style={styles.input} name="name__contains" data={userChoices} accepter={Input} />
                     </Form.Group>
                 </Col>
                 <Col xs={12}>
