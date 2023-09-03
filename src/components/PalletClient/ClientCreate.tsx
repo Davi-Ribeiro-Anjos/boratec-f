@@ -165,8 +165,7 @@ export const ClientCreate = memo(
                             <Col xs={12}>
                                 <Form.Group>
                                     <Form.ControlLabel>{isClient ? "CNPJ" : "CPF"}:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} value={isClient ? cnpjMask(data.document) : cpfMask(data.document)} onChange={(value) => setData({ ...data, document: value })} name="document" accepter={Input} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                    <Form.Control style={styles.input} name="document" value={isClient ? cnpjMask(data.document) : cpfMask(data.document)} onChange={(value) => setData({ ...data, document: value })} accepter={Input} />
                                 </Form.Group>
                             </Col>
                         </Row>
