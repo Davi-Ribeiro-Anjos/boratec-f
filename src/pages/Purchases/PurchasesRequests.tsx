@@ -9,7 +9,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
 import { ColumnsInterface, PurchaseRequestInterface } from "../../services/Interfaces";
-import { StringToDate } from "../../services/Date";
+import { DateToString, StringToDate } from "../../services/Date";
 
 import { MainTable } from "../../components/Table"
 import { MainPanel } from "../../components/Panel"
@@ -19,7 +19,9 @@ import { MainMessage } from "../../components/Message";
 
 interface Filter {
     number_request: string | number | null,
-    date_request: string | null,
+    date_request: any,
+    date_request__gte: any,
+    date_request__lte: any,
     status: string | null,
     branch: number | null,
     requester: number | null,
@@ -28,6 +30,8 @@ interface Filter {
 const initialFilter = {
     number_request: null,
     date_request: null,
+    date_request__gte: null,
+    date_request__lte: null,
     status: null,
     branch: null,
     requester: null,
@@ -48,12 +52,22 @@ export default function PurchasesRequests() {
     }
 
     // DATA
-    const searchData = useCallback(async () => {
-        if (filter.number_request === "") {
-            filter.number_request = null
+    const searchData = async () => {
+        let filter_ = { ...filter }
+
+        if (filter_.number_request === "") {
+            filter_.number_request = null
         }
-        return await api.get("purchases-requests/", { params: { ...filter } })
-    }, [filter])
+
+        if (filter_.date_request) {
+            filter_.date_request__gte = DateToString(filter_.date_request[0])
+            filter_.date_request__lte = DateToString(filter_.date_request[1])
+
+            delete filter_.date_request
+        }
+
+        return await api.get("purchases-requests/", { params: { ...filter_ } })
+    }
     const { data, isLoading, refetch } = useQuery({
         queryKey: ["purchases-requests"],
         queryFn: searchData,
