@@ -310,58 +310,58 @@ export const EmployeeCreate = memo(
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
-                                    <Form.ControlLabel>Ajuda de Custo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="allowance" accepter={InputNumber} />
+                                    <Form.ControlLabel>Faculdade:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="college" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                         </Row>
                         <Row style={styles.row}>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Ajuda de Custo:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="allowance" accepter={InputNumber} />
+                                </Form.Group>
+                            </Col>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Auxílio Moradia:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="housing_allowance" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
+                        </Row>
+                        <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Crédito Convênio:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="covenant_credit" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
-                        </Row>
-                        <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Outros Créditos:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="others_credits" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
+                        </Row>
+                        <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Adiantamento:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="advance_money" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
-                        </Row>
-                        <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Desconto Convênio:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="covenant_discount" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Outros Descontos:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="others_discounts" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col xs={24}>
                                 <Form.Group >
-                                    <Form.ControlLabel>Faculdade:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="college" accepter={InputNumber} />
+                                    <Form.ControlLabel>Outros Descontos:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="others_discounts" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                         </Row>

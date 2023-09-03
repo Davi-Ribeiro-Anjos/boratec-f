@@ -1,18 +1,25 @@
-import { Form, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, Message, DateRangePicker, Modal, Button } from "rsuite";
+import { Form, Row, Col, useToaster, DatePicker, Message, DateRangePicker, Modal, Button } from "rsuite";
+import { styles } from "../../assets/styles";
 
-import { memo, useState, useContext } from "react";
+import { useState } from "react";
+import { useMutation } from "react-query";
 
+import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
-import { BranchesChoices } from "../../services/Choices";
+import { DateToString, FormatDate } from "../../services/Date";
 
 import { MainMessage } from "../Message";
 import { MainModal } from "../Modal";
-import { useMutation } from "react-query";
-import { AxiosError } from "axios";
-import { styles } from "../../assets/styles";
 
-interface Form { }
+interface Form {
+    period: any;
+    period_initial: string | undefined;
+    period_end: string | undefined;
+    date_payment: any;
+    date_limit_nf: any;
+    total: boolean;
+    employees: number[];
+}
 
 interface PaymentSendProps {
     open: boolean;
@@ -22,41 +29,61 @@ interface PaymentSendProps {
 
 
 export function PaymentSend({ open, setOpen, checkedKeys }: PaymentSendProps) {
-    console.log("send - payment")
+    console.log("email - payment")
 
-    const { me }: any = useContext(UserContext)
     const api = useApi()
     const toaster = useToaster()
 
-    const initialData = {}
+    let total = false
+    const initialData = {
+        period: null,
+        period_initial: "",
+        period_end: "",
+        date_payment: null,
+        date_limit_nf: null,
+        total: false,
+        employees: []
+    }
 
     const [data, setData] = useState<Form>(initialData)
 
-    const sendTotal = async () => {
-        let body: any = { ...data }
-        console.log(body)
-        console.log(checkedKeys)
+    const sendEmail = async () => {
+        let body = { ...data }
 
-        return true
-        // return await api.post('employees/', body)
+        let error = false
+        if (!body.period) error = true
+        if (!body.date_payment) error = true
+        if (!body.date_limit_nf) error = true
+
+        if (error) {
+            let message = (
+                <Message showIcon type="error" closable >
+                    Erro - Preencha os campos coretamente.
+                </ Message>
+            )
+            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+        }
+
+
+        body.period_initial = FormatDate(DateToString(body.period[0]))
+        body.period_end = FormatDate(DateToString(body.period[1]))
+        body.date_payment = FormatDate(DateToString(body.date_payment))
+        body.date_limit_nf = FormatDate(DateToString(body.date_limit_nf))
+
+        body.employees = checkedKeys
+        body.total = total
+
+        delete body.period
+
+        return await api.post('employees/payments/emails/', body)
     }
-    const { mutate: SendTotal } = useMutation({
+    const { mutate: SendEmail } = useMutation({
         mutationKey: ["employees-payments"],
-        mutationFn: sendTotal,
+        mutationFn: sendEmail,
         onSuccess: () => {
-            // const dataRes = response.data
+            MainMessage.Ok(toaster, "Sucesso - Todos os emails foram enviados.")
 
-            // queryClient.setQueryData(["employees"], (currentData: any) => {
-            //     if (currentData) {
-            //         dataRes["bank_details"] = `BCO: ${dataRes.bank} | AG: ${dataRes.agency} | CC: ${dataRes.account}`
-
-            //         return currentData.concat(dataRes)
-            //     }
-            // })
-
-            //     MainMessage.Ok(toaster, "Sucesso - Funcionário cadastrado.")
-
-            //     close()
+            close()
         },
         onError: (error: AxiosError) => {
             const message = {
@@ -68,42 +95,10 @@ export function PaymentSend({ open, setOpen, checkedKeys }: PaymentSendProps) {
         }
     })
 
-    const sendAdvance = async () => {
-        let body: any = { ...data }
-        console.log("advance")
-
-
-        return true
-        // return await api.post('employees/', body)
+    const send = (type: boolean) => {
+        total = type
+        SendEmail()
     }
-    const { mutate: SendAdvance } = useMutation({
-        mutationKey: ["employees-payments"],
-        mutationFn: sendAdvance,
-        onSuccess: () => {
-            // const dataRes = response.data
-
-            // queryClient.setQueryData(["employees"], (currentData: any) => {
-            //     if (currentData) {
-            //         dataRes["bank_details"] = `BCO: ${dataRes.bank} | AG: ${dataRes.agency} | CC: ${dataRes.account}`
-
-            //         return currentData.concat(dataRes)
-            //     }
-            // })
-
-            //     MainMessage.Ok(toaster, "Sucesso - Funcionário cadastrado.")
-
-            //     close()
-        },
-        onError: (error: AxiosError) => {
-            const message = {
-            }
-
-            MainMessage.Error400(toaster, error, message)
-            MainMessage.Error401(toaster, error)
-            MainMessage.Error500(toaster, error)
-        }
-    })
-
 
     const close = () => {
         setOpen(false);
@@ -112,28 +107,28 @@ export function PaymentSend({ open, setOpen, checkedKeys }: PaymentSendProps) {
     }
 
     return (
-        <MainModal.Form open={open} close={close} send={SendAdvance} data={data} setData={setData} size="md" overflow={false}>
+        <MainModal.Form open={open} close={close} send={() => send(false)} data={data} setData={setData} size="md" overflow={false}>
             <MainModal.Header title="Enviar Emails" />
             <MainModal.Body>
                 <Row style={styles.row}>
                     <Col xs={12}>
                         <Form.Group>
                             <Form.ControlLabel>Período:</Form.ControlLabel>
-                            <Form.Control style={styles.input} name="date_request" placeholder="Selecione a data Inicial e Final" format='dd/MM/yyyy' accepter={DateRangePicker} />
+                            <Form.Control style={styles.input} name="period" placeholder="Selecione a data Inicial e Final" format='dd/MM/yyyy' accepter={DateRangePicker} />
                         </Form.Group>
                     </Col>
                     <Col xs={12}>
-                        <Form.Group >
-                            <Form.ControlLabel>Data Pagamento:</Form.ControlLabel>
-                            <Form.Control style={styles.input} name="date_expiration" placeholder="DD/MM/AAAA" format="dd/MM/yyyy" accepter={DatePicker} />
+                        <Form.Group>
+                            <Form.ControlLabel>Data limite para envio de NF: </Form.ControlLabel>
+                            <Form.Control style={styles.input} name="date_limit_nf" placeholder="DD/MM/AAAA" format="dd/MM/yyyy" accepter={DatePicker} />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row style={styles.row}>
                     <Col xs={12}>
-                        <Form.Group>
-                            <Form.ControlLabel>Data limite para envio de NF: </Form.ControlLabel>
-                            <Form.Control style={styles.input} name="date_expiration" placeholder="DD/MM/AAAA" format="dd/MM/yyyy" accepter={DatePicker} />
+                        <Form.Group >
+                            <Form.ControlLabel>Data Pagamento:</Form.ControlLabel>
+                            <Form.Control style={styles.input} name="date_payment" placeholder="DD/MM/AAAA" format="dd/MM/yyyy" accepter={DatePicker} />
                         </Form.Group>
                     </Col>
                 </Row>
@@ -142,7 +137,7 @@ export function PaymentSend({ open, setOpen, checkedKeys }: PaymentSendProps) {
                 <Button type="submit" appearance="primary" color="cyan">
                     Adiantamento
                 </Button>
-                <Button onClick={() => SendTotal()} appearance="primary" color="blue">
+                <Button onClick={() => send(true)} appearance="primary" color="blue">
                     Total
                 </Button>
                 <Button onClick={close} appearance="subtle">
