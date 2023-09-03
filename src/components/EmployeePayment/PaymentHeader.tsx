@@ -20,21 +20,21 @@ export const PaymentHeader = memo(function PaymentHeader({ checkedKeys }: Paymen
     const navigate = useNavigate()
 
     const [openSend, setOpenSend] = useState(false)
-    const [openXlsx, setOpenXlsx] = useState(false)
+    // const [openXlsx, setOpenXlsx] = useState(false)
 
     return (
         <div>
             <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Voltar para Funcionários</Tooltip>}>
                 <IconButton icon={<ArowBackIcon />} appearance="primary" color="cyan" style={styles.iconButton} onClick={() => navigate("/rh/funcionarios-pj")} />
             </Whisper>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Gerar XLSX</Tooltip>}>
+            {/* <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Gerar XLSX</Tooltip>}>
                 <IconButton icon={<FileDownloadIcon />} appearance="primary" color="blue" style={styles.iconButton} onClick={() => setOpenXlsx(true)} />
-            </Whisper>
+            </Whisper> */}
             <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Enviar Email</Tooltip>}>
                 <IconButton icon={<SendIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={() => setOpenSend(true)} />
             </Whisper>
             <Payment.Send open={openSend} setOpen={setOpenSend} checkedKeys={checkedKeys} />
-            <Payment.Xlsx open={openXlsx} setOpen={setOpenXlsx} checkedKeys={checkedKeys} />
+            {/* <Payment.Xlsx open={openXlsx} setOpen={setOpenXlsx} checkedKeys={checkedKeys} /> */}
         </div>
     )
 })

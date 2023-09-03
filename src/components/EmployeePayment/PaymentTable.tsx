@@ -117,7 +117,7 @@ export function PaymentTable({ data, isLoading, checkedKeys, setCheckedKeys }: P
                 <HeaderCell>Outros Desc.</HeaderCell>
                 <Cell dataKey="pj_complements.others_discounts" />
             </Column>
-            <Column align="center" flexGrow={1} fixed="right" >
+            <Column align="center" flexGrow={1} >
                 <HeaderCell>Total a Pagar</HeaderCell>
                 <Cell dataKey="pj_complements.total" />
             </Column>
