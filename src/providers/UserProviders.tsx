@@ -34,14 +34,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [me, setMe] = useState<MeInterface>()
     const [userChoices, setUserChoices] = useState<UserChoices[]>([])
 
-    console.log(me)
-
-    const api = useApi()
-
-    useEffect(() => {
-        if (me) refetch()
-    }, [me]);
-
     useEffect(() => {
         let token: string | null
 
@@ -56,7 +48,33 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
             setMe(access.employee)
         }
-    }, []);
+    }, [])
+
+    const getUsers = async () => {
+        const api = useApi()
+
+        return await api.get('employees/choices/')
+    }
+
+    const { refetch: GetUsersChoices } = useQuery({
+        queryKey: "userChoices",
+        queryFn: getUsers,
+        onSuccess: (response: AxiosResponse) => {
+            let res: User[] = response.data
+
+            setUserChoices(res.map((item) => ({
+                label: item.name,
+                value: item.id
+            })))
+        },
+        onError: (error: AxiosError) => {
+            if (error.request.status === 401 || error.request.status === 403) {
+                navigate("/login")
+            }
+        },
+        enabled: false
+    })
+
 
     // PERMISSIONS
     const getPermissions = () => {
@@ -80,31 +98,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         return false
     }
 
-    const getUsers = async () => {
-        return await api.get('employees/choices/')
-    }
-
-    const { refetch } = useQuery({
-        queryKey: "userChoices",
-        queryFn: getUsers,
-        onSuccess: (response: AxiosResponse) => {
-            let res: User[] = response.data
-
-            setUserChoices(res.map((item) => ({
-                label: item.name,
-                value: item.id
-            })))
-        },
-        onError: (error: AxiosError) => {
-            if (error.request.status === 401 || error.request.status === 403) {
-                navigate("/login")
-            }
-        },
-        enabled: false
-    })
 
     return (
-        <UserContext.Provider value={{ me, setMe, userChoices, verifyPermission }}>
+        <UserContext.Provider value={{ me, setMe, userChoices, verifyPermission, GetUsersChoices }}>
             {children}
         </UserContext.Provider>
     );

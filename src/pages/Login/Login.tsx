@@ -21,10 +21,7 @@ interface Token {
 export default function Login() {
     console.log("login");
 
-    const { setMe }: any = useContext(UserContext)
-
-    const api = useApi()
-    const toaster = useToaster()
+    const { setMe, GetUsersChoices }: any = useContext(UserContext)
     const navigate = useNavigate()
 
     const [form, setForm] = useState<any>({
@@ -33,12 +30,15 @@ export default function Login() {
     })
 
     const login = () => {
+        const api = useApi()
+
         return api.post("login/", form)
     }
     const { isLoading, refetch }: any = useQuery({
         queryKey: "login",
         queryFn: login,
         onSuccess: (res: AxiosResponse<Token>) => {
+
             const data = res.data
 
             const access: any = jwt_decode(data.access)
@@ -48,8 +48,12 @@ export default function Login() {
             setCookie("token_refresh", data.refresh, 1)
 
             navigate("/")
+
+            GetUsersChoices()
         },
         onError: (error: AxiosError) => {
+            const toaster = useToaster()
+
             const messages = {
                 username: "Usuário",
                 password: "Senha",
