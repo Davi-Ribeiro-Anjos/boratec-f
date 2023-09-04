@@ -128,7 +128,8 @@ export default function PurchasesRequests() {
     const columns = useMemo<ColumnsInterface>(() => {
         return {
             "Nº Solicitação": { dataKey: "number_request", propsColumn: { width: 120 } },
-            "Dt Solicitação": { dataKey: "date_request", propsColumn: { width: 120 } },
+            "Data Solicitação": { dataKey: "date_request", propsColumn: { width: 120 } },
+            "Data Vencimento": { dataKey: "date_expiration", propsColumn: { width: 120 } },
             "Status": { dataKey: "status", propsColumn: { width: 120 } },
             "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 100 } },
             "Departamento": { dataKey: "department", propsColumn: { width: 170 } },
