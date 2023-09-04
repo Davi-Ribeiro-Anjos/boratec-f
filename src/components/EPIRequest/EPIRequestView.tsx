@@ -35,19 +35,19 @@ export const EPIRequestView = memo(
                         hover={false}
                     >
                         <Column align="center" flexGrow={1} >
-                            <HeaderCell>Item:</HeaderCell>
+                            <HeaderCell>Item</HeaderCell>
                             <Cell dataKey="size.item.description" />
                         </Column>
                         <Column align="center" flexGrow={1} >
-                            <HeaderCell>CA:</HeaderCell>
+                            <HeaderCell>CA</HeaderCell>
                             <Cell dataKey="size.item.ca" />
                         </Column>
                         <Column align="center" flexGrow={1} >
-                            <HeaderCell>Tamanho:</HeaderCell>
+                            <HeaderCell>Tamanho</HeaderCell>
                             <Cell dataKey="size.size" />
                         </Column>
                         <Column align="center" flexGrow={1} >
-                            <HeaderCell>Quantidade:</HeaderCell>
+                            <HeaderCell>Quantidade</HeaderCell>
                             <Cell dataKey="quantity" />
                         </Column>
                     </Table>

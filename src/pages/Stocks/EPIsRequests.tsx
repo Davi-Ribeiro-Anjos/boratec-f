@@ -16,7 +16,7 @@ import { EPIRequest } from "../../components/EPIRequest";
 import { MainMessage } from "../../components/Message";
 
 interface Filter {
-    status: "ABERTO" | "ANDAMENTO" | "CONCLUIDO" | "CANCELADO";
+    status: "PROVISORIO" | "ABERTO" | "ANDAMENTO" | "CONCLUIDO" | "CANCELADO";
 }
 
 
@@ -112,6 +112,7 @@ export default function EPIsRequests() {
                 <MainTable.Root data={data ? data : []} isLoading={isLoading}
                     columns={
                         data && data.length > 0 ?
+                            data[0].status == "PROVISORIO" && { ...columns, ...send } ||
                             data[0].status == "ABERTO" && { ...columns, ...send } ||
                             data[0].status == "ANDAMENTO" && { ...columns, ...confirm } ||
                             data[0].status == "CONCLUIDO" && { ...columns, ...view } ||

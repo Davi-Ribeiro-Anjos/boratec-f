@@ -97,3 +97,9 @@ export const CompanyChoices = [
     { label: "JSR", value: "JSR" },
     { label: "TRANSFOOD", value: "TRANSFOOD" },
 ].map(item => ({ label: item.label, value: item.value }))
+
+
+// STOCK
+export const StockChoices = [
+    "PROVISORIO", "ABERTO", "ANDAMENTO", "CONCLUIDO", "CANCELADO",
+].map(item => ({ label: item, value: item }))

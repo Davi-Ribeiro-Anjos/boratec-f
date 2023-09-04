@@ -1,18 +1,18 @@
-import { Form, SelectPicker, Row, Col, InputNumber, useToaster, Grid, Button, Loader, Message } from 'rsuite';
-import { styles } from '../../assets/styles';
+import { Form, SelectPicker, Col, InputNumber, useToaster, Grid, Button, Loader, Message, Checkbox, Row } from "rsuite";
+import { styles } from "../../assets/styles";
 
-import { memo, useState, useContext } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { memo, useState, useContext } from "react";
+import { useMutation, useQuery } from "react-query";
 
-import { AxiosError, AxiosResponse } from 'axios';
-import { useApi } from '../../hooks/Api';
-import { UserContext } from '../../providers/UserProviders';
-import { BranchesChoices } from '../../services/Choices';
+import { AxiosError, AxiosResponse } from "axios";
+import { useApi } from "../../hooks/Api";
+import { UserContext } from "../../providers/UserProviders";
+import { BranchesChoices } from "../../services/Choices";
 
-import { MainMessage } from '../Message';
-import { MainModal } from '../Modal';
-import { EpiGroupInterface } from '../../services/Interfaces';
-import { queryClient } from '../../services/QueryClient';
+import { MainMessage } from "../Message";
+import { MainModal } from "../Modal";
+import { EpiGroupInterface } from "../../services/Interfaces";
+import { queryClient } from "../../services/QueryClient";
 
 interface Form {
     employee: number | null;
@@ -20,6 +20,7 @@ interface Form {
     itemsIndex: number[];
     items: any[];
     author_create: number;
+    provisional: boolean;
 }
 
 interface EPIRequestCreateProps {
@@ -41,7 +42,8 @@ export const EPIRequestCreate = memo(
             branch: null,
             itemsIndex: [0],
             items: [],
-            author_create: me.id
+            author_create: me.id,
+            provisional: false
         }
         const [data, setData] = useState<Form>(initialData)
 
@@ -93,7 +95,9 @@ export const EPIRequestCreate = memo(
                 }
             }
 
-            return await api.post('epis/requests/', { ...body })
+            if (body.provisional) body.status = "PROVISORIO"
+
+            return await api.post("epis/requests/", { ...body })
         }
 
         const { mutate } = useMutation({
@@ -176,7 +180,7 @@ export const EPIRequestCreate = memo(
         }
 
         return (
-            <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size='md'>
+            <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size="md">
                 <MainModal.Header title="Adicionar Solicitação" />
                 <MainModal.Body>
                     <Grid fluid>
@@ -203,7 +207,7 @@ export const EPIRequestCreate = memo(
                                         <Col xs={12}>
                                             <Form.Group >
                                                 <Form.ControlLabel>Item - {value + 1}:</Form.ControlLabel>
-                                                <Form.Control style={styles.input} name={`item-${value}`} data={ItemsChoices ? ItemsChoices : []} groupBy='group' accepter={SelectPicker} />
+                                                <Form.Control style={styles.input} name={`item-${value}`} data={ItemsChoices ? ItemsChoices : []} groupBy="group" accepter={SelectPicker} />
                                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                             </Form.Group>
                                         </Col>
@@ -221,14 +225,23 @@ export const EPIRequestCreate = memo(
                                 <Col xs={12}></Col>
                                 <Col xs={12}>
                                     {data.itemsIndex.length < 5 &&
-                                        <Button onClick={addItem} appearance="primary" color='green'>Adicionar Item</Button>
+                                        <Button onClick={addItem} appearance="primary" color="green">Adicionar Item</Button>
                                     }
                                 </Col>
                             </Row>
                         </>
+                        <Row style={styles.row}>
+                            <Col xs={24}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Provisório:</Form.ControlLabel>
+                                    <Form.Control name="provisional" checked={data.provisional} onChange={(value: any) => setData({ ...data, provisional: !value })} accepter={Checkbox} ></Form.Control>
+                                    <Form.HelpText tooltip>Ao marcar Provisório, o pedido não será contabilizado no momento.</Form.HelpText>
+                                </Form.Group>
+                            </Col>
+                        </Row>
                     </Grid>
                 </MainModal.Body>
-                <MainModal.FooterForm name='Criar' close={close} />
+                <MainModal.FooterForm name="Criar" close={close} />
             </MainModal.Form>
         );
     });

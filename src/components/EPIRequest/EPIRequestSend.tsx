@@ -43,7 +43,7 @@ export const EPIRequestSend = memo(
         const initialData = {
             driver: "",
             vehicle_plate: "",
-            email: "",
+            email: row?.employee.user.email || "",
             attachment: {},
             body_email: "",
         }
@@ -51,6 +51,20 @@ export const EPIRequestSend = memo(
 
         const send = async () => {
             let bodyToEmail = { ...data }
+
+            let sendError = false
+            if (!bodyToEmail.driver) sendError = true
+            if (!bodyToEmail.email) sendError = true
+            if (!bodyToEmail.vehicle_plate) sendError = true
+            if (sendError) {
+                let message = (
+                    <Message showIcon type="error" closable >
+                        Erro - Preencha os campos obrigatórios.
+                    </ Message>
+                )
+                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+            }
+
 
             bodyToEmail.driver = bodyToEmail.driver.toUpperCase()
             bodyToEmail.email = bodyToEmail.email.toLowerCase()
@@ -63,36 +77,35 @@ export const EPIRequestSend = memo(
                 status: "ANDAMENTO"
             }
 
-            return await api.patch(`epis/requests/${row?.id}/`, { ...body })
-
-            // FAZER ENVIA EMAIL CASO SUCESSO !!!!!!!!!!!!!
-            // return await api.post("fleets-availabilities/", { ...body })
+            return await api.patch(`epis/requests/${row?.id}/`, { ...body, ...bodyToEmail })
         }
 
         const { mutate } = useMutation({
             mutationKey: ["epis-requests"],
             mutationFn: send,
             onSuccess: (response: any) => {
-                let dataRes = response.data
+                // let dataRes = response.data
 
-                queryClient.setQueryData(["epis-requests"], (currentData: any) => {
-                    return currentData.filter((request: EpiRequestInterface) => request.id !== dataRes.id)
-                })
+                // queryClient.setQueryData(["epis-requests"], (currentData: any) => {
+                //     return currentData.filter((request: EpiRequestInterface) => request.id !== dataRes.id)
+                // })
 
                 MainMessage.Ok(toaster, "Sucesso - Registro enviado.")
 
-                close()
+                // close()
             },
             onError: (error: any) => {
                 const listMessage = {
                     observation: "Número Solicitação",
                     service_order: "Filial",
                     date_forecast: "Solicitante",
-                    date_release: "Anexo"
+                    date_release: "Anexo",
+                    message: "Erro"
                 }
 
                 MainMessage.Error400(toaster, error, listMessage)
                 MainMessage.Error401(toaster, error)
+                MainMessage.Error500(toaster, error)
             }
         })
 
@@ -212,7 +225,6 @@ export const EPIRequestSend = memo(
                                 <Form.Group>
                                     <Form.ControlLabel>Corpo do Email:</Form.ControlLabel>
                                     <Form.Control style={styles.observation} name="body_email" rows={7} accepter={Textarea} />
-                                    <Form.HelpText>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                         </Row>
