@@ -1,10 +1,10 @@
 import { Form, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, Message } from "rsuite";
 import { styles } from "../../assets/styles";
 
-import { AxiosError, AxiosResponse } from "axios";
-import { memo, useContext } from "react";
+import { memo, useContext, forwardRef } from "react";
 import { useMutation } from "react-query";
 
+import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
 import { BranchesChoices, StatusEmployeeChoices } from "../../services/Choices";
@@ -21,6 +21,8 @@ interface EmployeeEditProps {
     row: any | undefined;
     setRow: (value: any) => void;
 }
+
+const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="textarea" ref={ref} />)
 
 const cnpjMask = (value: string) => {
     return value
@@ -122,6 +124,7 @@ export const EmployeeEdit = memo(
             if (body.advance_money) body.pj_complements.advance_money = Number(body.advance_money)
             if (body.covenant_discount) body.pj_complements.covenant_discount = Number(body.covenant_discount)
             if (body.others_discounts) body.pj_complements.others_discounts = Number(body.others_discounts)
+            if (body.observation) body.pj_complements.observation = body.observation.toUpperCase()
 
             delete body.pj_complements.data_emission
 
@@ -145,6 +148,7 @@ export const EmployeeEdit = memo(
                     advance_money: "Adiantamento",
                     covenant_discount: "Desconto Convênio",
                     others_discounts: "Outros Descontos",
+                    observation: "Observação",
                 }
 
                 MainMessage.Error400(toaster, error, message)
@@ -249,51 +253,60 @@ export const EmployeeEdit = memo(
                                 <Form.Group >
                                     <Form.ControlLabel>Salário:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="salary" accepter={InputNumber} />
+                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Faculdade:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="college" accepter={InputNumber} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Ajuda de Custo:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="allowance" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
-                        </Row>
-                        <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Auxílio Moradia:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="housing_allowance" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
+                        </Row>
+                        <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Crédito Convênio:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="covenant_credit" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
-                        </Row>
-                        <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Outros Créditos:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="others_credits" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
+                        </Row>
+                        <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Adiantamento:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="advance_money" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
-                        </Row>
-                        <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Desconto Convênio:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="covenant_discount" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
-                            <Col xs={12}>
+                        </Row>
+                        <Row style={styles.row}>
+                            <Col xs={24}>
                                 <Form.Group >
                                     <Form.ControlLabel>Outros Descontos:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="others_discounts" accepter={InputNumber} />
@@ -303,8 +316,8 @@ export const EmployeeEdit = memo(
                         <Row style={styles.row}>
                             <Col xs={24}>
                                 <Form.Group >
-                                    <Form.ControlLabel>Faculdade:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="college" accepter={InputNumber} />
+                                    <Form.ControlLabel>Observação:</Form.ControlLabel>
+                                    <Form.Control style={styles.observation} rows={5} name="observation" value={row ? row.observation : ""} accepter={Textarea} />
                                 </Form.Group>
                             </Col>
                         </Row>

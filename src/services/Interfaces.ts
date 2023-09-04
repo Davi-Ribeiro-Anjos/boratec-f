@@ -115,10 +115,21 @@ export interface EmployeesInterface {
     date_admission: string;
     status: "ATIVO" | "DEMITIDO" | "AFASTADO";
     branch: BranchesInterface;
-    pj_complements: number;
+    pj_complements: PJComplementInterface;
     user: UserInterface;
-
     cnpj_cpf: string;
+}
+interface PJComplementInterface {
+    salary: number;
+    college: number;
+    allowance: number;
+    housing_allowance: number;
+    covenant_credit: number;
+    others_credits: number;
+    advance_money: number;
+    covenant_discount: number;
+    others_discounts: number;
+    observation: string;
 }
 export interface EmployeesSimpleInterface {
     id: number;

@@ -1,19 +1,19 @@
-import { Form, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, Message } from "rsuite";
+import { Form, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, Message, Grid } from "rsuite";
+import { styles } from "../../assets/styles";
 
-import { memo, useState, useContext } from "react";
+import { memo, useState, useContext, forwardRef } from "react";
+import { useMutation } from "react-query";
 
+import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
 import { BranchesChoices, StatusEmployeeChoices } from "../../services/Choices";
-
-import { MainMessage } from "../Message";
-import { MainModal } from "../Modal";
-import { useMutation } from "react-query";
-import { AxiosError, AxiosResponse } from "axios";
 import { CompanyChoices } from "../../services/Choices";
 import { DateToString } from "../../services/Date";
 import { queryClient } from "../../services/QueryClient";
-import { styles } from "../../assets/styles";
+
+import { MainMessage } from "../Message";
+import { MainModal } from "../Modal";
 
 interface Form {
     name: string,
@@ -37,13 +37,17 @@ interface Form {
     advance_money: number | null,
     covenant_discount: number | null,
     others_discounts: number | null,
+    observation: string | null,
     complements: any
+    pj_complements: number | null,
 }
 
 interface EmployeeCreateProps {
     open: boolean;
     setOpen: (value: boolean) => void;
 }
+
+const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="textarea" ref={ref} />)
 
 const cnpjMask = (value: string) => {
     return value
@@ -86,7 +90,9 @@ export const EmployeeCreate = memo(
             advance_money: null,
             covenant_discount: null,
             others_discounts: null,
-            complements: {}
+            observation: "",
+            complements: {},
+            pj_complements: null
         }
 
         const [data, setData] = useState<Form>(initialData)
@@ -167,6 +173,7 @@ export const EmployeeCreate = memo(
             if (body.advance_money) body.complements["advance_money"] = body.advance_money
             if (body.covenant_discount) body.complements["covenant_discount"] = body.covenant_discount
             if (body.others_discounts) body.complements["others_discounts"] = body.others_discounts
+            if (body.observation) body.complements["observation"] = body.observation.toUpperCase()
             body.complements["author"] = me.id
 
             return await api.post('pj/complements/', body.complements)
@@ -175,7 +182,11 @@ export const EmployeeCreate = memo(
         const { mutate: complementsMutate } = useMutation({
             mutationKey: ["pj_complements"],
             mutationFn: sendComplements,
-            onSuccess: () => {
+            onSuccess: (response: AxiosResponse) => {
+                const dataRes = response.data
+
+                setData({ ...data, pj_complements: dataRes.id })
+
                 employeesMutate()
             },
             onError: (error: AxiosError) => {
@@ -204,7 +215,7 @@ export const EmployeeCreate = memo(
         }
 
         return (
-            <MainModal.Form open={open} close={close} send={complementsMutate} data={data} setData={setData} size="md" overflow={false}>
+            <MainModal.Form open={open} close={close} send={complementsMutate} data={data} setData={setData} size="md" overflow={false} >
                 <MainModal.Header title="Adicionar Funcionário" />
                 <MainModal.Body>
                     <Panel header="Informações Pessoais do Funcionário PJ">
@@ -362,6 +373,14 @@ export const EmployeeCreate = memo(
                                 <Form.Group >
                                     <Form.ControlLabel>Outros Descontos:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="others_discounts" accepter={InputNumber} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row style={styles.row}>
+                            <Col xs={24}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Observação:</Form.ControlLabel>
+                                    <Form.Control style={styles.observation} rows={5} name="observation" value={data.observation} accepter={Textarea} />
                                 </Form.Group>
                             </Col>
                         </Row>

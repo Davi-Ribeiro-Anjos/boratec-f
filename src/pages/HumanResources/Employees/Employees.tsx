@@ -72,7 +72,7 @@ export default function Employees() {
     const [row, setRow] = useState<EmployeesInterface>()
     const [openEdit, setOpenEdit] = useState(false)
     const modalEdit = (rowData: any) => {
-        let row_: any = { ...rowData }
+        let row_ = { ...rowData }
 
         row_.branch = rowData.branch.id
         row_.date_admission = StringToDate(rowData.date_admission)
@@ -87,6 +87,7 @@ export default function Employees() {
         row_.advance_money = rowData.pj_complements.advance_money || null
         row_.covenant_discount = rowData.pj_complements.covenant_discount || null
         row_.others_discounts = rowData.pj_complements.others_discounts || null
+        row_.observation = rowData.pj_complements.observation || null
 
         setRow(row_)
         setOpenEdit(true)
