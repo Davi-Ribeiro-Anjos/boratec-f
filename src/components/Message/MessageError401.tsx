@@ -30,5 +30,13 @@ export function MessageError401(toaster: Toaster, error: AxiosError) {
 
             navigate("/login")
         }
+        if (data.detail === "Usuário e/ou senha incorreto(s)") {
+            const message = (
+                <Message showIcon type="error" closable >
+                    Usuário e/ou senha incorreto(s)
+                </Message>
+            )
+            toaster.push(message, { placement: 'topEnd', duration: 6000 })
+        }
     }
 }

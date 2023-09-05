@@ -141,15 +141,9 @@ export function MainRoutes() {
                 )
             } />
             <Route path="/consultas/nf" element={
-                verifyPermission("nf") ? (
-                    <Suspense>
-                        <QueriesNFs />
-                    </Suspense>
-                ) : (
-                    <Suspense>
-                        <Error403 />
-                    </Suspense>
-                )
+                <Suspense>
+                    <QueriesNFs />
+                </Suspense>
             } />
             <Route path="/sem-permissao" element={
                 <Suspense>

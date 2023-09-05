@@ -22,6 +22,7 @@ export default function Login() {
     console.log("login");
 
     const { setMe, GetUsersChoices }: any = useContext(UserContext)
+    const toaster = useToaster()
     const navigate = useNavigate()
 
     const [form, setForm] = useState<any>({
@@ -38,7 +39,6 @@ export default function Login() {
         queryKey: "login",
         queryFn: login,
         onSuccess: (res: AxiosResponse<Token>) => {
-
             const data = res.data
 
             const access: any = jwt_decode(data.access)
@@ -52,14 +52,13 @@ export default function Login() {
             GetUsersChoices()
         },
         onError: (error: AxiosError) => {
-            const toaster = useToaster()
-
             const messages = {
                 username: "Usuário",
                 password: "Senha",
             }
 
             MainMessage.Error400(toaster, error, messages)
+            MainMessage.Error401(toaster, error)
         },
         enabled: false
     })
@@ -76,7 +75,7 @@ export default function Login() {
         <div className="show-fake-browser login-page" >
             <Content style={{ marginTop: "15vh" }}>
                 <FlexboxGrid justify="center" >
-                    <FlexboxGrid.Item colspan={7}>
+                    <FlexboxGrid.Item colspan={8}>
                         <Panel header={<h3>Login</h3>} bordered>
                             <Form onSubmit={refetch} onChange={setForm} formValue={form} fluid>
                                 <Form.Group>
@@ -98,5 +97,6 @@ export default function Login() {
                     </FlexboxGrid.Item>
                 </FlexboxGrid>
             </Content>
-        </div>)
+        </div>
+    )
 }

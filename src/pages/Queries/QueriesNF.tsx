@@ -86,8 +86,8 @@ export default function QueriesNFs() {
             "Previsão Entrega": { dataKey: "date_forecast", propsColumn: { width: 130 } },
             "Local Entrega": { dataKey: "delivery_location", propsColumn: { width: 130, fullText: true } },
             "Nota Fiscal": { dataKey: "nf", propsColumn: { width: 120 } },
-            "Ocorrências": { dataKey: "button", propsColumn: { width: 110 }, click: modalOccurrence, icon: DetailIcon, needAuth: false },
-            "Romaneio": { dataKey: "button", propsColumn: { width: 110 }, click: modalPacking, icon: DocPassIcon, needAuth: false }
+            "Ocorrências": { dataKey: "button", propsColumn: { width: 110 }, click: modalOccurrence, icon: DetailIcon },
+            "Romaneio": { dataKey: "button", propsColumn: { width: 110 }, click: modalPacking, icon: DocPassIcon }
         }
     }, [])
 

@@ -35,6 +35,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [userChoices, setUserChoices] = useState<UserChoices[]>([])
 
     useEffect(() => {
+        if (me) GetUsersChoices()
+    }, [me])
+
+    useEffect(() => {
         let token: string | null
 
         try {
@@ -92,8 +96,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         return listPermission
     }
     const myPermissions = getPermissions()
-    const verifyPermission = (name: string): boolean => {
-        if (me) return (myPermissions.includes(name) || me.user.is_staff || me.user.is_superuser)
+    const verifyPermission = (name?: string): boolean => {
+        if (me) return (myPermissions.includes(name || "") || me?.user.is_staff || me?.user.is_superuser)
 
         return false
     }

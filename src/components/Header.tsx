@@ -72,19 +72,15 @@ export function MainHeader() {
                                 )}
                             </Nav.Menu>
                         )}
-                        {verifyPermission("tools") && (
-                            <Nav.Menu title="Ferramentas">
-                                {verifyPermission("xmls") && (
-                                    <Nav.Item onClick={() => navigate("/rh/funcionarios-pj")} eventKey="70">XMLS</Nav.Item>
-                                )}
-                            </Nav.Menu>
-                        )}
+                        <Nav.Menu title="Ferramentas">
+                            <Nav.Item onClick={() => navigate("/rh/funcionarios-pj")} eventKey="70">XMLS</Nav.Item>
+                        </Nav.Menu>
                         {verifyPermission("stocks") && (
                             <Nav.Menu title="Estoques">
-                                {verifyPermission("stocks_epis") && (
+                                {verifyPermission("stock_epis") && (
                                     <Nav.Item onClick={() => navigate("/estoques/epis/solicitacoes")} eventKey="80">Solicitações EPI's</Nav.Item>
                                 )}
-                                {verifyPermission("stocks_epis") && (
+                                {verifyPermission("stock_epis") && (
                                     <Nav.Item onClick={() => navigate("/estoques/epis/controles")} eventKey="81">Controle EPI's</Nav.Item>
                                 )}
                             </Nav.Menu>
@@ -96,13 +92,9 @@ export function MainHeader() {
                                 )}
                             </Nav.Menu>
                         )}
-                        {verifyPermission("queries") && (
-                            <Nav.Menu title="Consultas">
-                                {verifyPermission("nf") && (
-                                    <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
-                                )}
-                            </Nav.Menu>
-                        )}
+                        <Nav.Menu title="Consultas">
+                            <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
+                        </Nav.Menu>
                         <Nav pullRight>
                             <Nav.Menu noCaret icon={<CogIcon />} placement="bottomEnd">
                                 {/* <Nav.Item panel style={theme === "dark" ? { padding: 10, width: 160, color: "white" } : { padding: 10, width: 160, color: "black" }}> */}

@@ -84,15 +84,15 @@ export const EPIRequestSend = memo(
             mutationKey: ["epis-requests"],
             mutationFn: send,
             onSuccess: (response: any) => {
-                // let dataRes = response.data
+                let dataRes = response.data
 
-                // queryClient.setQueryData(["epis-requests"], (currentData: any) => {
-                //     return currentData.filter((request: EpiRequestInterface) => request.id !== dataRes.id)
-                // })
+                queryClient.setQueryData(["epis-requests"], (currentData: any) => {
+                    return currentData.filter((request: EpiRequestInterface) => request.id !== dataRes.id)
+                })
 
                 MainMessage.Ok(toaster, "Sucesso - Registro enviado.")
 
-                // close()
+                close()
             },
             onError: (error: any) => {
                 const listMessage = {

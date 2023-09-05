@@ -96,6 +96,7 @@ export const EPIRequestCreate = memo(
             }
 
             if (body.provisional) body.status = "PROVISORIO"
+            else body.status = "ABERTO"
 
             return await api.post("epis/requests/", { ...body })
         }
