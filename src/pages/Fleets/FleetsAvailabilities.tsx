@@ -67,7 +67,7 @@ export default function FleetsAvailabilities() {
     })
     const send = async (rowData: VehicleInterface) => {
         let body = {
-            status: "LIBERADO",
+            status: "FUNCIONANDO",
             author: me.id,
             vehicle: rowData.id
         }
