@@ -43,7 +43,7 @@ export const EPIRequestSend = memo(
         const initialData = {
             driver: "",
             vehicle_plate: "",
-            email: row?.employee.user.email || "",
+            email: "",
             attachment: {},
             body_email: "",
         }

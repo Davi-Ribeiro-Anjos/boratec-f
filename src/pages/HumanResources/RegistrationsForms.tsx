@@ -143,7 +143,7 @@ export default function RegistrationsForms() {
             "CNPJ/ CPF": { dataKey: "cnpj_cpf", propsColumn: { width: 150 } },
             "Tipo Contrato": { dataKey: "type_contract", propsColumn: { width: 130 } },
             "Documento": { dataKey: "link", propsColumn: { width: 130 }, url: `${baseUrl}/api/employees/document/`, icon: PageIcon },
-            "EPI's": { dataKey: "button", propsColumn: { width: 130 }, click: epis, icon: EditIcon },
+            "Acessórios": { dataKey: "button", propsColumn: { width: 130 }, click: epis, icon: EditIcon },
             "Detalhes": { dataKey: "button", propsColumn: { width: 130 }, click: details, icon: ListIcon }
         }
     }, [])

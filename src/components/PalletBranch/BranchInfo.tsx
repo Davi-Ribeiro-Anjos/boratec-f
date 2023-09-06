@@ -23,21 +23,8 @@ interface CardProps {
     quantity: PalletControlInterface;
 }
 
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 250,
-        textTransform: 'uppercase'
-    },
-    row: {
-        marginBottom: 10,
-    },
-    col: {
-        margin: "10px 0",
-    },
-}
-
 const Card = ({ title, quantity }: CardProps) => (
-    <Col md={4} sm={8} style={styles.col}>
+    <Col md={4} sm={8}>
         <MainPanel.Root bordered header={title}>
             <p>PBR: <strong>{quantity.PBR}</strong></p>
             <p>CHEP: <strong>{quantity.CHEP}</strong></p>
@@ -93,7 +80,7 @@ export const BranchInfo = memo(
 
         return (
             <>
-                <MainDrawer.Root open={open} close={close} placement="bottom">
+                <MainDrawer.Root open={open} close={close} placement="bottom" size="full">
                     <MainDrawer.Header openModal={openModal} close={close} title="Quantidade de Paletes por Filial"
                         name="Adicionar paletes" auth="pallet_branch_admin" />
                     <MainDrawer.Body>

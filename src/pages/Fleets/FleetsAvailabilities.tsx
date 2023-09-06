@@ -34,7 +34,7 @@ export default function FleetsAvailabilities() {
     // FILTER
     const [filter, setFilter] = useState<Filter>({ branch_id: me.branch.id })
     const clear = () => {
-        branch_id: me.branch.id
+        setFilter({ branch_id: me.branch.id })
     }
 
 

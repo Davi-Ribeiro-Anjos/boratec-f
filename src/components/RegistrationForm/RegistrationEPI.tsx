@@ -39,8 +39,6 @@ export const RegistrationEPI = memo(
             if (form.notebook_code && typeof (form.notebook_code) == "string") form.notebook_code = form.notebook_code.toUpperCase()
             if (form.observation && typeof (form.observation) == "string") form.observation = form.observation.toUpperCase()
 
-            console.log(form)
-
             return await api.post(`employees-epis/${row.id}/`, form)
         }
 
@@ -71,7 +69,7 @@ export const RegistrationEPI = memo(
 
         return (
             <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} size="md" overflow={false} >
-                <MainModal.Header title="EPI's" />
+                <MainModal.Header title="Acessórios" />
                 <MainModal.Body>
                     <Row style={styles.row}>
                         <Col xs={12}>

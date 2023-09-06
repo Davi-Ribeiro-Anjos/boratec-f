@@ -55,15 +55,26 @@ export const BranchCreatePallet = memo(
             onSuccess: (response: AxiosResponse) => {
                 const dataRes = response.data
 
-                queryClient.setQueryData("pallet-by-branch", (currentData: any) => {
+                console.log(dataRes)
+
+                queryClient.setQueryData(["pallet-by-branch"], (currentData: any) => {
+                    let exists = false
                     let myData: any[] = []
+
                     currentData.map((branch: any) => {
-                        branch.current_location === dataRes.current_location ? myData.push(dataRes) : myData.push(branch)
+                        branch.current_location === dataRes.current_location ? () => {
+                            exists = true
+                            myData.push(dataRes)
+                        } : myData.push(branch)
                     })
+
+                    if (!exists) myData.push(dataRes)
+
                     return myData
                 })
 
-                MainMessage.Ok(toaster, "Paletes criados.")
+                MainMessage.Ok(toaster, "Sucesso - Paletes criados.")
+
                 close()
             },
             onError: (error: AxiosError) => {
@@ -75,6 +86,7 @@ export const BranchCreatePallet = memo(
 
                 MainMessage.Error400(toaster, error, message)
                 MainMessage.Error401(toaster, error)
+                MainMessage.Error500(toaster, error)
             }
         })
 
