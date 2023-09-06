@@ -15,6 +15,7 @@ const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests
 const Employees = lazy(() => import("../pages/HumanResources/Employees/Employees.tsx"));
 const EmployeesPayments = lazy(() => import("../pages/HumanResources/Employees/EmployeesPayments.tsx"));
 const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
+const Xmls = lazy(() => import("../pages/Tools/Xmls.tsx"));
 const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
 const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
 const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
@@ -111,6 +112,17 @@ export function MainRoutes() {
                 verifyPermission("employee") ? (
                     <Suspense>
                         <EmployeesPayments />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
+            } />
+            <Route path="/ferramentas/xmls" element={
+                verifyPermission("xml") ? (
+                    <Suspense>
+                        <Xmls />
                     </Suspense>
                 ) : (
                     <Suspense>

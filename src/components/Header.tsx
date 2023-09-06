@@ -74,9 +74,13 @@ export function MainHeader() {
                                 )}
                             </Nav.Menu>
                         )}
-                        <Nav.Menu title="Ferramentas">
-                            <Nav.Item onClick={() => navigate("/rh/funcionarios-pj")} eventKey="70">XMLS</Nav.Item>
-                        </Nav.Menu>
+                        {verifyPermission("tools") && (
+                            <Nav.Menu title="Ferramentas">
+                                {verifyPermission("xmls") && (
+                                    <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
+                                )}
+                            </Nav.Menu>
+                        )}
                         {verifyPermission("stocks") && (
                             <Nav.Menu title="Estoques">
                                 {verifyPermission("stock_epis") && (
