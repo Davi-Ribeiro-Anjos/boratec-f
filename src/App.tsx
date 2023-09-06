@@ -4,6 +4,7 @@ import ptBr from 'rsuite/locales/pt_BR';
 import { useContext } from "react"
 
 import { UserContext } from './providers/UserProviders';
+import { ThemeContext } from './providers/ThemeProviders';
 
 import { MainRoutes } from "./routes"
 import { MainHeader } from './components/Header';
@@ -11,18 +12,19 @@ import Login from './pages/Login/Login';
 
 
 export function App() {
-  console.log('app')
+    console.log('app')
 
-  const { me }: any = useContext(UserContext)
+    const { me }: any = useContext(UserContext)
+    const { theme }: any = useContext(ThemeContext)
 
-  return (
-    <CustomProvider theme="dark" locale={ptBr}>
-      {me ? (
-        <>
-          <MainHeader />
-          <MainRoutes />
-        </>
-      ) : <Login />}
-    </CustomProvider>
-  )
+    return (
+        <CustomProvider theme={theme} locale={ptBr}>
+            {me ? (
+                <>
+                    <MainHeader />
+                    <MainRoutes />
+                </>
+            ) : <Login />}
+        </CustomProvider>
+    )
 }

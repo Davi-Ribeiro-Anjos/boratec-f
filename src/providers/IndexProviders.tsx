@@ -1,6 +1,7 @@
 import { createContext, ReactNode } from "react";
 
 import { UserProvider } from "./UserProviders";
+import { ThemeProvider } from "./ThemeProviders";
 
 interface IndexProviderProps {
     children: ReactNode;
@@ -14,7 +15,9 @@ export const IndexProvider = ({ children }: IndexProviderProps) => {
     return (
         <IndexContext.Provider value={{}}>
             <UserProvider>
-                {children}
+                <ThemeProvider>
+                    {children}
+                </ThemeProvider>
             </UserProvider>
         </IndexContext.Provider>
     );

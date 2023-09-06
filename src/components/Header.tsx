@@ -6,12 +6,14 @@ import { useContext } from "react";
 
 import { UserContext } from "../providers/UserProviders";
 import { eraseCookie } from "../services/Cookies";
+import { ThemeContext } from "../providers/ThemeProviders";
 
 
 export function MainHeader() {
     console.log("main header")
 
     const { me, setMe, verifyPermission }: any = useContext(UserContext)
+    const { theme, changeTheme }: any = useContext(ThemeContext)
 
     const navigate = useNavigate();
 
@@ -97,8 +99,8 @@ export function MainHeader() {
                         </Nav.Menu>
                         <Nav pullRight>
                             <Nav.Menu noCaret icon={<CogIcon />} placement="bottomEnd">
-                                {/* <Nav.Item panel style={theme === "dark" ? { padding: 10, width: 160, color: "white" } : { padding: 10, width: 160, color: "black" }}> */}
-                                <Nav.Item panel style={{ padding: 10, width: 160, color: "white" }}>
+                                <Nav.Item panel style={theme === "dark" ? { padding: 10, width: 160, color: "white" } : { padding: 10, width: 160, color: "black" }}>
+                                    {/* <Nav.Item panel style={{ padding: 10, width: 160, color: "white" }}> */}
                                     <p>Logado como</p>
                                     <strong>{me.user.username}</strong>
                                 </Nav.Item>
@@ -106,7 +108,7 @@ export function MainHeader() {
                                 <Nav.Item >
                                     <Stack spacing={50}>
                                         Tema
-                                        <Toggle checkedChildren="Escuro" unCheckedChildren="Claro" />
+                                        <Toggle onClick={changeTheme} checked={theme === "light" ? false : true} checkedChildren="Escuro" unCheckedChildren="Claro" />
                                     </Stack>
                                 </Nav.Item>
                                 <Nav.Item>Ajuda</Nav.Item>
