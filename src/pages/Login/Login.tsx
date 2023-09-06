@@ -1,4 +1,4 @@
-import { Button, ButtonToolbar, Content, FlexboxGrid, Form, Loader, Panel, useToaster } from "rsuite";
+import { Button, ButtonToolbar, Content, FlexboxGrid, Form, Loader, Message, Panel, useToaster } from "rsuite";
 
 import { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,6 @@ import jwt_decode from "jwt-decode";
 
 import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
-import { MainMessage } from "../../components/Message";
 import { setCookie } from "../../services/Cookies";
 import { UserContext } from "../../providers/UserProviders";
 
@@ -35,7 +34,7 @@ export default function Login() {
 
         return api.post("login/", form)
     }
-    const { isLoading, refetch }: any = useQuery({
+    const { refetch } = useQuery({
         queryKey: "login",
         queryFn: login,
         onSuccess: (res: AxiosResponse<Token>) => {
@@ -51,25 +50,18 @@ export default function Login() {
 
             GetUsersChoices()
         },
-        onError: (error: AxiosError) => {
-            const messages = {
-                username: "Usuário",
-                password: "Senha",
+        onError: (error: AxiosError<any>) => {
+            if (error.response?.status === 401) {
+                let message = (
+                    <Message showIcon type="error" closable >
+                        Erro - {error.response?.data?.detail}.
+                    </ Message>
+                )
+                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
             }
-
-            MainMessage.Error400(toaster, error, messages)
-            MainMessage.Error401(toaster, error)
         },
         enabled: false
     })
-
-    if (isLoading) {
-        return (
-            <div>
-                <Loader backdrop center vertical content="Verificando Credenciais..." size="md" />
-            </div>
-        )
-    }
 
     return (
         <div className="show-fake-browser login-page" >
@@ -77,7 +69,7 @@ export default function Login() {
                 <FlexboxGrid justify="center" >
                     <FlexboxGrid.Item colspan={8}>
                         <Panel header={<h3>Login</h3>} bordered>
-                            <Form onSubmit={refetch} onChange={setForm} formValue={form} fluid>
+                            <Form onSubmit={() => refetch()} onChange={setForm} formValue={form} fluid>
                                 <Form.Group>
                                     <Form.ControlLabel>Usuário</Form.ControlLabel>
                                     <Form.Control name="username" />
@@ -89,7 +81,7 @@ export default function Login() {
                                 <Form.Group>
                                     <ButtonToolbar>
                                         <Button appearance="primary" type="submit">Entrar</Button>
-                                        <Button appearance="link">Esqueceu a senha?</Button>
+                                        {/* <Button appearance="link">Esqueceu a senha?</Button> */}
                                     </ButtonToolbar>
                                 </Form.Group>
                             </Form>
