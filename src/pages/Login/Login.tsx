@@ -1,4 +1,4 @@
-import { Button, ButtonToolbar, Content, FlexboxGrid, Form, Loader, Message, Panel, useToaster } from "rsuite";
+import { Button, ButtonToolbar, Content, FlexboxGrid, Form, Message, Panel, useToaster } from "rsuite";
 
 import { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom";

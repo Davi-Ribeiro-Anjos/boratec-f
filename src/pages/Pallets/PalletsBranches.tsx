@@ -14,7 +14,7 @@ import { PalletBranch } from "../../components/PalletBranch";
 import { MainPanel } from "../../components/Panel";
 import { MainTable } from "../../components/Table";
 import { MainMessage } from "../../components/Message";
-import { DateToString, FormatDate } from "../../services/Date";
+import { DateToString } from "../../services/Date";
 
 interface Filter {
     origin: number | null,

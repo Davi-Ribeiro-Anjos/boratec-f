@@ -63,7 +63,7 @@ export default function QueriesNFs() {
     const modalOccurrence = (rowData: QueryNFInterface) => {
         for (const line in rowData.occurrences) {
             if (Object.hasOwnProperty.call(rowData.occurrences, line)) {
-                const element = rowData.occurrences[line];
+                const element: any = rowData.occurrences[line];
                 element.description_occurrence = element.description_occurrence.toUpperCase()
                 element.date_occurrence = FormatDate(element.date_occurrence)
             }
