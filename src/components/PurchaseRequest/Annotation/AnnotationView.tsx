@@ -1,4 +1,5 @@
 import { Button, Col, Grid, Panel, PanelGroup, Row } from "rsuite";
+import { styles } from "../../../assets/styles";
 
 import { memo, useState } from "react"
 
@@ -13,12 +14,6 @@ interface AnnotationViewProps {
     id: number | undefined;
     open: boolean;
     setOpen: any;
-}
-
-const styles: { [key: string]: React.CSSProperties } = {
-    row: {
-        marginBottom: 10,
-    },
 }
 
 
@@ -48,26 +43,26 @@ export const AnnotationView = memo(
                                         <Panel header={`ID ENTREGA - ${data.id}`} eventKey={index} key={index} id={index}>
                                             <Grid>
                                                 <Row style={styles.row}>
-                                                    OBSERVAÇÃO - {data.observacao}
+                                                    OBSERVAÇÃO - {data.observation}
                                                 </Row>
                                                 <Row style={styles.row}>
-                                                    {data.arquivo_1 && (
+                                                    {data.file_1 && (
                                                         <Col>
-                                                            <a href={`${baseUrl}${data.arquivo_1}`} rel="noreferrer" target="_blank" >
+                                                            <a href={`${baseUrl}${data.file_1}`} rel="noreferrer" target="_blank" >
                                                                 <Button>ANEXO 1</Button>
                                                             </a>
                                                         </Col>
                                                     )}
-                                                    {data.arquivo_2 && (
+                                                    {data.file_2 && (
                                                         <Col>
-                                                            <a href={`${baseUrl}${data.arquivo_2}`} rel="noreferrer" target="_blank" >
+                                                            <a href={`${baseUrl}${data.file_2}`} rel="noreferrer" target="_blank" >
                                                                 <Button>ANEXO 2</Button>
                                                             </a>
                                                         </Col>
                                                     )}
-                                                    {data.arquivo_3 && (
+                                                    {data.file_3 && (
                                                         <Col>
-                                                            <a href={`${baseUrl}${data.arquivo_3}`} rel="noreferrer" target="_blank" >
+                                                            <a href={`${baseUrl}${data.file_3}`} rel="noreferrer" target="_blank" >
                                                                 <Button>ANEXO 3</Button>
                                                             </a>
                                                         </Col>

@@ -5,6 +5,7 @@ import { ModalFooterForm } from "./ModalFooterForm";
 import { ModalForm } from "./ModalForm";
 import { ModalHeader } from "./ModalHeader";
 import { ModalRoot } from "./ModalRoot";
+import { ModalFooterThree } from "./ModalFooterThree";
 
 
 export const MainModal = {
@@ -14,5 +15,6 @@ export const MainModal = {
     Body: ModalBody,
     FooterOne: ModalFooterOne,
     FooterTwo: ModalFooterTwo,
+    FooterThree: ModalFooterThree,
     FooterForm: ModalFooterForm,
 }

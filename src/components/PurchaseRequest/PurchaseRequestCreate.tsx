@@ -1,21 +1,22 @@
-import { Form, Uploader, SelectPicker, Grid, Row, Col, InputNumber, useToaster } from 'rsuite';
+import { Form, Uploader, SelectPicker, Row, Col, InputNumber, useToaster, Grid } from 'rsuite';
+import { styles } from '../../assets/styles';
 
-import { memo, useState, useCallback, useContext } from 'react';
+import { memo, useState, useContext } from 'react';
+import { useMutation } from 'react-query';
 
+import { AxiosError } from 'axios';
 import { useApi } from '../../hooks/Api';
 import { UserContext } from '../../providers/UserProviders';
 import { BranchesChoices } from '../../services/Choices';
 
 import { MainMessage } from '../Message';
 import { MainModal } from '../Modal';
-import { useMutation } from 'react-query';
-import { AxiosError } from 'axios';
 
 interface Form {
-    numero_solicitacao: number | null;
-    filial: number | null;
-    solicitante: number | null;
-    anexo?: any;
+    number_request: number | null;
+    branch: number | null;
+    requester: number | null;
+    attachment?: any;
 }
 
 interface PurchaseRequestCreateProps {
@@ -24,54 +25,44 @@ interface PurchaseRequestCreateProps {
     refetch: any;
 }
 
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 250,
-        textTransform: 'uppercase'
-    },
-    row: {
-        marginBottom: 10,
-    },
-}
-
 
 export const PurchaseRequestCreate = memo(
     function PurchaseRequestCreate({ open, setOpen, refetch }: PurchaseRequestCreateProps) {
         console.log("criar solicitacao compra")
 
-        const { userChoices, token }: any = useContext(UserContext)
-        const api = useApi(token, true)
+        const { me, userChoices }: any = useContext(UserContext)
+        const api = useApi(true)
         const toaster = useToaster()
 
         const [data, setData] = useState<Form>(
             {
-                numero_solicitacao: null,
-                filial: null,
-                solicitante: null,
-                anexo: []
+                number_request: null,
+                branch: null,
+                requester: null,
+                attachment: []
             }
         )
 
-        const send = useCallback(async () => {
+        const send = async () => {
             let data_ = { ...data }
 
-            if (data_.anexo.length > 0) {
-                data_.anexo = data_.anexo[0].blobFile
+            if (data_.attachment.length > 0) {
+                data_.attachment = data_.attachment[0].blobFile
             } else {
-                data_.anexo = null
+                data_.attachment = null
             }
 
             const timeElapsed = Date.now()
             const today = new Date(timeElapsed)
             today.setHours(today.getHours() - 3)
 
-            const dataPost = { ...data_, data_solicitacao_bo: today.toISOString(), status: "ABERTO", autor: 1, ultima_atualizacao: 1 }
+            const dataPost = { ...data_, date_request: today.toISOString(), status: "ABERTO", author: me.id, latest_updater: me.id }
 
-            return await api.post('solicitacoes-compras/', { ...dataPost })
-        }, [data])
+            return await api.post('purchases-requests/', { ...dataPost })
+        }
 
         const { mutate } = useMutation({
-            mutationKey: "solic_compras",
+            mutationKey: ["purchases-requests"],
             mutationFn: send,
             onSuccess: () => {
                 refetch()
@@ -82,10 +73,10 @@ export const PurchaseRequestCreate = memo(
             },
             onError: (error: AxiosError) => {
                 const listMessage = {
-                    numero_solicitacao: "Número Solicitação",
-                    filial: "Filial",
-                    solicitante: "Solicitante",
-                    anexo: "Anexo"
+                    number_request: "Número Solicitação",
+                    branch: "Filial",
+                    requester: "Solicitante",
+                    attachment: "Anexo"
                 }
 
                 MainMessage.Error400(toaster, error, listMessage)
@@ -95,10 +86,10 @@ export const PurchaseRequestCreate = memo(
 
         const clearForm = () => {
             setData({
-                numero_solicitacao: null,
-                filial: null,
-                solicitante: null,
-                anexo: []
+                number_request: null,
+                branch: null,
+                requester: null,
+                attachment: []
             })
         }
 
@@ -116,14 +107,14 @@ export const PurchaseRequestCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Código Solicitação:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="numero_solicitacao" accepter={InputNumber} />
+                                    <Form.Control style={styles.input} name="number_request" accepter={InputNumber} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="filial" data={BranchesChoices} accepter={SelectPicker} />
+                                    <Form.Control style={styles.input} name="branch" data={BranchesChoices} accepter={SelectPicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
@@ -132,18 +123,18 @@ export const PurchaseRequestCreate = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Solicitante:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="solicitante" data={userChoices} accepter={SelectPicker} />
+                                    <Form.Control style={styles.input} name="requester" data={userChoices} accepter={SelectPicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Anexo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />
+                                    <Form.Control style={styles.input} name="attachment" multiple={false} accepter={Uploader} action='' autoUpload={false} />
                                 </Form.Group>
                             </Col>
                         </Row>
-                    </Grid >
+                    </Grid>
                 </MainModal.Body>
                 <MainModal.FooterForm name='Criar' close={close} />
             </MainModal.Form>

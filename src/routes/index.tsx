@@ -1,34 +1,34 @@
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
-import { getCookie } from "../services/Cookies.ts";
+// import { getCookie } from "../services/Cookies.ts";
+// import { Message, useToaster } from "rsuite";
+import { UserContext } from "../providers/UserProviders.tsx";
 
 const Home = lazy(() => import("../pages/home.tsx"));
 const Login = lazy(() => import("../pages/Login/Login.tsx"));
-const PurchaseRequests = lazy(() => import("../pages/Purchase/PurchaseRequests.tsx"));
-const BranchPallet = lazy(() => import("../pages/pallet/branchPallet.tsx"));
-const ClientPallet = lazy(() => import("../pages/pallet/clientPallet.tsx"));
-const Dismissal = lazy(() => import("../pages/pallet/clientPallet.tsx"));
-const RegistrationForm = lazy(() => import("../pages/pallet/clientPallet.tsx"));
-const Employee = lazy(() => import("../pages/pallet/clientPallet.tsx"));
+const PalletsBranches = lazy(() => import("../pages/Pallets/PalletsBranches.tsx"));
+const PalletsClients = lazy(() => import("../pages/Pallets/PalletsClients.tsx"));
+const FleetsAvailabilities = lazy(() => import("../pages/Fleets/FleetsAvailabilities.tsx"));
+const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests.tsx"));
+const Employees = lazy(() => import("../pages/HumanResources/Employees/Employees.tsx"));
+const EmployeesPayments = lazy(() => import("../pages/HumanResources/Employees/EmployeesPayments.tsx"));
+const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
+const Xmls = lazy(() => import("../pages/Tools/Xmls.tsx"));
+const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
+const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
+const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
+const Error404 = lazy(() => import("../pages/Errors/Error404.tsx"));
+const Error403 = lazy(() => import("../pages/Errors/Error403.tsx"));
 
 
 export function MainRoutes() {
     console.log("route")
 
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        async function checkTokenAndNavigate() {
-            const cookie = await getCookie("token_access");
-            if (cookie === undefined) {
-                navigate("/login");
-            }
-        }
-
-        checkTokenAndNavigate();
-    }, [])
+    const { verifyPermission }: any = useContext(UserContext)
+    // const navigate = useNavigate()
+    // const toaster = useToaster()
 
     return (
         <Routes>
@@ -43,33 +43,128 @@ export function MainRoutes() {
                 </Suspense>
             } />
             <Route path="/compras/solicitacoes-compras" element={
-                <Suspense>
-                    <PurchaseRequests />
-                </Suspense>
+                verifyPermission("purchase_request") ? (
+                    <Suspense>
+                        <PurchaseRequests />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
             <Route path="/paletes/filiais" element={
-                <Suspense>
-                    <BranchPallet />
-                </Suspense>
+                verifyPermission("pallet_branch") ? (
+                    <Suspense>
+                        <PalletsBranches />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
             <Route path="/paletes/clientes" element={
-                <Suspense>
-                    <ClientPallet />
-                </Suspense>
+                verifyPermission("pallet_client") ? (
+                    <Suspense>
+                        <PalletsClients />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
-            <Route path="/rh/demissoes" element={
-                <Suspense>
-                    <Dismissal />
-                </Suspense>
+            <Route path="/frotas/disponibilidades" element={
+                verifyPermission("fleet_availability") ? (
+                    <Suspense>
+                        <FleetsAvailabilities />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
             <Route path="/rh/fichas-cadastrais" element={
-                <Suspense>
-                    <RegistrationForm />
-                </Suspense>
+                verifyPermission("employee") ? (
+                    <Suspense>
+                        <RegistrationsForms />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
             } />
             <Route path="/rh/funcionarios-pj" element={
+                verifyPermission("employee") ? (
+                    <Suspense>
+                        <Employees />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
+            } />
+            <Route path="/rh/funcionarios-pj/pagamentos" element={
+                verifyPermission("employee") ? (
+                    <Suspense>
+                        <EmployeesPayments />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
+            } />
+            <Route path="/ferramentas/xmls" element={
+                verifyPermission("xml") ? (
+                    <Suspense>
+                        <Xmls />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
+            } />
+            <Route path="/estoques/epis/solicitacoes" element={
+                verifyPermission("stocks_epis") ? (
+                    <Suspense>
+                        <EPIsRequests />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
+            } />
+            <Route path="/estoques/epis/controles" element={
+                verifyPermission("stocks_epis") ? (
+                    <Suspense>
+                        <EPIsControls />
+                    </Suspense>
+                ) : (
+                    <Suspense>
+                        <Error403 />
+                    </Suspense>
+                )
+            } />
+            <Route path="/consultas/nf" element={
                 <Suspense>
-                    <Employee />
+                    <QueriesNFs />
+                </Suspense>
+            } />
+            <Route path="/sem-permissao" element={
+                <Suspense>
+                    <Error403 />
+                </Suspense>
+            } />
+            <Route path="*" element={
+                <Suspense>
+                    <Error404 />
                 </Suspense>
             } />
         </Routes>

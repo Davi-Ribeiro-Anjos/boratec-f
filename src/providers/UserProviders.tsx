@@ -1,11 +1,13 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 
+import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../hooks/Api";
 import { getCookie } from "../services/Cookies";
-import { TokenInterface } from "../services/Interfaces";
-import { useQuery } from "react-query";
-import { AxiosError, AxiosResponse } from "axios";
-import { useNavigate } from "react-router-dom";
+import { MeInterface } from "../services/Interfaces";
+
+import jwt_decode from "jwt-decode";
 
 interface UserProviderProps {
     children: ReactNode;
@@ -18,7 +20,7 @@ interface UserChoices {
 
 interface User {
     id: number;
-    nome: string;
+    name: string;
 }
 
 
@@ -29,43 +31,80 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     const navigate = useNavigate()
 
+    const [me, setMe] = useState<MeInterface>()
     const [userChoices, setUserChoices] = useState<UserChoices[]>([])
-    const [token, setToken] = useState<TokenInterface>({
-        accessToken: getCookie("token_access"),
-        refreshToken: getCookie("token_refresh")
-    })
-
-    const api = useApi(token)
 
     useEffect(() => {
-        refetch()
-    }, []);
+        if (me) GetUsersChoices()
+    }, [me])
+
+    useEffect(() => {
+        let token: string | null
+
+        try {
+            token = getCookie("token_access")
+        } catch (error) {
+            token = null
+        }
+
+        if (token) {
+            const access: any = jwt_decode(token || "")
+
+            setMe(access.employee)
+        }
+    }, [])
 
     const getUsers = async () => {
-        return await api.get('funcionarios/choices/')
+        const api = useApi()
+
+        return await api.get('employees/choices/')
     }
 
-    const { refetch } = useQuery({
+    const { refetch: GetUsersChoices } = useQuery({
         queryKey: "userChoices",
         queryFn: getUsers,
         onSuccess: (response: AxiosResponse) => {
             let res: User[] = response.data
 
             setUserChoices(res.map((item) => ({
-                label: item.nome,
+                label: item.name,
                 value: item.id
             })))
         },
         onError: (error: AxiosError) => {
-            if (error.request.status === 401) {
+            if (error.request.status === 401 || error.request.status === 403) {
                 navigate("/login")
             }
         },
         enabled: false
     })
 
+
+    // PERMISSIONS
+    const getPermissions = () => {
+        let listPermission: string[] = []
+
+        if (me) {
+            for (const key in me.user.groups) {
+                if (Object.prototype.hasOwnProperty.call(me.user.groups, key)) {
+                    const permission = me.user.groups[key];
+                    listPermission.push(permission.name)
+                }
+            }
+        }
+
+        return listPermission
+    }
+    const myPermissions = getPermissions()
+    const verifyPermission = (name?: string): boolean => {
+        if (me) return (myPermissions.includes(name || "") || me?.user.is_staff || me?.user.is_superuser)
+
+        return false
+    }
+
+
     return (
-        <UserContext.Provider value={{ userChoices, token, setToken }}>
+        <UserContext.Provider value={{ me, setMe, userChoices, verifyPermission, GetUsersChoices }}>
             {children}
         </UserContext.Provider>
     );

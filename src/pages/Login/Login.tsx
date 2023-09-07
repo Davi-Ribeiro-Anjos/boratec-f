@@ -1,17 +1,18 @@
-import { Button, ButtonToolbar, Content, FlexboxGrid, Form, Loader, Panel, useToaster } from "rsuite";
+import { Button, ButtonToolbar, Content, FlexboxGrid, Form, Loader, Message, Panel, useToaster } from "rsuite";
 
 import { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 
-import { useApi } from "../../hooks/Api";
-import { MainMessage } from "../../components/Message";
-import { getCookie, setCookie } from "../../services/Cookies";
-import { UserContext } from "../../providers/UserProviders";
+import jwt_decode from "jwt-decode";
+
 import { AxiosError, AxiosResponse } from "axios";
+import { useApi } from "../../hooks/Api";
+import { setCookie } from "../../services/Cookies";
+import { UserContext } from "../../providers/UserProviders";
 
 interface Token {
-    access: string;
+    access: any;
     refresh: string;
 }
 
@@ -19,9 +20,7 @@ interface Token {
 export default function Login() {
     console.log("login");
 
-    const { setToken }: any = useContext(UserContext)
-
-    const api = useApi()
+    const { setMe, GetUsersChoices }: any = useContext(UserContext)
     const toaster = useToaster()
     const navigate = useNavigate()
 
@@ -31,50 +30,46 @@ export default function Login() {
     })
 
     const login = () => {
+        const api = useApi()
+
         return api.post("login/", form)
     }
-    const { isLoading, refetch }: any = useQuery({
+    const { refetch } = useQuery({
         queryKey: "login",
         queryFn: login,
         onSuccess: (res: AxiosResponse<Token>) => {
             const data = res.data
 
+            const access: any = jwt_decode(data.access)
+            setMe(access?.employee)
+
             setCookie("token_access", data.access, 1)
             setCookie("token_refresh", data.refresh, 1)
 
-            setToken({
-                accessToken: getCookie("token_access"),
-                refreshToken: getCookie("token_refresh")
-            })
-
             navigate("/")
-        },
-        onError: (error: AxiosError) => {
-            const messages = {
-                username: "Usuário",
-                password: "Senha",
-            }
 
-            MainMessage.Error400(toaster, error, messages)
+            GetUsersChoices()
+        },
+        onError: (error: AxiosError<any>) => {
+            if (error.response?.status === 401) {
+                let message = (
+                    <Message showIcon type="error" closable >
+                        Erro - {error.response?.data?.detail}.
+                    </ Message>
+                )
+                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+            }
         },
         enabled: false
     })
-
-    if (isLoading) {
-        return (
-            <div>
-                <Loader backdrop center vertical content="Verificando Credenciais..." size="md" />
-            </div>
-        )
-    }
 
     return (
         <div className="show-fake-browser login-page" >
             <Content style={{ marginTop: "15vh" }}>
                 <FlexboxGrid justify="center" >
-                    <FlexboxGrid.Item colspan={7}>
+                    <FlexboxGrid.Item colspan={8}>
                         <Panel header={<h3>Login</h3>} bordered>
-                            <Form onSubmit={refetch} onChange={setForm} formValue={form} fluid>
+                            <Form onSubmit={() => refetch()} onChange={setForm} formValue={form} fluid>
                                 <Form.Group>
                                     <Form.ControlLabel>Usuário</Form.ControlLabel>
                                     <Form.Control name="username" />
@@ -86,7 +81,7 @@ export default function Login() {
                                 <Form.Group>
                                     <ButtonToolbar>
                                         <Button appearance="primary" type="submit">Entrar</Button>
-                                        <Button appearance="link">Esqueceu a senha?</Button>
+                                        {/* <Button appearance="link">Esqueceu a senha?</Button> */}
                                     </ButtonToolbar>
                                 </Form.Group>
                             </Form>
@@ -94,5 +89,6 @@ export default function Login() {
                     </FlexboxGrid.Item>
                 </FlexboxGrid>
             </Content>
-        </div>)
+        </div>
+    )
 }

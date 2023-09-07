@@ -7,6 +7,7 @@ interface ModalFormProps extends ModalProps {
     close: () => void;
     data: any;
     setData: (data: any) => void;
+    fluid?: boolean;
     children: ReactNode;
 }
 
@@ -16,10 +17,10 @@ const styles: { [key: string]: React.CSSProperties } = {
     }
 }
 
-export function ModalForm({ send, close, data, setData, children, ...props }: ModalFormProps) {
+export function ModalForm({ send, close, data, setData, fluid = false, children, ...props }: ModalFormProps) {
     return (
         <Modal style={styles.modal} onClose={close} {...props}  >
-            <Form onSubmit={() => { if (send) send(data) }} onChange={setData} formValue={data}>
+            <Form onSubmit={() => { if (send) send(data) }} onChange={setData} formValue={data} fluid={fluid}>
                 {children}
             </Form>
         </Modal>
