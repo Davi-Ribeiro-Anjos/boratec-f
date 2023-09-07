@@ -5,7 +5,7 @@ import { styles } from "../../assets/styles";
 
 import { useState, memo } from "react";
 
-import { Xml } from ".";
+// import { Xml } from ".";
 
 interface XmlHeaderProps { }
 
@@ -15,6 +15,9 @@ export const XmlHeader = memo(function XmlHeader({ }: XmlHeaderProps) {
     const [openCreate, setOpenCreate] = useState(false)
 
     const [openDownload, setOpenDownload] = useState(false)
+
+    openCreate
+    openDownload
 
     return (
         <div>
