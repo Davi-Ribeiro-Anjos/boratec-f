@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookie } from "../services/Cookies";
 
 
-export const baseUrl = "http://127.0.0.1:8000"
+export const baseUrl = "http://127.0.0.1:8001"
 
 export const useApi = (media?: boolean) => {
     let token: string | null
