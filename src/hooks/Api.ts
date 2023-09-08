@@ -13,10 +13,13 @@ export const useApi = (media?: boolean) => {
         token = null
     }
 
-    let header: any = { "Content-Type": "application/json" }
+    let header: any = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+    }
     if (token) {
         if (media) {
-            header = { "Content-Type": "multipart/form-data" }
+            header = { ...header, "Content-Type": "multipart/form-data;charset=UTF-8" }
         }
 
         header["Authorization"] = `Bearer ${token}`
