@@ -5,7 +5,7 @@ import { memo, useState } from 'react';
 import { EpiItemInterface, EpiSizeInterface } from '../../services/Interfaces';
 
 import { EPIControl } from '.';
-import { MainDrawer } from '../Drawer';
+import { MainDrawer } from '../Global/Drawer';
 
 interface EpiControlViewSizeProps {
     open: boolean;

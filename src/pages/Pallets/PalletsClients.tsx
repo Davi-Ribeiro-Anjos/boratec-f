@@ -9,9 +9,9 @@ import { baseUrl, useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
 import { ColumnsInterface } from "../../services/Interfaces";
 
-import { MainPanel } from "../../components/Panel";
-import { MainTable } from "../../components/Table";
-import { MainMessage } from "../../components/Message";
+import { MainPanel } from "../../components/Global/Panel";
+import { MainTable } from "../../components/Global/Table";
+import { MainMessage } from "../../components/Global/Message";
 import { PalletClient } from "../../components/PalletClient";
 
 interface Filter {

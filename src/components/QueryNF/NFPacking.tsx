@@ -4,7 +4,7 @@ import { memo } from "react";
 
 import { PackingListInterface } from "../../services/Interfaces";
 
-import { MainModal } from "../Modal";
+import { MainModal } from "../Global/Modal";
 
 interface NFPackingProps {
     row: PackingListInterface[];

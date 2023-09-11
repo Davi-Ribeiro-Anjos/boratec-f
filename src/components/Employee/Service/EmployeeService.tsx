@@ -2,7 +2,7 @@ import { Grid, PanelGroup } from "rsuite";
 
 import { memo } from "react"
 
-import { MainDrawer } from "../../Drawer";
+import { MainDrawer } from "../../Global/Drawer";
 import { Employee } from "..";
 
 interface EmployeeServiceProps {

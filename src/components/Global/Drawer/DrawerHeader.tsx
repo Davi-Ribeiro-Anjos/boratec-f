@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Button, Drawer } from "rsuite"
-import { UserContext } from "../../providers/UserProviders";
+import { UserContext } from "../../../providers/UserProviders";
 
 interface DrawerHeaderProps {
     title: string;

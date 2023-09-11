@@ -9,8 +9,8 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { useApi } from '../../hooks/Api';
 import { UserContext } from '../../providers/UserProviders';
 
-import { MainMessage } from '../Message';
-import { MainModal } from '../Modal';
+import { MainMessage } from '../Global/Message';
+import { MainModal } from '../Global/Modal';
 import { DateToString } from '../../services/Date';
 import { queryClient } from '../../services/QueryClient';
 import { VehicleInterface } from '../../services/Interfaces';

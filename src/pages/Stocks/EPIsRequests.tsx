@@ -10,10 +10,10 @@ import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
 import { ColumnsInterface, EpiRequestInterface } from "../../services/Interfaces";
 
-import { MainPanel } from "../../components/Panel";
-import { MainTable } from "../../components/Table";
+import { MainPanel } from "../../components/Global/Panel";
+import { MainTable } from "../../components/Global/Table";
 import { EPIRequest } from "../../components/EPIRequest";
-import { MainMessage } from "../../components/Message";
+import { MainMessage } from "../../components/Global/Message";
 
 interface Filter {
     status: "PROVISORIO" | "ABERTO" | "ANDAMENTO" | "CONCLUIDO" | "CANCELADO";

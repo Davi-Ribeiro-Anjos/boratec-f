@@ -12,8 +12,8 @@ import { CompanyChoices } from "../../services/Choices";
 import { DateToString } from "../../services/Date";
 import { queryClient } from "../../services/QueryClient";
 
-import { MainMessage } from "../Message";
-import { MainModal } from "../Modal";
+import { MainMessage } from "../Global/Message";
+import { MainModal } from "../Global/Modal";
 
 interface EmployeeEditProps {
     open: boolean;

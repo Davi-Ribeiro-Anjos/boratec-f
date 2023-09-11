@@ -10,10 +10,10 @@ import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
 import { ColumnsInterface, EpiGroupInterface } from "../../services/Interfaces";
 
-import { MainPanel } from "../../components/Panel";
-import { MainTable } from "../../components/Table";
+import { MainPanel } from "../../components/Global/Panel";
+import { MainTable } from "../../components/Global/Table";
 import { EPIControl } from "../../components/EPIControl";
-import { MainMessage } from "../../components/Message";
+import { MainMessage } from "../../components/Global/Message";
 
 
 export default function EPIsControls() {

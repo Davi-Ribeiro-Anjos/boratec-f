@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookie } from "../services/Cookies";
 
 
-export const baseUrl = "http://127.0.0.1:8001"
+export const baseUrl = "http://127.0.0.1:8000"
 
 export const useApi = (media?: boolean) => {
     let token: string | null
@@ -15,11 +15,11 @@ export const useApi = (media?: boolean) => {
 
     let header: any = {
         'Accept': 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
+        'Content-Type': 'application/json',
     }
     if (token) {
         if (media) {
-            header = { ...header, "Content-Type": "multipart/form-data;charset=UTF-8" }
+            header = { ...header, "Content-Type": "multipart/form-data" }
         }
 
         header["Authorization"] = `Bearer ${token}`

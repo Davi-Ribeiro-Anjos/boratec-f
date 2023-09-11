@@ -11,8 +11,8 @@ import { queryClient } from "../../services/QueryClient";
 import { PalletControlInterface } from "../../services/Interfaces";
 import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
 
-import { MainModal } from "../Modal";
-import { MainMessage } from "../Message";
+import { MainModal } from "../Global/Modal";
+import { MainMessage } from "../Global/Message";
 
 interface BranchCreatePalletProps {
     open: boolean;

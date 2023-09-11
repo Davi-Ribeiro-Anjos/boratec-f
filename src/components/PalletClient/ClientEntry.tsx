@@ -9,8 +9,8 @@ import { useApi } from "../../hooks/Api";
 import { queryClient } from "../../services/QueryClient";
 import { UserContext } from "../../providers/UserProviders";
 
-import { MainModal } from "../Modal"
-import { MainMessage } from "../Message";
+import { MainModal } from "../Global/Modal"
+import { MainMessage } from "../Global/Message";
 import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
 
 interface ClientEntryProps {

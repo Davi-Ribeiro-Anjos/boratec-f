@@ -8,8 +8,8 @@ import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
 import { DateToString, FormatDate } from "../../services/Date";
 
-import { MainMessage } from "../Message";
-import { MainModal } from "../Modal";
+import { MainMessage } from "../Global/Message";
+import { MainModal } from "../Global/Modal";
 
 interface Form {
     period: any;

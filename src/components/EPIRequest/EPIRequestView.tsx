@@ -4,7 +4,7 @@ import { memo } from "react"
 
 import { EpiRequestInterface } from "../../services/Interfaces";
 
-import { MainModal } from "../Modal";
+import { MainModal } from "../Global/Modal";
 
 interface EPIRequestViewProps {
     open: boolean;

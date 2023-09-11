@@ -11,9 +11,9 @@ import { UserContext } from "../../providers/UserProviders";
 import { ColumnsInterface, PalletMovementInterface } from "../../services/Interfaces";
 
 import { PalletBranch } from "../../components/PalletBranch";
-import { MainPanel } from "../../components/Panel";
-import { MainTable } from "../../components/Table";
-import { MainMessage } from "../../components/Message";
+import { MainPanel } from "../../components/Global/Panel";
+import { MainTable } from "../../components/Global/Table";
+import { MainMessage } from "../../components/Global/Message";
 import { DateToString } from "../../services/Date";
 
 interface Filter {

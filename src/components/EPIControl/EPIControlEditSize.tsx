@@ -8,8 +8,8 @@ import { useMutation } from 'react-query';
 import { useApi } from '../../hooks/Api';
 import { queryClient } from '../../services/QueryClient';
 
-import { MainMessage } from '../Message';
-import { MainModal } from '../Modal';
+import { MainMessage } from '../Global/Message';
+import { MainModal } from '../Global/Modal';
 import { EpiSizeInterface } from '../../services/Interfaces';
 
 

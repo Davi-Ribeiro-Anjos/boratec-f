@@ -6,8 +6,8 @@ import { forwardRef, useState, useContext } from "react"
 import { useApi } from "../../../hooks/Api";
 import { UserContext } from "../../../providers/UserProviders";
 
-import { MainModal } from "../../Modal";
-import { MainMessage } from "../../Message";
+import { MainModal } from "../../Global/Modal";
+import { MainMessage } from "../../Global/Message";
 import { AxiosError } from "axios";
 
 

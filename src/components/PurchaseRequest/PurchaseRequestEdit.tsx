@@ -9,9 +9,9 @@ import { UserContext } from "../../providers/UserProviders";
 import { BranchesChoices, CategoryChoices, DepartmentChoices, FormPaymentChoices, StatusChoices } from "../../services/Choices"
 import { PurchaseRequestInterface } from "../../services/Interfaces";
 
-import { MainModal } from "../Modal";
+import { MainModal } from "../Global/Modal";
 import { DateToString } from "../../services/Date";
-import { MainMessage } from "../Message";
+import { MainMessage } from "../Global/Message";
 import { useMutation } from "react-query";
 
 interface PurchaseRequestEditProps {

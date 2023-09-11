@@ -8,9 +8,9 @@ import { useApi } from "../../hooks/Api";
 import { PalletControlInterface } from "../../services/Interfaces";
 
 
-import { MainPanel } from "../Panel";
-import { MainDrawer } from "../Drawer";
-import { MainMessage } from "../Message";
+import { MainPanel } from "../Global/Panel";
+import { MainDrawer } from "../Global/Drawer";
+import { MainMessage } from "../Global/Message";
 import { PalletBranch } from ".";
 
 interface BranchInfoProps {

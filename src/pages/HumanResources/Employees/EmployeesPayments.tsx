@@ -7,9 +7,9 @@ import { useApi } from "../../../hooks/Api";
 import { UserContext } from "../../../providers/UserProviders";
 import { EmployeesInterface } from "../../../services/Interfaces";
 
-import { MainPanel } from "../../../components/Panel";
+import { MainPanel } from "../../../components/Global/Panel";
 import { AxiosError } from "axios";
-import { MainMessage } from "../../../components/Message";
+import { MainMessage } from "../../../components/Global/Message";
 import { queryClient } from "../../../services/QueryClient";
 import { Payment } from "../../../components/EmployeePayment";
 import { PaymentTable } from "../../../components/EmployeePayment/PaymentTable";

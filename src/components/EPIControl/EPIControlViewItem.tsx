@@ -3,7 +3,7 @@ import { Table } from 'rsuite';
 import { memo, useState } from 'react';
 
 
-import { MainDrawer } from '../Drawer';
+import { MainDrawer } from '../Global/Drawer';
 import { EpiGroupInterface, EpiItemInterface } from '../../services/Interfaces';
 import { EPIControl } from '.';
 

@@ -5,7 +5,7 @@ import { memo, useState } from "react"
 
 import { baseUrl } from "../../../hooks/Api";
 
-import { MainModal } from "../../Modal";
+import { MainModal } from "../../Global/Modal";
 import { AnnotationInterface } from "../../../services/Interfaces";
 import { Annotation } from ".";
 

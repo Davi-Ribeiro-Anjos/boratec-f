@@ -9,8 +9,8 @@ import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
 import { BranchesChoices } from "../../services/Choices";
 
-import { MainMessage } from "../Message";
-import { MainModal } from "../Modal";
+import { MainMessage } from "../Global/Message";
+import { MainModal } from "../Global/Modal";
 import { EpiGroupInterface } from "../../services/Interfaces";
 import { queryClient } from "../../services/QueryClient";
 

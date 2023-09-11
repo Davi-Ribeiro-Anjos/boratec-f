@@ -7,8 +7,8 @@ import { useQuery } from "react-query";
 
 import { ColumnsInterface, QueryNFInterface } from "../../services/Interfaces";
 
-import { MainPanel } from "../../components/Panel";
-import { MainTable } from "../../components/Table";
+import { MainPanel } from "../../components/Global/Panel";
+import { MainTable } from "../../components/Global/Table";
 import { useApi } from "../../hooks/Api";
 import { QueryNF } from "../../components/QueryNF";
 import { FormatDate } from "../../services/Date";

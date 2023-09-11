@@ -7,7 +7,7 @@ import { BranchesChoices } from "../../services/Choices";
 import { useQuery } from "react-query";
 import { useApi } from "../../hooks/Api";
 import { AxiosError } from "axios";
-import { MainMessage } from "../Message";
+import { MainMessage } from "../Global/Message";
 import { styles } from "../../assets/styles";
 
 interface ClientFilterProps { }

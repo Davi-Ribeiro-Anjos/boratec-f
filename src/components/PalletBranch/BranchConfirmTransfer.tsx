@@ -9,8 +9,8 @@ import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
 import { queryClient } from "../../services/QueryClient";
 
-import { MainModal } from "../Modal";
-import { MainMessage } from "../Message";
+import { MainModal } from "../Global/Modal";
+import { MainMessage } from "../Global/Message";
 import { DateToString, StringToDate } from "../../services/Date";
 
 interface BranchConfirmTransferProps {

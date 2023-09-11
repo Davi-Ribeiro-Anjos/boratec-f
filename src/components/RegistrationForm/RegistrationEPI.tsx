@@ -5,12 +5,12 @@ import { memo, useContext, forwardRef } from "react";
 
 import { EmployeesEPIsInterface, EmployeesInterface } from "../../services/Interfaces";
 
-import { MainModal } from "../Modal";
+import { MainModal } from "../Global/Modal";
 import { useMutation } from "react-query";
 import { AxiosError } from "axios";
 import { UserContext } from "../../providers/UserProviders";
 import { useApi } from "../../hooks/Api";
-import { MainMessage } from "../Message";
+import { MainMessage } from "../Global/Message";
 
 interface RegistrationEPIProps {
     row: EmployeesInterface;

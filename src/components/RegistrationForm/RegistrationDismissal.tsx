@@ -10,8 +10,8 @@ import { useApi } from "../../hooks/Api";
 import { EmployeesSimpleInterface } from "../../services/Interfaces";
 import { UserContext } from "../../providers/UserProviders";
 
-import { MainModal } from "../Modal";
-import { MainMessage } from "../Message";
+import { MainModal } from "../Global/Modal";
+import { MainMessage } from "../Global/Message";
 import { DateToString } from "../../services/Date";
 
 interface RegistrationDismissalProps {

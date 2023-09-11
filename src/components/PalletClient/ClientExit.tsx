@@ -5,11 +5,11 @@ import { memo, useState, useContext } from "react"
 import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
 import { queryClient } from "../../services/QueryClient";
 
-import { MainModal } from "../Modal";
+import { MainModal } from "../Global/Modal";
 import { UserContext } from "../../providers/UserProviders";
 import { useApi } from "../../hooks/Api";
 import { useMutation } from "react-query";
-import { MainMessage } from "../Message";
+import { MainMessage } from "../Global/Message";
 // import { AxiosResponse } from "axios";
 
 interface ClientExitProps {

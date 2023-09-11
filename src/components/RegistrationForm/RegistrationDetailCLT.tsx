@@ -5,7 +5,7 @@ import { memo } from "react";
 
 import { EmployeesInterface } from "../../services/Interfaces";
 
-import { MainModal } from "../Modal";
+import { MainModal } from "../Global/Modal";
 
 interface RegistrationDetailCLTProps {
     data: EmployeesInterface

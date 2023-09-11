@@ -11,11 +11,11 @@ import { useApi } from "../../hooks/Api";
 import { ColumnsInterface, VehicleInterface } from "../../services/Interfaces";
 import { UserContext } from "../../providers/UserProviders";
 
-import { MainPanel } from "../../components/Panel";
-import { MainTable } from "../../components/Table";
+import { MainPanel } from "../../components/Global/Panel";
+import { MainTable } from "../../components/Global/Table";
 import { FleetAvailability } from "../../components/FleetAvailability";
 import { DateToString } from "../../services/Date";
-import { MainMessage } from "../../components/Message";
+import { MainMessage } from "../../components/Global/Message";
 import { AxiosError, AxiosResponse } from "axios";
 import { queryClient } from "../../services/QueryClient";
 

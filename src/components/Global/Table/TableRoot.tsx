@@ -3,9 +3,9 @@ import { Icon } from '@rsuite/icons';
 
 import { memo, useContext, useState } from "react";
 
-import { ColumnsInterface } from "../../services/Interfaces";
+import { ColumnsInterface } from "../../../services/Interfaces";
 import { MainTable } from ".";
-import { UserContext } from "../../providers/UserProviders";
+import { UserContext } from "../../../providers/UserProviders";
 
 const { Column, HeaderCell, Cell } = Table;
 

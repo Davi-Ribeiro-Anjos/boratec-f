@@ -11,11 +11,11 @@ import { UserContext } from "../../providers/UserProviders";
 import { ColumnsInterface, PurchaseRequestInterface } from "../../services/Interfaces";
 import { DateToString, StringToDate } from "../../services/Date";
 
-import { MainTable } from "../../components/Table"
-import { MainPanel } from "../../components/Panel"
+import { MainTable } from "../../components/Global/Table"
+import { MainPanel } from "../../components/Global/Panel"
 import { Annotation } from "../../components/PurchaseRequest/Annotation";
 import { PurchaseRequest } from "../../components/PurchaseRequest";
-import { MainMessage } from "../../components/Message";
+import { MainMessage } from "../../components/Global/Message";
 
 interface Filter {
     number_request: string | number | null,

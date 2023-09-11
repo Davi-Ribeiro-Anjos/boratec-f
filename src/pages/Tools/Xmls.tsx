@@ -8,11 +8,11 @@ import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
 // import { EmployeesInterface } from "../../services/Interfaces";
 
-import { MainPanel } from "../../components/Panel";
+import { MainPanel } from "../../components/Global/Panel";
 // import { MainTable } from "../../components/Table";
 // import { Employee } from "../../components/Employee";
 import { AxiosError } from "axios";
-import { MainMessage } from "../../components/Message";
+import { MainMessage } from "../../components/Global/Message";
 // import { StringToDate } from "../../services/Date";
 import { Xml } from "../../components/Xml";
 

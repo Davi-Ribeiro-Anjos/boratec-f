@@ -36,7 +36,7 @@ export function MainHeader() {
                 <Navbar appearance="inverse">
                     <Nav style={{ width: "100%" }} >
                         <Navbar.Brand onClick={() => navigate("/")} style={{ padding: 5, marginRight: 10 }}>
-                            <img src={image} alt="Logo Bora" style={{ width: 130, height: 45 }} />
+                            <img src={image} alt="Logo Bora" style={{ width: 190, height: 45 }} />
                         </Navbar.Brand>
                         {/* <Nav.Item onClick={() => navigate("/")} eventKey="10">
                             Home
