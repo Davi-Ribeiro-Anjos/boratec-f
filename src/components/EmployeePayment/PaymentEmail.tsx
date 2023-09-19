@@ -29,8 +29,6 @@ interface PaymentSendProps {
 
 
 export function PaymentSend({ open, setOpen, checkedKeys }: PaymentSendProps) {
-    console.log("email - payment")
-
     const api = useApi()
     const toaster = useToaster()
 

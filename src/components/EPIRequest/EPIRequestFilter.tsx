@@ -7,7 +7,6 @@ interface EPIRequestFilterProps { }
 
 
 export function EPIRequestFilter({ }: EPIRequestFilterProps) {
-
     return (
         <Row style={styles.row}>
             <Col xs={24}>

@@ -1,12 +1,11 @@
 import { Col, Input, InputNumber, Row, useToaster } from "rsuite";
 import { styles } from "../../assets/styles";
 
-import { memo, useContext } from "react"
+import { memo } from "react"
 import { useMutation } from "react-query";
 
 import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
 import { queryClient } from "../../services/QueryClient";
 
 import { MainModal } from "../Global/Modal";
@@ -23,10 +22,7 @@ interface BranchConfirmTransferProps {
 
 export const BranchConfirmTransfer = memo(
     function BranchConfirmTransfer({ open, setOpen, row, setRow }: BranchConfirmTransferProps) {
-        console.log("filial create palette")
-
-        const { token }: any = useContext(UserContext)
-        const api = useApi(token)
+        const api = useApi()
         const toaster = useToaster()
 
         const send = async () => {

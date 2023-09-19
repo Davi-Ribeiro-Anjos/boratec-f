@@ -15,8 +15,6 @@ interface PaymentHeaderProps {
 
 
 export const PaymentHeader = memo(function PaymentHeader({ checkedKeys }: PaymentHeaderProps) {
-    console.log("header - payment")
-
     const navigate = useNavigate()
 
     const [openSend, setOpenSend] = useState(false)

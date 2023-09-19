@@ -32,8 +32,6 @@ interface EpiControlCreateItemProps {
 
 export const EpiControlCreateItem = memo(
     function EpiControlCreateItem({ open, setOpen, idGroup, modalView }: EpiControlCreateItemProps) {
-        console.log("create - item")
-
         const { me }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()

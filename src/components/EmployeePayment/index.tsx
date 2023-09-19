@@ -4,7 +4,6 @@ import { PaymentTable } from "./PaymentTable";
 // import { PaymentXlsx } from "./PaymentXlsx";
 
 
-
 export const Payment = {
     Header: PaymentHeader,
     Send: PaymentSend,

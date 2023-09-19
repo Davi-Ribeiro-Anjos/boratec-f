@@ -1,13 +1,12 @@
 import { Col, Form, InputNumber, Row, SelectPicker, useToaster } from "rsuite";
 import { styles } from "../../assets/styles";
 
-import { memo, useState, useContext } from "react"
+import { memo, useState } from "react"
 import { useMutation } from "react-query";
 
 import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
 import { queryClient } from "../../services/QueryClient";
-import { UserContext } from "../../providers/UserProviders";
 
 import { MainModal } from "../Global/Modal"
 import { MainMessage } from "../Global/Message";
@@ -28,9 +27,7 @@ interface Entry {
 
 export const ClientEntry = memo(
     function ClientEntry({ open, setOpen }: ClientEntryProps) {
-
-        const { token }: any = useContext(UserContext)
-        const api = useApi(token)
+        const api = useApi()
         const toaster = useToaster()
 
         const ClientsChoices = queryClient.getQueryData<any>(["get-client"])

@@ -17,8 +17,6 @@ const { Column, HeaderCell, Cell } = Table
 
 export const EPIRequestView = memo(
     function EPIRequestView({ open, setOpen, row }: EPIRequestViewProps) {
-        console.log("view - epi")
-
         const close = () => {
             setOpen(false)
         }

@@ -32,8 +32,6 @@ const { Column, HeaderCell, Cell } = Table
 
 export const EPIRequestConfirm = memo(
     function EPIRequestConfirm({ open, setOpen, row }: EPIRequestConfirmProps) {
-        console.log("confirmar - request epi")
-
         const { me }: any = useContext(UserContext)
         const api = useApi(true)
         const toaster = useToaster()

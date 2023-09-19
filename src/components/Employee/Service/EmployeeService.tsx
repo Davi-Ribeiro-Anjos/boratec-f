@@ -13,8 +13,6 @@ interface EmployeeServiceProps {
 
 export const EmployeeService = memo(
     function EmployeeService({ open, setOpen }: EmployeeServiceProps) {
-        console.log("services")
-
         const close = () => {
             setOpen(false)
         }

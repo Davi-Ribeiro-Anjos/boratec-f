@@ -10,8 +10,6 @@ interface EPIControlHeaderProps { }
 
 
 export const EPIControlHeader = memo(function EPIControlHeader({ }: EPIControlHeaderProps) {
-    console.log("header control")
-
     const [open, setOpen] = useState(false)
 
     return (

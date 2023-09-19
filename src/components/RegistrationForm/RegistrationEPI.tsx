@@ -1,14 +1,13 @@
 import { Col, Form, Input, Row, useToaster } from "rsuite";
 import { styles } from "../../assets/styles";
 
-import { memo, useContext, forwardRef } from "react";
+import { memo, forwardRef } from "react";
 
 import { EmployeesEPIsInterface, EmployeesInterface } from "../../services/Interfaces";
 
 import { MainModal } from "../Global/Modal";
 import { useMutation } from "react-query";
 import { AxiosError } from "axios";
-import { UserContext } from "../../providers/UserProviders";
 import { useApi } from "../../hooks/Api";
 import { MainMessage } from "../Global/Message";
 
@@ -25,9 +24,7 @@ const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="text
 
 export const RegistrationEPI = memo(
     function RegistrationEPI({ row, data, setData, open, setOpen }: RegistrationEPIProps) {
-
-        const { token }: any = useContext(UserContext)
-        const api = useApi(token)
+        const api = useApi()
         const toaster = useToaster()
 
         const sendEPI = async () => {

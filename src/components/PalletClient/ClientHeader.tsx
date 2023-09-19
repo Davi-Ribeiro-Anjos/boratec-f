@@ -14,8 +14,6 @@ interface ClientHeaderProps { }
 
 export const ClientHeader = memo(
     function ClientHeader({ }: ClientHeaderProps) {
-        console.log("client header")
-
         const { verifyPermission }: any = useContext(UserContext)
 
         const [openCreate, setOpenCreate] = useState(false);

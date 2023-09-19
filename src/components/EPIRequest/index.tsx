@@ -6,7 +6,6 @@ import { EPIRequestSend } from "./EPIRequestSend";
 import { EPIRequestView } from "./EPIRequestView";
 
 
-
 export const EPIRequest = {
     Header: EPIRequestHeader,
     Filter: EPIRequestFilter,

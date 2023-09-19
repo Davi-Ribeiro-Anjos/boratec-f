@@ -18,8 +18,6 @@ interface Token {
 
 
 export default function Login() {
-    console.log("login");
-
     const { setMe, GetUsersChoices }: any = useContext(UserContext)
     const toaster = useToaster()
     const navigate = useNavigate()

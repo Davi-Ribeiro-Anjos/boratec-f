@@ -32,8 +32,6 @@ const CheckCell = ({ rowData, onChange, checkedKeys, dataKey, ...props }: CheckC
 
 
 export function XmlTable({ data, isLoading, checkedKeys, setCheckedKeys }: XmlTableProps) {
-    console.log("table - payment")
-
     let checked = false
     let indeterminate = false
 

@@ -10,8 +10,6 @@ interface ThemeProviderProps {
 export const ThemeContext = createContext({});
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-    console.log("theme provider")
-
     const [theme, setTheme] = useState(getCookie("theme") || "light")
 
     const changeTheme = () => {

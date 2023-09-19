@@ -39,8 +39,6 @@ const initialFilter = {
 
 
 export default function PurchasesRequests() {
-    console.log("solicitacao compra")
-
     const { me }: any = useContext(UserContext)
     const api = useApi()
     const toaster = useToaster()

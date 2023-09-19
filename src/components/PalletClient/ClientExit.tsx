@@ -1,15 +1,15 @@
 import { Col, Form, InputNumber, Row, SelectPicker, useToaster } from "rsuite";
 
-import { memo, useState, useContext } from "react"
+import { memo, useState } from "react"
 
 import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
 import { queryClient } from "../../services/QueryClient";
 
 import { MainModal } from "../Global/Modal";
-import { UserContext } from "../../providers/UserProviders";
 import { useApi } from "../../hooks/Api";
 import { useMutation } from "react-query";
 import { MainMessage } from "../Global/Message";
+import { styles } from "../../assets/styles";
 // import { AxiosResponse } from "axios";
 
 interface ClientExitProps {
@@ -24,22 +24,9 @@ interface Exit {
     client__id: number | null,
 }
 
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 250,
-        textTransform: "uppercase"
-    },
-    row: {
-        marginBottom: 10,
-    },
-}
-
 
 export const ClientExit = memo(
     function ClientExit({ open, setOpen }: ClientExitProps) {
-
-
-        const { }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()
 

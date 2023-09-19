@@ -10,8 +10,6 @@ interface IndexProviderProps {
 export const IndexContext = createContext({});
 
 export const IndexProvider = ({ children }: IndexProviderProps) => {
-    console.log("index provider")
-
     return (
         <IndexContext.Provider value={{}}>
             <UserProvider>

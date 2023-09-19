@@ -36,8 +36,6 @@ const Card = ({ title, quantity }: CardProps) => (
 
 export const BranchInfo = memo(
     function BranchInfo({ open, setOpen }: BranchInfoProps) {
-        console.log("filial info")
-
         const api = useApi()
         const toaster = useToaster()
 

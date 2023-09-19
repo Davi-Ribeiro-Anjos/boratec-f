@@ -62,8 +62,6 @@ const cnpjMask = (value: string) => {
 
 export const EmployeeCreate = memo(
     function EmployeeCreate({ open, setOpen }: EmployeeCreateProps) {
-        console.log("create - employee")
-
         const { me }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()

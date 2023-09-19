@@ -5,7 +5,6 @@ interface NFFilterProps { }
 
 
 export function NFFilter({ }: NFFilterProps) {
-
     return (
         <Row style={styles.row}>
             <Col xs={24}>

@@ -34,8 +34,6 @@ const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="text
 
 export const EPIRequestSend = memo(
     function EPIRequestSend({ open, setOpen, row }: EPIRequestSendProps) {
-        console.log("criar - request epi")
-
         const { me }: any = useContext(UserContext)
         const api = useApi(true)
         const toaster = useToaster()

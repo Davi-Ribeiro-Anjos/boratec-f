@@ -6,7 +6,6 @@ interface FleetAvailabilityFilterProps { }
 
 
 export function FleetAvailabilityFilter({ }: FleetAvailabilityFilterProps) {
-
     return (
         <Row style={styles.row}>
             <Col xs={24}>

@@ -28,8 +28,6 @@ interface PurchaseRequestCreateProps {
 
 export const PurchaseRequestCreate = memo(
     function PurchaseRequestCreate({ open, setOpen, refetch }: PurchaseRequestCreateProps) {
-        console.log("criar solicitacao compra")
-
         const { me, userChoices }: any = useContext(UserContext)
         const api = useApi(true)
         const toaster = useToaster()

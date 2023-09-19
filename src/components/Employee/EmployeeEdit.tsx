@@ -1,12 +1,11 @@
 import { Form, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, Message } from "rsuite";
 import { styles } from "../../assets/styles";
 
-import { memo, useContext, forwardRef } from "react";
+import { memo, forwardRef } from "react";
 import { useMutation } from "react-query";
 
 import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
 import { BranchesChoices, StatusEmployeeChoices } from "../../services/Choices";
 import { CompanyChoices } from "../../services/Choices";
 import { DateToString } from "../../services/Date";
@@ -37,9 +36,6 @@ const cnpjMask = (value: string) => {
 
 export const EmployeeEdit = memo(
     function EmployeeEdit({ open, setOpen, row, setRow }: EmployeeEditProps) {
-        console.log("edit - employee")
-
-        const { }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()
 

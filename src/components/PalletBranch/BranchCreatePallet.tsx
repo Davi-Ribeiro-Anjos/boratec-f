@@ -30,8 +30,6 @@ interface Data {
 
 export const BranchCreatePallet = memo(
     function BranchCreatePallet({ open, setOpen, setOpenInfo }: BranchCreatePalletProps) {
-        console.log("filial create palette")
-
         const { me }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()

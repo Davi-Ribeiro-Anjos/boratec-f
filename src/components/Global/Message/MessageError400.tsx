@@ -4,7 +4,6 @@ import { AxiosError } from "axios";
 
 
 export function MessageError400(toaster: Toaster, error: AxiosError, messages: any) {
-
     let status: any = error.response?.status
     let listError: any = error.response?.data
 

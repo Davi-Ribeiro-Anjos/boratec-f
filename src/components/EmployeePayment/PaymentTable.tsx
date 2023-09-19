@@ -31,8 +31,6 @@ const CheckCell = ({ rowData, onChange, checkedKeys, dataKey, ...props }: CheckC
 
 
 export function PaymentTable({ data, isLoading, checkedKeys, setCheckedKeys }: PaymentTableProps) {
-    console.log("table - payment")
-
     let checked = false
     let indeterminate = false
 

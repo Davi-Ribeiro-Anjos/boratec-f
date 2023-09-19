@@ -18,8 +18,6 @@ const { Column, HeaderCell, Cell } = Table;
 
 export const EpiControlViewItem = memo(
     function EpiControlViewItem({ open, setOpen, row }: EpiControlViewItemProps) {
-        console.log("view - item")
-
         const [size, setSize] = useState<EpiItemInterface>()
         const [modalSize, setModalSize] = useState(false)
         const openModalSize = (rowData: EpiItemInterface) => {

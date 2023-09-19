@@ -2,13 +2,12 @@ import { Col, DatePicker, Form, Input, Message, Row, useToaster } from "rsuite";
 import { styles } from "../../assets/styles";
 import isAfter from 'date-fns/isAfter';
 
-import { memo, useState, useContext, forwardRef } from "react";
+import { memo, useState, forwardRef } from "react";
 import { useMutation, useQuery } from "react-query";
 
 import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
 import { EmployeesSimpleInterface } from "../../services/Interfaces";
-import { UserContext } from "../../providers/UserProviders";
 
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
@@ -62,9 +61,7 @@ const verifyMask = (value: string) => {
 
 export const RegistrationDismissal = memo(
     function RegistrationDismissal({ open, setOpen }: RegistrationDismissalProps) {
-
-        const { token }: any = useContext(UserContext)
-        const api = useApi(token)
+        const api = useApi()
         const toaster = useToaster()
 
         const [data, setData] = useState<Form>({

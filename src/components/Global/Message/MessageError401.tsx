@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom"
 
 
 export function MessageError401(toaster: Toaster, error: AxiosError) {
-
     const navigate = useNavigate()
     const data: any = error.response?.data
     const status: any = error.response?.status

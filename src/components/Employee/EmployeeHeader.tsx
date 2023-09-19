@@ -2,18 +2,17 @@ import { IconButton, Tooltip, Whisper } from "rsuite";
 import PlusIcon from '@rsuite/icons/Plus';
 import EmailFillIcon from '@rsuite/icons/EmailFill';
 // import ListIcon from '@rsuite/icons/List';
+import { styles } from "../../assets/styles";
 
 import { useState, memo } from "react";
 
 import { Employee } from ".";
-import { styles } from "../../assets/styles";
 import { useNavigate } from "react-router-dom";
 
 interface EmployeeHeaderProps { }
 
 
 export const EmployeeHeader = memo(function EmployeeHeader({ }: EmployeeHeaderProps) {
-    console.log("painel solicitacao compra")
 
     const navigate = useNavigate()
 

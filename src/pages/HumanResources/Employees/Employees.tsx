@@ -29,8 +29,6 @@ const initialFilter = {
 
 
 export default function Employees() {
-    console.log("employees pj")
-
     const { }: any = useContext(UserContext)
     const api = useApi()
     const toaster = useToaster()

@@ -12,8 +12,6 @@ import Login from './pages/Login/Login';
 
 
 export function App() {
-    console.log('app')
-
     const { me }: any = useContext(UserContext)
     const { theme }: any = useContext(ThemeContext)
 

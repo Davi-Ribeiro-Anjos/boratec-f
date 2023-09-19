@@ -27,8 +27,6 @@ const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="text
 
 export const PurchaseRequestEdit = memo(
     function PurchaseRequestEdit({ row, setRow, refetch, open, setOpen }: PurchaseRequestEditProps) {
-        console.log("editar compra")
-
         const { me, verifyPermission, userChoices }: any = useContext(UserContext)
         const api = useApi(true)
         const toaster = useToaster()

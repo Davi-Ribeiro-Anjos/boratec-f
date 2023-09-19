@@ -1,12 +1,11 @@
 import { useToaster } from "rsuite";
 import PageIcon from '@rsuite/icons/Page';
 
-import { useState, useMemo, useContext } from "react";
+import { useState, useMemo } from "react";
 import { useQuery } from "react-query";
 
 import { AxiosError } from "axios";
 import { baseUrl, useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
 import { ColumnsInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Global/Panel";
@@ -26,9 +25,6 @@ const initialFilter = {
 
 
 export default function PalletsClients() {
-    console.log("palete cliente")
-
-    const { }: any = useContext(UserContext)
     const api = useApi()
     const toaster = useToaster()
 

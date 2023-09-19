@@ -12,8 +12,6 @@ interface RegistrationHeaderProps { }
 
 
 export const RegistrationHeader = memo(function RegistrationHeader({ }: RegistrationHeaderProps) {
-    console.log("painel solicitacao compra")
-
     const { verifyPermission }: any = useContext(UserContext)
 
     const [open, setOpen] = useState(false)

@@ -34,8 +34,6 @@ const initialFilter = {
 
 
 export default function PalletsBranches() {
-    console.log("palete filial")
-
     const { me }: any = useContext(UserContext)
     const api = useApi()
     const toaster = useToaster()

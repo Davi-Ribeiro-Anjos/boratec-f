@@ -9,7 +9,6 @@ import { EmployeeServiceContract } from "./Service/EmployeeServiceContract";
 import { EmployeeServiceHoliday } from "./Service/EmployeeServiceHoliday";
 
 
-
 export const Employee = {
     Header: EmployeeHeader,
     Filter: EmployeeFilter,

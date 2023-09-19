@@ -19,8 +19,6 @@ interface AnnotationViewProps {
 
 export const AnnotationView = memo(
     function AnnotationView({ annotations, id, open, setOpen }: AnnotationViewProps) {
-        console.log("entradas")
-
         const [openCreate, setOpenCreate] = useState(false)
         const openAnnotationCreate = () => {
             close()

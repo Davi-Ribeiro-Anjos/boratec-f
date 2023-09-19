@@ -25,8 +25,6 @@ interface EpiControlCreateGroupProps {
 
 export const EpiControlCreateGroup = memo(
     function EpiControlCreateGroup({ open, setOpen }: EpiControlCreateGroupProps) {
-        console.log("create - group")
-
         const { me }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()

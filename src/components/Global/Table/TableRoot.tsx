@@ -19,8 +19,6 @@ interface TableRootProps extends TableProps<any, any> {
 
 export const TableRoot = memo(
     function TableRoot({ data, columns, isLoading, limit = 30, ...props }: TableRootProps) {
-        console.log("tabela")
-
         const { verifyPermission }: any = useContext(UserContext)
 
         const [page, setPage] = useState<number>(1)

@@ -31,8 +31,6 @@ interface EPIRequestCreateProps {
 
 export const EPIRequestCreate = memo(
     function EPIRequestCreate({ open, setOpen }: EPIRequestCreateProps) {
-        console.log("criar - epi")
-
         const { me, userChoices }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()

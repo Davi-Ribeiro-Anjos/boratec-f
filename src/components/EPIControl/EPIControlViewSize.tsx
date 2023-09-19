@@ -19,8 +19,6 @@ const { Column, HeaderCell, Cell } = Table;
 
 export const EpiControlViewSize = memo(
     function EpiControlViewSize({ open, setOpen, modalItem, row }: EpiControlViewSizeProps) {
-        console.log("view - size")
-
         const [sizes, setSizes] = useState<EpiSizeInterface>()
         const [modalEdit, setModalEdit] = useState(false)
         const openModalEdit = (rowData: EpiSizeInterface) => {

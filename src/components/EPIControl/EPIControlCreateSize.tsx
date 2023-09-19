@@ -31,8 +31,6 @@ interface EpiControlCreateSizeProps {
 
 export const EpiControlCreateSize = memo(
     function EpiControlCreateSize({ open, setOpen, idItem, modalView }: EpiControlCreateSizeProps) {
-        console.log("create - item")
-
         const { me }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()
@@ -55,8 +53,6 @@ export const EpiControlCreateSize = memo(
             body.quantity_provisory = body.quantity
 
             body.item = idItem
-
-            console.log(body)
 
             return await api.post('epis/sizes/', { ...body })
         }

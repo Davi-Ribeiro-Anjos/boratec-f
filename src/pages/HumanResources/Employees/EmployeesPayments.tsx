@@ -18,7 +18,6 @@ interface EmployeePaymentProps { }
 
 
 export default function EmployeesPayments({ }: EmployeePaymentProps) {
-    console.log("payment")
 
     const { }: any = useContext(UserContext)
     const api = useApi()

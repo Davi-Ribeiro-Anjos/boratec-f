@@ -10,8 +10,6 @@ interface EPIRequestHeaderProps { }
 
 
 export const EPIRequestHeader = memo(function EPIRequestHeader({ }: EPIRequestHeaderProps) {
-    console.log("header control")
-
     const [open, setOpen] = useState(false)
 
     return (

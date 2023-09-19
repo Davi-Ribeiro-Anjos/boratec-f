@@ -1,8 +1,5 @@
 import { Col, Form, Row, SelectPicker, useToaster } from "rsuite"
 
-import { useContext } from "react"
-
-import { UserContext } from "../../providers/UserProviders";
 import { BranchesChoices } from "../../services/Choices";
 import { useQuery } from "react-query";
 import { useApi } from "../../hooks/Api";
@@ -20,9 +17,6 @@ interface ClientChoices {
 
 
 export function ClientFilter({ }: ClientFilterProps) {
-    console.log("cliente filter")
-
-    const { }: any = useContext(UserContext)
     const api = useApi()
     const toaster = useToaster()
 

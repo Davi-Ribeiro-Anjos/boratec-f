@@ -21,6 +21,8 @@ interface Form {
     status: string;
     date_forecast?: any;
     date_release?: any;
+    author: number;
+    vehicle: number | undefined;
 }
 
 interface FleetAvailabilityStatusProps {
@@ -38,7 +40,6 @@ const today = new Date()
 
 export const FleetAvailabilityStatus = memo(
     function FleetAvailabilityStatus({ open, setOpen, preventive, setPreventive, row }: FleetAvailabilityStatusProps) {
-
         const { me }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()
@@ -50,6 +51,7 @@ export const FleetAvailabilityStatus = memo(
             date_release: null,
             status: "",
             author: me.id,
+            vehicle: undefined
         }
         const [data, setData] = useState<Form>(initialData)
 

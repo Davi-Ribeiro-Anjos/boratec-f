@@ -24,11 +24,8 @@ interface EpiControlEditSizeProps {
 
 export const EpiControlEditSize = memo(
     function EpiControlEditSize({ open, setOpen, row, setRow, modalView }: EpiControlEditSizeProps) {
-        console.log("edit - item")
-
         const api = useApi()
         const toaster = useToaster()
-
 
         const send = async () => {
             let body = { ...row }

@@ -21,8 +21,6 @@ const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="text
 
 
 export function AnnotationCreate({ open, setOpen, id }: AnnotationCreateProps) {
-    console.log("entrada criar")
-
     const { me }: any = useContext(UserContext)
     const api = useApi(true)
     const toaster = useToaster();

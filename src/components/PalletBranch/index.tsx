@@ -6,7 +6,6 @@ import { BranchHeader } from "./BranchHeader";
 import { BranchInfo } from "./BranchInfo";
 
 
-
 export const PalletBranch = {
     Header: BranchHeader,
     Filter: BranchFilter,

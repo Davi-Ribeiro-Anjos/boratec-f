@@ -12,8 +12,6 @@ interface BranchHeaderProps { }
 
 export const BranchHeader = memo(
     function BranchHeader({ }: BranchHeaderProps) {
-        console.log("filial header")
-
         const [openCreate, setOpenCreate] = useState(false);
 
         const [openInfo, setOpenInfo] = useState(false);

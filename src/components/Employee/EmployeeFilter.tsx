@@ -1,4 +1,5 @@
 import { Col, Form, Input, Row, SelectPicker } from "rsuite"
+import { styles } from "../../assets/styles";
 
 import { useContext } from "react"
 
@@ -6,16 +7,6 @@ import { BranchesChoices } from "../../services/Choices";
 import { UserContext } from "../../providers/UserProviders";
 
 interface EmployeeFilterProps { }
-
-const styles: { [key: string]: React.CSSProperties } = {
-    input: {
-        width: 300,
-        textTransform: 'uppercase'
-    },
-    row: {
-        marginBottom: 10,
-    },
-}
 
 
 export function EmployeeFilter({ }: EmployeeFilterProps) {

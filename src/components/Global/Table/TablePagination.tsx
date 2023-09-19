@@ -8,8 +8,6 @@ interface TablePaginationProps extends PaginationProps {
 
 
 export function TablePagination({ total, page, setPage, ...props }: TablePaginationProps) {
-    console.log("paginacao")
-
     return (
         <div style={{ padding: 20 }}>
             <Pagination
