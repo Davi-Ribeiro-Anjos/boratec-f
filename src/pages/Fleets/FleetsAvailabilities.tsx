@@ -25,7 +25,6 @@ interface Filter {
 
 
 export default function FleetsAvailabilities() {
-
     const { me, verifyPermission }: any = useContext(UserContext)
     const api = useApi()
     const toaster = useToaster()
@@ -96,16 +95,16 @@ export default function FleetsAvailabilities() {
 
 
     // TABLE
-    const [vehicleId, setVehicleId] = useState<number>(0)
+    const [row, setRow] = useState<VehicleInterface>()
     const [preventive, setPreventive] = useState(false)
     const [openStopped, setOpenStopped] = useState(false)
     const modalStopped = (rowData: VehicleInterface) => {
-        setVehicleId(rowData.id)
+        setRow(rowData)
 
         setOpenStopped(true)
     }
     const modalPreventive = (rowData: VehicleInterface) => {
-        setVehicleId(rowData.id)
+        setRow(rowData)
 
         setOpenStopped(true)
         setPreventive(true)
@@ -167,7 +166,7 @@ export default function FleetsAvailabilities() {
 
             <MainPanel.Body>
                 <MainTable.Root data={data ? data : []} columns={columns} isLoading={isLoading} />
-                <FleetAvailability.Status open={openStopped} setOpen={setOpenStopped} preventive={preventive} setPreventive={setPreventive} vehicleId={vehicleId} />
+                <FleetAvailability.Status open={openStopped} setOpen={setOpenStopped} preventive={preventive} setPreventive={setPreventive} row={row} />
             </MainPanel.Body>
 
         </MainPanel.Root>

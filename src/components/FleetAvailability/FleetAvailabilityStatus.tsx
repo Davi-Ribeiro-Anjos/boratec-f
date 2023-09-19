@@ -28,17 +28,16 @@ interface FleetAvailabilityStatusProps {
     setOpen: (value: boolean) => void;
     preventive: boolean;
     setPreventive: (value: boolean) => void;
-    vehicleId: number;
+    row?: VehicleInterface;
 }
 
 const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="textarea" ref={ref} />);
 
 const today = new Date()
-const yesterday = today.setDate(today.getDate() - 1)
+
 
 export const FleetAvailabilityStatus = memo(
-    function FleetAvailabilityStatus({ open, setOpen, preventive, setPreventive, vehicleId }: FleetAvailabilityStatusProps) {
-        console.log("criar solicitacao compra")
+    function FleetAvailabilityStatus({ open, setOpen, preventive, setPreventive, row }: FleetAvailabilityStatusProps) {
 
         const { me }: any = useContext(UserContext)
         const api = useApi()
@@ -51,8 +50,6 @@ export const FleetAvailabilityStatus = memo(
             date_release: null,
             status: "",
             author: me.id,
-            vehicle: vehicleId
-
         }
         const [data, setData] = useState<Form>(initialData)
 
@@ -80,6 +77,8 @@ export const FleetAvailabilityStatus = memo(
                 body.status = "PREVENTIVO"
             }
             else delete body.date_forecast
+
+            body.vehicle = row?.id
 
             return await api.post('fleets-availabilities/', { ...body })
         }
@@ -136,7 +135,7 @@ export const FleetAvailabilityStatus = memo(
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>{preventive ? "Data Previsão" : "Data Liberação"}:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name={preventive ? "date_forecast" : "date_release"} placeholder="DD/MM/AAAA" format="dd/MM/yyyy" shouldDisableDate={(date_: any) => isBefore(date_, yesterday)} accepter={DatePicker} />
+                                    <Form.Control style={styles.input} name={preventive ? "date_forecast" : "date_release"} placeholder="DD/MM/AAAA" format="dd/MM/yyyy" shouldDisableDate={(date_: any) => isBefore(date_, today)} accepter={DatePicker} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
