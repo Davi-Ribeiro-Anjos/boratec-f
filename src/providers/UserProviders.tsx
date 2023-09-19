@@ -27,8 +27,6 @@ interface User {
 export const UserContext = createContext({});
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-    console.log("usuario provider")
-
     const navigate = useNavigate()
 
     const [me, setMe] = useState<MeInterface>()
@@ -101,10 +99,14 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
         return false
     }
+    const verifyPermissionPage = (name?: string): void | boolean => {
+        if (me) return (myPermissions.includes(name || "") || me?.user.is_staff || me?.user.is_superuser)
+        else navigate("/sem-permissao")
+    }
 
 
     return (
-        <UserContext.Provider value={{ me, setMe, userChoices, verifyPermission, GetUsersChoices }}>
+        <UserContext.Provider value={{ me, setMe, userChoices, verifyPermission, verifyPermissionPage, GetUsersChoices }}>
             {children}
         </UserContext.Provider>
     );

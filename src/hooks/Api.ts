@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCookie } from "../services/Cookies";
 
-const dev = false
+const dev = true
 
 export const baseUrl = dev ? "http://127.0.0.1:8000" : "https://back.bora.tec.br"
 
@@ -17,6 +17,8 @@ export const useApi = (media?: boolean) => {
     let header: any = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': baseUrl,
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
     }
     if (token) {
         if (media) {
