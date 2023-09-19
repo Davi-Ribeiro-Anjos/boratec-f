@@ -1,4 +1,4 @@
-import { Button, FlexboxGrid } from "rsuite";
+import { Button } from "rsuite";
 import { eraseCookie } from "../../services/Cookies";
 import { useContext } from "react";
 import { UserContext } from "../../providers/UserProviders";
@@ -15,7 +15,6 @@ const styles: { [key: string]: React.CSSProperties } = {
 
 
 export default function Home() {
-
     const { setMe }: any = useContext(UserContext)
     const navigate = useNavigate();
 
