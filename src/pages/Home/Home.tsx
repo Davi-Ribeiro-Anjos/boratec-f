@@ -1,40 +1,38 @@
-import { Button } from "rsuite";
-import { eraseCookie } from "../../services/Cookies";
+import Image from "../../static/Images/background.png"
+
 import { useContext } from "react";
 import { UserContext } from "../../providers/UserProviders";
-import { useNavigate } from "react-router-dom";
 
 const styles: { [key: string]: React.CSSProperties } = {
     div: {
         display: "flex",
         justifyContent: "center",
-        flexDirection: "column",
-        alignItems: "center"
+    },
+    img: {
+        objectFit: "cover",
+        width: "100vw",
+        height: "100vh",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        zIndex: -1
+    },
+    title: {
+        color: "white",
+        marginTop: 20
     }
+
 }
 
 
 export default function Home() {
-    const { setMe }: any = useContext(UserContext)
-    const navigate = useNavigate();
-
-    const logout = () => {
-        eraseCookie("me")
-        eraseCookie("token_access")
-        eraseCookie("token_refresh")
-        eraseCookie("sessionid")
-        eraseCookie("csrftoken")
-
-        setMe(undefined)
-
-        navigate("/login")
-    }
+    const { me }: any = useContext(UserContext)
 
     return (
         <div style={styles.div}  >
-            <h3>Seja bem vindo ao Novo Boratec!</h3>
+            <img style={styles.img} src={Image} alt="Imagem Caminhão" />
 
-            <Button appearance="primary" color="red" onClick={logout}>Sair</Button>
+            <h3 style={styles.title} >Olá {me.user.username}, Bem Vindo ao Boratec 2.0!</h3>
 
         </div>
     )
