@@ -18,7 +18,12 @@ import { DateToString } from "../../services/Date";
 import { MainMessage } from "../../components/Global/Message";
 import { AxiosError, AxiosResponse } from "axios";
 import { queryClient } from "../../services/QueryClient";
+import { getCookie, setCookie } from "../../services/Cookies";
 
+interface GetVehicles {
+    total: number;
+    data: VehicleInterface[];
+}
 interface Filter {
     branch_id: number | null;
 }
@@ -38,11 +43,12 @@ export default function FleetsAvailabilities() {
 
 
     // DATA
-    const [total, setTotal] = useState(1)
+    const [total, setTotal] = useState(parseInt(getCookie("total_vehicles") || "0"))
     const searchData = async () => {
-        const response = await api.get("vehicles/", { params: filter })
+        const response = await api.get<GetVehicles>("vehicles/", { params: filter })
 
         setTotal(response.data.total)
+        setCookie("total_vehicles", response.data.total.toString(), 1)
 
         const dataRes = response.data.data.filter((vehicle: VehicleInterface) => {
             if (vehicle.last_movement) {
@@ -111,8 +117,8 @@ export default function FleetsAvailabilities() {
     }
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Placa Veículo": { dataKey: "vehicle_plate", propsColumn: { flexGrow: 1 } },
-            "Tipo Veículo": { dataKey: "type_vehicle", propsColumn: { flexGrow: 1 } },
+            "Placa Veículo": { dataKey: "vehicle_plate", propsColumn: { width: 100, fullText: true } },
+            "Tipo Veículo": { dataKey: "type_vehicle", propsColumn: { width: 100, fullText: true } },
             "Parado": {
                 dataKey: "button", propsIcon: { appearance: "primary", color: "red" },
                 propsColumn: { flexGrow: 1 }, click: modalStopped, icon: BlockIcon

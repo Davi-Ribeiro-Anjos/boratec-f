@@ -3,7 +3,7 @@ import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 
 import { useNavigate } from 'react-router-dom';
 
-import Imagem404 from '../../static/images/404.svg';
+import Imagem404 from '../../static/Images/404.svg';
 
 const styles: any = {
     position: {

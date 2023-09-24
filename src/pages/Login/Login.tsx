@@ -65,26 +65,24 @@ export default function Login() {
         <div className="show-fake-browser login-page" >
             <Content style={{ marginTop: "15vh" }}>
                 <FlexboxGrid justify="center" >
-                    <FlexboxGrid.Item colspan={8}>
-                        <Panel header={<h3>Login</h3>} bordered>
-                            <Form onSubmit={() => refetch()} onChange={setForm} formValue={form} fluid>
-                                <Form.Group>
-                                    <Form.ControlLabel>Usuário</Form.ControlLabel>
-                                    <Form.Control name="username" />
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.ControlLabel>Senha</Form.ControlLabel>
-                                    <Form.Control name="password" type="password" autoComplete="off" />
-                                </Form.Group>
-                                <Form.Group>
-                                    <ButtonToolbar>
-                                        <Button appearance="primary" type="submit">Entrar</Button>
-                                        {/* <Button appearance="link">Esqueceu a senha?</Button> */}
-                                    </ButtonToolbar>
-                                </Form.Group>
-                            </Form>
-                        </Panel>
-                    </FlexboxGrid.Item>
+                    <Panel header={<h3>Login</h3>} bordered style={window.innerWidth < 400 ? { width: "90vw" } : { width: "25vw" }}>
+                        <Form onSubmit={() => refetch()} onChange={setForm} formValue={form} fluid>
+                            <Form.Group>
+                                <Form.ControlLabel>Usuário</Form.ControlLabel>
+                                <Form.Control name="username" />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.ControlLabel>Senha</Form.ControlLabel>
+                                <Form.Control name="password" type="password" autoComplete="off" />
+                            </Form.Group>
+                            <Form.Group>
+                                <ButtonToolbar>
+                                    <Button appearance="primary" type="submit">Entrar</Button>
+                                    {/* <Button appearance="link">Esqueceu a senha?</Button> */}
+                                </ButtonToolbar>
+                            </Form.Group>
+                        </Form>
+                    </Panel>
                 </FlexboxGrid>
             </Content>
         </div>

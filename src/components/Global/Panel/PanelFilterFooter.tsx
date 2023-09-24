@@ -1,4 +1,4 @@
-import { Button, Col, Row } from "rsuite";
+import { Button, Row } from "rsuite";
 
 interface PanelFilterFooterProps {
     clear: () => void;
@@ -8,17 +8,14 @@ interface PanelFilterFooterProps {
 export function PanelFilterFooter({ clear }: PanelFilterFooterProps) {
     return (
         <Row>
-            <Col xs={20}></Col>
-            <Col xs={2}>
-                <Button type="submit" appearance="primary">
+            <div style={{ display: "flex", flexDirection: "row-reverse" }}>
+                <Button type="submit" appearance="primary" style={{ margin: "0 15px" }}>
                     Filtrar
                 </Button>
-            </Col>
-            <Col xs={2}>
                 <Button onClick={clear}>
                     Limpar
                 </Button>
-            </Col>
+            </div>
         </Row>
     )
 }

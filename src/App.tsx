@@ -9,6 +9,7 @@ import { ThemeContext } from './providers/ThemeProviders';
 import { MainRoutes } from "./routes"
 import { MainHeader } from './components/Header';
 import Login from './pages/Login/Login';
+import { MainSideHeader } from './components/SideHeader';
 
 
 export function App() {
@@ -19,10 +20,11 @@ export function App() {
         <CustomProvider theme={theme} locale={ptBr}>
             {me ? (
                 <>
-                    <MainHeader />
+                    {window.innerWidth > 400 ? <MainHeader /> : <MainSideHeader />}
                     <MainRoutes />
                 </>
-            ) : <Login />}
-        </CustomProvider>
+            ) : <Login />
+            }
+        </CustomProvider >
     )
 }
