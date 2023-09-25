@@ -117,8 +117,14 @@ export default function FleetsAvailabilities() {
     }
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Placa Veículo": { dataKey: "vehicle_plate", propsColumn: { width: 100, fullText: true } },
-            "Tipo Veículo": { dataKey: "type_vehicle", propsColumn: { width: 100, fullText: true } },
+            "Placa Veículo": {
+                dataKey: "vehicle_plate",
+                propsColumn: window.innerWidth > 400 ? { flexGrow: 1, fullText: true } : { width: 100, fullText: true }
+            },
+            "Tipo Veículo": {
+                dataKey: "type_vehicle",
+                propsColumn: window.innerWidth > 400 ? { flexGrow: 1, fullText: true } : { width: 100, fullText: true }
+            },
             "Parado": {
                 dataKey: "button", propsIcon: { appearance: "primary", color: "red" },
                 propsColumn: { flexGrow: 1 }, click: modalStopped, icon: BlockIcon

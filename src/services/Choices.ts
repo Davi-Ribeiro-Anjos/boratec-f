@@ -14,6 +14,7 @@ export const BranchesChoices = [
     { label: 'VIX', value: 12 },
     { label: 'TCO', value: 13 },
     { label: 'UDI', value: 14 },
+    { label: 'PNZ', value: 26 },
     { label: 'BMA', value: 15 },
     { label: 'BPE', value: 16 },
     { label: 'BEL', value: 17 },

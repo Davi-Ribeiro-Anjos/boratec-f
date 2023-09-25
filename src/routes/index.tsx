@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import { UserContext } from "../providers/UserProviders.tsx";
 
 import Home from "../pages/Home/Home.tsx";
+import Error404 from "../pages/Errors/Error404.tsx";
+import Error403 from "../pages/Errors/Error403.tsx";
 
 const Login = lazy(() => import("../pages/Login/Login.tsx"));
 const PalletsBranches = lazy(() => import("../pages/Pallets/PalletsBranches.tsx"));
@@ -17,8 +19,6 @@ const RegistrationsForms = lazy(() => import("../pages/HumanResources/Registrati
 const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
 const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
 const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
-const Error404 = lazy(() => import("../pages/Errors/Error404.tsx"));
-const Error403 = lazy(() => import("../pages/Errors/Error403.tsx"));
 
 
 export function MainRoutes() {
@@ -110,14 +110,10 @@ export function MainRoutes() {
                 </Suspense>
             } />
             <Route path="/sem-permissao" element={
-                <Suspense>
-                    <Error403 />
-                </Suspense>
+                <Error403 />
             } />
             <Route path="*" element={
-                <Suspense>
-                    <Error404 />
-                </Suspense>
+                <Error404 />
             } />
         </Routes>
     )

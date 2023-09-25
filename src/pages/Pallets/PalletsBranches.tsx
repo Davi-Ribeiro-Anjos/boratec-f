@@ -40,7 +40,7 @@ export default function PalletsBranches() {
 
     const [showReceived, setShowReceived] = useState(false)
 
-    const [filter, setFilter] = useState<Filter>({ ...initialFilter, author: me.id })
+    const [filter, setFilter] = useState<Filter>({ ...initialFilter, destiny: me.branch.id })
     const clear = () => {
         setFilter(initialFilter)
     }

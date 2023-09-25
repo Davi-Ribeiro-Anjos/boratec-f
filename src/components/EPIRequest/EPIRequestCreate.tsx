@@ -163,20 +163,21 @@ export const EPIRequestCreate = memo(
 
             return res
         }
-        const { data: ItemsChoices, isLoading } = useQuery({
+        const { data: ItemsChoices } = useQuery({
             queryKey: ["item-choices"],
             queryFn: getItems,
             onSuccess: () => { },
-            onError: () => { },
+            onError: (error: AxiosError) => {
+                const listMessage = {
+                    message: "Erro"
+                }
+
+                MainMessage.Error400(toaster, error, listMessage)
+                MainMessage.Error401(toaster, error)
+                MainMessage.Error500(toaster, error)
+            }
         })
 
-        if (isLoading) {
-            return (
-                <div>
-                    <Loader backdrop content="Carregando..." vertical />
-                </div>
-            )
-        }
 
         return (
             <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size="md">
