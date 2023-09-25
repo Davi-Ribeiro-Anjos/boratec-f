@@ -1,8 +1,7 @@
 import { Navbar, Nav, Dropdown, Toggle, Stack } from "rsuite";
 import CogIcon from "@rsuite/icons/legacy/Cog";
-import image from "../static/images/logo.png"
-import { GoSun } from 'react-icons/go'
-import { GoMoon } from 'react-icons/go'
+// import image from "../static/images/logo.png"
+import { GoSun, GoMoon } from 'react-icons/go'
 
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -33,12 +32,12 @@ export function MainHeader() {
     return (
         <Navbar appearance="inverse">
             <Nav style={{ width: "100%" }} >
-                <Navbar.Brand onClick={() => navigate("/")} style={{ padding: 5, marginRight: 10 }}>
+                {/* <Navbar.Brand onClick={() => navigate("/")} style={{ padding: 5, marginRight: 10 }}>
                     <img src={image} alt="Logo Bora" style={{ width: 190, height: 45 }} />
-                </Navbar.Brand>
-                {/* <Nav.Item onClick={() => navigate("/")} eventKey="10">
-                            Home
-                        </Nav.Item> */}
+                </Navbar.Brand> */}
+                <Nav.Item onClick={() => navigate("/")} eventKey="10">
+                    Home
+                </Nav.Item>
                 {verifyPermission("pallets") && (
                     <Nav.Menu title="Paletes">
                         {verifyPermission("pallet_branch") && (

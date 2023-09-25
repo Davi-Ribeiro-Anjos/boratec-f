@@ -13,14 +13,13 @@ export function TablePagination({ total, page, setPage, ...props }: TablePaginat
             <Pagination
                 prev
                 next
-                first
-                last
+                first={window.innerWidth > 400 ? true : false}
+                last={window.innerWidth > 400 ? true : false}
                 ellipsis
                 boundaryLinks
                 maxButtons={5}
                 size="md"
-                layout={['total', '-', 'pager', '-', 'skip']}
-                limitOptions={[10, 30, 50]}
+                layout={window.innerWidth > 400 ? ['total', '-', 'pager', '-', 'skip'] : ['total', '-', 'pager']}
                 total={total}
                 activePage={page}
                 onChangePage={setPage}
