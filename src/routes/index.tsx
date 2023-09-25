@@ -1,12 +1,10 @@
 import { Suspense, lazy, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-// import { useNavigate } from 'react-router-dom';
 
-// import { getCookie } from "../services/Cookies.ts";
-// import { Message, useToaster } from "rsuite";
 import { UserContext } from "../providers/UserProviders.tsx";
 
-const Home = lazy(() => import("../pages/Home/Home.tsx"));
+import Home from "../pages/Home/Home.tsx";
+
 const Login = lazy(() => import("../pages/Login/Login.tsx"));
 const PalletsBranches = lazy(() => import("../pages/Pallets/PalletsBranches.tsx"));
 const PalletsClients = lazy(() => import("../pages/Pallets/PalletsClients.tsx"));
@@ -25,15 +23,11 @@ const Error403 = lazy(() => import("../pages/Errors/Error403.tsx"));
 
 export function MainRoutes() {
     const { verifyPermissionPage }: any = useContext(UserContext)
-    // const navigate = useNavigate()
-    // const toaster = useToaster()
 
     return (
         <Routes>
             <Route path="/" element={
-                <Suspense>
-                    <Home />
-                </Suspense>
+                <Home />
             } />
             <Route path="/login" element={
                 <Suspense>

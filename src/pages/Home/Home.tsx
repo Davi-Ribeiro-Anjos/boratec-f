@@ -7,6 +7,8 @@ const styles: { [key: string]: React.CSSProperties } = {
     div: {
         display: "flex",
         justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
     },
     img: {
         objectFit: "cover",
@@ -32,7 +34,12 @@ export default function Home() {
         <div style={styles.div}  >
             <img style={styles.img} src={Image} alt="Imagem Caminhão" />
 
-            <h3 style={styles.title} >Olá {me.user.username}, Bem Vindo ao Boratec 2.0!</h3>
+            <h3 style={styles.title} >
+                Olá {me.user.first_name.toUpperCase()},
+            </h3>
+            <h3 style={styles.title}>
+                Bem Vindo ao Boratec 2.0!
+            </h3>
 
         </div>
     )
