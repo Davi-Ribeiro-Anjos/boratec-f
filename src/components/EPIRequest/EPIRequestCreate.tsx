@@ -1,4 +1,4 @@
-import { Form, SelectPicker, Col, InputNumber, useToaster, Grid, Button, Loader, Message, Checkbox, Row } from "rsuite";
+import { Form, SelectPicker, Col, InputNumber, useToaster, Grid, Button, Message, Checkbox, Row } from "rsuite";
 import { styles } from "../../assets/styles";
 
 import { memo, useState, useContext } from "react";
