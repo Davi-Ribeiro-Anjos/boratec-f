@@ -1,7 +1,7 @@
 import { Navbar, Nav, Dropdown, Toggle, Stack } from "rsuite";
 import CogIcon from "@rsuite/icons/legacy/Cog";
 import MenuIcon from '@rsuite/icons/Menu';
-// import image from "../static/images/logo.png"
+import image from "../static/Images/logo.png"
 import { GoSun, GoMoon } from 'react-icons/go'
 
 import { useNavigate } from "react-router-dom";
@@ -88,18 +88,19 @@ export function MainSideHeader() {
                             )}
                         </Nav.Menu>
                     )}
-                    {verifyPermission("commercials") && (
+                    {/* {verifyPermission("commercials") && (
                         <Nav.Menu title="Comercial">
                             {verifyPermission("justification") && (
                                 <Nav.Item onClick={() => navigate("/comercial/justificativas")} eventKey="90">Justificativa</Nav.Item>
                             )}
                         </Nav.Menu>
-                    )}
+                    )} */}
                     <Nav.Menu title="Consultas">
                         <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
                     </Nav.Menu>
                 </Nav.Menu>
             </Nav>
+            <img src={image} alt="Logo Bora" style={{ width: 200, height: 40, margin: "10px 0 0 27px" }} />
             <Nav pullRight>
                 <Nav.Menu noCaret icon={<CogIcon />} placement="bottomEnd">
                     <Nav.Item panel style={theme === "dark" ? { padding: 10, width: 160, color: "white" } : { padding: 10, width: 160, color: "black" }}>

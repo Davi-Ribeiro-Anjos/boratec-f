@@ -89,13 +89,13 @@ export function MainHeader() {
                         )}
                     </Nav.Menu>
                 )}
-                {verifyPermission("commercials") && (
+                {/* {verifyPermission("commercials") && (
                     <Nav.Menu title="Comercial">
                         {verifyPermission("justification") && (
                             <Nav.Item onClick={() => navigate("/comercial/justificativas")} eventKey="90">Justificativa</Nav.Item>
                         )}
                     </Nav.Menu>
-                )}
+                )} */}
                 <Nav.Menu title="Consultas">
                     <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
                 </Nav.Menu>
