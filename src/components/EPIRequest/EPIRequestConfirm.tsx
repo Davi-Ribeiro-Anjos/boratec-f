@@ -1,4 +1,4 @@
-import { Form, Row, Col, useToaster, Message, Table, Panel, Uploader } from "rsuite";
+import { Form, Row, Col, useToaster, Message, Table, Panel, Uploader, SelectPicker } from "rsuite";
 import { styles } from "../../assets/styles";
 
 import { memo, useState, useContext } from "react";
@@ -15,6 +15,8 @@ import { queryClient } from "../../services/QueryClient";
 import { EpiRequestInterface } from "../../services/Interfaces";
 
 interface Form {
+    employee: number | null;
+    employee_name: string | null;
     attachment_confirm: any;
     status: string;
     date_confirmed: string | null;
@@ -32,11 +34,13 @@ const { Column, HeaderCell, Cell } = Table
 
 export const EPIRequestConfirm = memo(
     function EPIRequestConfirm({ open, setOpen, row }: EPIRequestConfirmProps) {
-        const { me }: any = useContext(UserContext)
+        const { me, userChoices }: any = useContext(UserContext)
         const api = useApi(true)
         const toaster = useToaster()
 
         const initialData = {
+            employee: null,
+            employee_name: null,
             status: "CONCLUIDO",
             date_confirmed: DateToString(new Date()),
             attachment_confirm: [],
@@ -46,6 +50,19 @@ export const EPIRequestConfirm = memo(
 
         const confirm = async () => {
             let body = { ...data }
+
+            if (!body.employee) body.employee = row?.employee?.id || null
+
+            body.employee_name = null
+
+            if (!body.employee) {
+                let message = (
+                    <Message showIcon type="error" closable >
+                        Erro - Adicione um Funcionário.
+                    </ Message>
+                )
+                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+            }
 
             if (body.attachment_confirm.length > 0) {
                 body.attachment_confirm = body.attachment_confirm[0].blobFile
@@ -94,7 +111,6 @@ export const EPIRequestConfirm = memo(
             setData(initialData)
         }
 
-
         return (
             <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size="md" overflow={false}>
                 <MainModal.Header title="Confirmar Solicitação" />
@@ -127,7 +143,16 @@ export const EPIRequestConfirm = memo(
                     </Panel>
                     <Panel>
                         <Row style={styles.row}>
-                            <Col xs={24}>
+                            {!row?.employee && (
+                                <Col xs={24} md={12}>
+                                    <Form.Group>
+                                        <Form.ControlLabel>Funcionário:</Form.ControlLabel>
+                                        <Form.Control style={styles.input} name="employee" data={userChoices} accepter={SelectPicker} />
+                                        <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                    </Form.Group>
+                                </Col>
+                            )}
+                            <Col xs={24} md={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Anexo:</Form.ControlLabel>
                                     <Form.Control name="attachment_confirm" multiple={false} action="" autoUpload={false} accepter={Uploader} />

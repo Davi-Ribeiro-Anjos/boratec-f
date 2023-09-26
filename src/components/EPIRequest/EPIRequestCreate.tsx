@@ -1,4 +1,4 @@
-import { Form, SelectPicker, Col, InputNumber, useToaster, Grid, Button, Message, Checkbox, Row } from "rsuite";
+import { Form, SelectPicker, Col, InputNumber, useToaster, Grid, Button, Message, Checkbox, Row, ButtonToolbar, ButtonGroup, Input } from "rsuite";
 import { styles } from "../../assets/styles";
 
 import { memo, useState, useContext } from "react";
@@ -16,6 +16,7 @@ import { queryClient } from "../../services/QueryClient";
 
 interface Form {
     employee: number | null;
+    employee_provisory: string;
     branch: number | null;
     itemsIndex: number[];
     items: any[];
@@ -28,6 +29,22 @@ interface EPIRequestCreateProps {
     setOpen: (value: boolean) => void;
 }
 
+interface GroupButtonProps {
+    showNew: () => void;
+    showOld: () => void;
+}
+
+const GroupButton = ({ showNew, showOld }: GroupButtonProps) => {
+    return (
+        <ButtonToolbar>
+            <ButtonGroup>
+                <Button appearance="primary" color="blue" onClick={showNew}>Nova</Button>
+                <Button appearance="primary" color="cyan" onClick={showOld}>Antiga</Button>
+            </ButtonGroup>
+        </ButtonToolbar>
+    )
+}
+
 
 export const EPIRequestCreate = memo(
     function EPIRequestCreate({ open, setOpen }: EPIRequestCreateProps) {
@@ -35,8 +52,16 @@ export const EPIRequestCreate = memo(
         const api = useApi()
         const toaster = useToaster()
 
+        const [selected, setSelected] = useState(false)
+        const [isNew, setIsNew] = useState(false)
+        const showNew = () => {
+            setSelected(true)
+            setIsNew(true)
+        }
+
         const initialData = {
             employee: null,
+            employee_provisory: "",
             branch: null,
             itemsIndex: [0],
             items: [],
@@ -96,6 +121,18 @@ export const EPIRequestCreate = memo(
             if (body.provisional) body.status = "PROVISORIO"
             else body.status = "ABERTO"
 
+            if (!body.employee_provisory && !body.employee) {
+                let message = (
+                    <Message showIcon type="error" closable >
+                        Erro - Preencha o campo Funcionário.
+                    </ Message>
+                )
+                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+            }
+
+            body.employee_provisory = body.employee_provisory.toUpperCase()
+            if (body.employee_provisory != "") body.employee = null
+
             return await api.post("epis/requests/", { ...body })
         }
 
@@ -107,6 +144,7 @@ export const EPIRequestCreate = memo(
 
                 queryClient.setQueryData(["epis-requests"], (currentData: any) => {
                     if (currentData) {
+                        dataRes["employee_name"] = dataRes.employee?.name || dataRes.employee_provisory
                         return currentData.concat(dataRes)
                     }
                 })
@@ -134,7 +172,9 @@ export const EPIRequestCreate = memo(
         }
 
         const close = () => {
-            setOpen(false);
+            setOpen(false)
+            setSelected(false)
+            setIsNew(false)
             clearForm()
         }
 
@@ -185,14 +225,31 @@ export const EPIRequestCreate = memo(
                 <MainModal.Body>
                     <Grid fluid>
                         <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Funcionário:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="employee" data={userChoices} accepter={SelectPicker} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
+                            {!selected ? (
+                                <Col xs={24} md={12}>
+                                    <Form.Group>
+                                        <Form.ControlLabel>Admissão:</Form.ControlLabel>
+                                        <Form.Control style={styles.input} name="" showNew={showNew} showOld={() => setSelected(true)} accepter={GroupButton} />
+                                    </Form.Group>
+                                </Col>
+                            ) : isNew ? (
+                                <Col xs={24} md={12}>
+                                    <Form.Group>
+                                        <Form.ControlLabel>Funcionário:</Form.ControlLabel>
+                                        <Form.Control style={styles.input} name="employee_provisory" accepter={Input} />
+                                        <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                    </Form.Group>
+                                </Col>
+                            ) : (
+                                <Col xs={24} md={12}>
+                                    <Form.Group>
+                                        <Form.ControlLabel>Funcionário:</Form.ControlLabel>
+                                        <Form.Control style={styles.input} name="employee" data={userChoices} accepter={SelectPicker} />
+                                        <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                    </Form.Group>
+                                </Col>
+                            )}
+                            <Col xs={24} md={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Filial:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="branch" data={BranchesChoices} accepter={SelectPicker} />
@@ -200,36 +257,34 @@ export const EPIRequestCreate = memo(
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <>
-                            {data.itemsIndex.map((value: number) => {
-                                return (
-                                    <Row key={value} style={styles.row}>
-                                        <Col xs={12}>
-                                            <Form.Group >
-                                                <Form.ControlLabel>Item - {value + 1}:</Form.ControlLabel>
-                                                <Form.Control style={styles.input} name={`item-${value}`} data={ItemsChoices ? ItemsChoices : []} groupBy="group" accepter={SelectPicker} />
-                                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                            </Form.Group>
-                                        </Col>
-                                        <Col xs={12}>
-                                            <Form.Group>
-                                                <Form.ControlLabel>Quantidade - {value + 1}:</Form.ControlLabel>
-                                                <Form.Control style={styles.input} name={`quantity-${value}`} min={0} accepter={InputNumber} />
-                                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                )
-                            })}
-                            <Row style={styles.row}>
-                                <Col xs={12}></Col>
-                                <Col xs={12}>
-                                    {data.itemsIndex.length < 5 &&
-                                        <Button onClick={addItem} appearance="primary" color="green">Adicionar Item</Button>
-                                    }
-                                </Col>
-                            </Row>
-                        </>
+                        {data.itemsIndex.map((value: number) => {
+                            return (
+                                <Row key={value} style={styles.row}>
+                                    <Col xs={24} md={12}>
+                                        <Form.Group >
+                                            <Form.ControlLabel>Item - {value + 1}:</Form.ControlLabel>
+                                            <Form.Control style={styles.input} name={`item-${value}`} data={ItemsChoices ? ItemsChoices : []} groupBy="group" accepter={SelectPicker} />
+                                            <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col xs={24} md={12}>
+                                        <Form.Group>
+                                            <Form.ControlLabel>Quantidade - {value + 1}:</Form.ControlLabel>
+                                            <Form.Control style={styles.input} name={`quantity-${value}`} min={0} accepter={InputNumber} />
+                                            <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                            )
+                        })}
+                        <Row style={styles.row}>
+                            <Col xs={24} md={12}></Col>
+                            <Col xs={24} md={12}>
+                                {data.itemsIndex.length < 5 &&
+                                    <Button onClick={addItem} appearance="primary" color="green">Adicionar Item</Button>
+                                }
+                            </Col>
+                        </Row>
                         <Row style={styles.row}>
                             <Col xs={24}>
                                 <Form.Group >
@@ -242,6 +297,6 @@ export const EPIRequestCreate = memo(
                     </Grid>
                 </MainModal.Body>
                 <MainModal.FooterForm name="Criar" close={close} />
-            </MainModal.Form>
+            </MainModal.Form >
         );
     });

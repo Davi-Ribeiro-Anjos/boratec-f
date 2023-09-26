@@ -225,6 +225,7 @@ export interface EpiRequestInterface {
     date_canceled: string;
     attachment_confirm: any;
     status: string;
+    employee_name: string | null;
     branch: BranchesInterface;
     employee: EmployeesInterface;
     author_create: EmployeesInterface;

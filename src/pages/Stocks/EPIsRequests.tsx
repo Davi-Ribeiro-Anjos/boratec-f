@@ -39,6 +39,14 @@ export default function EPIsRequests() {
     const searchData = async () => {
         const response = await api.get("epis/requests/", { params: { ...filter } })
 
+        for (let index = 0; index < response.data.length; index++) {
+            const element = response.data[index];
+
+            element["employee_name"] = element.employee?.name || element.employee_provisory
+        }
+
+        // response.data["employee_name"] = response.data.employee.name || response.data.employee_provisory
+
         return response.data
     }
     const { data, isLoading, refetch } = useQuery({
@@ -72,7 +80,7 @@ export default function EPIsRequests() {
     const columns = useMemo<ColumnsInterface>(() => {
         return {
             "Id": { dataKey: "id", propsColumn: { width: 120 } },
-            "Funcionário": { dataKey: "employee.name", propsColumn: { width: 200, fullText: true } },
+            "Funcionário": { dataKey: "employee_name", propsColumn: { width: 200, fullText: true } },
             "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 150 } },
             "Data Solicitação": { dataKey: "date_requested", propsColumn: { width: 130 } },
             "Solicitante": { dataKey: "author_create.name", propsColumn: { width: 200, fullText: true } },

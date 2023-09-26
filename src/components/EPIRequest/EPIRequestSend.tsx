@@ -1,4 +1,4 @@
-import { Form, Row, Col, useToaster, Input, Message, Table, Panel, Uploader, Button } from "rsuite";
+import { Form, Row, Col, useToaster, Input, Message, Table, Panel, Button } from "rsuite";
 import { styles } from "../../assets/styles";
 
 import { memo, useState, useContext, forwardRef } from "react";
@@ -188,14 +188,14 @@ export const EPIRequestSend = memo(
                     </Panel>
                     <Panel header="Informações para Envio:">
                         <Row style={styles.row}>
-                            <Col xs={12}>
+                            <Col xs={24} md={12}>
                                 <Form.Group>
                                     <Form.ControlLabel>Motorista:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="driver" accepter={Input} />
                                     <Form.HelpText>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
-                            <Col xs={12}>
+                            <Col xs={24} md={12}>
                                 <Form.Group>
                                     <Form.ControlLabel>Placa Veículo:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="vehicle_plate" accepter={Input} />
@@ -204,24 +204,18 @@ export const EPIRequestSend = memo(
                             </Col>
                         </Row>
                         <Row style={styles.row}>
-                            <Col xs={12}>
+                            <Col xs={24}>
                                 <Form.Group>
                                     <Form.ControlLabel>Email:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="email" accepter={Input} />
                                     <Form.HelpText>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Anexo do Email:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="attachment" multiple={false} action="" autoUpload={false} accepter={Uploader} />
-                                </Form.Group>
-                            </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col xs={24}>
                                 <Form.Group>
-                                    <Form.ControlLabel>Corpo do Email:</Form.ControlLabel>
+                                    <Form.ControlLabel>Observação:</Form.ControlLabel>
                                     <Form.Control style={styles.observation} name="body_email" rows={7} accepter={Textarea} />
                                 </Form.Group>
                             </Col>
