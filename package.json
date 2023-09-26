@@ -10,8 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@sentry/react": "^7.71.0",
-    "@sentry/vite-plugin": "^2.7.1",
     "@tanstack/eslint-plugin-query": "^4.29.9",
     "@tanstack/react-query": "^4.29.19",
     "axios": "^1.4.0",
