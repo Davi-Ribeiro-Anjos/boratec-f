@@ -26,6 +26,7 @@ interface GetVehicles {
 }
 interface Filter {
     branch_id: number | null;
+    active: string;
 }
 
 
@@ -36,9 +37,13 @@ export default function FleetsAvailabilities() {
 
 
     // FILTER
-    const [filter, setFilter] = useState<Filter>({ branch_id: me.branch.id })
+    const initialFilter = {
+        branch_id: me.branch.id,
+        active: 'True'
+    }
+    const [filter, setFilter] = useState<Filter>(initialFilter)
     const clear = () => {
-        setFilter({ branch_id: me.branch.id })
+        setFilter(initialFilter)
     }
 
 
@@ -119,11 +124,11 @@ export default function FleetsAvailabilities() {
         return {
             "Placa Veículo": {
                 dataKey: "vehicle_plate",
-                propsColumn: window.innerWidth > 400 ? { flexGrow: 1, fullText: true } : { width: 100, fullText: true }
+                propsColumn: window.innerWidth > 0 ? { flexGrow: 1, fullText: true } : { width: 100, fullText: true }
             },
             "Tipo Veículo": {
                 dataKey: "type_vehicle",
-                propsColumn: window.innerWidth > 400 ? { flexGrow: 1, fullText: true } : { width: 100, fullText: true }
+                propsColumn: window.innerWidth > 0 ? { flexGrow: 1, fullText: true } : { width: 100, fullText: true }
             },
             "Parado": {
                 dataKey: "button", propsIcon: { appearance: "primary", color: "red" },
