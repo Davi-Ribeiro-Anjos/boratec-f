@@ -12,6 +12,8 @@ import { MainTable } from "../../components/Global/Table";
 import { useApi } from "../../hooks/Api";
 import { QueryNF } from "../../components/QueryNF";
 import { FormatDate } from "../../services/Date";
+import { MainMessage } from "../../components/Global/Message";
+import { AxiosError } from "axios";
 
 interface Filter {
     nf: number | null;
@@ -52,7 +54,10 @@ export default function QueriesNFs() {
     const { data, isLoading, refetch } = useQuery({
         queryKey: ["query-nf"],
         queryFn: searchData,
-        onError: () => { },
+        onError: (error: AxiosError) => {
+            MainMessage.Error401(toaster, error)
+            MainMessage.Error500(toaster, error)
+        },
         enabled: false
     })
 
