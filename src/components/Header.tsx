@@ -72,13 +72,15 @@ export function MainHeader() {
                         )}
                     </Nav.Menu>
                 )}
-                {/* {verifyPermission("tools") && (
+                {verifyPermission("tools") && (
                     <Nav.Menu title="Ferramentas">
                         {verifyPermission("xmls") && (
-                            <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
+                            <a href="http://bora.tec.br/romaneioop/">
+                                <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
+                            </a>
                         )}
                     </Nav.Menu>
-                )} */}
+                )}
                 {verifyPermission("stocks") && (
                     <Nav.Menu title="Estoques">
                         {verifyPermission("stock_epis") && (

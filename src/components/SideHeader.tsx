@@ -71,13 +71,15 @@ export function MainSideHeader() {
                             )}
                         </Nav.Menu>
                     )}
-                    {/* {verifyPermission("tools") && (
-                    <Nav.Menu title="Ferramentas">
-                        {verifyPermission("xmls") && (
-                            <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
-                        )}
-                    </Nav.Menu>
-                )} */}
+                    {verifyPermission("tools") && (
+                        <Nav.Menu title="Ferramentas">
+                            {verifyPermission("xmls") && (
+                                <a href="http://bora.tec.br/romaneioop/">
+                                    <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
+                                </a>
+                            )}
+                        </Nav.Menu>
+                    )}
                     {verifyPermission("stocks") && (
                         <Nav.Menu title="Estoques">
                             {verifyPermission("stock_epis") && (
@@ -96,7 +98,9 @@ export function MainSideHeader() {
                         </Nav.Menu>
                     )} */}
                     <Nav.Menu title="Consultas">
-                        <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
+                        <a href="http://bora.tec.br/consulta-nf/">
+                            <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
+                        </a>
                     </Nav.Menu>
                 </Nav.Menu>
             </Nav>
