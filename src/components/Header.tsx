@@ -76,7 +76,7 @@ export function MainHeader() {
                     <Nav.Menu title="Ferramentas">
                         {verifyPermission("xmls") && (
                             <a href="http://bora.tec.br/romaneioop/">
-                                <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
+                                <Nav.Item eventKey="70">XMLS</Nav.Item>
                             </a>
                         )}
                     </Nav.Menu>
