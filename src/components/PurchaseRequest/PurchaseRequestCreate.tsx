@@ -79,6 +79,7 @@ export const PurchaseRequestCreate = memo(
 
                 MainMessage.Error400(toaster, error, listMessage)
                 MainMessage.Error401(toaster, error)
+                MainMessage.Error500(toaster, error)
             }
         })
 

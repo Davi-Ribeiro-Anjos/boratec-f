@@ -30,7 +30,7 @@ export const useApi = (media?: boolean) => {
 
     return axios.create({
         baseURL: `${baseUrl}/api/`,
-        timeout: 8000,
+        timeout: 20000,
         headers: header
     })
 }
