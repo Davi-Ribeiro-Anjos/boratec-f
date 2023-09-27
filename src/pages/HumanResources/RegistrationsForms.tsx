@@ -73,6 +73,8 @@ export default function RegistrationsForms() {
             delete fil.cnpj_cpf
         }
 
+        fil.name__contains = fil.name__contains.toUpperCase()
+
         const response = await api.get<EmployeesInterface[]>("employees/", { params: { ...fil } })
 
         let dataRes = response.data
