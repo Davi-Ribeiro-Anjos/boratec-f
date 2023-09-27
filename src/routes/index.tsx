@@ -15,7 +15,7 @@ const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests
 const Employees = lazy(() => import("../pages/HumanResources/Employees/Employees.tsx"));
 const EmployeesPayments = lazy(() => import("../pages/HumanResources/Employees/EmployeesPayments.tsx"));
 const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
-// const Xmls = lazy(() => import("../pages/Tools/Xmls.tsx"));
+const Xmls = lazy(() => import("../pages/Tools/Xmls.tsx"));
 const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
 const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
 const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
@@ -83,22 +83,22 @@ export function MainRoutes() {
                     </Suspense>
                 )
             } />
-            {/* <Route path="/ferramentas/xmls" element={
+            <Route path="/ferramentas/xmls" element={
                 verifyPermissionPage("xml") && (
                     <Suspense>
                         <Xmls />
                     </Suspense>
                 )
-            } /> */}
+            } />
             <Route path="/estoques/epis/solicitacoes" element={
-                verifyPermissionPage("stocks_epis") && (
+                verifyPermissionPage("stock_epis") && (
                     <Suspense>
                         <EPIsRequests />
                     </Suspense>
                 )
             } />
             <Route path="/estoques/epis/controles" element={
-                verifyPermissionPage("stocks_epis") && (
+                verifyPermissionPage("stock_epis_admin") && (
                     <Suspense>
                         <EPIsControls />
                     </Suspense>
