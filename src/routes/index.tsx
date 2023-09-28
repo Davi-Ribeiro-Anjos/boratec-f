@@ -91,14 +91,14 @@ export function MainRoutes() {
                 )
             } />
             <Route path="/estoques/epis/solicitacoes" element={
-                verifyPermissionPage("stock_epis") && (
+                verifyPermissionPage("stocks_epis") && (
                     <Suspense>
                         <EPIsRequests />
                     </Suspense>
                 )
             } />
             <Route path="/estoques/epis/controles" element={
-                verifyPermissionPage("stock_epis_admin") && (
+                verifyPermissionPage("stocks_epis_admin") && (
                     <Suspense>
                         <EPIsControls />
                     </Suspense>

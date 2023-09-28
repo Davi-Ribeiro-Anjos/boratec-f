@@ -82,10 +82,10 @@ export function MainSideHeader() {
                     )}
                     {verifyPermission("stocks") && (
                         <Nav.Menu title="Estoques">
-                            {verifyPermission("stock_epis") && (
+                            {verifyPermission("stocks_epis") && (
                                 <Nav.Item onClick={() => navigate("/estoques/epis/solicitacoes")} eventKey="80">Solicitações EPI's</Nav.Item>
                             )}
-                            {verifyPermission("stock_epis") && (
+                            {verifyPermission("stocks_epis_admin") && (
                                 <Nav.Item onClick={() => navigate("/estoques/epis/controles")} eventKey="81">Controle EPI's</Nav.Item>
                             )}
                         </Nav.Menu>
