@@ -60,6 +60,7 @@ export const DepartmentChoices = [
     { label: "FROTA", value: "FROTA" },
     { label: "EXPEDIÇÃO", value: "EXPEDICAO" },
     { label: "COMERCIAL", value: "COMERCIAL" },
+    { label: "MARKETING", value: "MARKETING" },
     { label: "JURÍDICO", value: "JURIDICO" },
     { label: "DESENVOLVIMENTO", value: "DESENVOLVIMENTO" },
     { label: "TI", value: "TI" },
