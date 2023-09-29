@@ -207,13 +207,16 @@ export interface VehicleInterface {
     id: number;
     type_vehicle: string | null;
     vehicle_plate: string;
-    vehicle_mileage: number;
-    renavam: number;
-    model_vehicle: string;
-    observation: string | null;
-    last_movement: string | null,
+    last_movement: FleetAvailabilityInterface;
     active: boolean;
     branch: BranchesInterface;
+}
+interface FleetAvailabilityInterface {
+    id: number;
+    date_occurrence: string;
+    date_release: string;
+    date_forecast: string;
+    status: string;
 }
 
 // EPIS

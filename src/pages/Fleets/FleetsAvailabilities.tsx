@@ -55,11 +55,10 @@ export default function FleetsAvailabilities() {
         setTotal(response.data.total)
         setCookie("total_vehicles", response.data.total.toString(), 1)
 
+        const today = DateToString(new Date())
         const dataRes = response.data.data.filter((vehicle: VehicleInterface) => {
             if (vehicle.last_movement) {
-                const last = vehicle.last_movement
-
-                const today = DateToString(new Date())
+                const last = vehicle.last_movement.date_occurrence
 
                 if (last == today) return false
             }
@@ -72,7 +71,10 @@ export default function FleetsAvailabilities() {
         queryKey: ["fleets-availabilities"],
         queryFn: searchData,
         onSuccess: () => { },
-        onError: () => { },
+        onError: (error: AxiosError) => {
+            MainMessage.Error401(toaster, error)
+            MainMessage.Error500(toaster, error)
+        },
         enabled: true,
     })
     const send = async (rowData: VehicleInterface) => {
