@@ -51,6 +51,8 @@ export const PurchaseRequestEdit = memo(
             else delete row_.attachment
 
             let data_patch = { ...row_, latest_updater: me.id }
+
+            MainMessage.Info(toaster, "Enviando e-mail, aguarde...")
             return await api.patch(`purchases-requests/${row_.id}/`, { ...data_patch })
         }
 
