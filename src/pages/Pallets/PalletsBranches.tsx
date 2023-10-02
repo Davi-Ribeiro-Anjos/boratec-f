@@ -106,7 +106,7 @@ export default function PalletsBranches() {
             "Placa Veiculo": { dataKey: "vehicle_plate", propsColumn: { width: 130 } },
             "Autor": { dataKey: "author.name", propsColumn: { width: 160, fullText: true } },
             "Código de barras": { dataKey: "link", propsColumn: { width: 130 }, url: `${baseUrl}/api/pallets-movements/document/`, icon: PageIcon },
-            "Confirmar Recebimento": { dataKey: "button", propsColumn: { width: 160 }, click: confirmData, icon: CheckIcon, auth: "pallet_branch_admin" }
+            "Confirmar Recebimento": { dataKey: "button", propsColumn: { width: 160 }, click: confirmData, icon: CheckIcon }
         }
     }, [])
 
