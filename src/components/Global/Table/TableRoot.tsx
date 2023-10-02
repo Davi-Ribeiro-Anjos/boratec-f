@@ -13,12 +13,13 @@ interface TableRootProps extends TableProps<any, any> {
     data: any;
     columns: ColumnsInterface;
     isLoading: boolean;
+    pagination?: boolean;
     limit?: number;
 }
 
 
 export const TableRoot = memo(
-    function TableRoot({ data, columns, isLoading, limit = 30, ...props }: TableRootProps) {
+    function TableRoot({ data, columns, isLoading, pagination = true, limit = 30, ...props }: TableRootProps) {
         const { verifyPermission }: any = useContext(UserContext)
 
         const [page, setPage] = useState<number>(1)
@@ -95,7 +96,9 @@ export const TableRoot = memo(
                         })
                     }
                 </Table >
-                <MainTable.Pagination total={data ? data.length : 0} page={page} setPage={setPage} limit={limit} />
+                {pagination &&
+                    <MainTable.Pagination total={data ? data.length : 0} page={page} setPage={setPage} limit={limit} />
+                }
             </>
         )
     })

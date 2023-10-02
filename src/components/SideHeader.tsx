@@ -98,9 +98,7 @@ export function MainSideHeader() {
                         </Nav.Menu>
                     )} */}
                     <Nav.Menu title="Consultas">
-                        <a href="http://bora.tec.br/consulta-nf/">
-                            <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
-                        </a>
+                        <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
                     </Nav.Menu>
                 </Nav.Menu>
             </Nav>

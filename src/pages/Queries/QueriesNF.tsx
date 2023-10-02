@@ -11,7 +11,6 @@ import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
 import { useApi } from "../../hooks/Api";
 import { QueryNF } from "../../components/QueryNF";
-import { FormatDate } from "../../services/Date";
 import { MainMessage } from "../../components/Global/Message";
 import { AxiosError } from "axios";
 
@@ -70,7 +69,6 @@ export default function QueriesNFs() {
             if (Object.hasOwnProperty.call(rowData.occurrences, line)) {
                 const element: any = rowData.occurrences[line];
                 element.description_occurrence = element.description_occurrence.toUpperCase()
-                element.date_occurrence = FormatDate(element.date_occurrence)
             }
         }
         setRow(rowData.occurrences)

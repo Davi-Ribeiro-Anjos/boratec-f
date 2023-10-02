@@ -1,18 +1,15 @@
-import { Table } from "rsuite";
+import { memo, useMemo } from "react";
 
-import { memo } from "react";
-
-import { PackingListInterface } from "../../services/Interfaces";
+import { ColumnsInterface, PackingListInterface } from "../../services/Interfaces";
 
 import { MainModal } from "../Global/Modal";
+import { MainTable } from "../Global/Table";
 
 interface NFPackingProps {
     row: PackingListInterface[];
     open: boolean;
     setOpen: (value: boolean) => void;
 }
-
-const { Column, HeaderCell, Cell } = Table;
 
 
 export const NFPacking = memo(
@@ -21,45 +18,25 @@ export const NFPacking = memo(
             setOpen(false);
         }
 
+        const columns = useMemo<ColumnsInterface>(() => {
+            return {
+                "Romaneio": { dataKey: "packing_list", propsColumn: { flexGrow: 2 } },
+                "Tipo de Entrega": { dataKey: "delivery_type", propsColumn: { flexGrow: 2, fullText: true } },
+                "Data Saída": { dataKey: "date_exit", propsColumn: { flexGrow: 2 } },
+                "Placa Veículo": { dataKey: "plate", propsColumn: { flexGrow: 2 } },
+                "Tipo Veículo": { dataKey: "type_vehicle", propsColumn: { flexGrow: 3 } },
+                "Motorista": { dataKey: "driver", propsColumn: { flexGrow: 3, fullText: true } },
+                "Telefone do Motorista": { dataKey: "phone", propsColumn: { flexGrow: 3 } },
+            }
+        }, [])
+
         return (
             <MainModal.Root open={open} close={close} size="lg" overflow={false}>
                 <MainModal.Header title="Lista de Ocorrências" />
                 <MainModal.Body>
-                    <Table
-                        data={row}
-                        bordered
-                        cellBordered
-                        autoHeight
-                    >
-                        <Column width={100} align="center">
-                            <HeaderCell>Romaneio</HeaderCell>
-                            <Cell dataKey="packing_list" />
-                        </Column>
-                        <Column width={150} align="center">
-                            <HeaderCell>Tipo de Entrega</HeaderCell>
-                            <Cell dataKey="delivery_type" />
-                        </Column>
-                        <Column width={120} align="center">
-                            <HeaderCell>Data Saída</HeaderCell>
-                            <Cell dataKey="date_exit" />
-                        </Column>
-                        <Column width={120} align="center">
-                            <HeaderCell>Placa Veículo</HeaderCell>
-                            <Cell dataKey="plate" />
-                        </Column>
-                        <Column width={110} align="center">
-                            <HeaderCell>Tipo Veículo</HeaderCell>
-                            <Cell dataKey="type_vehicle" />
-                        </Column>
-                        <Column width={180} align="center" fullText>
-                            <HeaderCell>Motorista</HeaderCell>
-                            <Cell dataKey="driver" />
-                        </Column>
-                        <Column width={160} align="center">
-                            <HeaderCell>Telefone do Motorista</HeaderCell>
-                            <Cell dataKey="phone" />
-                        </Column>
-                    </Table>
+                    <MainTable.Root columns={columns} data={row} isLoading={false}
+                        height={250} pagination={false}
+                        bordered cellBordered autoHeight />
                 </MainModal.Body>
                 <MainModal.FooterOne close={close} />
             </MainModal.Root>
