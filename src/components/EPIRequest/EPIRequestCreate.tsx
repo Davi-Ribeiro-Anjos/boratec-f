@@ -280,9 +280,7 @@ export const EPIRequestCreate = memo(
                         <Row style={styles.row}>
                             <Col xs={24} md={12}></Col>
                             <Col xs={24} md={12}>
-                                {data.itemsIndex.length < 5 &&
-                                    <Button onClick={addItem} appearance="primary" color="green">Adicionar Item</Button>
-                                }
+                                <Button onClick={addItem} appearance="primary" color="green">Adicionar Item</Button>
                             </Col>
                         </Row>
                         <Row style={styles.row}>

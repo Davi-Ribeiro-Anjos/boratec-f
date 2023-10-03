@@ -1,5 +1,27 @@
 import { ColumnProps, IconButtonProps } from "rsuite";
 
+// COMPONENT
+export interface DefaultComponentFormInterface {
+    text: string;
+    name: string;
+    helpText?: string;
+    showHelpText?: boolean;
+    tooltip?: boolean;
+}
+export interface DefaultComponentFormDataInterface {
+    text: string;
+    name: string;
+    data: DataInterface[];
+    helpText?: string;
+    showHelpText?: boolean;
+    tooltip?: boolean;
+}
+interface DataInterface {
+    label: string;
+    value: string | number;
+}
+
+
 // TOKEN
 export interface TokenInterface {
     accessToken: string | null;
