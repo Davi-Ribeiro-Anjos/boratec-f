@@ -39,7 +39,7 @@ export default function Xmls() {
         return dataRes
     }
     const { data, isLoading } = useQuery({
-        queryKey: ["employees"],
+        queryKey: ["xmls"],
         queryFn: searchData,
         onError: (error: AxiosError) => {
             MainMessage.Error401(toaster, error)

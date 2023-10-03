@@ -1,15 +1,13 @@
-import { Col, Form, InputNumber, InputPicker, SelectPicker, useToaster } from "rsuite";
-import { styles } from "../../assets/styles";
+import { useToaster } from "rsuite";
 
 import { useState, memo, useContext } from "react"
 import { useMutation } from "react-query";
 
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
-import { queryClient } from "../../services/QueryClient";
-import { PalletControlInterface } from "../../services/Interfaces";
-import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
+// import { queryClient } from "../../services/QueryClient";
+// import { PalletControlInterface } from "../../services/Interfaces";
 
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
@@ -21,10 +19,7 @@ interface XmlCreateProps {
 }
 
 interface Data {
-    current_location: string | null,
-    quantity_pallets: number | null,
-    type_pallet: string | null,
-    author: number;
+    attachment: any[];
 }
 
 
@@ -34,43 +29,29 @@ export const XmlCreate = memo(
         const api = useApi()
         const toaster = useToaster()
 
-        const [data, setData] = useState<Data>({
-            current_location: '',
-            quantity_pallets: null,
-            type_pallet: '',
-            author: me.id
-        })
+        const initialData = { attachment: [] }
+        const [data, setData] = useState<Data>(initialData)
 
         const send = async () => {
             let form = { ...data }
 
-            return await api.post<PalletControlInterface>('pallets-controls/', form)
+            if (Boolean(form.attachment.length)) {
+                for (let file in form.attachment) {
+                    console.log(file)
+                    console.log(me)
+                    console.log(api)
+                    // form[parseInt(index)] = form.attachment[index].blobFile
+                }
+            }
+            // delete form.attachment
+
+            console.log(form)
         }
 
         const { mutate } = useMutation({
-            mutationKey: ["pallet-by-branch"],
+            mutationKey: ["xmls"],
             mutationFn: send,
-            onSuccess: (response: AxiosResponse) => {
-                const dataRes = response.data
-
-                console.log(dataRes)
-
-                queryClient.setQueryData(["pallet-by-branch"], (currentData: any) => {
-                    let exists = false
-                    let myData: any[] = []
-
-                    currentData.map((branch: any) => {
-                        branch.current_location === dataRes.current_location ? () => {
-                            exists = true
-                            myData.push(dataRes)
-                        } : myData.push(branch)
-                    })
-
-                    if (!exists) myData.push(dataRes)
-
-                    return myData
-                })
-
+            onSuccess: () => {
                 MainMessage.Ok(toaster, "Sucesso - Paletes criados.")
 
                 close()
@@ -91,43 +72,15 @@ export const XmlCreate = memo(
         const close = () => {
             setOpen(false)
 
-            setData({
-                quantity_pallets: null,
-                current_location: null,
-                type_pallet: null,
-                author: me.id
-            })
+            setData(initialData)
         }
 
         return (
             <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} size="md" >
-                <MainModal.Header title="Adicionar Paletes" />
+                <MainModal.Header title="Adicionar XMLS" />
                 <MainModal.Body>
                     <MainComponent.Row>
-                        <MainComponent.SelectPicker text="Filial:" name="current_location" data={BranchesChoices} />
-                        <Col xs={12}>
-                            <Form.Group>
-                                <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="current_location" data={BranchesChoices} accepter={SelectPicker} />
-                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12}>
-                            <Form.Group>
-                                <Form.ControlLabel>Tipo Palete:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="type_pallet" data={TypePalletChoices} accepter={InputPicker} />
-                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                            </Form.Group>
-                        </Col>
-                    </MainComponent.Row>
-                    <MainComponent.Row>
-                        <Col xs={12}>
-                            <Form.Group >
-                                <Form.ControlLabel>Quantidade Paletes:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="quantity_pallets" accepter={InputNumber} />
-                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                            </Form.Group>
-                        </Col>
+                        <MainComponent.Uploader text="Anexos:" name="xml_file" helpText="Quantidade máxima de 50 arquivos" multiple={true} tooltip={false} />
                     </MainComponent.Row>
                 </MainModal.Body>
                 <MainModal.FooterForm name="Adicionar" close={close} />

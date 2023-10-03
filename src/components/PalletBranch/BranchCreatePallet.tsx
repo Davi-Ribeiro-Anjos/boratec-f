@@ -53,8 +53,6 @@ export const BranchCreatePallet = memo(
             onSuccess: (response: AxiosResponse) => {
                 const dataRes = response.data
 
-                console.log(dataRes)
-
                 queryClient.setQueryData(["pallet-by-branch"], (currentData: any) => {
                     let exists = false
                     let myData: any[] = []
@@ -109,7 +107,7 @@ export const BranchCreatePallet = memo(
                         <MainComponent.SelectPicker text="Tipo Palete:" name="type_pallet" data={TypePalletChoices} />
                     </MainComponent.Row>
                     <MainComponent.Row>
-                        <MainComponent.Input text="Quantidade Paletes:" name="quantity_pallets" />
+                        <MainComponent.InputNumber text="Quantidade Paletes:" name="quantity_pallets" />
                     </MainComponent.Row>
                 </MainModal.Body>
                 <MainModal.FooterForm name="Adicionar" close={close} />

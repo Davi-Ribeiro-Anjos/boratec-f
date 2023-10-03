@@ -1,28 +1,18 @@
 import { Col, Form, SelectPicker } from "rsuite";
 import { styles } from "../../../assets/styles";
+import { DefaultComponentFormDataInterface } from "../../../services/Interfaces";
 
-interface DataInterface {
-    label: string;
-    value: string | number;
-}
+interface SelectPickerInterface extends DefaultComponentFormDataInterface { }
 
 
-interface SelectPickerInterface {
-    text: string;
-    name: string;
-    data: DataInterface[];
-    helpText?: string;
-    showHelpText?: boolean;
-}
-
-export default function MainSelectPicker({ text, name, data, helpText = "Obrigatório", showHelpText = true }: SelectPickerInterface) {
+export default function MainSelectPicker({ helpText = "Obrigatório", showHelpText = true, tooltip = true, ...props }: SelectPickerInterface) {
     return (
         <Col xs={24} md={12}>
             <Form.Group>
-                <Form.ControlLabel>{text}</Form.ControlLabel>
-                <Form.Control style={styles.input} name={name} data={data} accepter={SelectPicker} />
+                <Form.ControlLabel>{props.text}</Form.ControlLabel>
+                <Form.Control style={styles.input} name={props.name} data={props.data} accepter={SelectPicker} />
                 {showHelpText &&
-                    <Form.HelpText tooltip>{helpText}</Form.HelpText>
+                    <Form.HelpText tooltip={tooltip}>{helpText}</Form.HelpText>
                 }
             </Form.Group>
         </Col>
