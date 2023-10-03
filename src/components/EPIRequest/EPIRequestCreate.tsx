@@ -72,7 +72,7 @@ export const EPIRequestCreate = memo(
 
         const addItem = () => {
             const quantityDestiny = data.itemsIndex
-            if (quantityDestiny.length < 5) quantityDestiny.push(quantityDestiny.length)
+            quantityDestiny.push(quantityDestiny.length)
 
             setData({ ...data, itemsIndex: quantityDestiny })
         }
