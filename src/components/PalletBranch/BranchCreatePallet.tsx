@@ -1,5 +1,4 @@
-import { Col, Form, InputNumber, InputPicker, Row, SelectPicker, useToaster } from "rsuite";
-import { styles } from "../../assets/styles";
+import { useToaster } from "rsuite";
 
 import { useState, memo, useContext } from "react"
 import { useMutation } from "react-query";
@@ -13,6 +12,7 @@ import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
 
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
+import { MainComponent } from "../Global/Component";
 
 interface BranchCreatePalletProps {
     open: boolean;
@@ -104,31 +104,13 @@ export const BranchCreatePallet = memo(
             <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} size="md" >
                 <MainModal.Header title="Adicionar Paletes" />
                 <MainModal.Body>
-                    <Row style={styles.row}>
-                        <Col xs={12}>
-                            <Form.Group>
-                                <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="current_location" data={BranchesChoices} accepter={SelectPicker} />
-                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12}>
-                            <Form.Group>
-                                <Form.ControlLabel>Tipo Palete:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="type_pallet" data={TypePalletChoices} accepter={InputPicker} />
-                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row style={styles.row}>
-                        <Col xs={12}>
-                            <Form.Group >
-                                <Form.ControlLabel>Quantidade Paletes:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="quantity_pallets" accepter={InputNumber} />
-                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                    <MainComponent.Row>
+                        <MainComponent.SelectPicker text="Filial:" name="current_location" data={BranchesChoices} />
+                        <MainComponent.SelectPicker text="Tipo Palete:" name="type_pallet" data={TypePalletChoices} />
+                    </MainComponent.Row>
+                    <MainComponent.Row>
+                        <MainComponent.Input text="Quantidade Paletes:" name="quantity_pallets" />
+                    </MainComponent.Row>
                 </MainModal.Body>
                 <MainModal.FooterForm name="Adicionar" close={close} />
             </MainModal.Form>
