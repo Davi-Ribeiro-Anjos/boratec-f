@@ -4,6 +4,7 @@ import FileDownloadIcon from '@rsuite/icons/FileDownload';
 import { styles } from "../../assets/styles";
 
 import { useState, memo } from "react";
+import { Xml } from ".";
 
 // import { Xml } from ".";
 
@@ -27,7 +28,7 @@ export const XmlHeader = memo(function XmlHeader({ }: XmlHeaderProps) {
             <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Baixar Arquivos</Tooltip>}>
                 <IconButton icon={<FileDownloadIcon />} appearance="primary" color="blue" style={styles.iconButton} onClick={() => setOpenDownload(true)} />
             </Whisper>
-            {/* <Xml.Create open={openCreate} setOpen={setOpenCreate} /> */}
+            <Xml.Create open={openCreate} setOpen={setOpenCreate} />
             {/* <Xml.DownLoad open={openDownLoad} setOpen={setOpenDownLoad} /> */}
         </div>
     )
