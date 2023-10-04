@@ -1,18 +1,17 @@
-import { Form, Row, Col, useToaster, Input, Message, Table, Panel, Button } from "rsuite";
-import { styles } from "../../assets/styles";
+import { Form, useToaster, Message, Table, Panel, Button } from "rsuite";
 
-import { memo, useState, useContext, forwardRef } from "react";
+import { memo, useState, useContext } from "react";
 import { useMutation } from "react-query";
 
-// import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
-
-import { MainMessage } from "../Global/Message";
-import { MainModal } from "../Global/Modal";
 import { DateToString } from "../../services/Date";
 import { queryClient } from "../../services/QueryClient";
 import { EpiRequestInterface } from "../../services/Interfaces";
+
+import { MainMessage } from "../Global/Message";
+import { MainModal } from "../Global/Modal";
+import { MainComponent } from "../Global/Component";
 
 interface Form {
     driver: string;
@@ -29,7 +28,6 @@ interface EPIRequestSendProps {
 }
 
 const { Column, HeaderCell, Cell } = Table
-const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="textarea" ref={ref} />)
 
 
 export const EPIRequestSend = memo(
@@ -51,9 +49,9 @@ export const EPIRequestSend = memo(
             let bodyToEmail = { ...data }
 
             let sendError = false
-            if (!bodyToEmail.driver) sendError = true
+            if (!bodyToEmail.driver && me.branch.abbreviation != "SPO") sendError = true
+            if (!bodyToEmail.vehicle_plate && me.branch.abbreviation != "SPO") sendError = true
             if (!bodyToEmail.email) sendError = true
-            if (!bodyToEmail.vehicle_plate) sendError = true
             if (sendError) {
                 let message = (
                     <Message showIcon type="error" closable >
@@ -155,7 +153,6 @@ export const EPIRequestSend = memo(
             setOpen(false)
             setData(initialData)
         }
-
         return (
             <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size="md" fluid={true} overflow={false}>
                 <MainModal.Header title="Enviar Solicitação" />
@@ -187,39 +184,18 @@ export const EPIRequestSend = memo(
                         </Table>
                     </Panel>
                     <Panel header="Informações para Envio:">
-                        <Row style={styles.row}>
-                            <Col xs={24} md={12}>
-                                <Form.Group>
-                                    <Form.ControlLabel>Motorista:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="driver" accepter={Input} />
-                                    <Form.HelpText>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={24} md={12}>
-                                <Form.Group>
-                                    <Form.ControlLabel>Placa Veículo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="vehicle_plate" accepter={Input} />
-                                    <Form.HelpText>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={24}>
-                                <Form.Group>
-                                    <Form.ControlLabel>Email:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="email" accepter={Input} />
-                                    <Form.HelpText>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={24}>
-                                <Form.Group>
-                                    <Form.ControlLabel>Observação:</Form.ControlLabel>
-                                    <Form.Control style={styles.observation} name="body_email" rows={7} accepter={Textarea} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                        {me.branch.abbreviation != "SPO" &&
+                            <MainComponent.Row>
+                                <MainComponent.Input text="Motorista:" name="driver" tooltip={false} />
+                                <MainComponent.Input text="Placa Veículo:" name="vehicle_plate" tooltip={false} />
+                            </MainComponent.Row>
+                        }
+                        <MainComponent.Row>
+                            <MainComponent.Input text="Email:" name="email" tooltip={false} />
+                        </MainComponent.Row>
+                        <MainComponent.Row>
+                            <MainComponent.Textarea text="Observação:" name="body_email" />
+                        </MainComponent.Row>
                     </Panel>
                 </MainModal.Body>
                 <MainModal.FooterThree name1="Enviar Solicitação" name2="Cancelar Solicitação" otherFunction={confirmCancel} close={close} />
