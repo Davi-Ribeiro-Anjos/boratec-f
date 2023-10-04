@@ -74,7 +74,10 @@ export function MainSideHeader() {
                     {verifyPermission("tools") && (
                         <Nav.Menu title="Ferramentas">
                             {verifyPermission("xmls") && (
-                                <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
+                                <a href="http://bora.tec.br/romaneioop/">
+                                    <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
+                                </a>
+                                // <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
                             )}
                         </Nav.Menu>
                     )}
