@@ -184,12 +184,10 @@ export const EPIRequestSend = memo(
                         </Table>
                     </Panel>
                     <Panel header="Informações para Envio:">
-                        {me.branch.abbreviation != "SPO" &&
-                            <MainComponent.Row>
-                                <MainComponent.Input text="Motorista:" name="driver" tooltip={false} />
-                                <MainComponent.Input text="Placa Veículo:" name="vehicle_plate" tooltip={false} />
-                            </MainComponent.Row>
-                        }
+                        <MainComponent.Row>
+                            <MainComponent.Input text="Motorista:" name="driver" showHelpText={me.branch.abbreviation != "SPO" && true} tooltip={false} />
+                            <MainComponent.Input text="Placa Veículo:" name="vehicle_plate" showHelpText={me.branch.abbreviation != "SPO" && true} tooltip={false} />
+                        </MainComponent.Row>
                         <MainComponent.Row>
                             <MainComponent.Input text="Email:" name="email" tooltip={false} />
                         </MainComponent.Row>

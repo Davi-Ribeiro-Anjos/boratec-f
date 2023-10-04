@@ -26,33 +26,32 @@ interface Data {
 export const XmlCreate = memo(
     function XmlCreate({ open, setOpen }: XmlCreateProps) {
         const { me }: any = useContext(UserContext)
-        const api = useApi()
+        const api = useApi(true)
         const toaster = useToaster()
 
         const initialData = { attachment: [] }
         const [data, setData] = useState<Data>(initialData)
 
         const send = async () => {
-            let form = { ...data }
+            let form: any = { ...data }
 
             if (Boolean(form.attachment.length)) {
-                for (let file in form.attachment) {
-                    console.log(file)
-                    console.log(me)
-                    console.log(api)
-                    // form[parseInt(index)] = form.attachment[index].blobFile
+                for (let index in form.attachment) {
+                    if (form.attachment[index].blobFile) form.attachment[parseInt(index)] = form.attachment[index].blobFile
                 }
             }
-            // delete form.attachment
 
-            console.log(form)
+            MainMessage.Info(toaster, "Iniciando importação. Aguarde...", 6000)
+
+            api.post("xmls/send/", { ...form })
         }
 
         const { mutate } = useMutation({
             mutationKey: ["xmls"],
             mutationFn: send,
             onSuccess: () => {
-                MainMessage.Ok(toaster, "Sucesso - Paletes criados.")
+
+                MainMessage.Ok(toaster, "Sucesso - XMLS importados.")
 
                 close()
             },
@@ -77,13 +76,13 @@ export const XmlCreate = memo(
 
         return (
             <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} size="md" >
-                <MainModal.Header title="Adicionar XMLS" />
+                <MainModal.Header title="Importar XMLS" />
                 <MainModal.Body>
                     <MainComponent.Row>
-                        <MainComponent.Uploader text="Anexos:" name="xml_file" helpText="Quantidade máxima de 50 arquivos" multiple={true} tooltip={false} />
+                        <MainComponent.Uploader text="Anexos:" name="attachment" helpText="Quantidade máxima de 50 arquivos" multiple={true} tooltip={false} />
                     </MainComponent.Row>
                 </MainModal.Body>
-                <MainModal.FooterForm name="Adicionar" close={close} />
+                <MainModal.FooterForm name="Importar" close={close} />
             </MainModal.Form>
         )
     }
