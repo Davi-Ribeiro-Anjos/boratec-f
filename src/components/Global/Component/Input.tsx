@@ -1,9 +1,11 @@
-import { Col, Form, Input } from "rsuite";
+import { Col, Form, Input, InputProps } from "rsuite";
 import { styles } from "../../../assets/styles";
 
 import { DefaultComponentFormInterface } from "../../../services/Interfaces";
 
-interface InputInterface extends DefaultComponentFormInterface { }
+interface InputInterface extends InputProps, DefaultComponentFormInterface {
+    name: string;
+}
 
 
 export default function MainInput({ helpText = "Obrigatório", showHelpText = true, tooltip = true, ...props }: InputInterface) {
@@ -11,7 +13,7 @@ export default function MainInput({ helpText = "Obrigatório", showHelpText = tr
         <Col xs={24} md={12}>
             <Form.Group>
                 <Form.ControlLabel>{props.text}</Form.ControlLabel>
-                <Form.Control style={styles.input} name={props.name} accepter={Input} />
+                <Form.Control style={styles.input} name={props.name} accepter={Input} value={props.value} />
                 {showHelpText &&
                     <Form.HelpText tooltip={tooltip}>{helpText}</Form.HelpText>
                 }
