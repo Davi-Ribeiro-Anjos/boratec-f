@@ -77,7 +77,7 @@ export function MainRoutes() {
                 )
             } />
             <Route path="/rh/funcionarios-pj/pagamentos" element={
-                verifyPermissionPage("employee") && (
+                verifyPermissionPage("employee_admin") && (
                     <Suspense>
                         <EmployeesPayments />
                     </Suspense>

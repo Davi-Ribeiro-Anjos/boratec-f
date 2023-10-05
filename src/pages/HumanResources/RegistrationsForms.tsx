@@ -23,6 +23,7 @@ interface Filter {
     cpf: string | null;
     branch: number | null;
     type_contract: string | null;
+    status: string | null;
 }
 
 const initialFilter: Filter = {
@@ -32,6 +33,7 @@ const initialFilter: Filter = {
     cpf: null,
     branch: null,
     type_contract: null,
+    status: null,
 }
 
 
@@ -143,8 +145,9 @@ export default function RegistrationsForms() {
             "Nome": { dataKey: "name", propsColumn: { width: 300 } },
             "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 120 } },
             "CNPJ/ CPF": { dataKey: "cnpj_cpf", propsColumn: { width: 150 } },
-            "Tipo Contrato": { dataKey: "type_contract", propsColumn: { width: 130 } },
-            "Documento": { dataKey: "link", propsColumn: { width: 130 }, url: `${baseUrl}/api/employees/document/`, icon: PageIcon },
+            "Tipo Contrato": { dataKey: "type_contract", propsColumn: { width: 100 } },
+            "Status": { dataKey: "status", propsColumn: { width: 100 } },
+            "Baixar": { dataKey: "link", propsColumn: { width: 130 }, url: `${baseUrl}/api/employees/document/`, icon: PageIcon },
             "Acessórios": { dataKey: "button", propsColumn: { width: 130 }, click: epis, icon: EditIcon },
             "Detalhes": { dataKey: "button", propsColumn: { width: 130 }, click: details, icon: ListIcon }
         }

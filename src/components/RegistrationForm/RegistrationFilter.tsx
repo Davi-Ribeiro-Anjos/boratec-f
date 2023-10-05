@@ -1,10 +1,6 @@
-import { Col, Form, Input, Row, SelectPicker } from "rsuite"
-import { styles } from "../../assets/styles";
+import { BranchesChoices, StatusEmployeeChoices, TypeContractChoices } from "../../services/Choices";
 
-import { useContext } from "react"
-
-import { BranchesChoices, TypeContractChoices } from "../../services/Choices";
-import { UserContext } from "../../providers/UserProviders";
+import { MainComponent } from "../Global/Component";
 
 interface RegistrationFilterProps {
     cnpj_cpf: string;
@@ -39,38 +35,20 @@ const verifyMask = (value: string) => {
 
 
 export function RegistrationFilter({ cnpj_cpf }: RegistrationFilterProps) {
-    const { userChoices } = useContext<any>(UserContext)
 
     return (
         <>
-            <Row style={styles.row}>
-                <Col xs={12}>
-                    <Form.Group >
-                        <Form.ControlLabel>Funcionário: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="name__contains" data={userChoices} accepter={Input} />
-                    </Form.Group>
-                </Col>
-                <Col xs={12}>
-                    <Form.Group >
-                        <Form.ControlLabel>CNPJ/ CPF: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="cnpj_cpf" value={verifyMask(cnpj_cpf)} accepter={Input} />
-                    </Form.Group>
-                </Col>
-            </Row>
-            <Row style={styles.row}>
-                <Col xs={12}>
-                    <Form.Group >
-                        <Form.ControlLabel>Filial: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="branch" data={BranchesChoices} accepter={SelectPicker} />
-                    </Form.Group>
-                </Col>
-                <Col xs={12}>
-                    <Form.Group >
-                        <Form.ControlLabel>Tipo Contrato: </Form.ControlLabel>
-                        <Form.Control style={styles.input} name="type_contract" data={TypeContractChoices} accepter={SelectPicker} />
-                    </Form.Group>
-                </Col>
-            </Row>
+            <MainComponent.Row>
+                <MainComponent.Input text="Funcionário:" name="name__contains" showHelpText={false} />
+                <MainComponent.Input text="CNPJ/ CPF:" name="cnpj_cpf" value={verifyMask(cnpj_cpf)} showHelpText={false} />
+            </MainComponent.Row>
+            <MainComponent.Row>
+                <MainComponent.SelectPicker text="Filial:" name="branch" data={BranchesChoices} showHelpText={false} />
+                <MainComponent.SelectPicker text="Tipo Contrato:" name="type_contract" data={TypeContractChoices} showHelpText={false} />
+            </MainComponent.Row>
+            <MainComponent.Row>
+                <MainComponent.SelectPicker text="Status:" name="status" data={StatusEmployeeChoices} showHelpText={false} />
+            </MainComponent.Row>
         </>
     )
 }
