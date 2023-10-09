@@ -1,4 +1,4 @@
-import { Checkbox, IconButton, Table, TableProps } from "rsuite";
+import { IconButton, Table, TableProps } from "rsuite";
 import { Icon } from '@rsuite/icons';
 
 import { memo, useContext, useState, ReactNode } from "react";
