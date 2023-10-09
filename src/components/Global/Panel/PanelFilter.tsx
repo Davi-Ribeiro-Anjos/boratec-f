@@ -9,14 +9,15 @@ interface PanelFilterProps {
     filter: any;
     setFilter: any;
     refetch: () => void;
+    defaultExpanded?: boolean;
     children: ReactNode;
 }
 
 
-export function PanelFilter({ header = "Filtros", filter, setFilter, refetch, children }: PanelFilterProps) {
+export function PanelFilter({ header = "Filtros", filter, setFilter, refetch, defaultExpanded = true, children }: PanelFilterProps) {
 
     return (
-        <PanelRoot header={header} width={100} bordered collapsible defaultExpanded>
+        <PanelRoot header={header} width={100} bordered collapsible defaultExpanded={defaultExpanded}>
             <Grid style={{ width: "100%" }}>
                 <Form fluid onSubmit={refetch} onChange={setFilter} formValue={filter}>
                     {children}

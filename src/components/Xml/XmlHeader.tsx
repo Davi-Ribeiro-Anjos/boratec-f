@@ -8,17 +8,16 @@ import { Xml } from ".";
 
 // import { Xml } from ".";
 
-interface XmlHeaderProps { }
+interface XmlHeaderProps {
+    checkedKeys: number[];
+}
 
 
-export const XmlHeader = memo(function XmlHeader({ }: XmlHeaderProps) {
+export const XmlHeader = memo(function XmlHeader({ checkedKeys }: XmlHeaderProps) {
 
     const [openCreate, setOpenCreate] = useState(false)
 
     const [openDownload, setOpenDownload] = useState(false)
-
-    openCreate
-    openDownload
 
     return (
         <div>
@@ -29,7 +28,7 @@ export const XmlHeader = memo(function XmlHeader({ }: XmlHeaderProps) {
                 <IconButton icon={<FileDownloadIcon />} appearance="primary" color="blue" style={styles.iconButton} onClick={() => setOpenDownload(true)} />
             </Whisper>
             <Xml.Create open={openCreate} setOpen={setOpenCreate} />
-            {/* <Xml.DownLoad open={openDownLoad} setOpen={setOpenDownLoad} /> */}
+            <Xml.Download open={openDownload} setOpen={setOpenDownload} checkedKeys={checkedKeys} />
         </div>
     )
 })

@@ -1,13 +1,11 @@
-import { useToaster } from "rsuite";
+import { Message, useToaster } from "rsuite";
 
-import { useState, memo, useContext } from "react"
+import { useState, memo } from "react"
 import { useMutation } from "react-query";
 
 import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
-// import { queryClient } from "../../services/QueryClient";
-// import { PalletControlInterface } from "../../services/Interfaces";
+import { queryClient } from "../../services/QueryClient";
 
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
@@ -25,7 +23,6 @@ interface Data {
 
 export const XmlCreate = memo(
     function XmlCreate({ open, setOpen }: XmlCreateProps) {
-        const { me }: any = useContext(UserContext)
         const api = useApi(true)
         const toaster = useToaster()
 
@@ -35,21 +32,29 @@ export const XmlCreate = memo(
         const send = async () => {
             let form: any = { ...data }
 
+            if (form.attachment.length <= 0) {
+                let message = (
+                    <Message showIcon type="error" closable >
+                        Erro - Adicione algum arquivo.
+                    </ Message>
+                )
+                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+            }
+
             if (Boolean(form.attachment.length)) {
                 for (let index in form.attachment) {
                     if (form.attachment[index].blobFile) form.attachment[parseInt(index)] = form.attachment[index].blobFile
                 }
             }
 
-            MainMessage.Info(toaster, "Iniciando importação. Aguarde...", 6000)
-
-            api.post("xmls/send/", { ...form })
+            return api.post("xmls/send/", { ...form })
         }
 
         const { mutate } = useMutation({
             mutationKey: ["xmls"],
             mutationFn: send,
             onSuccess: () => {
+                queryClient.invalidateQueries(["xmls"])
 
                 MainMessage.Ok(toaster, "Sucesso - XMLS importados.")
 
@@ -75,7 +80,7 @@ export const XmlCreate = memo(
         }
 
         return (
-            <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} size="md" >
+            <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} size="sm" >
                 <MainModal.Header title="Importar XMLS" />
                 <MainModal.Body>
                     <MainComponent.Row>

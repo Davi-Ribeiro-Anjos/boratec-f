@@ -241,6 +241,22 @@ interface FleetAvailabilityInterface {
     status: string;
 }
 
+// XMLS
+export interface XmlInterface {
+    id: number;
+    date_emission: string;
+    nf: number;
+    sender: string;
+    recipient: string;
+    weight: number;
+    volume: number;
+    value_nf: number;
+    uf: string;
+    date_published: string;
+    xml_file: string;
+    author: UserInterface | null;
+}
+
 // EPIS
 export interface EpiRequestInterface {
     id: number;
@@ -294,3 +310,5 @@ export interface EpiSizeRequestInterface {
     quantity: number;
     item: EpiItemRequestInterface;
 }
+
+
