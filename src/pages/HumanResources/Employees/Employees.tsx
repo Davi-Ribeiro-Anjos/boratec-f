@@ -18,14 +18,10 @@ import { StringToDate } from "../../../services/Date";
 interface Filter {
     name__contains: string,
     branch: number | null,
-    type_contract: string
+    type_contract: string,
+    status: string;
 }
 
-const initialFilter = {
-    name__contains: "",
-    branch: null,
-    type_contract: "PJ"
-}
 
 
 export default function Employees() {
@@ -34,6 +30,12 @@ export default function Employees() {
     const toaster = useToaster()
 
     // FILTER
+    const initialFilter = {
+        name__contains: "",
+        branch: null,
+        type_contract: "PJ",
+        status: 'ATIVO'
+    }
     const [filter, setFilter] = useState<Filter>({ ...initialFilter })
     const clear = () => {
         setFilter(initialFilter)
