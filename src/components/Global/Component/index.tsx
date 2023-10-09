@@ -1,3 +1,4 @@
+import MainDateRangePicker from "./DateRangePicker";
 import MainInput from "./Input";
 import MainInputNumber from "./InputNumber";
 import MainRow from "./Row";
@@ -11,6 +12,7 @@ export const MainComponent = {
     Input: MainInput,
     InputNumber: MainInputNumber,
     SelectPicker: MainSelectPicker,
+    DateRangePicker: MainDateRangePicker,
     Uploader: MainUploader,
     Textarea: MainTextarea,
 }

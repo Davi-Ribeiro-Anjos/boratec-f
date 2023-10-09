@@ -1,10 +1,12 @@
 import { XmlCreate } from "./XmlCreate";
+import { XmlDownload } from "./XmlDownload";
+import { XmlFilter } from "./XmlFilter";
 import { XmlHeader } from "./XmlHeader";
-import { XmlTable } from "./XmlTable";
 
 
 export const Xml = {
     Header: XmlHeader,
-    Table: XmlTable,
+    Filter: XmlFilter,
     Create: XmlCreate,
+    Download: XmlDownload,
 }

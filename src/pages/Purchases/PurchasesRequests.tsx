@@ -18,13 +18,13 @@ import { PurchaseRequest } from "../../components/PurchaseRequest";
 import { MainMessage } from "../../components/Global/Message";
 
 interface Filter {
-    number_request: string | number | null,
-    date_request: any,
-    date_request__gte: any,
-    date_request__lte: any,
-    status: string | null,
-    branch: number | null,
-    requester: number | null,
+    number_request: string | number | null;
+    date_request: any;
+    date_request__gte: any;
+    date_request__lte: any;
+    status: string | null;
+    branch: number | null;
+    requester: number | null;
 }
 
 const initialFilter = {

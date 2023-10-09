@@ -1,7 +1,7 @@
-import { IconButton, Table, TableProps } from "rsuite";
+import { Checkbox, IconButton, Table, TableProps } from "rsuite";
 import { Icon } from '@rsuite/icons';
 
-import { memo, useContext, useState } from "react";
+import { memo, useContext, useState, ReactNode } from "react";
 
 import { ColumnsInterface } from "../../../services/Interfaces";
 import { MainTable } from ".";
@@ -15,11 +15,12 @@ interface TableRootProps extends TableProps<any, any> {
     isLoading: boolean;
     pagination?: boolean;
     limit?: number;
+    children?: ReactNode;
 }
 
 
 export const TableRoot = memo(
-    function TableRoot({ data, columns, isLoading, pagination = true, limit = 30, ...props }: TableRootProps) {
+    function TableRoot({ data, columns, isLoading, pagination = true, limit = 30, children, ...props }: TableRootProps) {
         const { verifyPermission }: any = useContext(UserContext)
 
         const [page, setPage] = useState<number>(1)
@@ -40,6 +41,7 @@ export const TableRoot = memo(
                     hover={false}
                     {...props}
                 >
+                    {children}
                     {
                         Object.entries(columns).map((key, index) => {
                             const title = key[0]
