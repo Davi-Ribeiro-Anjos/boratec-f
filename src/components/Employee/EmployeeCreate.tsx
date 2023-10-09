@@ -17,6 +17,7 @@ import { MainModal } from "../Global/Modal";
 
 interface Form {
     name: string,
+    email: string,
     branch: number | null,
     role: string,
     company: string | null,
@@ -68,6 +69,7 @@ export const EmployeeCreate = memo(
 
         const initialData = {
             name: "",
+            email: "",
             branch: null,
             role: "",
             company: null,
@@ -111,6 +113,7 @@ export const EmployeeCreate = memo(
             }
 
             body.name = body.name.toUpperCase()
+            body.email = body.email.toLowerCase()
             body.role = body.role.toUpperCase()
             body.bank = body.bank.toUpperCase()
             if (body.date_admission) body.date_admission = DateToString(body.date_admission)
@@ -139,6 +142,7 @@ export const EmployeeCreate = memo(
             onError: (error: AxiosError) => {
                 const message = {
                     name: 'Nome',
+                    email: 'Email',
                     branch: 'Filial',
                     role: 'Cargo',
                     company: 'Empresa',
@@ -266,10 +270,17 @@ export const EmployeeCreate = memo(
                             </Col>
                         </Row>
                         <Row style={styles.row}>
-                            <Col xs={24}>
+                            <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Status:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="status" data={StatusEmployeeChoices} accepter={SelectPicker} />
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Email:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="email" accepter={Input} />
+                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
                             </Col>
                         </Row>

@@ -55,6 +55,7 @@ export const EmployeeEdit = memo(
             }
 
             body.name = body.name.toUpperCase()
+            body.email = body.email.toLowerCase()
             body.role = body.role.toUpperCase()
             body.bank = body.bank.toUpperCase()
             if (body.date_admission) body.date_admission = DateToString(body.date_admission)
@@ -205,10 +206,16 @@ export const EmployeeEdit = memo(
                             </Col>
                         </Row>
                         <Row style={styles.row}>
-                            <Col xs={24}>
+                            <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Status:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="status" data={StatusEmployeeChoices} accepter={SelectPicker} />
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Email:</Form.ControlLabel>
+                                    <Form.Control style={styles.input} name="email" accepter={Input} />
                                 </Form.Group>
                             </Col>
                         </Row>
