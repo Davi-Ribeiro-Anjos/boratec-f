@@ -9,7 +9,7 @@ export function MessageError500(toaster: Toaster, error: AxiosError, message?: s
         const e: any = error.response?.data
         let m = (
             < Message showIcon type="error" closable >
-                {message || e.mensagem || "Erro - Ocorreu um erro."}
+                {message || e.message || "Erro - Ocorreu um erro."}
             </ Message>
         )
         toaster.push(m, { placement: 'topEnd', duration: 6000 })
