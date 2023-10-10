@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCookie } from "../services/Cookies";
 
-const dev = false
+const dev = true
 
 export const baseUrl = dev ? "http://127.0.0.1:8000" : "https://back.bora.tec.br"
 
@@ -31,24 +31,9 @@ export const useApi = (media?: boolean) => {
 
     return axios.create({
         baseURL: `${baseUrl}/api/`,
-        timeout: 20000,
+        timeout: 120000,
         headers: header,
     })
-    // if (download) {
-    //     return axios.create({
-    //         baseURL: `${baseUrl}/api/`,
-    //         timeout: 20000,
-    //         headers: header,
-    //         responseType: 'blob'
-    //     })
-    // }
-    // else {
-    //     return axios.create({
-    //         baseURL: `${baseUrl}/api/`,
-    //         timeout: 20000,
-    //         headers: header,
-    //     })
-    // }
 }
 
 export const useApiDownloadXlsx = () => {
@@ -73,7 +58,7 @@ export const useApiDownloadXlsx = () => {
 
     return axios.create({
         baseURL: `${baseUrl}/api/`,
-        timeout: 20000,
+        timeout: 120000,
         headers: header,
         responseType: 'blob'
     })
