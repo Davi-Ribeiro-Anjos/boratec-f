@@ -73,6 +73,8 @@ export const EPIRequestSend = memo(
                 status: "ANDAMENTO"
             }
 
+            MainMessage.Info(toaster, "Enviando email aguarde...")
+
             return await api.patch(`epis/requests/${row?.id}/`, { ...body, ...bodyToEmail })
         }
 
