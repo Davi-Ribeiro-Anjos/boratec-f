@@ -46,6 +46,7 @@ export const TableRoot = memo(
                         Object.entries(columns).map((key, index) => {
                             const title = key[0]
                             const dataKey = key[1].dataKey
+                            const verifyShow = key[1].verifyShow
                             const propsColumn = key[1].propsColumn
                             const propsIcon = key[1].propsIcon
                             const click = key[1].click
@@ -67,6 +68,16 @@ export const TableRoot = memo(
                             }
 
                             return (
+                                dataKey === "buttonVerify" && click && access && (
+                                    <Column {...column} >
+                                        <HeaderCell>{title}</HeaderCell>
+                                        <Cell style={{ padding: '6px' }}>
+                                            {rowData => {
+                                                if (verifyShow(rowData)) return <IconButton {...propsIcon} icon={<Icon as={icon} />} onClick={() => click(rowData)} />
+                                            }}
+                                        </Cell>
+                                    </Column>
+                                ) ||
                                 dataKey === "button" && click && access && (
                                     <Column {...column} >
                                         <HeaderCell>{title}</HeaderCell>

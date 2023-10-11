@@ -58,6 +58,14 @@ export const FleetAvailabilityStatus = memo(
         const send = async () => {
             let body = { ...data }
 
+            if (!body.service_order) {
+                let message = (
+                    <Message showIcon type="error" closable >
+                        Erro - Preencha o campo Ordem de Serviço.
+                    </ Message>
+                )
+                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+            }
             if (!body.observation) {
                 let message = (
                     <Message showIcon type="error" closable >
@@ -95,14 +103,13 @@ export const FleetAvailabilityStatus = memo(
                     return currentData.filter((vehicle: VehicleInterface) => vehicle.id !== dataRes.vehicle.id)
                 })
 
-
                 MainMessage.Ok(toaster, "Sucesso - Registro criado.")
 
                 close()
             },
             onError: (error: AxiosError) => {
                 const listMessage = {
-                    observation: "Número Solicitação",
+                    status: "Data",
                     service_order: "Filial",
                     date_forecast: "Solicitante",
                     date_release: "Anexo"
@@ -110,6 +117,7 @@ export const FleetAvailabilityStatus = memo(
 
                 MainMessage.Error400(toaster, error, listMessage)
                 MainMessage.Error401(toaster, error)
+                MainMessage.Error500(toaster, error)
             }
         })
 

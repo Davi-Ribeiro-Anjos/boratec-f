@@ -122,6 +122,37 @@ export default function FleetsAvailabilities() {
         setOpenStopped(true)
         setPreventive(true)
     }
+    const verifyShowButtonFore = (rowData: VehicleInterface) => {
+        let date: Date
+        let today = new Date()
+
+        if (!rowData.last_movement) return true
+
+        if (rowData.last_movement.date_forecast) {
+            date = new Date(rowData.last_movement.date_forecast)
+
+            console.log(date, Boolean(date < today))
+            if (date > today) return false
+        }
+
+        return true
+    }
+    const verifyShowButtonRe = (rowData: VehicleInterface) => {
+        let date: Date
+        let today = new Date()
+
+        if (!rowData.last_movement) return true
+
+        if (rowData.last_movement.date_release) {
+            date = new Date(rowData.last_movement.date_release)
+            console.log(date, Boolean(date < today))
+            if (date > today) return false
+        }
+
+        return true
+    }
+
+
     const columns = useMemo<ColumnsInterface>(() => {
         return {
             "Placa Veículo": {
@@ -133,12 +164,14 @@ export default function FleetsAvailabilities() {
                 propsColumn: window.innerWidth > 0 ? { flexGrow: 1, fullText: true } : { width: 100, fullText: true }
             },
             "Parado": {
-                dataKey: "button", propsIcon: { appearance: "primary", color: "red" },
-                propsColumn: { flexGrow: 1 }, click: modalStopped, icon: BlockIcon
+                dataKey: "buttonVerify", propsIcon: { appearance: "primary", color: "red" },
+                propsColumn: { flexGrow: 1 }, click: modalStopped, icon: BlockIcon,
+                verifyShow: verifyShowButtonRe
             },
             "Preventivo": {
-                dataKey: "button", propsIcon: { appearance: "primary", color: "yellow" },
-                propsColumn: { flexGrow: 1 }, click: modalPreventive, icon: ToolsIcon
+                dataKey: "buttonVerify", propsIcon: { appearance: "primary", color: "yellow" },
+                propsColumn: { flexGrow: 1 }, click: modalPreventive, icon: ToolsIcon,
+                verifyShow: verifyShowButtonFore
             },
             "Liberado": {
                 dataKey: "button", propsIcon: { appearance: "primary", color: "green" },

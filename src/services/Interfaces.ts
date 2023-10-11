@@ -51,6 +51,7 @@ interface Groups {
 interface Column extends ColumnProps {
     dataKey: string;
     url?: string;
+    verifyShow?: any;
     icon?: any;
     auth?: string;
     propsColumn?: ColumnProps;
