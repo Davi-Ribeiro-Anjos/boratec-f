@@ -73,7 +73,7 @@ export function MainSideHeader() {
                     )}
                     {verifyPermission("tools") && (
                         <Nav.Menu title="Ferramentas">
-                            {verifyPermission("xmls") && (
+                            {verifyPermission("xml") && (
                                 <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
                             )}
                         </Nav.Menu>
@@ -88,13 +88,13 @@ export function MainSideHeader() {
                             )}
                         </Nav.Menu>
                     )}
-                    {/* {verifyPermission("commercials") && (
+                    {verifyPermission("commercials") && (
                         <Nav.Menu title="Comercial">
                             {verifyPermission("justification") && (
-                                <Nav.Item onClick={() => navigate("/comercial/justificativas")} eventKey="90">Justificativa</Nav.Item>
+                                <Nav.Item onClick={() => navigate("/comercial/justificativas")} eventKey="90">Justificativas</Nav.Item>
                             )}
                         </Nav.Menu>
-                    )} */}
+                    )}
                     <Nav.Menu title="Consultas">
                         <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
                     </Nav.Menu>

@@ -1,3 +1,4 @@
+import MainCheckbox from "./Checkbox";
 import MainDateRangePicker from "./DateRangePicker";
 import MainInput from "./Input";
 import MainInputNumber from "./InputNumber";
@@ -12,6 +13,7 @@ export const MainComponent = {
     Input: MainInput,
     InputNumber: MainInputNumber,
     SelectPicker: MainSelectPicker,
+    Checkbox: MainCheckbox,
     DateRangePicker: MainDateRangePicker,
     Uploader: MainUploader,
     Textarea: MainTextarea,

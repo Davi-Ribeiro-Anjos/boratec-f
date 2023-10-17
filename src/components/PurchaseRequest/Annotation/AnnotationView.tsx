@@ -1,13 +1,14 @@
 import { Button, Col, Grid, Panel, PanelGroup, Row } from "rsuite";
 import { styles } from "../../../assets/styles";
 
-import { memo, useState } from "react"
+import { memo, useContext, useState } from "react"
 
 import { baseUrl } from "../../../hooks/Api";
 
 import { MainModal } from "../../Global/Modal";
 import { AnnotationInterface } from "../../../services/Interfaces";
 import { Annotation } from ".";
+import { UserContext } from "../../../providers/UserProviders";
 
 interface AnnotationViewProps {
     annotations: any;
@@ -19,6 +20,7 @@ interface AnnotationViewProps {
 
 export const AnnotationView = memo(
     function AnnotationView({ annotations, id, open, setOpen }: AnnotationViewProps) {
+        const { verifyPermission }: any = useContext(UserContext)
         const [openCreate, setOpenCreate] = useState(false)
         const openAnnotationCreate = () => {
             close()
@@ -77,6 +79,7 @@ export const AnnotationView = memo(
                     </MainModal.Body>
                     <MainModal.FooterTwo open={openAnnotationCreate} close={close} name="Criar Entrada" />
                 </MainModal.Root>
+                {verifyPermission("purchase_request_admin")}
                 <Annotation.Create open={openCreate} setOpen={setOpenCreate} id={annotations ? id : null} />
             </>
         )

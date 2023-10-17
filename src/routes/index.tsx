@@ -18,6 +18,7 @@ const RegistrationsForms = lazy(() => import("../pages/HumanResources/Registrati
 const Xmls = lazy(() => import("../pages/Tools/Xmls.tsx"));
 const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
 const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
+const Justifications = lazy(() => import("../pages/Commercials/Justifications.tsx"));
 const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
 
 
@@ -101,6 +102,13 @@ export function MainRoutes() {
                 verifyPermissionPage("stocks_epis_admin") && (
                     <Suspense>
                         <EPIsControls />
+                    </Suspense>
+                )
+            } />
+            <Route path="/comercial/justificativas/" element={
+                verifyPermissionPage("delivery_history") && (
+                    <Suspense>
+                        <Justifications />
                     </Suspense>
                 )
             } />

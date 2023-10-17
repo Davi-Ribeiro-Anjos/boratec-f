@@ -53,6 +53,7 @@ interface Column extends ColumnProps {
     url?: string;
     verifyShow?: any;
     icon?: any;
+    component?: any;
     auth?: string;
     propsColumn?: ColumnProps;
     propsIcon?: IconButtonProps;
@@ -312,4 +313,33 @@ export interface EpiSizeRequestInterface {
     item: EpiItemRequestInterface;
 }
 
+// DELIVERIES HISTORIES
+export interface DeliveryHistoryInterface {
+    id: number;
+    garage: string;
+    id_garage: string;
+    cte: string;
+    date_emission: any;
+    lead_time: any;
+    date_delivery: any;
+    recipient: string;
+    sender: string;
+    delivery_location: string;
+    weight: number;
+    opened: number;
+    nf: string;
+    document_type: string;
+    description_justification: string;
+    file: File | null;
+    confirmed: boolean;
+    refused: boolean;
+    author_responsible: EmployeesSimpleInterface | null;
+    author: EmployeesSimpleInterface | null;
+    branch: BranchesInterface;
+    occurrences: OccurrenceSimpleInterface[] | null;
+}
 
+export interface OccurrenceSimpleInterface {
+    date_emission: string;
+    occurrence_description: string;
+}

@@ -49,14 +49,15 @@ export default function FleetsAvailabilities() {
 
     // DATA
     const [total, setTotal] = useState(parseInt(getCookie("total_vehicles") || "0"))
+    const [quantity, setQuantity] = useState(0)
     const searchData = async () => {
         const response = await api.get<GetVehicles>("vehicles/", { params: filter })
 
-        setTotal(response.data.total)
-        setCookie("total_vehicles", response.data.total.toString(), 1)
-
         const today = DateToString(new Date())
+        let count = 0
         const dataRes = response.data.data.filter((vehicle: VehicleInterface) => {
+            if (vehicle.last_movement && (vehicle.last_movement.date_forecast || vehicle.last_movement.date_release)) count++
+
             if (vehicle.last_movement) {
                 const last = vehicle.last_movement.date_occurrence
 
@@ -64,6 +65,12 @@ export default function FleetsAvailabilities() {
             }
             return true
         })
+
+        console.log("aqui", count)
+        setQuantity(count)
+        setTotal(response.data.total)
+
+        setCookie("total_vehicles", (response.data.total).toString(), 1)
 
         return dataRes
     }
@@ -106,6 +113,23 @@ export default function FleetsAvailabilities() {
         })
     }
 
+    // PERCENT
+    const calculateProgress = (): number => {
+        let percent = 0
+
+        if (data) {
+            const difference = total - data.length + quantity
+            percent = Math.ceil((difference < 0 ? 0 : difference / total) * 100)
+        }
+
+        if (percent > 100) percent = 100
+        if (percent < 0) percent = 0
+
+        // if (percent == 100) MainMessage.Info(toaster, "Todas as marcações para essa filial foram realizadas.", 6000)
+
+        return percent
+    }
+
 
     // TABLE
     const [row, setRow] = useState<VehicleInterface>()
@@ -130,8 +154,6 @@ export default function FleetsAvailabilities() {
 
         if (rowData.last_movement.date_forecast) {
             date = new Date(rowData.last_movement.date_forecast)
-
-            console.log(date, Boolean(date < today))
             if (date > today) return false
         }
 
@@ -145,7 +167,6 @@ export default function FleetsAvailabilities() {
 
         if (rowData.last_movement.date_release) {
             date = new Date(rowData.last_movement.date_release)
-            console.log(date, Boolean(date < today))
             if (date > today) return false
         }
 
@@ -181,22 +202,7 @@ export default function FleetsAvailabilities() {
     }, [])
 
 
-    // PERCENT
-    const calculateProgress = (): number => {
-        let percent = 0
 
-        if (data) {
-            const difference = total - data.length
-            percent = Math.ceil((difference / total) * 100)
-        }
-
-        if (percent > 100) percent = 100
-        if (percent < 0) percent = 0
-
-        // if (percent == 100) MainMessage.Info(toaster, "Todas as marcações para essa filial foram realizadas.", 6000)
-
-        return percent
-    }
 
 
     return (

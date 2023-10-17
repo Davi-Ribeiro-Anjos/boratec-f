@@ -1,7 +1,7 @@
 import { IconButton, Table, TableProps } from "rsuite";
 import { Icon } from '@rsuite/icons';
 
-import { memo, useContext, useState, ReactNode } from "react";
+import { memo, useContext, useState, ReactNode, useEffect } from "react";
 
 import { ColumnsInterface } from "../../../services/Interfaces";
 import { MainTable } from ".";
@@ -24,6 +24,8 @@ export const TableRoot = memo(
         const { verifyPermission }: any = useContext(UserContext)
 
         const [page, setPage] = useState<number>(1)
+
+        useEffect(() => { setPage(1) }, [data])
 
         const dataFiltered = data.filter((v: any, i: number) => {
             v

@@ -105,3 +105,20 @@ export const CompanyChoices = [
 export const StockChoices = [
     "PROVISORIO", "ABERTO", "ANDAMENTO", "CONCLUIDO", "CANCELADO",
 ].map(item => ({ label: item, value: item }))
+
+// JUSTIFICATIVE
+export const JustificationChoices = [
+    "FERIADO NACIONAL",
+    "FERIADOS MUNICIPAIS / ESTADUAIS",
+    "ENTREGA AGENDADA",
+    "CLIENTE COM RETENÇÃO FISCAL",
+    "DESTINATARIO NÃO RECEBEU O XML",
+    "NF SEM PEDIDO",
+    "PEDIDO EXPIRADO",
+    "EXCESSO DE VEICULOS",
+    "GRADE FIXA",
+    "DEVOLUÇÃO TOTAL ",
+    "ATRASO NA TRANSFERENCIA",
+    "CUSTO",
+    "ENTREGUE SEM LEAD TIME",
+].map(item => ({ label: item, value: item }))

@@ -125,16 +125,16 @@ export default function PurchasesRequests() {
     // TABLE
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nº Solicitação": { dataKey: "number_request", propsColumn: { width: 120 } },
+            "Nº Solicitação": { dataKey: "number_request", propsColumn: { width: 110 } },
             "Data Solicitação": { dataKey: "date_request", propsColumn: { width: 120 } },
             "Data Vencimento": { dataKey: "date_expiration", propsColumn: { width: 120 } },
-            "Status": { dataKey: "status", propsColumn: { width: 120 } },
-            "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 100 } },
-            "Departamento": { dataKey: "department", propsColumn: { width: 170 } },
+            "Status": { dataKey: "status", propsColumn: { width: 110 } },
+            "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 80 } },
+            "Departamento": { dataKey: "department", propsColumn: { width: 160 } },
             "Solicitante": { dataKey: "requester.name", propsColumn: { width: 170, fullText: true } },
             "Responsável": { dataKey: "responsible.name", propsColumn: { width: 170, fullText: true } },
-            "Entradas": { dataKey: "button", propsColumn: { width: 130 }, click: annotationsData, icon: ListIcon },
-            "Editar": { dataKey: "button", propsColumn: { width: 130 }, click: editData, icon: EditIcon }
+            "Entradas": { dataKey: "button", propsColumn: { width: 80 }, click: annotationsData, icon: ListIcon },
+            "Editar": { dataKey: "button", propsColumn: { width: 80 }, click: editData, icon: EditIcon }
         }
     }, [])
 
