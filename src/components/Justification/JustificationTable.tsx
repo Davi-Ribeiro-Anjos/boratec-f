@@ -39,12 +39,13 @@ const FileCell = ({ rowData, dataKey, onChange, ...props }: any) => {
     )
 }
 
+
 export function JustificationTable({ data, setData, isLoading }: JustificationTableProps) {
 
     const handleChange = (id: number, key: any, value: any) => {
         const nextData = Object.assign([], data)
         nextData.find((item: any) => item.id === id)[key] = value
-        setData(nextData);
+        setData(nextData)
     }
 
     const [row, setRow] = useState([])
@@ -56,8 +57,13 @@ export function JustificationTable({ data, setData, isLoading }: JustificationTa
 
     return (
         <>
-            <Table height={400} data={data}
-                loading={isLoading} hover={false} wordWrap="break-word">
+            <Table
+                height={400}
+                data={data}
+                loading={isLoading}
+                hover={false}
+                wordWrap="break-word"
+            >
                 <Column width={170} align='center' fixed='left'>
                     <HeaderCell>Justificativa</HeaderCell>
                     <SelectCell dataKey="description_justification" onChange={handleChange} />
@@ -83,16 +89,6 @@ export function JustificationTable({ data, setData, isLoading }: JustificationTa
                 </Column>
 
                 <Column width={100} align='center'>
-                    <HeaderCell>Peso</HeaderCell>
-                    <Cell dataKey="weight" />
-                </Column>
-
-                <Column width={80} align='center'>
-                    <HeaderCell>Em Aberto</HeaderCell>
-                    <Cell dataKey="opened" />
-                </Column>
-
-                <Column width={100} align='center'>
                     <HeaderCell>Emissão</HeaderCell>
                     <Cell dataKey="date_emission" />
                 </Column>
@@ -107,9 +103,19 @@ export function JustificationTable({ data, setData, isLoading }: JustificationTa
                     <Cell dataKey="date_delivery" />
                 </Column>
 
+                <Column width={80} align='center'>
+                    <HeaderCell>Em Aberto</HeaderCell>
+                    <Cell dataKey="opened" />
+                </Column>
+
                 <Column width={100} align='center'>
                     <HeaderCell>Nota Fiscal</HeaderCell>
                     <Cell dataKey="nf" />
+                </Column>
+
+                <Column width={100} align='center'>
+                    <HeaderCell>Peso</HeaderCell>
+                    <Cell dataKey="weight" />
                 </Column>
 
                 <Column width={100} align='center' fixed='right'>

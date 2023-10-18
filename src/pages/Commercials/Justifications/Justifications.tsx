@@ -5,20 +5,22 @@ import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 
 import { AxiosError } from "axios";
-import { useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
-import { DateToString } from "../../services/Date";
+import { useApi } from "../../../hooks/Api";
+import { UserContext } from "../../../providers/UserProviders";
+import { DateToString } from "../../../services/Date";
 
-import { MainPanel } from "../../components/Global/Panel";
-import { MainMessage } from "../../components/Global/Message";
-import { Justification } from "../../components/Justification";
-import { DeliveryHistoryInterface } from "../../services/Interfaces";
+import { MainPanel } from "../../../components/Global/Panel";
+import { MainMessage } from "../../../components/Global/Message";
+import { Justification } from "../../../components/Justification";
+import { DeliveryHistoryInterface } from "../../../services/Interfaces";
 
 interface Filter {
+    opened__gt: number;
+    description_justification__isnull: boolean;
     date_emission: any;
     date_emission__gte: any;
     date_emission__lte: any;
-    branch_id: number | null;
+    id_garage: number | null;
     confirmed: boolean;
 }
 
@@ -31,10 +33,12 @@ export default function Justifications() {
 
     // FILTER
     const initialFilter = {
+        opened__gt: 0,
+        description_justification__isnull: true,
         date_emission: null,
         date_emission__gte: null,
         date_emission__lte: null,
-        branch_id: null,
+        id_garage: null,
         confirmed: false,
     }
     const [filter, setFilter] = useState<Filter>({ ...initialFilter })
@@ -82,7 +86,7 @@ export default function Justifications() {
             MainMessage.Error401(toaster, error)
             MainMessage.Error500(toaster, error, "Ocorreu um erro ao buscar os dados")
         },
-        enabled: true
+        enabled: false
     })
 
 
@@ -93,8 +97,8 @@ export default function Justifications() {
                 <Justification.Header data={data} />
             </MainPanel.Header>
 
-            <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} defaultExpanded={false} >
-                <Justification.Filter filter={filter} setFilter={setFilter} />
+            <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >
+                <Justification.Filter />
                 <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 

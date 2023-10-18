@@ -1,0 +1,139 @@
+import { Checkbox, Table, useToaster } from "rsuite";
+import FileDownloadIcon from '@rsuite/icons/FileDownload';
+
+import { useContext, useState, useMemo } from "react";
+import { useQuery } from "react-query";
+
+import { AxiosError } from "axios";
+import { useApi } from "../../../hooks/Api";
+import { UserContext } from "../../../providers/UserProviders";
+import { ColumnsInterface, DeliveryHistoryInterface } from "../../../services/Interfaces";
+
+import { MainPanel } from "../../../components/Global/Panel";
+import { MainMessage } from "../../../components/Global/Message";
+import { JustificationConfirm } from "../../../components/JustificationConfirm";
+import { MainTable } from "../../../components/Global/Table";
+
+interface CheckCellProps {
+    rowData?: any
+    onChange: any
+    checkedKeys: any
+    dataKey: any
+}
+
+const { Column, HeaderCell, Cell } = Table;
+
+const CheckCell = ({ rowData, onChange, checkedKeys, dataKey, ...props }: CheckCellProps) => (
+    <Cell {...props} style={{ padding: 0 }}>
+        <div style={{ lineHeight: '46px' }}>
+            <Checkbox
+                value={rowData[dataKey]}
+                inline
+                onChange={onChange}
+                checked={checkedKeys.some((item: any) => item === rowData[dataKey])}
+            />
+        </div>
+    </Cell>
+);
+
+
+export default function JustificationsConfirmed() {
+    const { }: any = useContext(UserContext)
+    const api = useApi()
+    const toaster = useToaster()
+
+
+    // DATA
+    const searchData = async () => {
+        const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/confirmed/")
+
+        return response.data
+    }
+    const { data, isLoading } = useQuery({
+        queryKey: ["justification-confirm"],
+        queryFn: searchData,
+        onError: (error: AxiosError) => {
+            MainMessage.Error400(toaster, error, {})
+            MainMessage.Error401(toaster, error)
+            MainMessage.Error500(toaster, error, "Ocorreu um erro ao buscar os dados")
+        },
+        enabled: true
+    })
+
+
+    // DOWNLOAD
+    const download = (rowData: any) => {
+        console.log(rowData)
+    }
+
+
+    // TABLE
+    const [checkedKeys, setCheckedKeys] = useState([])
+
+    let checked = false
+    let indeterminate = false
+
+    if (data && data.length > 0) {
+        if (checkedKeys.length === data.length) {
+            checked = true
+        } else if (checkedKeys.length === 0) {
+            checked = false
+        } else if (checkedKeys.length > 0 && checkedKeys.length < data.length) {
+            indeterminate = true
+        }
+    }
+
+    const handleCheckAll = (value: any, checked: boolean) => {
+        if (data) {
+            value
+            const keys: any = checked ? data.map((item: any) => item.id) : []
+            setCheckedKeys(keys)
+        }
+    }
+    const handleCheck = (value: any, checked: boolean) => {
+        const keys: any = checked ? [...checkedKeys, value] : checkedKeys.filter(item => item !== value)
+        setCheckedKeys(keys)
+    }
+
+    const columns = useMemo<ColumnsInterface>(() => {
+        return {
+            "CTE": { dataKey: "cte", propsColumn: { flexGrow: 1 } },
+            "NF": { dataKey: "nf", propsColumn: { flexGrow: 1 } },
+            "Justificativa": { dataKey: "description_justification", propsColumn: { flexGrow: 1 } },
+            "Anexo": { dataKey: "button", propsColumn: { flexGrow: 1 }, click: download, icon: FileDownloadIcon },
+        }
+    }, [])
+
+
+
+    return (
+        <MainPanel.Root shaded>
+
+            <MainPanel.Header title="Confirmar">
+                <JustificationConfirm.Header />
+            </MainPanel.Header>
+
+            <br />
+            <br />
+
+            <MainPanel.Body>
+                <MainTable.Root data={data ? data : []} columns={columns} isLoading={isLoading} >
+                    <Column align="center" width={50} fixed="left" >
+                        <HeaderCell style={{ padding: 0 }}>
+                            <div style={{ lineHeight: '40px' }}>
+                                <Checkbox
+                                    inline
+                                    checked={checked}
+                                    indeterminate={indeterminate}
+                                    onChange={handleCheckAll}
+                                />
+                            </div>
+                        </HeaderCell>
+                        <CheckCell dataKey="id" checkedKeys={checkedKeys} onChange={handleCheck} />
+                    </Column>
+                </MainTable.Root>
+            </MainPanel.Body>
+
+        </MainPanel.Root>
+    )
+}

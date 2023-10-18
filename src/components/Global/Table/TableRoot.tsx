@@ -34,6 +34,12 @@ export const TableRoot = memo(
             return i >= start && i < end;
         })
 
+        // const handleChange = (id: number, key: any, value: any) => {
+        //     const nextData = Object.assign([], data)
+        //     nextData.find((item: any) => item.id === id)[key] = value
+        //     setData(nextData)
+        // }
+
         return (
             <>
                 <Table
@@ -56,6 +62,8 @@ export const TableRoot = memo(
                             const url = key[1].url
                             const auth = key[1].auth
 
+                            // const Component = key[1].component
+
                             const column = {
                                 ...propsColumn,
                                 align: propsColumn?.align || "center",
@@ -70,6 +78,12 @@ export const TableRoot = memo(
                             }
 
                             return (
+                                // dataKey === "component" && click && access && (
+                                //     <Column {...column} >
+                                //         <HeaderCell>{title}</HeaderCell>
+                                //         <Component dataKey={dataKey} onChange={handleChange} />
+                                //     </Column>
+                                // ) ||
                                 dataKey === "buttonVerify" && click && access && (
                                     <Column {...column} >
                                         <HeaderCell>{title}</HeaderCell>

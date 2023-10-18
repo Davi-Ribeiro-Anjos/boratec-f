@@ -90,7 +90,7 @@ export function MainSideHeader() {
                     )}
                     {verifyPermission("commercials") && (
                         <Nav.Menu title="Comercial">
-                            {verifyPermission("justification") && (
+                            {verifyPermission("delivery_history") && (
                                 <Nav.Item onClick={() => navigate("/comercial/justificativas")} eventKey="90">Justificativas</Nav.Item>
                             )}
                         </Nav.Menu>

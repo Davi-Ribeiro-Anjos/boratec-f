@@ -131,7 +131,7 @@ export default function PurchasesRequests() {
             "Status": { dataKey: "status", propsColumn: { width: 110 } },
             "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 80 } },
             "Departamento": { dataKey: "department", propsColumn: { width: 160 } },
-            "Solicitante": { dataKey: "requester.name", propsColumn: { width: 170, fullText: true } },
+            "Solicitante": { dataKey: "author.name", propsColumn: { width: 170, fullText: true } },
             "Responsável": { dataKey: "responsible.name", propsColumn: { width: 170, fullText: true } },
             "Entradas": { dataKey: "button", propsColumn: { width: 80 }, click: annotationsData, icon: ListIcon },
             "Editar": { dataKey: "button", propsColumn: { width: 80 }, click: editData, icon: EditIcon }

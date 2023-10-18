@@ -2,11 +2,11 @@ import { BranchesChoices } from "../../services/Choices";
 
 import { MainComponent } from "../Global/Component";
 
-interface JustificationFilterProps {
+interface ConfirmFilterProps {
 }
 
 
-export function JustificationFilter({ }: JustificationFilterProps) {
+export function ConfirmFilter({ }: ConfirmFilterProps) {
 
     return (
         <>

@@ -15,7 +15,6 @@ import { MainModal } from '../Global/Modal';
 interface Form {
     number_request: number | null;
     branch: number | null;
-    requester: number | null;
     attachment?: any;
 }
 
@@ -28,7 +27,7 @@ interface PurchaseRequestCreateProps {
 
 export const PurchaseRequestCreate = memo(
     function PurchaseRequestCreate({ open, setOpen, refetch }: PurchaseRequestCreateProps) {
-        const { me, userChoices }: any = useContext(UserContext)
+        const { me }: any = useContext(UserContext)
         const api = useApi(true)
         const toaster = useToaster()
 
@@ -36,7 +35,6 @@ export const PurchaseRequestCreate = memo(
             {
                 number_request: null,
                 branch: null,
-                requester: null,
                 attachment: []
             }
         )
@@ -73,7 +71,6 @@ export const PurchaseRequestCreate = memo(
                 const listMessage = {
                     number_request: "Número Solicitação",
                     branch: "Filial",
-                    requester: "Solicitante",
                     attachment: "Anexo"
                 }
 
@@ -87,7 +84,6 @@ export const PurchaseRequestCreate = memo(
             setData({
                 number_request: null,
                 branch: null,
-                requester: null,
                 attachment: []
             })
         }
@@ -121,13 +117,6 @@ export const PurchaseRequestCreate = memo(
                         <Row style={styles.row} >
                             <Col xs={12}>
                                 <Form.Group >
-                                    <Form.ControlLabel>Solicitante:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="requester" data={userChoices} accepter={SelectPicker} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
                                     <Form.ControlLabel>Anexo:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="attachment" multiple={false} accepter={Uploader} action='' autoUpload={false} />
                                 </Form.Group>
@@ -136,6 +125,6 @@ export const PurchaseRequestCreate = memo(
                     </Grid>
                 </MainModal.Body>
                 <MainModal.FooterForm name='Criar' close={close} />
-            </MainModal.Form>
+            </MainModal.Form >
         );
     });
