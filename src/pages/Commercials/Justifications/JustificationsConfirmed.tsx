@@ -48,7 +48,7 @@ export default function JustificationsConfirmed() {
 
     // DATA
     const searchData = async () => {
-        const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/confirmed/")
+        const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/confirm/")
 
         return response.data
     }

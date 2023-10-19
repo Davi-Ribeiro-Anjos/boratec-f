@@ -1,4 +1,4 @@
-import { useToaster } from "rsuite";
+import { Message, useToaster } from "rsuite";
 
 
 import { useContext, useState } from "react";
@@ -57,6 +57,13 @@ export default function Justifications() {
             filter_.date_emission__lte = DateToString(filter_.date_emission[1])
 
             delete filter_.date_emission
+        } else {
+            let message = (
+                <Message showIcon type="error" closable >
+                    Selecione um Período.
+                </ Message>
+            )
+            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
         }
 
         const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/", { params: { ...filter_ } })

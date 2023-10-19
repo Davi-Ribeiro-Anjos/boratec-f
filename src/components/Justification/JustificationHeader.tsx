@@ -28,6 +28,15 @@ export const JustificationHeader = memo(function JustificationHeader({ data }: J
             return (Boolean(value.description_justification) && Boolean(value.file))
         })
 
+        if (data_.length <= 0) {
+            let message = (
+                <Message showIcon type="error" closable >
+                    Preencha o campo Justificativa e Anexo de pelo menos 1 justificativa.
+                </ Message>
+            )
+            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+        }
+
         MainMessage.Info(toaster, "As Justificativas foram enviadas...")
 
         data_.map(async (value: any) => {
