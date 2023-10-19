@@ -5,7 +5,7 @@ import { useContext, useState, useMemo } from "react";
 import { useQuery } from "react-query";
 
 import { AxiosError } from "axios";
-import { useApi } from "../../../hooks/Api";
+import { useApi, useApiDownload } from "../../../hooks/Api";
 import { UserContext } from "../../../providers/UserProviders";
 import { ColumnsInterface, DeliveryHistoryInterface } from "../../../services/Interfaces";
 
@@ -13,6 +13,8 @@ import { MainPanel } from "../../../components/Global/Panel";
 import { MainMessage } from "../../../components/Global/Message";
 import { JustificationConfirm } from "../../../components/JustificationConfirm";
 import { MainTable } from "../../../components/Global/Table";
+
+import FileDownload from 'js-file-download';
 
 interface CheckCellProps {
     rowData?: any
@@ -39,6 +41,7 @@ const CheckCell = ({ rowData, onChange, checkedKeys, dataKey, ...props }: CheckC
 
 export default function JustificationsConfirmed() {
     const { }: any = useContext(UserContext)
+    const apiDownload = useApiDownload()
     const api = useApi()
     const toaster = useToaster()
 
@@ -63,13 +66,10 @@ export default function JustificationsConfirmed() {
 
     // DOWNLOAD
     const download = async (rowData: any) => {
-        await api.get(rowData.file).then((response: any) => {
-            console.log(response)
-            // if (data.type_download === "XMLS") {
-            //     FileDownload(response.data, data.type_download + ' - ' + 'report.zip');
-            // } else {
-            //     FileDownload(response.data, data.type_download + ' - ' + 'report.xlsx');
-            // }
+        await apiDownload.post(rowData.file + "/").then((response: any) => {
+            let file = rowData.file.split("/")[6]
+
+            FileDownload(response.data, file)
         }).catch(() => {
             let message = (
                 <Message showIcon type="error" closable >
@@ -124,7 +124,7 @@ export default function JustificationsConfirmed() {
     return (
         <MainPanel.Root shaded>
 
-            <MainPanel.Header title="Confirmar">
+            <MainPanel.Header title="Confirmar Justificativa">
                 <JustificationConfirm.Header checkedKeys={checkedKeys} />
             </MainPanel.Header>
 

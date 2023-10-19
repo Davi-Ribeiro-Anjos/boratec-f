@@ -31,13 +31,7 @@ export const ConfirmHeader = memo(function ConfirmHeader({ checkedKeys }: Confir
             if (Object.prototype.hasOwnProperty.call(checkedKeys, id)) {
                 const element = checkedKeys[id]
 
-                await api.patch(`/deliveries-histories/${element}/`, { ...data }).then((response) => {
-                    const dataRes: any = response.data
-
-                    queryClient.setQueryData(["justification-confirm"], (currentData: any) => {
-                        return currentData.filter((justification: any) => { justification.id !== dataRes.id })
-                    })
-
+                await api.patch(`/deliveries-histories/${element}/`, { ...data }).then(() => {
                 }).catch((error) => {
                     if (error.status !== 200) {
                         let message = (
@@ -50,6 +44,8 @@ export const ConfirmHeader = memo(function ConfirmHeader({ checkedKeys }: Confir
                 })
             }
         }
+
+        queryClient.invalidateQueries(["justification-confirm"])
     }
 
     const refuse = async () => {
@@ -63,13 +59,7 @@ export const ConfirmHeader = memo(function ConfirmHeader({ checkedKeys }: Confir
             if (Object.prototype.hasOwnProperty.call(checkedKeys, id)) {
                 const element = checkedKeys[id]
 
-                await api.patch(`/deliveries-histories/${element}/`, { ...data }).then((response) => {
-                    const dataRes: any = response.data
-
-                    queryClient.setQueryData(["justification-confirm"], (currentData: any) => {
-                        return currentData.filter((justification: any) => { justification.id !== dataRes.id })
-                    })
-
+                await api.patch(`/deliveries-histories/${element}/`, { ...data }).then(() => {
                 }).catch((error) => {
                     if (error.status !== 200) {
                         let message = (
@@ -82,6 +72,7 @@ export const ConfirmHeader = memo(function ConfirmHeader({ checkedKeys }: Confir
                 })
             }
         }
+        queryClient.invalidateQueries(["justification-confirm"])
     }
 
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCookie } from "../services/Cookies";
 
-const dev = true
+const dev = false
 
 export const baseUrl = dev ? "http://127.0.0.1:8000" : "https://back.bora.tec.br"
 
@@ -36,7 +36,7 @@ export const useApi = (media?: boolean) => {
     })
 }
 
-export const useApiDownloadXlsx = () => {
+export const useApiDownload = () => {
     let token: string | null
 
     try {

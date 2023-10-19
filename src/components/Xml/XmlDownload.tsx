@@ -4,7 +4,7 @@ import { useState, memo } from "react"
 import { useMutation } from "react-query";
 
 import { AxiosError } from "axios";
-import { useApiDownloadXlsx } from "../../hooks/Api";
+import { useApiDownload } from "../../hooks/Api";
 
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
@@ -30,7 +30,7 @@ export const TypeChoices = [
 
 export const XmlDownload = memo(
     function XmlDownload({ open, setOpen, checkedKeys }: XmlDownloadProps) {
-        const api = useApiDownloadXlsx()
+        const api = useApiDownload()
         const toaster = useToaster()
 
         const initialFilter = { type_download: null }
