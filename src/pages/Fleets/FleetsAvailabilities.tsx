@@ -14,7 +14,7 @@ import { UserContext } from "../../providers/UserProviders";
 import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
 import { FleetAvailability } from "../../components/FleetAvailability";
-import { DateToString } from "../../services/Date";
+import { DateToString, StringToDate } from "../../services/Date";
 import { MainMessage } from "../../components/Global/Message";
 import { AxiosError, AxiosResponse } from "axios";
 import { queryClient } from "../../services/QueryClient";
@@ -56,7 +56,13 @@ export default function FleetsAvailabilities() {
         const today = DateToString(new Date())
         let count = 0
         const dataRes = response.data.data.filter((vehicle: VehicleInterface) => {
-            if (vehicle.last_movement && (vehicle.last_movement.date_forecast || vehicle.last_movement.date_release)) count++
+            if (vehicle.last_movement && (vehicle.last_movement.date_forecast || vehicle.last_movement.date_release)) {
+                const forecast = StringToDate(vehicle.last_movement.date_forecast, true)
+                const release = StringToDate(vehicle.last_movement.date_release, true)
+
+                if (forecast && forecast > new Date()) count++
+                if (release && release > new Date()) count++
+            }
 
             if (vehicle.last_movement) {
                 const last = vehicle.last_movement.date_occurrence
@@ -66,7 +72,6 @@ export default function FleetsAvailabilities() {
             return true
         })
 
-        console.log("aqui", count)
         setQuantity(count)
         setTotal(response.data.total)
 
@@ -200,9 +205,6 @@ export default function FleetsAvailabilities() {
             },
         }
     }, [])
-
-
-
 
 
     return (
