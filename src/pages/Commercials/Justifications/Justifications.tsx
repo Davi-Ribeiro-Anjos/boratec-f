@@ -67,12 +67,11 @@ export default function Justifications() {
             if (Object.prototype.hasOwnProperty.call(dataRes, res)) {
                 const line = dataRes[res];
 
-                if (line.date_delivery === "01/01/0001") line.date_delivery = null
-                if (line.lead_time === "01/01/0001") line.lead_time = null
+                if (line.date_delivery === "01/01/0001" || line.date_delivery === "01/01/1") line.date_delivery = null
+                if (line.lead_time === "01/01/0001" || line.lead_time === "01/01/1") line.lead_time = null
 
             }
         }
-
         return response.data
     }
     const { isLoading, refetch } = useQuery({

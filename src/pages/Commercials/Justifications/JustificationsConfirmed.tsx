@@ -1,4 +1,4 @@
-import { Checkbox, Table, useToaster } from "rsuite";
+import { Checkbox, Message, Table, useToaster } from "rsuite";
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 
 import { useContext, useState, useMemo } from "react";
@@ -62,8 +62,23 @@ export default function JustificationsConfirmed() {
 
 
     // DOWNLOAD
-    const download = (rowData: any) => {
-        console.log(rowData)
+    const download = async (rowData: any) => {
+        await api.get(rowData.file).then((response: any) => {
+            console.log(response)
+            // if (data.type_download === "XMLS") {
+            //     FileDownload(response.data, data.type_download + ' - ' + 'report.zip');
+            // } else {
+            //     FileDownload(response.data, data.type_download + ' - ' + 'report.xlsx');
+            // }
+        }).catch(() => {
+            let message = (
+                <Message showIcon type="error" closable >
+                    Ocorreu um erro ao buscar o arquivo.
+                </ Message>
+            )
+            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+        })
+
     }
 
 
@@ -110,7 +125,7 @@ export default function JustificationsConfirmed() {
         <MainPanel.Root shaded>
 
             <MainPanel.Header title="Confirmar">
-                <JustificationConfirm.Header />
+                <JustificationConfirm.Header checkedKeys={checkedKeys} />
             </MainPanel.Header>
 
             <br />
