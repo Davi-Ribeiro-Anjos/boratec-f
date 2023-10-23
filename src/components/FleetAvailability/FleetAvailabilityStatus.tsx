@@ -77,13 +77,13 @@ export const FleetAvailabilityStatus = memo(
             body.observation = body.observation.toUpperCase()
 
             if (body.date_release) {
-                body.date_release = DateToString(body.date_release, true)
+                body.date_release = DateToString(body.date_release)
                 body.status = "PARADO"
             }
             else delete body.date_release
 
             if (body.date_forecast) {
-                body.date_forecast = DateToString(body.date_forecast, true)
+                body.date_forecast = DateToString(body.date_forecast)
                 body.status = "PREVENTIVO"
             }
             else delete body.date_forecast
