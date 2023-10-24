@@ -1,3 +1,4 @@
+import MainButtonHeader from "./Buttonheader";
 import MainCheckbox from "./Checkbox";
 import MainDateRangePicker from "./DateRangePicker";
 import MainInput from "./Input";
@@ -9,6 +10,7 @@ import MainUploader from "./Uploader";
 
 
 export const MainComponent = {
+    ButtonHeader: MainButtonHeader,
     Row: MainRow,
     Input: MainInput,
     InputNumber: MainInputNumber,

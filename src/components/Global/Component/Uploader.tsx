@@ -1,5 +1,5 @@
 import { Col, Form, Uploader } from "rsuite";
-import { styles } from "../../../assets/styles";
+
 import { DefaultComponentFormInterface } from "../../../services/Interfaces";
 
 interface UploaderInterface extends DefaultComponentFormInterface {
@@ -12,7 +12,7 @@ export default function MainUploader({ multiple = false, helpText = "Obrigatóri
         <Col xs={24} md={12}>
             <Form.Group>
                 <Form.ControlLabel>{props.text}</Form.ControlLabel>
-                <Form.Control style={styles.input} name={props.name} accepter={Uploader} multiple={multiple} action='' autoUpload={false} />
+                <Form.Control name={props.name} accepter={Uploader} multiple={multiple} action='' autoUpload={false} />
                 {showHelpText &&
                     <Form.HelpText tooltip={tooltip}>{helpText}</Form.HelpText>
                 }

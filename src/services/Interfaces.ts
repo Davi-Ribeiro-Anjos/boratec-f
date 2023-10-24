@@ -338,8 +338,18 @@ export interface DeliveryHistoryInterface {
     branch: BranchesInterface;
     occurrences: OccurrenceSimpleInterface[] | null;
 }
-
 export interface OccurrenceSimpleInterface {
     date_emission: string;
     occurrence_description: string;
+}
+
+
+// MANUALS
+export interface ManualInterface {
+    id: number;
+    title: string;
+    file: any;
+    system: string;
+    module: string;
+    author?: number;
 }
