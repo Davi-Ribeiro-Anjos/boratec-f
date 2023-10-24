@@ -98,6 +98,7 @@ export function MainHeader() {
                 )}
                 <Nav.Menu title="Consultas">
                     <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
+                    <Nav.Item onClick={() => navigate("/consultas/manuais")} eventKey="101">Manuais</Nav.Item>
                 </Nav.Menu>
                 <Nav pullRight>
                     <Nav.Menu noCaret icon={<CogIcon />} placement="bottomEnd">

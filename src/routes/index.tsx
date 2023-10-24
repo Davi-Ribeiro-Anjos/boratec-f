@@ -21,6 +21,7 @@ const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
 const Justifications = lazy(() => import("../pages/Commercials/Justifications/Justifications.tsx"));
 const JustificationsConfirmed = lazy(() => import("../pages/Commercials/Justifications/JustificationsConfirmed.tsx"));
 const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
+const Manuals = lazy(() => import("../pages/Queries/Manuals.tsx"));
 
 
 export function MainRoutes() {
@@ -123,6 +124,11 @@ export function MainRoutes() {
             <Route path="/consultas/nf" element={
                 <Suspense>
                     <QueriesNFs />
+                </Suspense>
+            } />
+            <Route path="/consultas/manuais" element={
+                <Suspense>
+                    <Manuals />
                 </Suspense>
             } />
             <Route path="/sem-permissao" element={
