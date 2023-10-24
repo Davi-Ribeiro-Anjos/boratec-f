@@ -1,4 +1,4 @@
-import MainButtonHeader from "./Buttonheader";
+import MainButtonHeader from "./ButtonHeader";
 import MainCheckbox from "./Checkbox";
 import MainDateRangePicker from "./DateRangePicker";
 import MainInput from "./Input";
