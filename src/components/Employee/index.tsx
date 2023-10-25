@@ -3,10 +3,6 @@ import { EmployeeEdit } from "./EmployeeEdit";
 import { EmployeeFilter } from "./EmployeeFilter";
 import { EmployeeHeader } from "./EmployeeHeader";
 import { EmployeeService } from "./EmployeeService";
-import { EmployeeService13 } from "./Service/EmployeeService13";
-import { EmployeeServiceBonus } from "./Service/EmployeeServiceBonus";
-import { EmployeeServiceContract } from "./Service/EmployeeServiceContract";
-import { EmployeeServiceHoliday } from "./Service/EmployeeServiceHoliday";
 
 
 export const Employee = {
@@ -15,8 +11,4 @@ export const Employee = {
     Create: EmployeeCreate,
     Edit: EmployeeEdit,
     Service: EmployeeService,
-    ServiceContract: EmployeeServiceContract,
-    Service13: EmployeeService13,
-    ServiceHoliday: EmployeeServiceHoliday,
-    ServiceBonus: EmployeeServiceBonus,
 }

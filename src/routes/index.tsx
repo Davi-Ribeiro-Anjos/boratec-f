@@ -12,8 +12,8 @@ const PalletsBranches = lazy(() => import("../pages/Pallets/PalletsBranches.tsx"
 const PalletsClients = lazy(() => import("../pages/Pallets/PalletsClients.tsx"));
 const FleetsAvailabilities = lazy(() => import("../pages/Fleets/FleetsAvailabilities.tsx"));
 const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests.tsx"));
-const Employees = lazy(() => import("../pages/HumanResources/Employees/Employees.tsx"));
-const EmployeesPayments = lazy(() => import("../pages/HumanResources/Employees/EmployeesPayments.tsx"));
+const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
+const EmployeesPayments = lazy(() => import("../pages/HumanResources/EmployeesServices/EmployeesPayments.tsx"));
 const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
 const Xmls = lazy(() => import("../pages/Tools/Xmls.tsx"));
 const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
