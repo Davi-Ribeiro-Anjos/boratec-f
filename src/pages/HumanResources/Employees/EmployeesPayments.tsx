@@ -3,16 +3,16 @@ import { useToaster } from "rsuite";
 import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 
+import { AxiosError } from "axios";
 import { useApi } from "../../../hooks/Api";
 import { UserContext } from "../../../providers/UserProviders";
 import { EmployeesInterface } from "../../../services/Interfaces";
+import { queryClient } from "../../../services/QueryClient";
 
 import { MainPanel } from "../../../components/Global/Panel";
-import { AxiosError } from "axios";
 import { MainMessage } from "../../../components/Global/Message";
-import { queryClient } from "../../../services/QueryClient";
-import { Payment } from "../../../components/EmployeePayment";
-import { PaymentTable } from "../../../components/EmployeePayment/PaymentTable";
+import { Payment } from "../../../components/EmployeeService/Payment";
+import { PaymentTable } from "../../../components/EmployeeService/Payment/PaymentTable";
 
 interface EmployeePaymentProps { }
 

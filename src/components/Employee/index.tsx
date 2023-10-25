@@ -2,7 +2,7 @@ import { EmployeeCreate } from "./EmployeeCreate";
 import { EmployeeEdit } from "./EmployeeEdit";
 import { EmployeeFilter } from "./EmployeeFilter";
 import { EmployeeHeader } from "./EmployeeHeader";
-import { EmployeeService } from "./Service/EmployeeService";
+import { EmployeeService } from "./EmployeeService";
 import { EmployeeService13 } from "./Service/EmployeeService13";
 import { EmployeeServiceBonus } from "./Service/EmployeeServiceBonus";
 import { EmployeeServiceContract } from "./Service/EmployeeServiceContract";
