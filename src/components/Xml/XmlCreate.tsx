@@ -9,7 +9,7 @@ import { queryClient } from "../../services/QueryClient";
 
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
-import { MainComponent } from "../Global/Component";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface XmlCreateProps {
     open: boolean;
@@ -83,9 +83,9 @@ export const XmlCreate = memo(
             <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} size="sm" >
                 <MainModal.Header title="Importar XMLS" />
                 <MainModal.Body>
-                    <MainComponent.Row>
-                        <MainComponent.Uploader text="Anexos:" name="attachment" helpText="Quantidade máxima de 50 arquivos" multiple={true} tooltip={false} />
-                    </MainComponent.Row>
+                    <MainFormComponent.Row>
+                        <MainFormComponent.Uploader text="Anexos:" name="attachment" helpText="Quantidade máxima de 50 arquivos" multiple={true} tooltip={false} />
+                    </MainFormComponent.Row>
                 </MainModal.Body>
                 <MainModal.FooterForm name="Importar" close={close} />
             </MainModal.Form>

@@ -1,6 +1,6 @@
 import { Col, Form, DateRangePicker } from "rsuite";
-import { styles } from "../../../assets/styles";
-import { DefaultComponentFormInterface } from "../../../services/Interfaces";
+import { styles } from "../../../../assets/styles";
+import { DefaultComponentFormInterface } from "../../../../services/Interfaces";
 
 interface DateRangePickerInterface extends DefaultComponentFormInterface {
     shouldDisableDate?: any;

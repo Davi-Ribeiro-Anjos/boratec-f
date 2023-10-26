@@ -1,9 +1,9 @@
 import { Col, Form, Input } from "rsuite";
-import { styles } from "../../../assets/styles";
+import { styles } from "../../../../assets/styles";
 
 import { forwardRef } from "react"
 
-import { DefaultComponentFormInterface } from "../../../services/Interfaces";
+import { DefaultComponentFormInterface } from "../../../../services/Interfaces";
 
 const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="textarea" ref={ref} />)
 

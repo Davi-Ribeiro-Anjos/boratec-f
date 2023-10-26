@@ -1,7 +1,7 @@
 import { Col, Form, InputNumber } from "rsuite";
-import { styles } from "../../../assets/styles";
+import { styles } from "../../../../assets/styles";
 
-import { DefaultComponentFormInterface } from "../../../services/Interfaces";
+import { DefaultComponentFormInterface } from "../../../../services/Interfaces";
 
 interface InputNumberInterface extends DefaultComponentFormInterface { }
 
@@ -11,7 +11,7 @@ export default function MainInputNumber({ helpText = "Obrigatório", showHelpTex
         <Col xs={24} md={12}>
             <Form.Group>
                 <Form.ControlLabel>{props.text}</Form.ControlLabel>
-                <Form.Control style={styles.input} name={props.name} accepter={InputNumber} />
+                <Form.Control style={styles.input} name={props.name} accepter={InputNumber} min={0} />
                 {showHelpText &&
                     <Form.HelpText tooltip={tooltip}>{helpText}</Form.HelpText>
                 }

@@ -4,16 +4,16 @@ import EditIcon from "@rsuite/icons/Edit";
 import { useContext, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
-import { useApi } from "../../../hooks/Api";
-import { UserContext } from "../../../providers/UserProviders";
-import { ColumnsInterface, EmployeesInterface } from "../../../services/Interfaces";
+import { useApi } from "../../hooks/Api";
+import { UserContext } from "../../providers/UserProviders";
+import { ColumnsInterface, EmployeesInterface } from "../../services/Interfaces";
 
-import { MainPanel } from "../../../components/Global/Panel";
-import { MainTable } from "../../../components/Global/Table";
-import { Employee } from "../../../components/Employee";
+import { MainPanel } from "../../components/Global/Panel";
+import { MainTable } from "../../components/Global/Table";
+import { Employee } from "../../components/Employee";
 import { AxiosError } from "axios";
-import { MainMessage } from "../../../components/Global/Message";
-import { StringToDate } from "../../../services/Date";
+import { MainMessage } from "../../components/Global/Message";
+import { StringToDate } from "../../services/Date";
 
 interface Filter {
     name__contains: string,
@@ -97,7 +97,7 @@ export default function Employees() {
     // TABLE
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nome": { dataKey: "name", propsColumn: { width: 300 } },
+            "Funcionário": { dataKey: "name", propsColumn: { width: 300 } },
             "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 120 } },
             "CNPJ": { dataKey: "cnpj", propsColumn: { width: 150 } },
             "Dados Bancários": { dataKey: "bank_details", propsColumn: { width: 350 } },

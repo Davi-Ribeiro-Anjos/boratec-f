@@ -8,7 +8,7 @@ import { useApiDownload } from "../../hooks/Api";
 
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
-import { MainComponent } from "../Global/Component";
+import { MainFormComponent } from "../Global/Component/Form";
 
 import FileDownload from 'js-file-download';
 
@@ -95,9 +95,9 @@ export const XmlDownload = memo(
             <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} size="sm" >
                 <MainModal.Header title="Download XMLS" />
                 <MainModal.Body>
-                    <MainComponent.Row>
-                        <MainComponent.SelectPicker text="Tipo de Download:" name="type_download" data={TypeChoices} tooltip={false} />
-                    </MainComponent.Row>
+                    <MainFormComponent.Row>
+                        <MainFormComponent.SelectPicker text="Tipo de Download:" name="type_download" data={TypeChoices} tooltip={false} />
+                    </MainFormComponent.Row>
                 </MainModal.Body>
                 <MainModal.FooterForm name="Download" close={close} />
             </MainModal.Form>

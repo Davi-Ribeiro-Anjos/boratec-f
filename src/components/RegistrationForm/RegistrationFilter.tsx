@@ -1,6 +1,6 @@
 import { BranchesChoices, StatusEmployeeChoices, TypeContractChoices } from "../../services/Choices";
 
-import { MainComponent } from "../Global/Component";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface RegistrationFilterProps {
     cnpj_cpf: string;
@@ -38,17 +38,17 @@ export function RegistrationFilter({ cnpj_cpf }: RegistrationFilterProps) {
 
     return (
         <>
-            <MainComponent.Row>
-                <MainComponent.Input text="Funcionário:" name="name__contains" showHelpText={false} />
-                <MainComponent.Input text="CNPJ/ CPF:" name="cnpj_cpf" value={verifyMask(cnpj_cpf)} showHelpText={false} />
-            </MainComponent.Row>
-            <MainComponent.Row>
-                <MainComponent.SelectPicker text="Filial:" name="branch" data={BranchesChoices} showHelpText={false} />
-                <MainComponent.SelectPicker text="Tipo Contrato:" name="type_contract" data={TypeContractChoices} showHelpText={false} />
-            </MainComponent.Row>
-            <MainComponent.Row>
-                <MainComponent.SelectPicker text="Status:" name="status" data={StatusEmployeeChoices} showHelpText={false} />
-            </MainComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.Input text="Funcionário:" name="name__contains" showHelpText={false} />
+                <MainFormComponent.Input text="CNPJ/ CPF:" name="cnpj_cpf" value={verifyMask(cnpj_cpf)} showHelpText={false} />
+            </MainFormComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.SelectPicker text="Filial:" name="branch" data={BranchesChoices} showHelpText={false} />
+                <MainFormComponent.SelectPicker text="Tipo Contrato:" name="type_contract" data={TypeContractChoices} showHelpText={false} />
+            </MainFormComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.SelectPicker text="Status:" name="status" data={StatusEmployeeChoices} showHelpText={false} />
+            </MainFormComponent.Row>
         </>
     )
 }

@@ -1,6 +1,6 @@
 import { Col, Form, Uploader } from "rsuite";
 
-import { DefaultComponentFormInterface } from "../../../services/Interfaces";
+import { DefaultComponentFormInterface } from "../../../../services/Interfaces";
 
 interface UploaderInterface extends DefaultComponentFormInterface {
     multiple?: boolean;

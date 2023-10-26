@@ -1,4 +1,4 @@
-import { MainComponent } from "../Global/Component";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface ManualFilterProps {
     SystemsChoices: any[];
@@ -9,13 +9,13 @@ export function ManualFilter({ SystemsChoices }: ManualFilterProps) {
 
     return (
         <>
-            <MainComponent.Row>
-                <MainComponent.Input text="Título:" name="title__contains" showHelpText={false} />
-                <MainComponent.Input text="Módulo" name="module__contains" showHelpText={false} />
-            </MainComponent.Row>
-            <MainComponent.Row>
-                <MainComponent.SelectPicker text="Sistema:" name="system" data={SystemsChoices} showHelpText={false} />
-            </MainComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.Input text="Título:" name="title__contains" showHelpText={false} />
+                <MainFormComponent.Input text="Módulo" name="module__contains" showHelpText={false} />
+            </MainFormComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.SelectPicker text="Sistema:" name="system" data={SystemsChoices} showHelpText={false} />
+            </MainFormComponent.Row>
         </>
     )
 }

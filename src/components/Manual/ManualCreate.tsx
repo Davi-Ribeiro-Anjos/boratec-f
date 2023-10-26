@@ -11,7 +11,7 @@ import { ManualInterface } from "../../services/Interfaces";
 
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
-import { MainComponent } from "../Global/Component";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface ManualCreateProps {
     open: boolean;
@@ -92,14 +92,14 @@ export const ManualCreate = memo(
             <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} size="md" >
                 <MainModal.Header title="Adicionar Manual" />
                 <MainModal.Body>
-                    <MainComponent.Row>
-                        <MainComponent.Input text="Título:" name="title" />
-                        <MainComponent.Input text="Sistema:" name="system" />
-                    </MainComponent.Row>
-                    <MainComponent.Row>
-                        <MainComponent.Input text="Módulo:" name="module" />
-                        <MainComponent.Uploader text="Arquivo:" name="file" />
-                    </MainComponent.Row>
+                    <MainFormComponent.Row>
+                        <MainFormComponent.Input text="Título:" name="title" />
+                        <MainFormComponent.Input text="Sistema:" name="system" />
+                    </MainFormComponent.Row>
+                    <MainFormComponent.Row>
+                        <MainFormComponent.Input text="Módulo:" name="module" />
+                        <MainFormComponent.Uploader text="Arquivo:" name="file" />
+                    </MainFormComponent.Row>
                 </MainModal.Body>
                 <MainModal.FooterForm name="Adicionar" close={close} />
             </MainModal.Form>

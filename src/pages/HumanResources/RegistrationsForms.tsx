@@ -6,15 +6,15 @@ import PageIcon from "@rsuite/icons/Page";
 import { useContext, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
+import { AxiosError } from "axios";
+import { baseUrl, useApi } from "../../hooks/Api";
 import { ColumnsInterface, EmployeesInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
 import { UserContext } from "../../providers/UserProviders";
-import { baseUrl, useApi } from "../../hooks/Api";
-import { RegistrationForm } from "../../components/RegistrationForm";
-import { AxiosError } from "axios";
 import { MainMessage } from "../../components/Global/Message";
+import { RegistrationForm } from "../../components/RegistrationForm";
 
 interface Filter {
     name__contains: string;
@@ -39,7 +39,6 @@ const initialFilter: Filter = {
 
 
 export default function RegistrationsForms() {
-
     const { token }: any = useContext(UserContext)
     const api = useApi(token)
     const toaster = useToaster()
@@ -142,7 +141,7 @@ export default function RegistrationsForms() {
 
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nome": { dataKey: "name", propsColumn: { width: 300 } },
+            "Funcionários": { dataKey: "name", propsColumn: { width: 300 } },
             "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 120 } },
             "CNPJ/ CPF": { dataKey: "cnpj_cpf", propsColumn: { width: 150 } },
             "Tipo Contrato": { dataKey: "type_contract", propsColumn: { width: 100 } },

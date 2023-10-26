@@ -2,13 +2,13 @@ import { Col, Form, Input, Row, useToaster } from "rsuite";
 import { styles } from "../../assets/styles";
 
 import { memo, forwardRef } from "react";
+import { useMutation } from "react-query";
 
+import { AxiosError } from "axios";
+import { useApi } from "../../hooks/Api";
 import { EmployeesEPIsInterface, EmployeesInterface } from "../../services/Interfaces";
 
 import { MainModal } from "../Global/Modal";
-import { useMutation } from "react-query";
-import { AxiosError } from "axios";
-import { useApi } from "../../hooks/Api";
 import { MainMessage } from "../Global/Message";
 
 interface RegistrationEPIProps {

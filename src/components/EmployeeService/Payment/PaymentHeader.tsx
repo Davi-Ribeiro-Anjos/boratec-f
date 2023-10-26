@@ -2,7 +2,7 @@ import { IconButton, Tooltip, Whisper } from "rsuite";
 import ArowBackIcon from '@rsuite/icons/ArowBack';
 import SendIcon from '@rsuite/icons/Send';
 // import FileDownloadIcon from '@rsuite/icons/FileDownload';
-import { styles } from "../../assets/styles";
+import { styles } from "../../../assets/styles";
 
 import { useState, memo } from "react";
 
