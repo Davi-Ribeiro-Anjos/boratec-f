@@ -14,6 +14,7 @@ const FleetsAvailabilities = lazy(() => import("../pages/Fleets/FleetsAvailabili
 const PurchaseRequests = lazy(() => import("../pages/Purchases/PurchasesRequests.tsx"));
 const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
 const EmployeesPayments = lazy(() => import("../pages/HumanResources/EmployeesServices/EmployeesPayments.tsx"));
+const EmployeesThirteenths = lazy(() => import("../pages/HumanResources/EmployeesServices/EmployeesThirteenths.tsx"));
 const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
 const Xmls = lazy(() => import("../pages/Tools/Xmls.tsx"));
 const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
@@ -86,6 +87,20 @@ export function MainRoutes() {
                     </Suspense>
                 )
             } />
+            <Route path="/rh/funcionarios-pj/decimos-terceiros" element={
+                verifyPermissionPage("employee_admin") && (
+                    <Suspense>
+                        <EmployeesThirteenths />
+                    </Suspense>
+                )
+            } />
+            {/* <Route path="/rh/funcionarios-pj/contratos" element={
+                verifyPermissionPage("employee_admin") && (
+                    <Suspense>
+                        <EmployeesPayments />
+                    </Suspense>
+                )
+            } /> */}
             <Route path="/ferramentas/xmls" element={
                 verifyPermissionPage("xml") && (
                     <Suspense>

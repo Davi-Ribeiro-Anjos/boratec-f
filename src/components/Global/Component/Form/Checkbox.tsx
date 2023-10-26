@@ -1,6 +1,6 @@
 import { Col, Form, Checkbox } from "rsuite";
-import { styles } from "../../../assets/styles";
-import { DefaultComponentFormInterface } from "../../../services/Interfaces";
+import { styles } from "../../../../assets/styles";
+import { DefaultComponentFormInterface } from "../../../../services/Interfaces";
 
 interface CheckboxInterface extends DefaultComponentFormInterface {
     filter: any;

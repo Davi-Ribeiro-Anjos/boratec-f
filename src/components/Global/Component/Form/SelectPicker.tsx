@@ -1,6 +1,7 @@
 import { Col, Form, SelectPicker } from "rsuite";
-import { styles } from "../../../assets/styles";
-import { DefaultComponentFormDataInterface } from "../../../services/Interfaces";
+import { styles } from "../../../../assets/styles";
+
+import { DefaultComponentFormDataInterface } from "../../../../services/Interfaces";
 
 interface SelectPickerInterface extends DefaultComponentFormDataInterface { }
 

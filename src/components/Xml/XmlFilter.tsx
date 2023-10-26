@@ -1,7 +1,7 @@
 import { DateRangePicker } from "rsuite";
 
 
-import { MainComponent } from "../Global/Component";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface XmlFilterProps {
     senders: string[];
@@ -15,13 +15,13 @@ export function XmlFilter({ senders }: XmlFilterProps) {
 
     return (
         <>
-            <MainComponent.Row>
-                <MainComponent.DateRangePicker text="Data Emissão:" name="date_emission" shouldDisableDate={afterToday()} />
-                <MainComponent.DateRangePicker text="Data Importação:" name="date_published" shouldDisableDate={afterToday()} />
-            </MainComponent.Row>
-            <MainComponent.Row>
-                <MainComponent.SelectPicker text="Remetente" name="sender" data={SendersChoices} showHelpText={false} />
-            </MainComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.DateRangePicker text="Data Emissão:" name="date_emission" shouldDisableDate={afterToday()} />
+                <MainFormComponent.DateRangePicker text="Data Importação:" name="date_published" shouldDisableDate={afterToday()} />
+            </MainFormComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.SelectPicker text="Remetente" name="sender" data={SendersChoices} showHelpText={false} />
+            </MainFormComponent.Row>
         </>
     )
 }

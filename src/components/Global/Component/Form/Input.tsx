@@ -1,7 +1,7 @@
 import { Col, Form, Input, InputProps } from "rsuite";
-import { styles } from "../../../assets/styles";
+import { styles } from "../../../../assets/styles";
 
-import { DefaultComponentFormInterface } from "../../../services/Interfaces";
+import { DefaultComponentFormInterface } from "../../../../services/Interfaces";
 
 interface InputInterface extends InputProps, DefaultComponentFormInterface {
     name: string;

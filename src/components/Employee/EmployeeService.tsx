@@ -1,6 +1,6 @@
 import { Grid, IconButton, Panel, Tooltip, Whisper } from "rsuite";
 import EmailFillIcon from '@rsuite/icons/EmailFill';
-import CharacterLockIcon from '@rsuite/icons/CharacterLock';
+// import CharacterLockIcon from '@rsuite/icons/CharacterLock';
 import GrowthIcon from '@rsuite/icons/Growth';
 // import WaitIcon from '@rsuite/icons/Wait';
 // import AdvancedAnalyticsIcon from '@rsuite/icons/AdvancedAnalytics';
@@ -57,9 +57,9 @@ export const EmployeeService = memo(
                 <MainDrawer.Body>
                     <Grid fluid>
                         <PanelService title="Pagamentos" icon={<EmailFillIcon />} path="/rh/funcionarios-pj/pagamentos" close={close} />
-                        <PanelService title="13º Salários" icon={<GrowthIcon />} path="/rh/funcionarios-pj/pagamentos" close={close} />
-                        <PanelService title="Contratos" icon={<CharacterLockIcon />} path="/rh/funcionarios-pj/pagamentos" close={close} />
-                        {/* <PanelService title="Férias" icon={<WaitIcon />} path="/rh/funcionarios-pj/pagamentos" close={close} />
+                        <PanelService title="13º Salários" icon={<GrowthIcon />} path="/rh/funcionarios-pj/decimos-terceiros" close={close} />
+                        {/* <PanelService title="Contratos" icon={<CharacterLockIcon />} path="/rh/funcionarios-pj/pagamentos" close={close} />
+                        <PanelService title="Férias" icon={<WaitIcon />} path="/rh/funcionarios-pj/pagamentos" close={close} />
                         <PanelService title="Bônus" icon={<AdvancedAnalyticsIcon />} path="/rh/funcionarios-pj/pagamentos" close={close} /> */}
                     </Grid>
                 </MainDrawer.Body>

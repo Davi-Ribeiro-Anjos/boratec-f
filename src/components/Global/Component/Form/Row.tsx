@@ -1,5 +1,5 @@
 import { Row } from "rsuite";
-import { styles } from "../../../assets/styles";
+import { styles } from "../../../../assets/styles";
 
 import { ReactNode } from "react";
 

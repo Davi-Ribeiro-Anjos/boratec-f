@@ -97,7 +97,7 @@ export default function Employees() {
     // TABLE
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Nome": { dataKey: "name", propsColumn: { width: 300 } },
+            "Funcionário": { dataKey: "name", propsColumn: { width: 300 } },
             "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 120 } },
             "CNPJ": { dataKey: "cnpj", propsColumn: { width: 150 } },
             "Dados Bancários": { dataKey: "bank_details", propsColumn: { width: 350 } },
