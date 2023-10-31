@@ -1,20 +1,30 @@
-import { Col, Form, Row, SelectPicker } from "rsuite"
-import { styles } from "../../assets/styles";
+import { useContext } from 'react'
 
-import { StockChoices } from "../../services/Choices";
+import { UserContext } from "../../providers/UserProviders";
+import { StockChoices, BranchesChoices } from "../../services/Choices";
+
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface EPIRequestFilterProps { }
 
 
 export function EPIRequestFilter({ }: EPIRequestFilterProps) {
+    const { userChoices }: any = useContext(UserContext)
+
+
     return (
-        <Row style={styles.row}>
-            <Col xs={24}>
-                <Form.Group >
-                    <Form.ControlLabel>Status:</Form.ControlLabel>
-                    <Form.Control style={styles.input} name="status" data={StockChoices} accepter={SelectPicker} />
-                </Form.Group>
-            </Col>
-        </Row>
+        <>
+            <MainFormComponent.Row>
+                <MainFormComponent.Input text="Funcionario:" name="employee" showHelpText={false} />
+                <MainFormComponent.SelectPicker text="Solicitante:" name="author_create" data={userChoices} showHelpText={false} />
+            </MainFormComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.SelectPicker text="Filial:" name="branch" data={BranchesChoices} showHelpText={false} />
+                <MainFormComponent.SelectPicker text="Status:" name="status" data={StockChoices} showHelpText={false} />
+            </MainFormComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.DatePicker text="Data Solicitação:" name="date_requested" showHelpText={false} />
+            </MainFormComponent.Row>
+        </>
     )
 }

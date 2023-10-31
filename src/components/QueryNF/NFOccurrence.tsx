@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react";
+import { memo } from "react";
 
 import { ColumnsInterface, OccurrencesInterface } from "../../services/Interfaces";
 
@@ -19,12 +19,10 @@ export const NFOccurrence = memo(
             setOpen(false);
         }
 
-        const columns = useMemo<ColumnsInterface>(() => {
-            return {
-                "Descrição da Ocorrência": { dataKey: "description_occurrence", propsColumn: { flexGrow: 1 } },
-                "Data da Ocorrência": { dataKey: "date_occurrence", propsColumn: { flexGrow: 1 } },
-            }
-        }, [])
+        const columns: ColumnsInterface = {
+            "Descrição da Ocorrência": { dataKey: "description_occurrence", propsColumn: { flexGrow: 1 } },
+            "Data da Ocorrência": { dataKey: "date_occurrence", propsColumn: { flexGrow: 1 } },
+        }
 
         return (
             <MainModal.Root open={open} close={close} size="sm" overflow={false}>

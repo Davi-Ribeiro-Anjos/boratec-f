@@ -1,5 +1,4 @@
-import { Form, Row, Col, useToaster, Message, Table, Panel, Uploader, SelectPicker } from "rsuite";
-import { styles } from "../../assets/styles";
+import { Form, useToaster, Message, Panel } from "rsuite";
 
 import { memo, useState, useContext } from "react";
 import { useMutation } from "react-query";
@@ -7,12 +6,14 @@ import { useMutation } from "react-query";
 // import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
-
-import { MainMessage } from "../Global/Message";
-import { MainModal } from "../Global/Modal";
 import { DateToString } from "../../services/Date";
 import { queryClient } from "../../services/QueryClient";
-import { EpiRequestInterface } from "../../services/Interfaces";
+import { ColumnsInterface, EpiRequestInterface } from "../../services/Interfaces";
+
+import { MainModal } from "../Global/Modal";
+import { MainTable } from "../Global/Table";
+import { MainMessage } from "../Global/Message";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface Form {
     employee: number | null;
@@ -28,8 +29,6 @@ interface EPIRequestConfirmProps {
     setOpen: (value: boolean) => void;
     row: EpiRequestInterface | undefined;
 }
-
-const { Column, HeaderCell, Cell } = Table
 
 
 export const EPIRequestConfirm = memo(
@@ -105,6 +104,13 @@ export const EPIRequestConfirm = memo(
             }
         })
 
+        const columns: ColumnsInterface = {
+            "Item": { dataKey: "size.item.description", propsColumn: { flexGrow: 1 } },
+            "CA": { dataKey: "size.item.ca", propsColumn: { flexGrow: 1 } },
+            "Tamanho": { dataKey: "size.size", propsColumn: { flexGrow: 1 } },
+            "Quantidade": { dataKey: "quantity", propsColumn: { flexGrow: 1 } },
+        }
+
 
         const close = () => {
             setOpen(false)
@@ -116,50 +122,16 @@ export const EPIRequestConfirm = memo(
                 <MainModal.Header title="Confirmar Solicitação" />
                 <MainModal.Body>
                     <Panel header="Informações da Solicitação:">
-                        <Table
-                            data={row ? row.epis_carts : []}
-                            bordered
-                            cellBordered
-                            autoHeight
-                            hover={false}
-                        >
-                            <Column align="center" flexGrow={1} >
-                                <HeaderCell>Item</HeaderCell>
-                                <Cell dataKey="size.item.description" />
-                            </Column>
-                            <Column align="center" flexGrow={1} >
-                                <HeaderCell>CA</HeaderCell>
-                                <Cell dataKey="size.item.ca" />
-                            </Column>
-                            <Column align="center" flexGrow={1} >
-                                <HeaderCell>Tamanho</HeaderCell>
-                                <Cell dataKey="size.size" />
-                            </Column>
-                            <Column align="center" flexGrow={1} >
-                                <HeaderCell>Quantidade</HeaderCell>
-                                <Cell dataKey="quantity" />
-                            </Column>
-                        </Table>
+                        <MainTable.Root data={row ? row.epis_carts : []} columns={columns} isLoading={false} pagination={false}
+                            cellBordered bordered autoHeight />
                     </Panel>
                     <Panel>
-                        <Row style={styles.row}>
+                        <MainFormComponent.Row>
                             {!row?.employee && (
-                                <Col xs={24} md={12}>
-                                    <Form.Group>
-                                        <Form.ControlLabel>Funcionário:</Form.ControlLabel>
-                                        <Form.Control style={styles.input} name="employee" data={userChoices} accepter={SelectPicker} />
-                                        <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                    </Form.Group>
-                                </Col>
+                                <MainFormComponent.SelectPicker text="Funcionário:" name="employee" data={userChoices} />
                             )}
-                            <Col xs={24} md={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Anexo:</Form.ControlLabel>
-                                    <Form.Control name="attachment_confirm" multiple={false} action="" autoUpload={false} accepter={Uploader} />
-                                    <Form.HelpText tooltip >Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                            <MainFormComponent.Uploader text="Anexo:" name="attachment_confirm" />
+                        </MainFormComponent.Row>
                     </Panel>
                 </MainModal.Body >
                 <MainModal.FooterForm name="Confirmar Entrega" close={close} />

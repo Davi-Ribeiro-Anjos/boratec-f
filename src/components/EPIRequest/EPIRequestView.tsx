@@ -1,10 +1,9 @@
-import { Table } from "rsuite";
-
 import { memo } from "react"
 
-import { EpiRequestInterface } from "../../services/Interfaces";
+import { ColumnsInterface, EpiRequestInterface } from "../../services/Interfaces";
 
 import { MainModal } from "../Global/Modal";
+import { MainTable } from "../Global/Table";
 
 interface EPIRequestViewProps {
     open: boolean;
@@ -12,43 +11,25 @@ interface EPIRequestViewProps {
     row: EpiRequestInterface | undefined;
 }
 
-const { Column, HeaderCell, Cell } = Table
-
-
 export const EPIRequestView = memo(
     function EPIRequestView({ open, setOpen, row }: EPIRequestViewProps) {
         const close = () => {
             setOpen(false)
         }
 
+        const columns: ColumnsInterface = {
+            "Item": { dataKey: "size.item.description", propsColumn: { flexGrow: 1 } },
+            "CA": { dataKey: "size.item.ca", propsColumn: { flexGrow: 1 } },
+            "Tamanho": { dataKey: "size.size", propsColumn: { flexGrow: 1 } },
+            "Quantidade": { dataKey: "quantity", propsColumn: { flexGrow: 1 } },
+        }
+
         return (
             <MainModal.Root open={open} close={close} size="md">
                 <MainModal.Header title="Visualizar Solicitação" />
                 <MainModal.Body>
-                    <Table
-                        data={row ? row.epis_carts : []}
-                        bordered
-                        cellBordered
-                        autoHeight
-                        hover={false}
-                    >
-                        <Column align="center" flexGrow={1} >
-                            <HeaderCell>Item</HeaderCell>
-                            <Cell dataKey="size.item.description" />
-                        </Column>
-                        <Column align="center" flexGrow={1} >
-                            <HeaderCell>CA</HeaderCell>
-                            <Cell dataKey="size.item.ca" />
-                        </Column>
-                        <Column align="center" flexGrow={1} >
-                            <HeaderCell>Tamanho</HeaderCell>
-                            <Cell dataKey="size.size" />
-                        </Column>
-                        <Column align="center" flexGrow={1} >
-                            <HeaderCell>Quantidade</HeaderCell>
-                            <Cell dataKey="quantity" />
-                        </Column>
-                    </Table>
+                    <MainTable.Root data={row ? row.epis_carts : []} columns={columns} isLoading={false} pagination={false}
+                        cellBordered bordered autoHeight />
                 </MainModal.Body>
                 <MainModal.FooterOne close={close} />
             </MainModal.Root>

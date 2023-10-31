@@ -11,7 +11,7 @@ import { EpiRequestInterface } from "../../services/Interfaces";
 
 import { MainMessage } from "../Global/Message";
 import { MainModal } from "../Global/Modal";
-import { MainComponent } from "../Global/Component";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface Form {
     driver: string;
@@ -186,16 +186,16 @@ export const EPIRequestSend = memo(
                         </Table>
                     </Panel>
                     <Panel header="Informações para Envio:">
-                        <MainComponent.Row>
-                            <MainComponent.Input text="Motorista:" name="driver" showHelpText={me.branch.abbreviation != "SPO" && true} tooltip={false} />
-                            <MainComponent.Input text="Placa Veículo:" name="vehicle_plate" showHelpText={me.branch.abbreviation != "SPO" && true} tooltip={false} />
-                        </MainComponent.Row>
-                        <MainComponent.Row>
-                            <MainComponent.Input text="Email:" name="email" tooltip={false} />
-                        </MainComponent.Row>
-                        <MainComponent.Row>
-                            <MainComponent.Textarea text="Observação:" name="body_email" />
-                        </MainComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Input text="Motorista:" name="driver" showHelpText={me.branch.abbreviation != "SPO" && true} tooltip={false} />
+                            <MainFormComponent.Input text="Placa Veículo:" name="vehicle_plate" showHelpText={me.branch.abbreviation != "SPO" && true} tooltip={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Input text="Email:" name="email" tooltip={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Textarea text="Observação:" name="body_email" />
+                        </MainFormComponent.Row>
                     </Panel>
                 </MainModal.Body>
                 <MainModal.FooterThree name1="Enviar Solicitação" name2="Cancelar Solicitação" otherFunction={confirmCancel} close={close} />
