@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react";
+import { memo } from "react";
 
 import { ColumnsInterface } from "../../services/Interfaces";
 
@@ -18,12 +18,10 @@ export const JustificationOccurrence = memo(
             setOpen(false);
         }
 
-        const columns = useMemo<ColumnsInterface>(() => {
-            return {
-                "Descrição da Ocorrência": { dataKey: "occurrence_description", propsColumn: { flexGrow: 1 } },
-                "Data da Ocorrência": { dataKey: "date_emission", propsColumn: { flexGrow: 1 } },
-            }
-        }, [])
+        const columns: ColumnsInterface = {
+            "Descrição da Ocorrência": { dataKey: "occurrence_description", propsColumn: { flexGrow: 1 } },
+            "Data da Ocorrência": { dataKey: "date_emission", propsColumn: { flexGrow: 1 } },
+        }
 
         return (
             <MainModal.Root open={open} close={close} size="sm" overflow={false}>
