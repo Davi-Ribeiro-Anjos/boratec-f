@@ -12,7 +12,7 @@ import { BranchesChoices, TypePalletChoices } from "../../services/Choices";
 
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
-import { MainComponent } from "../Global/Component";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface BranchCreatePalletProps {
     open: boolean;
@@ -102,13 +102,13 @@ export const BranchCreatePallet = memo(
             <MainModal.Form open={open} close={close} data={data} setData={setData} send={mutate} overflow={false} size="md" >
                 <MainModal.Header title="Adicionar Paletes" />
                 <MainModal.Body>
-                    <MainComponent.Row>
-                        <MainComponent.SelectPicker text="Filial:" name="current_location" data={BranchesChoices} />
-                        <MainComponent.SelectPicker text="Tipo Palete:" name="type_pallet" data={TypePalletChoices} />
-                    </MainComponent.Row>
-                    <MainComponent.Row>
-                        <MainComponent.InputNumber text="Quantidade Paletes:" name="quantity_pallets" />
-                    </MainComponent.Row>
+                    <MainFormComponent.Row>
+                        <MainFormComponent.SelectPicker text="Filial:" name="current_location" data={BranchesChoices} />
+                        <MainFormComponent.SelectPicker text="Tipo Palete:" name="type_pallet" data={TypePalletChoices} />
+                    </MainFormComponent.Row>
+                    <MainFormComponent.Row>
+                        <MainFormComponent.InputNumber text="Quantidade Paletes:" name="quantity_pallets" />
+                    </MainFormComponent.Row>
                 </MainModal.Body>
                 <MainModal.FooterForm name="Adicionar" close={close} />
             </MainModal.Form>
