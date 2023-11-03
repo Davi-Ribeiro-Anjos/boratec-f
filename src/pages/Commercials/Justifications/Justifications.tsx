@@ -65,6 +65,14 @@ export default function Justifications() {
             )
             throw toaster.push(message, { placement: "topEnd", duration: 4000 })
         }
+        if (!filter_.id_garage) {
+            let message = (
+                <Message showIcon type="error" closable >
+                    Selecione uma Filial.
+                </ Message>
+            )
+            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+        }
 
         const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/", { params: { ...filter_ } })
 
