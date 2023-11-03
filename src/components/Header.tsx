@@ -64,7 +64,7 @@ export function MainHeader() {
                 )}
                 {verifyPermission("tools_rh") && (
                     <Nav.Menu title="Ferramentas RH">
-                        {verifyPermission("employee") && (
+                        {verifyPermission("employee_admin") && (
                             <Nav.Item onClick={() => navigate("/rh/funcionarios-pj")} eventKey="60">Funcionários PJ</Nav.Item>
                         )}
                         {verifyPermission("employee") && (
