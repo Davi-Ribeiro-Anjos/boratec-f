@@ -1,10 +1,9 @@
-import { IconButton, Tooltip, Whisper } from "rsuite";
 import PlusIcon from '@rsuite/icons/Plus';
 
 import { useState, memo } from "react";
 
 import { EPIRequest } from ".";
-import { styles } from "../../assets/styles";
+import { MainComponent } from "../Global/Component";
 
 interface EPIRequestHeaderProps { }
 
@@ -14,9 +13,7 @@ export const EPIRequestHeader = memo(function EPIRequestHeader({ }: EPIRequestHe
 
     return (
         <div>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Nova Solicitação</Tooltip>}>
-                <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={() => setOpen(true)} />
-            </Whisper>
+            <MainComponent.ButtonHeader name="Nova Solicitação" func={() => setOpen(true)} icon={<PlusIcon />} color="green" />
             <EPIRequest.Create open={open} setOpen={setOpen} />
         </div>
     )

@@ -1,10 +1,9 @@
-import { IconButton, Tooltip, Whisper } from "rsuite";
 import PlusIcon from '@rsuite/icons/Plus';
 
 import { useState, memo } from "react";
 
 import { PurchaseRequest } from ".";
-import { styles } from "../../assets/styles";
+import { MainComponent } from "../Global/Component";
 
 interface PurchaseRequestHeaderProps {
     refetch: any;
@@ -19,9 +18,7 @@ export const PurchaseRequestHeader = memo(function PurchaseRequestHeader({ refet
 
     return (
         <div>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Nova Solicitação</Tooltip>}>
-                <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={() => createModal()} />
-            </Whisper>
+            <MainComponent.ButtonHeader name="Nova Solicitação" func={() => createModal()} icon={<PlusIcon />} color="green" />
             <PurchaseRequest.Create open={open} setOpen={setOpen} refetch={refetch} />
         </div>
     )

@@ -1,11 +1,10 @@
-import { IconButton, Tooltip, Whisper } from "rsuite";
 import MinusIcon from '@rsuite/icons/Minus';
-import { styles } from "../../assets/styles";
 
 import { useState, memo, useContext } from "react";
 import { UserContext } from "../../providers/UserProviders";
 
 import { RegistrationForm } from ".";
+import { MainComponent } from "../Global/Component";
 
 
 interface RegistrationHeaderProps { }
@@ -22,9 +21,7 @@ export const RegistrationHeader = memo(function RegistrationHeader({ }: Registra
     return (
         <div>
             {verifyPermission("employee_admin") && (
-                <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Checar Demissão</Tooltip>}>
-                    <IconButton icon={<MinusIcon />} appearance="primary" color="red" style={styles.iconButton} onClick={demissionModal} />
-                </Whisper>
+                <MainComponent.ButtonHeader name="Checar Demissão" func={demissionModal} icon={<MinusIcon />} color="red" />
             )}
             <RegistrationForm.Dismissal open={open} setOpen={setOpen} />
         </div>

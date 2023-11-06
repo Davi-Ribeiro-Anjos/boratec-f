@@ -1,10 +1,9 @@
-import { IconButton, Tooltip, Whisper } from "rsuite";
 import PlusIcon from '@rsuite/icons/Plus';
 
 import { useState, memo } from "react";
 
 import { EPIControl } from ".";
-import { styles } from "../../assets/styles";
+import { MainComponent } from "../Global/Component";
 
 interface EPIControlHeaderProps { }
 
@@ -14,9 +13,7 @@ export const EPIControlHeader = memo(function EPIControlHeader({ }: EPIControlHe
 
     return (
         <div>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Novo Grupo</Tooltip>}>
-                <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={() => setOpen(true)} />
-            </Whisper>
+            <MainComponent.ButtonHeader name="Novo Grupo" func={() => setOpen(true)} icon={<PlusIcon />} color="green" />
             <EPIControl.CreateGroup open={open} setOpen={setOpen} />
         </div>
     )

@@ -1,7 +1,6 @@
-import { IconButton, Tooltip, Whisper } from 'rsuite';
 import PlusIcon from '@rsuite/icons/Plus';
 import ArowBackIcon from '@rsuite/icons/ArowBack';
-import { styles } from '../../../assets/styles';
+import SendIcon from '@rsuite/icons/Send';
 
 import { useState, memo } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -20,10 +19,9 @@ export const ThirteenthHeader = memo(function ThirteenthHeader({ }: ThirteenthHe
 
     return (
         <div>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Voltar para Funcionários PJ</Tooltip>}>
-                <IconButton icon={<ArowBackIcon />} appearance="primary" color="cyan" style={styles.iconButton} onClick={() => navigate("/rh/funcionarios-pj")} />
-            </Whisper>
-            <MainComponent.ButtonHeader name="Novo 13º" setOpen={setOpenCreate} icon={<PlusIcon />} color="green" />
+            <MainComponent.ButtonHeader name="Voltar para Funcionários PJ" func={() => navigate("/rh/funcionarios-pj")} icon={<ArowBackIcon />} color="cyan" />
+            <MainComponent.ButtonHeader name="Novo 13º" func={() => setOpenCreate(true)} icon={<PlusIcon />} color="green" />
+            <MainComponent.ButtonHeader name="Enviar Email" func={() => { }} icon={<SendIcon />} color="blue" />
             <Thirteenth.Create open={openCreate} setOpen={setOpenCreate} />
         </div>
     )

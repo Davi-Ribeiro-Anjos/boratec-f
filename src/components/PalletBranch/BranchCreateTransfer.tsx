@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, ButtonToolbar, Col, Form, Grid, Input, InputNumber, Row, SelectPicker, useToaster } from "rsuite"
+import { Button, Col, Form, Grid, Input, InputNumber, Row, SelectPicker, useToaster } from "rsuite"
 
 import { useState, memo, useContext } from "react"
 import { styles } from "../../assets/styles";
@@ -15,25 +15,9 @@ import { UserContext } from "../../providers/UserProviders";
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
 
-interface GroupButtonProps {
-    showSimple: () => void;
-    showCompound: () => void;
-}
-
 interface BranchCreateTransferProps {
     open: boolean;
     setOpen: (value: any) => void;
-}
-
-const GroupButton = ({ showSimple, showCompound }: GroupButtonProps) => {
-    return (
-        <ButtonToolbar>
-            <ButtonGroup>
-                <Button appearance="primary" color='cyan' onClick={showSimple}>Único</Button>
-                <Button appearance="primary" color='cyan' onClick={showCompound}>Vários</Button>
-            </ButtonGroup>
-        </ButtonToolbar>
-    )
 }
 
 
@@ -54,12 +38,6 @@ export const BranchCreateTransfer = memo(
         })
 
         // DESTINY
-        const [selected, setSelected] = useState(false)
-        const [compound, setCompound] = useState(false)
-        const showCompound = () => {
-            setSelected(true)
-            setCompound(true)
-        }
         const addDestiny = () => {
             const quantityDestiny = form.destinies
             if (quantityDestiny.length < 5) quantityDestiny.push(quantityDestiny.length)
@@ -130,8 +108,6 @@ export const BranchCreateTransfer = memo(
 
         const close = () => {
             setOpen(false)
-            setSelected(false)
-            setCompound(false)
 
             setForm({
                 origin: null,
@@ -164,66 +140,36 @@ export const BranchCreateTransfer = memo(
                                 </Form.Group>
                             </Col>
                         </Row>
-                        {!selected && (
+                        <>
+                            {form.destinies.map((value: number) => {
+                                return (
+                                    <Row key={value} style={styles.row}>
+                                        <Col xs={12}>
+                                            <Form.Group >
+                                                <Form.ControlLabel>Destino - {value + 1}:</Form.ControlLabel>
+                                                <Form.Control style={styles.input} name={`destiny-${value}`} data={BranchesChoices} disabledItemValues={[form.origin]} accepter={SelectPicker} />
+                                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                            </Form.Group>
+                                        </Col>
+                                        <Col xs={12}>
+                                            <Form.Group>
+                                                <Form.ControlLabel>Quantidade - {value + 1}:</Form.ControlLabel>
+                                                <Form.Control style={styles.input} name={`quantityPallets-${value}`} accepter={InputNumber} />
+                                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                )
+                            })}
                             <Row style={styles.row}>
-                                <Col xs={24}>
-                                    <Form.Group>
-                                        <Form.ControlLabel>Tipo de Destino:</Form.ControlLabel>
-                                        <Form.Control style={styles.input} name='' showSimple={() => setSelected(true)} showCompound={showCompound} accepter={GroupButton} />
-                                    </Form.Group>
+                                <Col xs={12}></Col>
+                                <Col xs={12}>
+                                    {form.destinies.length < 5 &&
+                                        <Button onClick={addDestiny} appearance="primary" color='green'>Adicionar Destino</Button>
+                                    }
                                 </Col>
                             </Row>
-                        )}
-                        {!compound && selected && (
-                            <Row style={styles.row}>
-                                <Col xs={12}>
-                                    <Form.Group>
-                                        <Form.ControlLabel>Destino:</Form.ControlLabel>
-                                        <Form.Control style={styles.input} name="destiny-0" data={BranchesChoices} disabledItemValues={[form.origin]} accepter={SelectPicker} />
-                                        <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                    </Form.Group>
-                                </Col>
-                                <Col xs={12}>
-                                    <Form.Group>
-                                        <Form.ControlLabel>Quantidade Paletes:</Form.ControlLabel>
-                                        <Form.Control style={styles.input} name="quantityPallets-0" accepter={InputNumber} />
-                                        <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-                        )}
-                        {compound && selected && (
-                            <>
-                                {form.destinies.map((value: number) => {
-                                    return (
-                                        <Row key={value} style={styles.row}>
-                                            <Col xs={12}>
-                                                <Form.Group >
-                                                    <Form.ControlLabel>Destino - {value + 1}:</Form.ControlLabel>
-                                                    <Form.Control style={styles.input} name={`destiny-${value}`} data={BranchesChoices} disabledItemValues={[form.origin]} accepter={SelectPicker} />
-                                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                                </Form.Group>
-                                            </Col>
-                                            <Col xs={12}>
-                                                <Form.Group>
-                                                    <Form.ControlLabel>Quantidade - {value + 1}:</Form.ControlLabel>
-                                                    <Form.Control style={styles.input} name={`quantityPallets-${value}`} accepter={InputNumber} />
-                                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                                </Form.Group>
-                                            </Col>
-                                        </Row>
-                                    )
-                                })}
-                                <Row style={styles.row}>
-                                    <Col xs={12}></Col>
-                                    <Col xs={12}>
-                                        {form.destinies.length < 5 &&
-                                            <Button onClick={addDestiny} appearance="primary" color='green'>Adicionar Destino</Button>
-                                        }
-                                    </Col>
-                                </Row>
-                            </>
-                        )}
+                        </>
                         <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group>

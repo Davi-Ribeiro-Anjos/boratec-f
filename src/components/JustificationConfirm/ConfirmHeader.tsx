@@ -1,14 +1,15 @@
-import { IconButton, Message, Tooltip, Whisper, useToaster } from "rsuite";
+import { Message, useToaster } from "rsuite";
 import ArowBackIcon from '@rsuite/icons/ArowBack';
 import CheckIcon from '@rsuite/icons/Check';
 import CloseIcon from '@rsuite/icons/Close';
 
-import { styles } from "../../assets/styles";
-
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { useApi } from "../../hooks/Api";
 import { queryClient } from "../../services/QueryClient";
+
+import { MainComponent } from "../Global/Component";
 
 
 interface ConfirmHeaderProps {
@@ -78,15 +79,9 @@ export const ConfirmHeader = memo(function ConfirmHeader({ checkedKeys }: Confir
 
     return (
         <div>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Voltar para Justificativas</Tooltip>}>
-                <IconButton icon={<ArowBackIcon />} appearance="primary" color="cyan" style={styles.iconButton} onClick={() => navigate("/comercial/justificativas")} />
-            </Whisper>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Confirmar</Tooltip>}>
-                <IconButton icon={<CheckIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={confirm} />
-            </Whisper>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Recusar</Tooltip>}>
-                <IconButton icon={<CloseIcon />} appearance="primary" color="red" style={styles.iconButton} onClick={refuse} />
-            </Whisper>
+            <MainComponent.ButtonHeader name="Voltar para Justificativas" func={() => navigate("/comercial/justificativas")} icon={<ArowBackIcon />} color="cyan" />
+            <MainComponent.ButtonHeader name="Confirmar" func={confirm} icon={<CheckIcon />} color="green" />
+            <MainComponent.ButtonHeader name="Recusar" func={refuse} icon={<CloseIcon />} color="red" />
         </div>
     )
 })
