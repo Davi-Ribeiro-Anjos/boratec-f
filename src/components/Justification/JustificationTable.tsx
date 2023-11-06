@@ -64,12 +64,12 @@ export function JustificationTable({ data, setData, isLoading }: JustificationTa
                 hover={false}
                 wordWrap="break-word"
             >
-                <Column width={170} align='center' fixed='left'>
+                <Column width={180} align='center' fixed='left'>
                     <HeaderCell>Justificativa</HeaderCell>
                     <SelectCell dataKey="description_justification" onChange={handleChange} />
                 </Column>
 
-                <Column width={170} align='center' fixed='left'>
+                <Column width={110} align='center' fixed='left'>
                     <HeaderCell>Anexo</HeaderCell>
                     <FileCell dataKey="file" onChange={handleChange} />
                 </Column>

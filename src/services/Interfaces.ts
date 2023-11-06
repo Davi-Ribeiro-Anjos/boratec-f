@@ -316,8 +316,6 @@ export interface EpiSizeRequestInterface {
 // DELIVERIES HISTORIES
 export interface DeliveryHistoryInterface {
     id: number;
-    garage: string;
-    id_garage: string;
     cte: string;
     date_emission: any;
     lead_time: any;
@@ -335,7 +333,8 @@ export interface DeliveryHistoryInterface {
     refused: boolean;
     author_responsible: EmployeesSimpleInterface | null;
     author: EmployeesSimpleInterface | null;
-    branch: BranchesInterface;
+    branch_issuing: BranchesInterface;
+    branch_destination: BranchesInterface;
     occurrences: OccurrenceSimpleInterface[] | null;
 }
 export interface OccurrenceSimpleInterface {
