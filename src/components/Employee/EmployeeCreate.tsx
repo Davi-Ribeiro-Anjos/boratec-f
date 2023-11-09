@@ -1,7 +1,6 @@
-import { Form, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, Message } from "rsuite";
-import { styles } from "../../assets/styles";
+import { Form, useToaster, Panel, Message } from "rsuite";
 
-import { memo, useState, useContext, forwardRef } from "react";
+import { memo, useState, useContext } from "react";
 import { useMutation } from "react-query";
 
 import { AxiosError, AxiosResponse } from "axios";
@@ -12,43 +11,43 @@ import { CompanyChoices } from "../../services/Choices";
 import { DateToString } from "../../services/Date";
 import { queryClient } from "../../services/QueryClient";
 
-import { MainMessage } from "../Global/Message";
 import { MainModal } from "../Global/Modal";
+import { MainMessage } from "../Global/Message";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface Form {
-    name: string,
-    email: string,
-    branch: number | null,
-    role: string,
-    company: string | null,
+    name: string;
+    email: string;
+    branch: number | null;
+    role: string;
+    company: string | null;
     type_contract: string
-    cnpj: string,
-    date_admission: any,
-    status: string,
-    bank: string,
-    agency: number | null,
-    account: number | null,
-    pix: string,
-    salary: number | null,
-    college: number | null,
-    allowance: number | null,
-    housing_allowance: number | null,
-    covenant_credit: number | null,
-    others_credits: number | null,
-    advance_money: number | null,
-    covenant_discount: number | null,
-    others_discounts: number | null,
-    observation: string | null,
-    complements: any
-    pj_complements: number | null,
+    cnpj: string;
+    date_admission: any;
+    status: string;
+    bank: string;
+    agency: number | null;
+    account: number | null;
+    pix: string;
+    salary: number | null;
+    college: number | null;
+    allowance: number | null;
+    housing_allowance: number | null;
+    covenant_credit: number | null;
+    others_credits: number | null;
+    advance_money: number | null;
+    covenant_discount: number | null;
+    others_discounts: number | null;
+    subsistence_allowance: number | null;
+    observation: string | null;
+    complements: any;
+    pj_complements: number | null;
 }
 
 interface EmployeeCreateProps {
     open: boolean;
     setOpen: (value: boolean) => void;
 }
-
-const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="textarea" ref={ref} />)
 
 const cnpjMask = (value: string) => {
     return value
@@ -90,6 +89,7 @@ export const EmployeeCreate = memo(
             advance_money: null,
             covenant_discount: null,
             others_discounts: null,
+            subsistence_allowance: null,
             observation: "",
             complements: {},
             pj_complements: null
@@ -98,7 +98,7 @@ export const EmployeeCreate = memo(
         const [data, setData] = useState<Form>(initialData)
 
         // EMPLOYEES
-        const sendEmployees = async () => {
+        const sendEmployees = async (id_complement: number) => {
             let body: any = { ...data }
 
             body.cnpj = body.cnpj.replaceAll('.', '').replace('-', '').replace('/', '')
@@ -112,6 +112,7 @@ export const EmployeeCreate = memo(
                 throw toaster.push(message, { placement: "topEnd", duration: 4000 })
             }
 
+            body.pj_complements = id_complement
             body.name = body.name.toUpperCase()
             body.email = body.email.toLowerCase()
             body.role = body.role.toUpperCase()
@@ -124,20 +125,12 @@ export const EmployeeCreate = memo(
         const { mutate: employeesMutate } = useMutation({
             mutationKey: ["employees"],
             mutationFn: sendEmployees,
-            onSuccess: (response: AxiosResponse) => {
-                const dataRes = response.data
-
-                queryClient.setQueryData(["employees"], (currentData: any) => {
-                    if (currentData) {
-                        dataRes["bank_details"] = `BCO: ${dataRes.bank} | AG: ${dataRes.agency} | CC: ${dataRes.account}`
-
-                        return currentData.concat(dataRes)
-                    }
-                })
+            onSuccess: () => {
+                queryClient.invalidateQueries(["employees"])
 
                 MainMessage.Ok(toaster, "Sucesso - Funcionário cadastrado.")
 
-                close()
+                // close()
             },
             onError: (error: AxiosError) => {
                 const message = {
@@ -175,6 +168,7 @@ export const EmployeeCreate = memo(
             if (body.advance_money) body.complements["advance_money"] = body.advance_money
             if (body.covenant_discount) body.complements["covenant_discount"] = body.covenant_discount
             if (body.others_discounts) body.complements["others_discounts"] = body.others_discounts
+            if (body.subsistence_allowance) body.complements["subsistence_allowance"] = body.subsistence_allowance
             if (body.observation) body.complements["observation"] = body.observation.toUpperCase()
             body.complements["author"] = me.id
 
@@ -187,9 +181,7 @@ export const EmployeeCreate = memo(
             onSuccess: (response: AxiosResponse) => {
                 const dataRes = response.data
 
-                setData({ ...data, pj_complements: dataRes.id })
-
-                employeesMutate()
+                employeesMutate(dataRes.id)
             },
             onError: (error: AxiosError) => {
                 const message = {
@@ -201,6 +193,7 @@ export const EmployeeCreate = memo(
                     others_credits: "Outros Créditos",
                     advance_money: "Adiantamento",
                     covenant_discount: "Desconto Convênio",
+                    subsistence_allowance: "Ajuda de Custo",
                     others_discounts: "Outros Descontos",
                 }
 
@@ -220,179 +213,58 @@ export const EmployeeCreate = memo(
             <MainModal.Form open={open} close={close} send={complementsMutate} data={data} setData={setData} size="md" overflow={false} >
                 <MainModal.Header title="Adicionar Funcionário" />
                 <MainModal.Body>
-                    <Panel header="Informações Pessoais do Funcionário PJ">
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Nome Completo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="name" accepter={Input} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group  >
-                                    <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="branch" data={BranchesChoices} accepter={SelectPicker} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Cargo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="role" accepter={Input} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Empresa:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="company" data={CompanyChoices} accepter={SelectPicker} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>CNPJ:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="cnpj" value={cnpjMask(data.cnpj)} accepter={Input} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Data Admissão:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="date_admission" placeholder="DD/MM/AAAA" format="dd/MM/yyyy" accepter={DatePicker} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Status:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="status" data={StatusEmployeeChoices} accepter={SelectPicker} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Email:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="email" accepter={Input} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                    <Panel header="Informações Pessoais do Funcionário">
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Input text="Nome Completo:" name="name" />
+                            <MainFormComponent.SelectPicker text="Filial:" name="branch" data={BranchesChoices} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Input text="Cargo:" name="role" />
+                            <MainFormComponent.SelectPicker text="Empresa:" name="company" data={CompanyChoices} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Input text="CNPJ:" name="cnpj" value={cnpjMask(data ? data.cnpj : "")} />
+                            <MainFormComponent.DatePicker text="Data Admissão:" name="date_admission" showHelpText={true} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.SelectPicker text="Status:" name="status" data={StatusEmployeeChoices} />
+                            <MainFormComponent.Input text="Email:" name="email" showHelpText={false} />
+                        </MainFormComponent.Row>
                     </Panel>
                     <Panel header="Informações Bancárias do Funcionário">
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Banco:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="bank" accepter={Input} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Agência:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="agency" accepter={InputNumber} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Conta:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="account" accepter={InputNumber} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Pix:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="pix" accepter={Input} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Input text="Banco:" name="bank" />
+                            <MainFormComponent.InputNumber text="Agência:" name="agency" />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Conta:" name="account" />
+                            <MainFormComponent.Input text="Pix:" name="pix" />
+                        </MainFormComponent.Row>
                     </Panel>
                     <Panel header="Informações de Valores do Funcionário">
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Salário:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="salary" accepter={InputNumber} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Faculdade:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="college" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Ajuda de Custo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="allowance" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Auxílio Moradia:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="housing_allowance" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Crédito Convênio:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="covenant_credit" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Outros Créditos:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="others_credits" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Adiantamento:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="advance_money" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Desconto Convênio:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="covenant_discount" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={24}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Outros Descontos:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="others_discounts" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={24}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Observação:</Form.ControlLabel>
-                                    <Form.Control style={styles.observation} rows={5} name="observation" value={data.observation} accepter={Textarea} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Salário:" name="salary" />
+                            <MainFormComponent.InputNumber text="Faculdade:" name="college" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Ajuda de Custo:" name="allowance" showHelpText={false} />
+                            <MainFormComponent.InputNumber text="Auxílio Moradia:" name="housing_allowance" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Crédito Convênio:" name="covenant_credit" showHelpText={false} />
+                            <MainFormComponent.InputNumber text="Outros Créditos:" name="others_credits" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Adiantamento:" name="advance_money" showHelpText={false} />
+                            <MainFormComponent.InputNumber text="Desconto Convênio:" name="covenant_discount" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Outros Descontos:" name="others_discounts" showHelpText={false} />
+                            <MainFormComponent.InputNumber text="Ajuda de Custo:" name="subsistence_allowance" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Textarea text="Observação:" name="observation" showHelpText={false} />
+                        </MainFormComponent.Row>
                     </Panel>
                 </MainModal.Body>
                 <MainModal.FooterForm name="Criar" close={close} />

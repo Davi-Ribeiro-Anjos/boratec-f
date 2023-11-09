@@ -3,7 +3,7 @@ import { Form, useToaster } from "rsuite";
 import { memo, useState, useContext } from "react";
 import { useMutation, useQuery } from "react-query";
 
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { useApi } from "../../../hooks/Api";
 import { UserContext } from "../../../providers/UserProviders";
 import { DateToString } from "../../../services/Date";
@@ -11,13 +11,15 @@ import { DateToString } from "../../../services/Date";
 import { MainMessage } from "../../Global/Message";
 import { MainModal } from "../../Global/Modal";
 import { MainFormComponent } from "../../Global/Component/Form";
+import { queryClient } from "../../../services/QueryClient";
 
 interface Form {
     value: number | null;
     months: number | null;
-    date_advance: any | null;
     date_payment: any | null;
+    employee: number | null;
     author: number;
+    type_payment: string | null;
 }
 
 interface ThirteenthCreateProps {
@@ -32,20 +34,16 @@ export const ThirteenthCreate = memo(
         const api = useApi()
         const toaster = useToaster()
 
-        const [EmployeesChoices, SetEmployeesChoices] = useState<any[]>([])
         const getEmployees = async () => {
             const response = await api.get("employees/", { params: { status: "ATIVO", type_contract: "PJ" } })
 
-            return response.data
+            return response.data.map((item: any) => ({ label: item.name, value: item.id }))
         }
-        const { } = useQuery({
+        const { data: EmployeesChoices } = useQuery({
             queryKey: ["employees-pjs"],
             queryFn: getEmployees,
-            onSuccess: (response: any[]) => {
-                SetEmployeesChoices(response.map(item => ({ label: item.name, value: item.id })))
-            },
             onError: (error: AxiosError) => {
-                MainMessage.Error500(toaster, error, "Ocorreu um erro ao buscar os Funcionários.")
+                MainMessage.Error500(toaster, error, "Ocorreu um erro ao buscar os Funcionários, APERTE 'F5'.")
             },
             enabled: true,
         })
@@ -54,32 +52,32 @@ export const ThirteenthCreate = memo(
         const initialData = {
             value: null,
             months: null,
-            date_advance: null,
             date_payment: null,
-            author: me.id
+            employee: null,
+            author: me.id,
+            type_payment: null,
         }
         const [data, setData] = useState<Form>(initialData)
 
-        // EMPLOYEES
-        const send = async () => {
-            let body: any = { ...data }
+        // THIRTEENTH
+        const send = async (advance: boolean) => {
+            let body = { ...data }
 
-            if (body.date_advance) body.date_advance = DateToString(body.date_advance)
             if (body.date_payment) body.date_payment = DateToString(body.date_payment)
 
-            return await api.post('/', body)
+            if (advance) body.type_payment = "ADIANTAMENTO"
+            else body.type_payment = "PAGAMENTO"
+
+            return await api.post('pj/thirteenths/', body)
         }
 
         const { mutate } = useMutation({
             mutationKey: ["pj-thirteenth"],
             mutationFn: send,
-            onSuccess: (response: AxiosResponse) => {
-                console.log(response)
-                // const dataRes = response.data
+            onSuccess: () => {
+                queryClient.invalidateQueries(["pj-thirteenth"])
 
-                // setData({ ...data, pj_complements: dataRes.id })
-
-                // employeesMutate()
+                close()
             },
             onError: (error: AxiosError) => {
                 const message = {
@@ -96,28 +94,25 @@ export const ThirteenthCreate = memo(
         })
 
         const close = () => {
-            setOpen(false);
+            setOpen(false)
 
             setData(initialData)
         }
 
         return (
-            <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size="md" overflow={false} >
+            <MainModal.Form open={open} close={close} send={() => mutate(false)} data={data} setData={setData} size="md" overflow={false} >
                 <MainModal.Header title="Adicionar 13º Salário" />
                 <MainModal.Body>
                     <MainFormComponent.Row>
+                        <MainFormComponent.SelectPicker text="Funcionário:" name="employee" data={EmployeesChoices} />
                         <MainFormComponent.InputNumber text="Valor:" name="value" />
-                        <MainFormComponent.InputNumber text="Meses Trabalhados:" name="months" />
                     </MainFormComponent.Row>
                     <MainFormComponent.Row>
-                        <MainFormComponent.DatePicker text="Data Adiantamento:" name="date_advance" />
+                        <MainFormComponent.InputNumber text="Meses Trabalhados:" name="months" />
                         <MainFormComponent.DatePicker text="Data Pagamento:" name="date_payment" showHelpText />
                     </MainFormComponent.Row>
-                    <MainFormComponent.Row>
-                        <MainFormComponent.SelectPicker text="Funcionário:" name="employee" data={EmployeesChoices} />
-                    </MainFormComponent.Row>
                 </MainModal.Body>
-                <MainModal.FooterForm name="Criar" close={close} />
+                <MainModal.FooterThree name1="Pagamento" name2="Adiantamento" color="cyan" otherFunction={() => mutate(true)} close={close} />
             </MainModal.Form>
         );
     });

@@ -153,6 +153,7 @@ interface PJComplementInterface {
     advance_money: number;
     covenant_discount: number;
     others_discounts: number;
+    subsistence_allowance: number;
     observation: string;
 }
 export interface EmployeesSimpleInterface {

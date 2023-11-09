@@ -87,6 +87,7 @@ export default function Employees() {
         row_.advance_money = rowData.pj_complements.advance_money || null
         row_.covenant_discount = rowData.pj_complements.covenant_discount || null
         row_.others_discounts = rowData.pj_complements.others_discounts || null
+        row_.subsistence_allowance = rowData.pj_complements.subsistence_allowance || null
         row_.observation = rowData.pj_complements.observation || null
 
         setRow(row_)

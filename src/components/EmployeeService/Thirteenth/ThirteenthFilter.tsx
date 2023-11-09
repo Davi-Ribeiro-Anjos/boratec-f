@@ -1,31 +1,17 @@
-import { Col, Form, Input, Row, SelectPicker } from "rsuite"
-import { styles } from "../../../assets/styles";
+import { MainFormComponent } from "../../Global/Component/Form";
 
-import { useContext } from "react"
-
-import { BranchesChoices } from "../../../services/Choices";
-import { UserContext } from "../../../providers/UserProviders";
-
-interface ThirteenthFilterProps { }
+interface ThirteenthFilterProps {
+    filter: any;
+    setFilter: any;
+}
 
 
-export function ThirteenthFilter({ }: ThirteenthFilterProps) {
-    const { userChoices } = useContext<any>(UserContext)
+export function ThirteenthFilter({ filter, setFilter }: ThirteenthFilterProps) {
 
     return (
-        <Row style={styles.row}>
-            <Col xs={12}>
-                <Form.Group >
-                    <Form.ControlLabel>Funcionário: </Form.ControlLabel>
-                    <Form.Control style={styles.input} name="name__contains" data={userChoices} accepter={Input} />
-                </Form.Group>
-            </Col>
-            <Col xs={12}>
-                <Form.Group >
-                    <Form.ControlLabel>Filial: </Form.ControlLabel>
-                    <Form.Control style={styles.input} name="branch" data={BranchesChoices} accepter={SelectPicker} />
-                </Form.Group>
-            </Col>
-        </Row>
+        <MainFormComponent.Row>
+            <MainFormComponent.Input text="Funcionário:" name="employee__name__contains" showHelpText={false} />
+            <MainFormComponent.Checkbox text="Enviado:" name="send" filter={filter} setFilter={setFilter} showHelpText={false} />
+        </MainFormComponent.Row>
     )
 }
