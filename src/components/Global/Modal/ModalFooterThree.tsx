@@ -5,7 +5,7 @@ interface ModalFooterThreeProps {
     close: () => void;
     name1: string;
     name2: string;
-    color: 'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet';
+    color?: 'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet';
     appearance?: "default" | "primary" | "subtle" | "link";
 }
 
