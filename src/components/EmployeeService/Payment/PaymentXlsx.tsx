@@ -2,15 +2,17 @@ import { Form, Row, Col, useToaster, DatePicker } from "rsuite";
 import isAfter from "date-fns/isAfter";
 import { styles } from "../../../assets/styles";
 
-import { memo, useState, useContext } from "react";
+import { memo, useState } from "react";
 import { useMutation } from "react-query";
 
 import { AxiosError } from "axios";
-import { useApi } from "../../../hooks/Api";
-import { UserContext } from "../../../providers/UserProviders";
+import { useApiDownload } from "../../../hooks/Api";
+import { DateToString } from "../../../services/Date";
+
 import { MainMessage } from "../../Global/Message";
 import { MainModal } from "../../Global/Modal";
-import { DateToString } from "../../../services/Date";
+
+import FileDownload from 'js-file-download';
 
 
 interface Form {
@@ -25,8 +27,7 @@ interface PaymentXlsxProps {
 
 export const PaymentXlsx = memo(
     function PaymentXlsx({ open, setOpen }: PaymentXlsxProps) {
-        const { me }: any = useContext(UserContext)
-        const api = useApi()
+        const api = useApiDownload()
         const toaster = useToaster()
 
         const initialData = {
@@ -40,15 +41,16 @@ export const PaymentXlsx = memo(
 
             if (body.date_selected) body.date_selected = DateToString(body.date_selected)
 
-            console.log(body)
-
-            return true
-            // return await api.post('employees/', body)
+            return await api.post('pj/complements/export/', body)
         }
+
         const { mutate } = useMutation({
             mutationKey: ["employees-xlsx"],
             mutationFn: generate,
-            onSuccess: () => {
+            onSuccess: (response) => {
+                FileDownload(response.data, "Relatório de PJ's.csv")
+
+                close()
             },
             onError: (error: AxiosError) => {
                 const message = {
@@ -61,7 +63,7 @@ export const PaymentXlsx = memo(
         })
 
         const close = () => {
-            setOpen(false);
+            setOpen(false)
 
             setData(initialData)
         }
