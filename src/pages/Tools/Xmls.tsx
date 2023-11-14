@@ -157,7 +157,7 @@ export default function Xmls() {
     return (
         <MainPanel.Root shaded>
 
-            <MainPanel.Header title="XMLS">
+            <MainPanel.Header title="XML's">
                 <Xml.Header checkedKeys={checkedKeys} />
             </MainPanel.Header>
 
