@@ -16,6 +16,7 @@ const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
 const EmployeesPayments = lazy(() => import("../pages/HumanResources/EmployeesServices/EmployeesPayments.tsx"));
 const EmployeesThirteenths = lazy(() => import("../pages/HumanResources/EmployeesServices/EmployeesThirteenths.tsx"));
 const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
+const VacanciesControls = lazy(() => import("../pages/HumanResources/VacanciesControls.tsx"));
 const Xmls = lazy(() => import("../pages/Tools/Xmls.tsx"));
 const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
 const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
@@ -66,13 +67,6 @@ export function MainRoutes() {
                     </Suspense>
                 )
             } />
-            <Route path="/rh/fichas-cadastrais" element={
-                verifyPermissionPage("employee") && (
-                    <Suspense>
-                        <RegistrationsForms />
-                    </Suspense>
-                )
-            } />
             <Route path="/rh/funcionarios-pj" element={
                 verifyPermissionPage("employee") && (
                     <Suspense>
@@ -91,6 +85,20 @@ export function MainRoutes() {
                 verifyPermissionPage("employee_admin") && (
                     <Suspense>
                         <EmployeesThirteenths />
+                    </Suspense>
+                )
+            } />
+            <Route path="/rh/fichas-cadastrais" element={
+                verifyPermissionPage("employee") && (
+                    <Suspense>
+                        <RegistrationsForms />
+                    </Suspense>
+                )
+            } />
+            <Route path="/rh/controles-vagas" element={
+                verifyPermissionPage("employee") && (
+                    <Suspense>
+                        <VacanciesControls />
                     </Suspense>
                 )
             } />
