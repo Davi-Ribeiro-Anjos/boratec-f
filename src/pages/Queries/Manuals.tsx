@@ -48,7 +48,12 @@ export default function Manuals() {
     // DATA
     const [SystemsChoices, setSystemsChoices] = useState<any[]>([])
     const searchData = async () => {
-        const response = await api.get<DataInterface>("queries/manuals/", { params: { ...filter } })
+        let filter_ = { ...filter }
+
+        if (filter_.title__contains) filter_.title__contains = filter_.title__contains.toUpperCase()
+        if (filter_.module__contains) filter_.module__contains = filter_.module__contains.toUpperCase()
+
+        const response = await api.get<DataInterface>("queries/manuals/", { params: { ...filter_ } })
 
         setSystemsChoices(response.data.systems.map((value) => { return value.system }).map(item => ({ label: item, value: item })))
 
