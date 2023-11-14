@@ -14,6 +14,7 @@ import { Employee } from "../../components/Employee";
 import { AxiosError } from "axios";
 import { MainMessage } from "../../components/Global/Message";
 import { StringToDate } from "../../services/Date";
+import { VacancyControl } from "../../components/VacancyControl";
 
 interface Filter {
     name__contains: string,
@@ -115,7 +116,7 @@ export default function VacanciesControls() {
             </MainPanel.Header>
 
             <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >
-                <Employee.Filter />
+                <VacancyControl.Filter />
                 <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 
