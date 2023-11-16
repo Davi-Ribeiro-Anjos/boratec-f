@@ -130,7 +130,7 @@ export const EmployeeCreate = memo(
 
                 MainMessage.Ok(toaster, "Sucesso - Funcionário cadastrado.")
 
-                // close()
+                close()
             },
             onError: (error: AxiosError) => {
                 const message = {

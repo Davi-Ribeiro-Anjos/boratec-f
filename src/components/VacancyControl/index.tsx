@@ -1,6 +1,10 @@
+import { VacancyCreate } from "./VacancyCreate";
 import { VacancyFilter } from "./VacancyFilter";
+import { VacancyHeader } from "./VacancyHeader";
 
 
 export const VacancyControl = {
-    Filter: VacancyFilter
+    Header: VacancyHeader,
+    Filter: VacancyFilter,
+    Create: VacancyCreate,
 }

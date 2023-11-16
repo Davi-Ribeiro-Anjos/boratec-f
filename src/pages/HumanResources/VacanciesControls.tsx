@@ -13,16 +13,11 @@ import { MainTable } from "../../components/Global/Table";
 import { Employee } from "../../components/Employee";
 import { AxiosError } from "axios";
 import { MainMessage } from "../../components/Global/Message";
-import { StringToDate } from "../../services/Date";
 import { VacancyControl } from "../../components/VacancyControl";
 
 interface Filter {
-    name__contains: string,
-    branch: number | null,
-    type_contract: string,
-    status: string;
+    status: string | null;
 }
-
 
 
 export default function VacanciesControls() {
@@ -32,10 +27,7 @@ export default function VacanciesControls() {
 
     // FILTER
     const initialFilter = {
-        name__contains: "",
-        branch: null,
-        type_contract: "PJ",
-        status: 'ATIVO'
+        status: null
     }
     const [filter, setFilter] = useState<Filter>({ ...initialFilter })
     const clear = () => {
@@ -75,22 +67,6 @@ export default function VacanciesControls() {
     const modalEdit = (rowData: any) => {
         let row_ = { ...rowData }
 
-        row_.branch = rowData.branch.id
-        row_.date_admission = StringToDate(rowData.date_admission)
-
-        // COMPLEMENTS
-        row_.salary = rowData.pj_complements.salary || null
-        row_.college = rowData.pj_complements.college || null
-        row_.allowance = rowData.pj_complements.allowance || null
-        row_.housing_allowance = rowData.pj_complements.housing_allowance || null
-        row_.covenant_credit = rowData.pj_complements.covenant_credit || null
-        row_.others_credits = rowData.pj_complements.others_credits || null
-        row_.advance_money = rowData.pj_complements.advance_money || null
-        row_.covenant_discount = rowData.pj_complements.covenant_discount || null
-        row_.others_discounts = rowData.pj_complements.others_discounts || null
-        row_.subsistence_allowance = rowData.pj_complements.subsistence_allowance || null
-        row_.observation = rowData.pj_complements.observation || null
-
         setRow(row_)
         setOpenEdit(true)
     }
@@ -99,11 +75,13 @@ export default function VacanciesControls() {
     // TABLE
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Funcionário": { dataKey: "name", propsColumn: { width: 300 } },
-            "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 120 } },
-            "CNPJ": { dataKey: "cnpj", propsColumn: { width: 150 } },
-            "Dados Bancários": { dataKey: "bank_details", propsColumn: { width: 350 } },
-            "Editar": { dataKey: "button", propsColumn: { width: 130 }, click: modalEdit, icon: EditIcon }
+            "Título da Vaga": { dataKey: "name", propsColumn: { width: 200, fullText: true } },
+            "Cargo": { dataKey: "name", propsColumn: { width: 200, fullText: true } },
+            "Departamento": { dataKey: "bank_details", propsColumn: { width: 200, fullText: true } },
+            "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 100 } },
+            "Status": { dataKey: "status", propsColumn: { width: 130 } },
+            "Visualizar": { dataKey: "button", propsColumn: { width: 80 }, click: modalEdit, icon: EditIcon },
+            "Editar": { dataKey: "button", propsColumn: { width: 80 }, click: modalEdit, icon: EditIcon }
         }
     }, [])
 
@@ -112,10 +90,10 @@ export default function VacanciesControls() {
         <MainPanel.Root shaded>
 
             <MainPanel.Header title="Controle de Vagas">
-                <Employee.Header />
+                <VacancyControl.Header />
             </MainPanel.Header>
 
-            <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >
+            <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} defaultExpanded={false} >
                 <VacancyControl.Filter />
                 <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
