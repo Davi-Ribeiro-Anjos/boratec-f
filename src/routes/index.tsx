@@ -6,8 +6,11 @@ import { UserContext } from "../providers/UserProviders.tsx";
 import Home from "../pages/Home/Home.tsx";
 import Error404 from "../pages/Errors/Error404.tsx";
 import Error403 from "../pages/Errors/Error403.tsx";
+import Login from "../pages/Login/Login.tsx";
+import ForgetPassword from "../pages/Login/ForgetPassword.tsx";
 
-const Login = lazy(() => import("../pages/Login/Login.tsx"));
+// const Login = lazy(() => import("../pages/Login/Login.tsx"));
+// const ForgetPassword = lazy(() => import("../pages/Login/ForgetPassword.tsx"));
 const PalletsBranches = lazy(() => import("../pages/Pallets/PalletsBranches.tsx"));
 const PalletsClients = lazy(() => import("../pages/Pallets/PalletsClients.tsx"));
 const FleetsAvailabilities = lazy(() => import("../pages/Fleets/FleetsAvailabilities.tsx"));
@@ -32,11 +35,8 @@ export function MainRoutes() {
     return (
         <Routes>
             <Route path="/" element={
-                <Home />
-            } />
-            <Route path="/login" element={
                 <Suspense>
-                    <Login />
+                    <Home />
                 </Suspense>
             } />
             <Route path="/compras/solicitacoes-compras" element={
@@ -96,7 +96,7 @@ export function MainRoutes() {
                 )
             } />
             <Route path="/rh/controles-vagas" element={
-                verifyPermissionPage("employee") && (
+                verifyPermissionPage("employee_vacancy") && (
                     <Suspense>
                         <VacanciesControls />
                     </Suspense>
@@ -117,14 +117,14 @@ export function MainRoutes() {
                 )
             } />
             <Route path="/estoques/epis/solicitacoes" element={
-                verifyPermissionPage("stocks_epis") && (
+                verifyPermissionPage("stock_epi") && (
                     <Suspense>
                         <EPIsRequests />
                     </Suspense>
                 )
             } />
             <Route path="/estoques/epis/controles" element={
-                verifyPermissionPage("stocks_epis_admin") && (
+                verifyPermissionPage("stock_epi_admin") && (
                     <Suspense>
                         <EPIsControls />
                     </Suspense>
@@ -155,10 +155,35 @@ export function MainRoutes() {
                 </Suspense>
             } />
             <Route path="/sem-permissao" element={
-                <Error403 />
+                <Suspense>
+                    <Error403 />
+                </Suspense>
             } />
             <Route path="*" element={
-                <Error404 />
+                <Suspense>
+                    <Error404 />
+                </Suspense>
+            } />
+        </Routes>
+    )
+}
+
+export function NoPermissionRoutes() {
+    return (
+        <Routes>
+            <Route path="/" element={
+                <Login />
+            } />
+            <Route path="/login" element={
+                <Suspense>
+                    <Login />
+                </Suspense>
+            } />
+            <Route path="/recuperar-senha" element={
+                <ForgetPassword />
+            } />
+            <Route path="*" element={
+                <Error404 name="Login" />
             } />
         </Routes>
     )

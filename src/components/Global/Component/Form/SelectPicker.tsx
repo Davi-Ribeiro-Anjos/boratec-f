@@ -13,7 +13,7 @@ export default function MainSelectPicker({ helpText = "Obrigatório", showHelpTe
         <Col xs={24} md={props.md ? props.md : 12}>
             <Form.Group>
                 <Form.ControlLabel>{props.text}</Form.ControlLabel>
-                <Form.Control style={props.style ? props.style : styles.input} name={props.name} data={props.data} accepter={SelectPicker} />
+                <Form.Control style={props.style ? props.style : styles.input} name={props.name} data={props.data} readOnly={props.readOnly} accepter={SelectPicker} />
                 {showHelpText &&
                     <Form.HelpText tooltip={tooltip}>{helpText}</Form.HelpText>
                 }

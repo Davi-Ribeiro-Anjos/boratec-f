@@ -62,7 +62,7 @@ export function MainHeader() {
                         )}
                     </Nav.Menu>
                 )}
-                {verifyPermission("tools_rh") && (
+                {verifyPermission("humans_resources") && (
                     <Nav.Menu title="Recursos Humanos">
                         {verifyPermission("employee_admin") && (
                             <Nav.Item onClick={() => navigate("/rh/funcionarios-pj")} eventKey="60">Funcionários PJ's</Nav.Item>
@@ -70,7 +70,7 @@ export function MainHeader() {
                         {verifyPermission("employee") && (
                             <Nav.Item onClick={() => navigate("/rh/fichas-cadastrais")} eventKey="61">Fichas Cadastrais</Nav.Item>
                         )}
-                        {verifyPermission("employee") && (
+                        {verifyPermission("employee_vacancy") && (
                             <Nav.Item onClick={() => navigate("/rh/controles-vagas")} eventKey="62">Controle de Vagas</Nav.Item>
                         )}
                     </Nav.Menu>
@@ -84,10 +84,10 @@ export function MainHeader() {
                 )}
                 {verifyPermission("stocks") && (
                     <Nav.Menu title="Estoques">
-                        {verifyPermission("stocks_epis") && (
+                        {verifyPermission("stock_epi") && (
                             <Nav.Item onClick={() => navigate("/estoques/epis/solicitacoes")} eventKey="80">Solicitações de EPI's</Nav.Item>
                         )}
-                        {verifyPermission("stocks_epis_admin") && (
+                        {verifyPermission("stock_epi_admin") && (
                             <Nav.Item onClick={() => navigate("/estoques/epis/controles")} eventKey="81">Controle de EPI's</Nav.Item>
                         )}
                     </Nav.Menu>

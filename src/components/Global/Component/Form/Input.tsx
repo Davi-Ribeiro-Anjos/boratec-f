@@ -13,7 +13,7 @@ export default function MainInput({ helpText = "Obrigatório", showHelpText = tr
         <Col xs={24} md={props.md ? props.md : 12}>
             <Form.Group>
                 <Form.ControlLabel>{props.text}</Form.ControlLabel>
-                <Form.Control style={props.style ? props.style : styles.input} name={props.name} accepter={Input} value={props.value} />
+                <Form.Control style={props.style ? props.style : styles.input} name={props.name} accepter={Input} value={props.value} readOnly={props.readOnly} />
                 {showHelpText &&
                     <Form.HelpText tooltip={tooltip}>{helpText}</Form.HelpText>
                 }

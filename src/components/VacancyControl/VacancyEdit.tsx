@@ -1,153 +1,178 @@
-import { Form, useToaster, Panel, Message } from "rsuite";
+import { Form, useToaster, Panel, Message, Button } from "rsuite";
 
-import { memo, useState, useContext } from "react";
+import { memo, useContext } from "react";
 import { useMutation } from "react-query";
 
 import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
-import { BranchesChoices } from "../../services/Choices";
-import { CompanyChoices } from "../../services/Choices";
-import { DateToString } from "../../services/Date";
 import { queryClient } from "../../services/QueryClient";
 
 import { MainModal } from "../Global/Modal";
 import { MainMessage } from "../Global/Message";
 import { MainFormComponent } from "../Global/Component/Form";
+import { UserContext } from "../../providers/UserProviders";
 
-const PriorityChoices = [
-    { label: "NORMAL", value: "NORMAL" },
-    { label: "MÉDIA", value: "MEDIA" },
-    { label: "ALTA", value: "ALTA" },
-].map(item => ({ label: item.label, value: item.value }))
+const DepartmentsChoices = [
+    { label: "ADMINISTRATIVO", value: "ADMINISTRATIVO" },
+    { label: "BORRACHARIA", value: "BORRACHARIA" },
+    { label: "COMPRAS", value: "COMPRAS" },
+    { label: "DEPARTAMENTO PESSOAL", value: "DEPARTAMENTO_PESSOAL" },
+    { label: "DESENVOLVIMENTO", value: "DESENVOLVIMENTO" },
+    { label: "EXPEDIÇÃO", value: "EXPEDICAO" },
+    { label: "FATURAMENTO", value: "FATURAMENTO" },
+    { label: "FINANCEIRO", value: "FINANCEIRO" },
+    { label: "FISCAL", value: "FISCAL" },
+    { label: "FROTAS", value: "FROTAS" },
+    { label: "JOVEM APRENDIZ", value: "JOVEM_APRENDIZ" },
+    { label: "LIMPEZA", value: "LIMPEZA" },
+    { label: "MANUTENÇÃO", value: "MANUTENCAO" },
+    { label: "MONITORAMENTO", value: "MONITORAMENTO" },
+    { label: "OPERAÇÃO", value: "OPERACAO" },
+    { label: "PORTARIA", value: "PORTARIA" },
+    { label: "RECURSOS HUMANOS", value: "RECURSOS_HUMANOS" },
+    { label: "RESERVA", value: "RESERVA" },
+    { label: "TI", value: "TI" },
+]
 
-const ContractModeChoices = [
-    { label: "CLT", value: "CLT" },
-    { label: "JOVEM APRENDIZ", value: "JA" },
-    { label: "PCD", value: "PCD" },
-    { label: "PESSOA JURÍDICA", value: "PJ" },
-].map(item => ({ label: item.label, value: item.value }))
+export const BranchesChoices = [
+    { label: 'SPO', value: 1 },
+    { label: 'REC', value: 2 },
+    { label: 'SSA', value: 3 },
+    { label: 'FOR', value: 4 },
+    { label: 'MCZ', value: 5 },
+    { label: 'NAT', value: 6 },
+    { label: 'JPA', value: 7 },
+    { label: 'AJU', value: 8 },
+    { label: 'VDC', value: 9 },
+    { label: 'CTG', value: 10 },
+    { label: 'GVR', value: 11 },
+    { label: 'VIX', value: 12 },
+    { label: 'TCO', value: 13 },
+    { label: 'UDI', value: 14 },
+    { label: 'PNZ', value: 15 },
+    { label: 'JSR', value: 151 },
+    { label: 'JCT', value: 161 },
+    { label: 'JCS', value: 162 },
+]
 
-interface Form {
-    name: string;
-    email: string;
-    branch: number | null;
-    role: string;
-    company: string | null;
-    type_contract: string
-    cnpj: string;
-    date_admission: any;
-    status: string;
-    bank: string;
-    agency: number | null;
-    account: number | null;
-    pix: string;
-    salary: number | null;
-    college: number | null;
-    allowance: number | null;
-    housing_allowance: number | null;
-    covenant_credit: number | null;
-    others_credits: number | null;
-    advance_money: number | null;
-    covenant_discount: number | null;
-    others_discounts: number | null;
-    subsistence_allowance: number | null;
-    observation: string | null;
-    complements: any;
-    pj_complements: number | null;
+const RecruiterChoices = [
+    { label: "LARYSSA RODRIGUES", value: 1054 },
+    { label: "MELISSA COSTA", value: 1640 },
+    { label: "PAULA SANTOS", value: 2058 },
+    { label: "RAQUEL SILVA", value: 1480 },
+    { label: "THAYS ANDRADE", value: 650 },
+]
+
+const PrioritiesChoices = [
+    "NORMAL",
+    "MÉDIA",
+    "ALTA",
+].map(item => ({ label: item, value: item }))
+
+const ContractsModeChoices = [
+    "CLT",
+    "JOVEM APRENDIZ",
+    "PCD",
+    "PESSOA JURÍDICA",
+].map(item => ({ label: item, value: item }))
+
+const TypeVacanciesChoices = [
+    "AUMENTO DE QUADRO",
+    "SUBSTITUIÇÃO",
+    "TERCEIROS",
+].map(item => ({ label: item, value: item }))
+
+export const CompanyChoices = [
+    "BORA",
+    "JC",
+    "JSR",
+].map(item => ({ label: item, value: item }))
+
+const styles: any = {
+    input: {
+        width: 240,
+        textTransform: 'uppercase'
+    }
 }
 
 interface VacancyEditProps {
     open: boolean;
     setOpen: (value: boolean) => void;
+    row: any;
+    setRow: (value: any) => void;
+    RolesChoices: any[];
 }
 
 export const VacancyEdit = memo(
-    function VacancyEdit({ open, setOpen }: VacancyEditProps) {
-        const { me }: any = useContext(UserContext)
+    function VacancyEdit({ open, setOpen, row, setRow, RolesChoices }: VacancyEditProps) {
+        const { verifyPermission }: any = useContext(UserContext)
         const api = useApi()
         const toaster = useToaster()
 
-        const initialData = {
-            name: "",
-            email: "",
-            branch: null,
-            role: "",
-            company: null,
-            cnpj: "",
-            type_contract: "PJ",
-            date_admission: null,
-            status: "ATIVO",
-            bank: "",
-            agency: null,
-            account: null,
-            pix: "",
-            salary: null,
-            college: null,
-            allowance: null,
-            housing_allowance: null,
-            covenant_credit: null,
-            others_credits: null,
-            advance_money: null,
-            covenant_discount: null,
-            others_discounts: null,
-            subsistence_allowance: null,
-            observation: "",
-            complements: {},
-            pj_complements: null
-        }
-
-        const [data, setData] = useState<Form>(initialData)
-
         // EMPLOYEES
-        const sendEmployees = async (id_complement: number) => {
-            let body: any = { ...data }
+        const send = async () => {
+            let body: any = { ...row }
 
-            body.cnpj = body.cnpj.replaceAll('.', '').replace('-', '').replace('/', '')
-            if (body.cnpj.length === 15) body.cnpj = body.cnpj.slice(0, -1)
-            if (body.cnpj.length !== 14) {
-                let message = (
-                    <Message showIcon type="error" closable >
-                        Erro - Complete o campo CNPJ corretamente.
-                    </ Message>
-                )
-                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
-            }
-
-            body.pj_complements = id_complement
-            body.name = body.name.toUpperCase()
-            body.email = body.email.toLowerCase()
-            body.role = body.role.toUpperCase()
-            body.bank = body.bank.toUpperCase()
-            if (body.date_admission) body.date_admission = DateToString(body.date_admission)
-
-            return await api.post('employees/', body)
+            return await api.post('vacancies/', body)
         }
 
         const { mutate } = useMutation({
-            mutationKey: ["employees"],
-            mutationFn: sendEmployees,
+            mutationKey: ["vacancies"],
+            mutationFn: send,
             onSuccess: () => {
-                queryClient.invalidateQueries(["employees"])
+                queryClient.invalidateQueries(["vacancies"])
 
                 MainMessage.Ok(toaster, "Sucesso - Funcionário cadastrado.")
 
-                // close()
+                close()
             },
             onError: (error: AxiosError) => {
                 const message = {
-                    name: 'Nome',
-                    email: 'Email',
-                    branch: 'Filial',
-                    role: 'Cargo',
-                    company: 'Empresa',
-                    cnpj: 'CNPJ',
-                    date_admission: 'Data Admissão',
-                    status: 'Ativo',
-                    bank: 'Banco',
-                    agency: 'Agência',
-                    account: 'Conta',
-                    pix: 'Pix',
+
+                }
+
+                MainMessage.Error400(toaster, error, message)
+                MainMessage.Error401(toaster, error)
+                MainMessage.Error500(toaster, error)
+            }
+        })
+
+        const sendEmail = async () => {
+            let body = {
+                id: row.id,
+                email_manager: row.email_manager,
+                email_regional_manager: row.email_regional_manager,
+                email_rh: row.email_rh,
+                email_director: row.email_director,
+            }
+
+            if (!body.email_manager) {
+                MainMessage.Error(toaster, "Preencha o campo de email do Gestor")
+            } else body.email_manager = body.email_manager.toLowerCase()
+            if (!body.email_regional_manager) {
+                MainMessage.Error(toaster, "Preencha o campo de email do Gestor Regional")
+            } else body.email_regional_manager = body.email_regional_manager.toLowerCase()
+            if (!body.email_rh) {
+                MainMessage.Error(toaster, "Preencha o campo de email do Gerente RH")
+            } else body.email_rh = body.email_rh.toLowerCase()
+            if (!body.email_director) {
+                MainMessage.Error(toaster, "Preencha o campo de email do Diretor")
+            } else body.email_director = body.email_director.toLowerCase()
+
+            MainMessage.Info(toaster, "Emails estão sendo enviados...")
+
+            return await api.patch('vacancies/emails/', body)
+        }
+
+        const { mutate: mutateEmail } = useMutation({
+            mutationKey: ["vacancies"],
+            mutationFn: sendEmail,
+            onSuccess: () => {
+                MainMessage.Ok(toaster, "Sucesso - Emails enviados.")
+            },
+            onError: (error: AxiosError) => {
+                const message = {
+
                 }
 
                 MainMessage.Error400(toaster, error, message)
@@ -157,61 +182,111 @@ export const VacancyEdit = memo(
         })
 
         const close = () => {
-            setOpen(false);
-
-            setData(initialData)
+            setOpen(false)
         }
 
         return (
-            <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size="full" overflow={false} >
+            <MainModal.Form open={open} close={close} send={mutate} data={row} setData={setRow} size="full" overflow={false} >
                 <MainModal.Header title="Adicionar Vaga" />
                 <MainModal.Body>
-                    <Panel header="Dados da Vaga">
-                        <MainFormComponent.Row>
-                            <MainFormComponent.Input text="Título da Vaga:" name="title" />
-                            <MainFormComponent.Input text="Cargo:" name="role" />
-                            <MainFormComponent.SelectPicker text="Departamento:" name="department" data={CompanyChoices} />
-                            <MainFormComponent.SelectPicker text="Filial:" name="branch" data={BranchesChoices} />
-                            <MainFormComponent.DatePicker text="Previsão de Início:" name="date_expected_start" showHelpText={true} />
-                            <MainFormComponent.DatePicker text="Data Relatada:" name="date_reported" showHelpText={true} />
-                            <MainFormComponent.SelectPicker text="Prioridade:" name="priority" data={PriorityChoices} />
-                            <MainFormComponent.SelectPicker text="Modalidade de Contrato:" name="contract_mode" data={ContractModeChoices} />
-                            <MainFormComponent.DatePicker text="Faixa Salarial:" name="date_reported" showHelpText={true} />
-                            <MainFormComponent.DatePicker text="Tipo de Vaga:" name="date_reported" showHelpText={true} />
-                            <MainFormComponent.DatePicker text="Substituição:" name="date_reported" showHelpText={true} />
-                            <MainFormComponent.DatePicker text="Descrição:" name="date_reported" showHelpText={true} />
-                            <MainFormComponent.DatePicker text="Empresa:" name="date_reported" showHelpText={true} />
-                            <MainFormComponent.DatePicker text="Escala de Trabalho:" name="date_reported" showHelpText={true} />
-                            <MainFormComponent.DatePicker text="Recrutador:" name="date_reported" showHelpText={true} />
-                        </MainFormComponent.Row>
-                    </Panel>
-                    <Panel header="Informações de Preenchimento do RH">
-                        <MainFormComponent.Row>
-                            <MainFormComponent.Input text="Email Gestor:" name="bank" />
-                            <MainFormComponent.Input text="Email Gestor Regional:" name="bank" />
-                            <MainFormComponent.Input text="Email Gerente RH:" name="bank" />
-                            <MainFormComponent.Input text="Email Diretor:" name="bank" />
-                        </MainFormComponent.Row>
-                    </Panel>
+                    {verifyPermission("employee_vacancy_admin") ? (
+                        <>
+                            <Panel header="Dados da Vaga">
+                                <MainFormComponent.Row>
+                                    <MainFormComponent.Input text="Título da Vaga:" name="title" style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.Input text="Faixa Salarial:" name="salary_range" style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.SelectPicker text="Modalidade de Contrato:" name="contract_mode" data={ContractsModeChoices} style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.SelectPicker text="Tipo de Vaga:" name="type_vacancy" data={TypeVacanciesChoices} style={styles.input} md={6} showHelpText={false} />
+                                </MainFormComponent.Row>
+                                <MainFormComponent.Row>
+                                    <MainFormComponent.SelectPicker text="Cargo:" name="role" data={RolesChoices ? RolesChoices : []} style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.SelectPicker text="Departamento:" name="department" data={DepartmentsChoices} style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.SelectPicker text="Filial:" name="branch" data={BranchesChoices} style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.SelectPicker text="Empresa:" name="company" data={CompanyChoices} style={styles.input} md={6} showHelpText={false} />
+                                </MainFormComponent.Row>
+                                <MainFormComponent.Row>
+                                    <MainFormComponent.DatePicker text="Previsão de Início:" name="date_expected_start" style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.DatePicker text="Data Relatada:" name="date_reported" style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.SelectPicker text="Prioridade:" name="priority" data={PrioritiesChoices} style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.Input text="Substituição:" name="replacement" style={styles.input} md={6} showHelpText={false} />
+                                </MainFormComponent.Row>
+                                <MainFormComponent.Row>
+                                    <MainFormComponent.Input text="Escala de Trabalho:" name="work_schedule" style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.SelectPicker text="Recrutador:" name="recruiter" data={RecruiterChoices} style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.Textarea text="Descrição:" name="description" style={styles.input} md={6} showHelpText={false} />
+                                </MainFormComponent.Row>
+                            </Panel>
+                            <Panel header="Informações de Preenchimento do RH">
+                                <MainFormComponent.Row>
+                                    <MainFormComponent.Input text="Email Gestor:" name="email_manager" style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.Input text="Email Gestor Regional:" name="email_regional_manager" style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.Input text="Email Gerente RH:" name="email_rh" style={styles.input} md={6} showHelpText={false} />
+                                    <MainFormComponent.Input text="Email Diretor:" name="email_director" style={styles.input} md={6} showHelpText={false} />
+                                </MainFormComponent.Row>
+                                <Button appearance="primary" color="blue" onClick={() => mutateEmail()}>Enviar E-mails</Button>
+                            </Panel>
+                        </>) : (
+                        <>
+                            <Panel header="Dados da Vaga">
+                                <MainFormComponent.Row>
+                                    <MainFormComponent.Input text="Título da Vaga:" name="title" style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.Input text="Faixa Salarial:" name="salary_range" style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.SelectPicker text="Modalidade de Contrato:" name="contract_mode" data={ContractsModeChoices} style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.SelectPicker text="Tipo de Vaga:" name="type_vacancy" data={TypeVacanciesChoices} style={styles.input} md={6} showHelpText={false} readOnly />
+                                </MainFormComponent.Row>
+                                <MainFormComponent.Row>
+                                    <MainFormComponent.SelectPicker text="Cargo:" name="role" data={RolesChoices ? RolesChoices : []} style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.SelectPicker text="Departamento:" name="department" data={DepartmentsChoices} style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.SelectPicker text="Filial:" name="branch" data={BranchesChoices} style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.SelectPicker text="Empresa:" name="company" data={CompanyChoices} style={styles.input} md={6} showHelpText={false} readOnly />
+                                </MainFormComponent.Row>
+                                <MainFormComponent.Row>
+                                    <MainFormComponent.DatePicker text="Previsão de Início:" name="date_expected_start" style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.DatePicker text="Data Relatada:" name="date_reported" style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.SelectPicker text="Prioridade:" name="priority" data={PrioritiesChoices} style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.Input text="Substituição:" name="replacement" style={styles.input} md={6} showHelpText={false} readOnly />
+                                </MainFormComponent.Row>
+                                <MainFormComponent.Row>
+                                    <MainFormComponent.Input text="Escala de Trabalho:" name="work_schedule" style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.SelectPicker text="Recrutador:" name="recruiter" data={RecruiterChoices} style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.Textarea text="Descrição:" name="description" style={styles.input} md={6} showHelpText={false} readOnly />
+                                </MainFormComponent.Row>
+                            </Panel>
+                            <Panel header="Informações de Preenchimento do RH">
+                                <MainFormComponent.Row>
+                                    <MainFormComponent.Input text="Email Gestor:" name="email_manager" style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.Input text="Email Gestor Regional:" name="email_regional_manager" style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.Input text="Email Gerente RH:" name="email_rh" style={styles.input} md={6} showHelpText={false} readOnly />
+                                    <MainFormComponent.Input text="Email Diretor:" name="email_director" style={styles.input} md={6} showHelpText={false} readOnly />
+                                </MainFormComponent.Row>
+                            </Panel>
+                        </>)
+                    }
                     <Panel header="Resultado Aprovação">
                         <MainFormComponent.Row>
-                            <MainFormComponent.Input text="Aprovação Gestor:" name="salary" />
-                            <MainFormComponent.Input text="Aprovação Gestor Regional:" name="college" showHelpText={false} />
-                            <MainFormComponent.Input text="Aprovação Gerente RH:" name="salary" />
-                            <MainFormComponent.Input text="Aprovação Diretor:" name="college" showHelpText={false} />
-                            <MainFormComponent.Textarea text="Comentário Gestor:" name="salary" />
-                            <MainFormComponent.Textarea text="Comentário Gestor Regional" name="college" showHelpText={false} />
-                            <MainFormComponent.Textarea text="Comentário Gerente RH" name="salary" />
-                            <MainFormComponent.Textarea text="Comentário Diretor:" name="college" showHelpText={false} />
+                            <MainFormComponent.Input text="Aprovação Gestor:" name="approval_manager" style={styles.input} md={6} showHelpText={false} readOnly />
+                            <MainFormComponent.Input text="Aprovação Gestor Regional:" name="approval_regional_manager" style={styles.input} md={6} showHelpText={false} readOnly />
+                            <MainFormComponent.Input text="Aprovação RH:" name="approval_rh" style={styles.input} md={6} showHelpText={false} readOnly />
+                            <MainFormComponent.Input text="Aprovação Diretor:" name="approval_director" style={styles.input} md={6} showHelpText={false} readOnly />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Textarea text="Comentário Gestor:" name="comment_manager" style={styles.input} md={6} showHelpText={false} readOnly />
+                            <MainFormComponent.Textarea text="Comentário Gestor Regional" name="comment_regional_manager" style={styles.input} md={6} showHelpText={false} readOnly />
+                            <MainFormComponent.Textarea text="Comentário RH" name="comment_rh" style={styles.input} md={6} showHelpText={false} readOnly />
+                            <MainFormComponent.Textarea text="Comentário Diretor:" name="comment_director" style={styles.input} md={6} showHelpText={false} readOnly />
                         </MainFormComponent.Row>
                     </Panel>
                     <Panel header="Status da Solicitação">
                         <MainFormComponent.Row>
-                            <MainFormComponent.Input text="Status de Liberação:" name="salary" />
+                            <MainFormComponent.Input text="Status de Liberação:" name="status" style={styles.input} showHelpText={false} readOnly />
                         </MainFormComponent.Row>
                     </Panel>
                 </MainModal.Body>
-                <MainModal.FooterForm name="Criar" close={close} />
+                {verifyPermission("employee_vacancy_admin") ?
+                    <MainModal.FooterForm name="Alterar" close={close} /> :
+                    <MainModal.FooterOne close={close} />
+                }
+
             </MainModal.Form>
-        );
-    });
+        )
+    })

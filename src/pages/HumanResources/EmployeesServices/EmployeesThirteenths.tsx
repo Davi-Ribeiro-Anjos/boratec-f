@@ -122,7 +122,7 @@ export default function EmployeesThirteenths({ }: EmployeesThirteenthsProps) {
     }, [])
     const toSend = useMemo<ColumnsInterface>(() => {
         return {
-            "Editar": { dataKey: "button", propsColumn: { width: 100 }, click: modalEdit, icon: EditIcon, auth: "employees_admin" },
+            "Editar": { dataKey: "button", propsColumn: { width: 100 }, click: modalEdit, icon: EditIcon, auth: "employee_admin" },
         }
     }, [])
 

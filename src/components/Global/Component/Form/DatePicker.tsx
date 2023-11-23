@@ -14,7 +14,7 @@ export default function MainDatePicker({ shouldDisableDate, helpText = "Obrigat√
         <Col xs={24} md={props.md ? props.md : 12}>
             <Form.Group>
                 <Form.ControlLabel>{props.text}</Form.ControlLabel>
-                <Form.Control style={props.style ? props.style : styles.input} name={props.name} format='dd/MM/yyyy' placeholder="SELECIONE UMA DATA" shouldDisableDate={shouldDisableDate ? shouldDisableDate : null} accepter={DatePicker} />
+                <Form.Control style={props.style ? props.style : styles.input} name={props.name} format='dd/MM/yyyy' placeholder="SELECIONE UMA DATA" shouldDisableDate={shouldDisableDate ? shouldDisableDate : null} readOnly={props.readOnly} accepter={DatePicker} />
                 {showHelpText &&
                     <Form.HelpText tooltip={tooltip}>{helpText}</Form.HelpText>
                 }
