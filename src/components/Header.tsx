@@ -70,9 +70,9 @@ export function MainHeader() {
                         {verifyPermission("employee") && (
                             <Nav.Item onClick={() => navigate("/rh/fichas-cadastrais")} eventKey="61">Fichas Cadastrais</Nav.Item>
                         )}
-                        {verifyPermission("employee_vacancy") && (
+                        {/* {verifyPermission("employee_vacancy") && (
                             <Nav.Item onClick={() => navigate("/rh/controles-vagas")} eventKey="62">Controle de Vagas</Nav.Item>
-                        )}
+                        )} */}
                     </Nav.Menu>
                 )}
                 {verifyPermission("tools") && (
@@ -98,7 +98,7 @@ export function MainHeader() {
                             <Nav.Item onClick={() => navigate("/comercial/justificativas")} eventKey="90">Justificativas</Nav.Item>
                         )}
                         {verifyPermission("delivery_history") && (
-                            <Nav.Item onClick={() => navigate("/comercial/consultas/justificativas")} eventKey="91">Consulta de Justificativas</Nav.Item>
+                            <Nav.Item onClick={() => navigate("/comercial/performance")} eventKey="91">Performances</Nav.Item>
                         )}
                     </Nav.Menu>
                 )}

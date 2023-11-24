@@ -21,14 +21,14 @@ interface Form {
     branch: typeof BranchesChoices | null;
 }
 
-interface ConsultJustificationCSVProps {
+interface PerformanceCSVProps {
     open: boolean;
     setOpen: (value: boolean) => void;
 }
 
 
-export const ConsultJustificationCSV = memo(
-    function ConsultJustificationCSV({ open, setOpen }: ConsultJustificationCSVProps) {
+export const PerformanceCSV = memo(
+    function PerformanceCSV({ open, setOpen }: PerformanceCSVProps) {
         const api = useApiDownload()
         const toaster = useToaster()
 
@@ -44,14 +44,13 @@ export const ConsultJustificationCSV = memo(
 
             if (body.date_selected) body.date_selected = DateToString(body.date_selected)
 
-            return await api.post('deliveries-histories/consult/export/', body)
+            return await api.post('deliveries-histories/performance/export/', body)
         }
 
         const { mutate } = useMutation({
-            mutationKey: ["consult-justification-csv"],
+            mutationKey: ["performance-csv"],
             mutationFn: generate,
             onSuccess: (response) => {
-                console.log(response)
                 FileDownload(response.data, "Relatório de Justificativas.csv")
 
                 close()

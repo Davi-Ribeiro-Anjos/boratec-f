@@ -1,17 +1,15 @@
 import DetailIcon from '@rsuite/icons/Detail';
 
-
 import { memo, useState } from "react";
 
-
 import { MainComponent } from "../Global/Component";
-import { ConsultJustification } from ".";
+import { Performance } from ".";
 
 
-interface ConsultJustificationHeaderProps { }
+interface PerformanceHeaderProps { }
 
 
-export const ConsultJustificationHeader = memo(function ConsultJustificationHeader({ }: ConsultJustificationHeaderProps) {
+export const PerformanceHeader = memo(function PerformanceHeader({ }: PerformanceHeaderProps) {
 
     const [openCSV, setOpenCSV] = useState(false)
 
@@ -19,7 +17,7 @@ export const ConsultJustificationHeader = memo(function ConsultJustificationHead
     return (
         <div>
             <MainComponent.ButtonHeader name="Gerar CSV" func={() => setOpenCSV(true)} icon={<DetailIcon />} color="blue" />
-            <ConsultJustification.CSV open={openCSV} setOpen={setOpenCSV} />
+            <Performance.CSV open={openCSV} setOpen={setOpenCSV} />
         </div>
     )
 })

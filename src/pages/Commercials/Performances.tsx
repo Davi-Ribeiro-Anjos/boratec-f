@@ -1,19 +1,18 @@
 import { Message, useToaster } from "rsuite";
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 
-import { useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
 import { AxiosError } from "axios";
 import { useApi, useApiDownload } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
 import { DateToString } from "../../services/Date";
 import { ColumnsInterface, DeliveryHistoryInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Global/Panel";
 import { MainMessage } from "../../components/Global/Message";
 import { MainTable } from "../../components/Global/Table";
-import { ConsultJustification } from "../../components/ConsultJustification";
+import { Performance } from "../../components/Performance";
 
 import FileDownload from 'js-file-download';
 
@@ -25,8 +24,7 @@ interface Filter {
 }
 
 
-export default function ConsultsJustifications() {
-    const { }: any = useContext(UserContext)
+export default function Performances() {
     const api = useApi()
     const apiDownload = useApiDownload()
     const toaster = useToaster()
@@ -72,7 +70,7 @@ export default function ConsultsJustifications() {
             throw toaster.push(message, { placement: "topEnd", duration: 4000 })
         }
 
-        const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/consult/", { params: { ...filter_ } })
+        const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/performance/", { params: { ...filter_ } })
 
         let dataRes = response.data
 
@@ -83,12 +81,12 @@ export default function ConsultsJustifications() {
                 if (line.date_delivery === "01/01/0001" || line.date_delivery === "01/01/1") line.date_delivery = null
                 if (line.lead_time === "01/01/0001" || line.lead_time === "01/01/1") line.lead_time = null
 
-                if (line.date_emission && line.opened <= 0) line.status = "NO PRAZO"
+                if (line.date_delivery && line.opened <= 0) line.status = "NO PRAZO"
+                else if (line.opened == 999) line.status = "SEM LEADTIME DEFINIDO"
                 else if (line.opened > 0) line.status = "FORA DO PRAZO"
-                else if (!line.date_emission) line.status = "NÃO ENTREGUE"
+                else if (!line.date_delivery) line.status = "EM ANDAMENTO"
 
                 dataRes[res] = line
-
             }
         }
         return response.data
@@ -137,8 +135,8 @@ export default function ConsultsJustifications() {
             "Status": { dataKey: "status", propsColumn: { width: 150 } },
             "Nota Fiscal": { dataKey: "nf", propsColumn: { width: 150 } },
             "Peso": { dataKey: "weight", propsColumn: { width: 150 } },
-            "Justificativa": { dataKey: "description_justification", propsColumn: { width: 200, fixed: "right" } },
-            "Anexo": { dataKey: "button", propsColumn: { width: 150, fixed: "right" }, click: download, icon: FileDownloadIcon },
+            "Justificativa": { dataKey: "description_justification", propsColumn: { width: 150, fixed: "right" } },
+            "Anexo": { dataKey: "button", propsColumn: { width: 100, fixed: "right" }, click: download, icon: FileDownloadIcon },
         }
     }, [])
 
@@ -146,12 +144,12 @@ export default function ConsultsJustifications() {
     return (
         <MainPanel.Root shaded>
 
-            <MainPanel.Header title="Consulta de Justificativas">
-                <ConsultJustification.Header />
+            <MainPanel.Header title="Performances">
+                <Performance.Header />
             </MainPanel.Header>
 
             <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >
-                <ConsultJustification.Filter />
+                <Performance.Filter />
                 <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 

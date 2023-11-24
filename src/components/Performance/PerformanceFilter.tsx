@@ -6,12 +6,12 @@ import { BranchesChoices } from "../../services/Choices";
 import { MainFormComponent } from "../Global/Component/Form";
 
 
-interface ConsultJustificationFilterProps { }
+interface PerformanceFilterProps { }
 
 const { allowedMaxDays, afterToday, combine }: any = DateRangePicker
 
 
-export function ConsultJustificationFilter({ }: ConsultJustificationFilterProps) {
+export function PerformanceFilter({ }: PerformanceFilterProps) {
 
     return (
         <MainFormComponent.Row>
