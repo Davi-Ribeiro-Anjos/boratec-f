@@ -12,7 +12,7 @@ export function ManualFilter({ SystemsChoices, ModulesChoices }: ManualFilterPro
         <>
             <MainFormComponent.Row>
                 <MainFormComponent.Input text="Título:" name="title__contains" showHelpText={false} />
-                <MainFormComponent.SelectPicker text="Módulo" name="module" data={ModulesChoices} showHelpText={false} />
+                <MainFormComponent.SelectPicker text="Módulo:" name="module" data={ModulesChoices} showHelpText={false} />
             </MainFormComponent.Row>
             <MainFormComponent.Row>
                 <MainFormComponent.SelectPicker text="Sistema:" name="system" data={SystemsChoices} showHelpText={false} />

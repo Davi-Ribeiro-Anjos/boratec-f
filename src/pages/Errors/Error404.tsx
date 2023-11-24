@@ -3,7 +3,11 @@ import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 
 import { useNavigate } from 'react-router-dom';
 
-import Imagem404 from '../../static/Images/404.svg';
+import Image404 from '../../static/Images/404.svg';
+
+interface Error404Interface {
+    name?: string;
+}
 
 const styles: any = {
     position: {
@@ -32,15 +36,15 @@ const styles: any = {
     }
 }
 
-export default function Error404() {
+export default function Error404({ name = "Home" }: Error404Interface) {
     const navigate = useNavigate();
 
     return (
         <div style={styles.position} >
-            <img style={styles.img} src={Imagem404} alt="Erro 404" />
+            <img style={styles.img} src={Image404} alt="Erro 404" />
             <p style={styles.p1}>Oops...</p>
-            <p style={styles.p2}>Lamentamos mas a página que procura não foi encontrada</p>
-            <IconButton onClick={() => navigate('/')} style={styles.input} icon={<PagePreviousIcon />} appearance='primary' >Ir para Home</IconButton>
+            <p style={styles.p2}>Lamentamos mas a página que procura não foi encontrada.</p>
+            <IconButton onClick={() => navigate('/')} style={styles.input} icon={<PagePreviousIcon />} appearance='primary' >Ir para {name}</IconButton>
         </div>
     )
 }

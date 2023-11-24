@@ -98,7 +98,7 @@ export default function QueriesNFs() {
     return (
         <MainPanel.Root>
 
-            <MainPanel.Header title="Consulta NF">
+            <MainPanel.Header title="Consulta de NF's">
             </MainPanel.Header>
 
             <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >

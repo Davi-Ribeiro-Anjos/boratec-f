@@ -9,7 +9,6 @@ const styles: { [key: string]: React.CSSProperties } = {
         alignItems: "center",
     },
     title: {
-        color: "black",
         marginTop: 20
     }
 

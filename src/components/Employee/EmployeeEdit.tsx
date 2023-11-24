@@ -3,7 +3,7 @@ import { useToaster, Panel, Message } from "rsuite";
 import { memo } from "react";
 import { useMutation } from "react-query";
 
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
 import { BranchesChoices, StatusEmployeeChoices } from "../../services/Choices";
 import { CompanyChoices } from "../../services/Choices";
@@ -68,17 +68,8 @@ export const EmployeeEdit = memo(
         const { mutate: employeesMutate } = useMutation({
             mutationKey: ["employees"],
             mutationFn: editEmployees,
-            onSuccess: (response: AxiosResponse) => {
-                const dataRes = response.data
-
-                queryClient.setQueryData(["employees"], (currentData: any) => {
-
-                    return currentData.map((employee: any) => {
-                        dataRes["bank_details"] = `BCO: ${dataRes.bank} | AG: ${dataRes.agency} | CC: ${dataRes.account}`
-
-                        return employee.id === dataRes.id ? dataRes : employee
-                    })
-                })
+            onSuccess: () => {
+                queryClient.invalidateQueries(["employees"])
 
                 MainMessage.Ok(toaster, "Sucesso - Funcionário cadastrado.")
 

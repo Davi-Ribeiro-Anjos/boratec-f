@@ -13,7 +13,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     }
 }
 
-export function ModalRoot({close, children, ...props }: ModalRootProps) {
+export function ModalRoot({ close, children, ...props }: ModalRootProps) {
     return (
         <Modal style={styles.modal} onClose={close} {...props} >
             {children}

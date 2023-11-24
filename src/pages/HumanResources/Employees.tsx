@@ -110,7 +110,7 @@ export default function Employees() {
     return (
         <MainPanel.Root shaded>
 
-            <MainPanel.Header title="Funcionários PJ">
+            <MainPanel.Header title="Funcionários PJ's">
                 <Employee.Header />
             </MainPanel.Header>
 

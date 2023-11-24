@@ -60,7 +60,7 @@ export default function EPIsControls() {
     return (
         <MainPanel.Root>
 
-            <MainPanel.Header title="Controle EPI's">
+            <MainPanel.Header title="Controle de EPI's">
                 <EPIControl.Header />
             </MainPanel.Header>
 
@@ -75,29 +75,3 @@ export default function EPIsControls() {
         </MainPanel.Root>
     )
 }
-// let dataFiltered: any = []
-// dataRes.map((group: EpiGroupInterface) => {
-//     const data: any = {
-//         group: group.name
-//     }
-
-//     group.epis_items.map((item) => {
-//         const data_item = {
-//             ...data,
-//             description: item.description,
-//             ca: item.ca,
-//             validity: item.validity
-//         }
-
-//         item.epis_sizes.map((size) => {
-//             const data_size = {
-//                 ...data_item,
-//                 size: size.size,
-//                 quantity: size.quantity
-//             }
-
-//             dataFiltered.push(data_size)
-//         })
-//     })
-// })
-// return dataFiltered
