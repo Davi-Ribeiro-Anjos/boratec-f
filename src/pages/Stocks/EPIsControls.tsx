@@ -12,7 +12,7 @@ import { ColumnsInterface, EpiGroupInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
-import { EPIControl } from "../../components/EPIControl";
+import { EPIControl } from "../../components/Stock/EPIControl";
 import { MainMessage } from "../../components/Global/Message";
 
 

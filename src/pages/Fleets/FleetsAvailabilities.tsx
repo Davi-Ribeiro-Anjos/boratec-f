@@ -13,7 +13,7 @@ import { UserContext } from "../../providers/UserProviders";
 
 import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
-import { FleetAvailability } from "../../components/FleetAvailability";
+import { FleetAvailability } from "../../components/Fleets/FleetAvailability";
 import { DateToString, StringToDate } from "../../services/Date";
 import { MainMessage } from "../../components/Global/Message";
 import { AxiosError, AxiosResponse } from "axios";

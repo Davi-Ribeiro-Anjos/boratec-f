@@ -10,7 +10,7 @@ import { ColumnsInterface, EmployeesInterface } from "../../services/Interfaces"
 
 import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
-import { Employee } from "../../components/Employee";
+import { Employee } from "../../components/HumanResource/Employee";
 import { AxiosError } from "axios";
 import { MainMessage } from "../../components/Global/Message";
 import { StringToDate } from "../../services/Date";

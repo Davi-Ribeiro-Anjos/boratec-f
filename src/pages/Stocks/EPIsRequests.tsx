@@ -12,7 +12,7 @@ import { ColumnsInterface, EpiRequestInterface } from "../../services/Interfaces
 
 import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
-import { EPIRequest } from "../../components/EPIRequest";
+import { EPIRequest } from "../../components/Stock/EPIRequest";
 import { MainMessage } from "../../components/Global/Message";
 import { DateToString } from "../../services/Date";
 

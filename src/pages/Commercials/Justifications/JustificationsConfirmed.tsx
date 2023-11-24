@@ -11,7 +11,7 @@ import { ColumnsInterface, DeliveryHistoryInterface } from "../../../services/In
 
 import { MainPanel } from "../../../components/Global/Panel";
 import { MainMessage } from "../../../components/Global/Message";
-import { JustificationConfirm } from "../../../components/JustificationConfirm";
+import { JustificationConfirm } from "../../../components/Commercial/JustificationConfirm";
 import { MainTable } from "../../../components/Global/Table";
 
 import FileDownload from 'js-file-download';

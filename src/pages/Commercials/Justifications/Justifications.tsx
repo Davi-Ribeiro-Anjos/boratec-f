@@ -11,7 +11,7 @@ import { DateToString } from "../../../services/Date";
 
 import { MainPanel } from "../../../components/Global/Panel";
 import { MainMessage } from "../../../components/Global/Message";
-import { Justification } from "../../../components/Justification";
+import { Justification } from "../../../components/Commercial/Justification";
 import { DeliveryHistoryInterface } from "../../../services/Interfaces";
 
 interface Filter {

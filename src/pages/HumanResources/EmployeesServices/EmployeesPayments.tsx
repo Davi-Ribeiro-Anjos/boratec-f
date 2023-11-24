@@ -11,8 +11,8 @@ import { queryClient } from "../../../services/QueryClient";
 
 import { MainPanel } from "../../../components/Global/Panel";
 import { MainMessage } from "../../../components/Global/Message";
-import { Payment } from "../../../components/EmployeeService/Payment";
-import { PaymentTable } from "../../../components/EmployeeService/Payment/PaymentTable";
+import { Payment } from "../../../components/HumanResource/EmployeeService/Payment";
+import { PaymentTable } from "../../../components/HumanResource/EmployeeService/Payment/PaymentTable";
 
 interface EmployeePaymentProps { }
 

@@ -10,7 +10,7 @@ import { baseUrl, useApi } from "../../hooks/Api";
 import { UserContext } from "../../providers/UserProviders";
 import { ColumnsInterface, PalletMovementInterface } from "../../services/Interfaces";
 
-import { PalletBranch } from "../../components/PalletBranch";
+import { PalletBranch } from "../../components/Pallet/PalletBranch";
 import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
 import { MainMessage } from "../../components/Global/Message";

@@ -13,7 +13,7 @@ import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
 import { AxiosError } from "axios";
 import { MainMessage } from "../../components/Global/Message";
-import { VacancyControl } from "../../components/VacancyControl";
+import { VacancyControl } from "../../components/HumanResource/VacancyControl";
 import { StringToDate } from "../../services/Date";
 
 interface Filter {

@@ -11,7 +11,7 @@ import { ColumnsInterface } from "../../services/Interfaces";
 import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
 import { MainMessage } from "../../components/Global/Message";
-import { PalletClient } from "../../components/PalletClient";
+import { PalletClient } from "../../components/Pallet/PalletClient";
 
 interface Filter {
     branch: number | null,

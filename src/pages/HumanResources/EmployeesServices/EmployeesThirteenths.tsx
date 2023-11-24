@@ -11,7 +11,7 @@ import { StringToDate } from "../../../services/Date";
 
 import { MainPanel } from "../../../components/Global/Panel";
 import { MainMessage } from "../../../components/Global/Message";
-import { Thirteenth } from "../../../components/EmployeeService/Thirteenth";
+import { Thirteenth } from "../../../components/HumanResource/EmployeeService/Thirteenth";
 import { MainTable } from "../../../components/Global/Table";
 
 interface EmployeesThirteenthsProps { }
