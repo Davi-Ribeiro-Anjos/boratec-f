@@ -20,12 +20,12 @@ export const EmployeeHeader = memo(function EmployeeHeader({ }: EmployeeHeaderPr
 
     return (
         <div>
-            <MainComponent.ButtonHeader name="Nova Funcionário" setOpen={setOpenCreate} icon={<PlusIcon />} color="green" />
+            <MainComponent.ButtonHeader name="Nova Funcionário" func={() => setOpenCreate(true)} icon={<PlusIcon />} color="green" />
             <Employee.Create open={openCreate} setOpen={setOpenCreate} />
 
             {verifyPermissionPage("employee_admin") && (
                 <>
-                    <MainComponent.ButtonHeader name="Serviços PJ" setOpen={setOpenService} icon={<MoreIcon />} color="cyan" />
+                    <MainComponent.ButtonHeader name="Serviços PJ" func={() => setOpenService(true)} icon={<MoreIcon />} color="cyan" />
                     <Employee.Service open={openService} setOpen={setOpenService} />
                 </>
             )}

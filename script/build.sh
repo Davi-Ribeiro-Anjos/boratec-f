@@ -2,7 +2,7 @@
 
 git restore .
 
-git pull
+git pull origin main
 
 npm run build
 

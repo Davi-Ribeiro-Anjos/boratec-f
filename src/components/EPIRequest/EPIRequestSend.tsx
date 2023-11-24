@@ -94,10 +94,6 @@ export const EPIRequestSend = memo(
             },
             onError: (error: any) => {
                 const listMessage = {
-                    observation: "Número Solicitação",
-                    service_order: "Filial",
-                    date_forecast: "Solicitante",
-                    date_release: "Anexo",
                     message: "Erro"
                 }
 

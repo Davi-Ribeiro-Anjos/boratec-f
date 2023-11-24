@@ -1,7 +1,6 @@
-import { Form, SelectPicker, Row, Col, InputNumber, useToaster, Panel, Input, DatePicker, Message } from "rsuite";
-import { styles } from "../../assets/styles";
+import { useToaster, Panel, Message } from "rsuite";
 
-import { memo, forwardRef } from "react";
+import { memo } from "react";
 import { useMutation } from "react-query";
 
 import { AxiosError, AxiosResponse } from "axios";
@@ -13,6 +12,7 @@ import { queryClient } from "../../services/QueryClient";
 
 import { MainMessage } from "../Global/Message";
 import { MainModal } from "../Global/Modal";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface EmployeeEditProps {
     open: boolean;
@@ -21,7 +21,6 @@ interface EmployeeEditProps {
     setRow: (value: any) => void;
 }
 
-const Textarea = forwardRef((props: any, ref: any) => <Input {...props} as="textarea" ref={ref} />)
 
 const cnpjMask = (value: string) => {
     return value
@@ -55,11 +54,10 @@ export const EmployeeEdit = memo(
             }
 
             body.name = body.name.toUpperCase()
-            body.email = body.email.toLowerCase()
             body.role = body.role.toUpperCase()
             body.bank = body.bank.toUpperCase()
+            if (body.email) body.email = body.email.toLowerCase()
             if (body.date_admission) body.date_admission = DateToString(body.date_admission)
-
 
             delete body.user
             delete body.pj_complements
@@ -121,6 +119,7 @@ export const EmployeeEdit = memo(
             if (body.advance_money) body.pj_complements.advance_money = Number(body.advance_money)
             if (body.covenant_discount) body.pj_complements.covenant_discount = Number(body.covenant_discount)
             if (body.others_discounts) body.pj_complements.others_discounts = Number(body.others_discounts)
+            if (body.subsistence_allowance) body.pj_complements.subsistence_allowance = Number(body.subsistence_allowance)
             if (body.observation) body.pj_complements.observation = body.observation.toUpperCase()
 
             delete body.pj_complements.data_emission
@@ -145,6 +144,7 @@ export const EmployeeEdit = memo(
                     advance_money: "Adiantamento",
                     covenant_discount: "Desconto Convênio",
                     others_discounts: "Outros Descontos",
+                    subsistence_allowance: "Ajuda de Custo",
                     observation: "Observação",
                 }
 
@@ -163,170 +163,60 @@ export const EmployeeEdit = memo(
                 <MainModal.Header title="Editar Funcionário" />
                 <MainModal.Body>
                     <Panel header="Informações Pessoais do Funcionário">
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Nome Completo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="name" accepter={Input} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group  >
-                                    <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="branch" data={BranchesChoices} accepter={SelectPicker} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Cargo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="role" accepter={Input} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Empresa:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="company" data={CompanyChoices} accepter={SelectPicker} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>CNPJ:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="cnpj" value={cnpjMask(row ? row.cnpj : "")} accepter={Input} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Data Admissão:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="date_admission" placeholder="DD/MM/AAAA" format="dd/MM/yyyy" accepter={DatePicker} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Status:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="status" data={StatusEmployeeChoices} accepter={SelectPicker} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Email:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="email" accepter={Input} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Input text="Nome Completo:" name="name" showHelpText={false} />
+                            <MainFormComponent.SelectPicker text="Filial:" name="branch" data={BranchesChoices} showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Input text="Cargo:" name="role" showHelpText={false} />
+                            <MainFormComponent.SelectPicker text="Empresa:" name="company" data={CompanyChoices} showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Input text="CNPJ:" name="cnpj" value={cnpjMask(row ? row.cnpj : "")} showHelpText={false} />
+                            <MainFormComponent.DatePicker text="Data Admissão:" name="date_admission" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.SelectPicker text="Status:" name="status" data={StatusEmployeeChoices} showHelpText={false} />
+                            <MainFormComponent.Input text="Email:" name="email" showHelpText={false} />
+                        </MainFormComponent.Row>
                     </Panel>
                     <Panel header="Informações Bancárias do Funcionário">
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Banco:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="bank" accepter={Input} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Agência:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="agency" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Conta:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="account" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Pix:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="pix" accepter={Input} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Input text="Banco:" name="bank" showHelpText={false} />
+                            <MainFormComponent.InputNumber text="Agência:" name="agency" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Conta:" name="account" showHelpText={false} />
+                            <MainFormComponent.Input text="Pix:" name="pix" showHelpText={false} />
+                        </MainFormComponent.Row>
                     </Panel>
                     <Panel header="Informações de Valores do Funcionário">
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Salário:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="salary" accepter={InputNumber} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Faculdade:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="college" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Ajuda de Custo:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="allowance" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Auxílio Moradia:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="housing_allowance" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Crédito Convênio:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="covenant_credit" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Outros Créditos:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="others_credits" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Adiantamento:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="advance_money" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                            <Col xs={12}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Desconto Convênio:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="covenant_discount" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={24}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Outros Descontos:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="others_discounts" accepter={InputNumber} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row style={styles.row}>
-                            <Col xs={24}>
-                                <Form.Group >
-                                    <Form.ControlLabel>Observação:</Form.ControlLabel>
-                                    <Form.Control style={styles.observation} rows={5} name="observation" value={row ? row.observation : ""} accepter={Textarea} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Salário:" name="salary" showHelpText={false} />
+                            <MainFormComponent.InputNumber text="Faculdade:" name="college" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Ajuda de Custo:" name="allowance" showHelpText={false} />
+                            <MainFormComponent.InputNumber text="Auxílio Moradia:" name="housing_allowance" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Crédito Convênio:" name="covenant_credit" showHelpText={false} />
+                            <MainFormComponent.InputNumber text="Outros Créditos:" name="others_credits" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Adiantamento:" name="advance_money" showHelpText={false} />
+                            <MainFormComponent.InputNumber text="Desconto Convênio:" name="covenant_discount" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.InputNumber text="Outros Descontos:" name="others_discounts" showHelpText={false} />
+                            <MainFormComponent.InputNumber text="Ajuda de Custo:" name="subsistence_allowance" showHelpText={false} />
+                        </MainFormComponent.Row>
+                        <MainFormComponent.Row>
+                            <MainFormComponent.Textarea text="Observação:" name="observation" showHelpText={false} />
+                        </MainFormComponent.Row>
                     </Panel>
                 </MainModal.Body>
-                <MainModal.FooterForm name="Criar" close={close} />
+                <MainModal.FooterForm name="Editar" close={close} />
             </MainModal.Form>
         );
     });

@@ -25,10 +25,11 @@ interface PaymentSendProps {
     open: boolean;
     setOpen: (value: boolean) => void;
     checkedKeys: number[];
+    setCheckedKeys: (value: any) => void;
 }
 
 
-export function PaymentSend({ open, setOpen, checkedKeys }: PaymentSendProps) {
+export function PaymentSend({ open, setOpen, checkedKeys, setCheckedKeys }: PaymentSendProps) {
     const api = useApi()
     const toaster = useToaster()
 
@@ -73,7 +74,7 @@ export function PaymentSend({ open, setOpen, checkedKeys }: PaymentSendProps) {
 
         delete body.period
 
-        return await api.post('employees/payments/emails/', body)
+        return await api.post('pj/complements/emails/', body)
     }
     const { mutate: SendEmail } = useMutation({
         mutationKey: ["employees-payments"],
@@ -99,7 +100,9 @@ export function PaymentSend({ open, setOpen, checkedKeys }: PaymentSendProps) {
     }
 
     const close = () => {
-        setOpen(false);
+        setOpen(false)
+
+        setCheckedKeys([])
 
         setData(initialData)
     }

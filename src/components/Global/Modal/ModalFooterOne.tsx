@@ -10,7 +10,7 @@ export function ModalFooterOne({ close, appearance = "subtle" }: ModalFooterOneP
     return (
         <Modal.Footer>
             <Button onClick={close} appearance={appearance}>
-                Cancelar
+                Fechar
             </Button>
         </Modal.Footer>
     )

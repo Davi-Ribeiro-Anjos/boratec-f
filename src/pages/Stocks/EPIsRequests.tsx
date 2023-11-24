@@ -136,7 +136,7 @@ export default function EPIsRequests() {
     return (
         <MainPanel.Root>
 
-            <MainPanel.Header title="Solicitações EPI's">
+            <MainPanel.Header title="Solicitações de EPI's">
                 <EPIRequest.Header />
             </MainPanel.Header>
 

@@ -15,7 +15,7 @@ export function JustificationFilter({ }: JustificationFilterProps) {
         <>
             <MainFormComponent.Row>
                 <MainFormComponent.DateRangePicker text="Período:" name="date_emission" shouldDisableDate={combine(allowedMaxDays(7), afterToday())} />
-                <MainFormComponent.SelectPicker text="Filial:" name="id_garage" data={BranchesChoices} showHelpText={false} />
+                <MainFormComponent.SelectPicker text="Filial:" name="branch_destination" data={BranchesChoices} showHelpText={false} />
             </MainFormComponent.Row>
         </>
     )

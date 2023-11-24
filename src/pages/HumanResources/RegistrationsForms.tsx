@@ -155,7 +155,7 @@ export default function RegistrationsForms() {
     return (
         <MainPanel.Root>
 
-            <MainPanel.Header title="Ficha Cadastral">
+            <MainPanel.Header title="Fichas Cadastrais">
                 <RegistrationForm.Header />
             </MainPanel.Header>
 

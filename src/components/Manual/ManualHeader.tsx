@@ -19,7 +19,7 @@ export const ManualHeader = memo(
             <>
                 {verifyPermissionPage("manual") && (
                     <>
-                        <MainComponent.ButtonHeader name="Adicionar Manual" setOpen={setOpen} color="green" icon={<PlusIcon />} />
+                        <MainComponent.ButtonHeader name="Adicionar Manual" func={() => setOpen(true)} color="green" icon={<PlusIcon />} />
                         <Manual.Create open={open} setOpen={setOpen} />
                     </>
                 )}

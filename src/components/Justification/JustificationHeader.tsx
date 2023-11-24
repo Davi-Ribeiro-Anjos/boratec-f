@@ -1,7 +1,6 @@
-import { IconButton, Message, Tooltip, Whisper, useToaster } from "rsuite";
+import { Message, useToaster } from "rsuite";
 import SendIcon from '@rsuite/icons/Send';
 import DocPassIcon from '@rsuite/icons/DocPass';
-import { styles } from "../../assets/styles";
 
 import { memo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +11,7 @@ import { DeliveryHistoryInterface } from "../../services/Interfaces";
 import { queryClient } from "../../services/QueryClient";
 
 import { MainMessage } from "../Global/Message";
+import { MainComponent } from "../Global/Component";
 
 
 interface JustificationHeaderProps {
@@ -75,13 +75,9 @@ export const JustificationHeader = memo(function JustificationHeader({ data }: J
 
     return (
         <div>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Lançar Justificativa</Tooltip>}>
-                <IconButton icon={<SendIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={send} />
-            </Whisper>
+            <MainComponent.ButtonHeader name="Lançar Justificativa" func={send} icon={<SendIcon />} color="green" />
             {verifyPermission("delivery_history_admin") &&
-                <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Confirmar Justificativa</Tooltip>}>
-                    <IconButton icon={<DocPassIcon />} appearance="primary" color="cyan" style={styles.iconButton} onClick={() => navigate('/comercial/justificativas/confirmar')} />
-                </Whisper>
+                <MainComponent.ButtonHeader name="Confirmar Justificativa" func={() => navigate('/comercial/justificativas/confirmar')} icon={<DocPassIcon />} color="cyan" />
             }
         </div>
     )

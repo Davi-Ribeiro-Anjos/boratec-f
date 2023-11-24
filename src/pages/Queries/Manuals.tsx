@@ -17,13 +17,14 @@ import FileDownload from 'js-file-download';
 
 interface Filter {
     title__contains: string | null;
-    module__contains: string | null;
+    module: string | null;
     system: string | null;
 }
 
 interface DataInterface {
     data: ManualInterface[],
     systems: any[];
+    modules: any[];
 }
 
 
@@ -36,7 +37,7 @@ export default function Manuals() {
     // FILTER
     const initialFilter: Filter = {
         title__contains: "",
-        module__contains: "",
+        module: null,
         system: null,
     }
     const [filter, setFilter] = useState(initialFilter)
@@ -47,10 +48,16 @@ export default function Manuals() {
 
     // DATA
     const [SystemsChoices, setSystemsChoices] = useState<any[]>([])
+    const [ModulesChoices, setModulesChoices] = useState<any[]>([])
     const searchData = async () => {
-        const response = await api.get<DataInterface>("queries/manuals/", { params: { ...filter } })
+        let filter_ = { ...filter }
+
+        if (filter_.title__contains) filter_.title__contains = filter_.title__contains.toUpperCase()
+
+        const response = await api.get<DataInterface>("queries/manuals/", { params: { ...filter_ } })
 
         setSystemsChoices(response.data.systems.map((value) => { return value.system }).map(item => ({ label: item, value: item })))
+        setModulesChoices(response.data.modules.map((value) => { return value.module }).map(item => ({ label: item, value: item })))
 
         return response.data.data
     }
@@ -98,7 +105,7 @@ export default function Manuals() {
             </MainPanel.Header>
 
             <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} defaultExpanded={false} >
-                <Manual.Filter SystemsChoices={SystemsChoices} />
+                <Manual.Filter SystemsChoices={SystemsChoices} ModulesChoices={ModulesChoices} />
                 <MainPanel.FilterFooter clear={clear} />
             </MainPanel.Filter>
 

@@ -51,7 +51,7 @@ export default function EmployeesPayments({ }: EmployeePaymentProps) {
         <MainPanel.Root shaded>
 
             <MainPanel.Header title="Pagamento Funcionários">
-                <Payment.Header checkedKeys={checkedKeys} />
+                <Payment.Header checkedKeys={checkedKeys} setCheckedKeys={setCheckedKeys} />
             </MainPanel.Header>
 
             <br />

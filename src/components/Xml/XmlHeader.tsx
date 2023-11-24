@@ -1,11 +1,10 @@
-import { IconButton, Tooltip, Whisper } from "rsuite";
 import PlusIcon from '@rsuite/icons/Plus';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
-import { styles } from "../../assets/styles";
 
 import { useState, memo } from "react";
 
 import { Xml } from ".";
+import { MainComponent } from "../Global/Component";
 
 // import { Xml } from ".";
 
@@ -22,12 +21,8 @@ export const XmlHeader = memo(function XmlHeader({ checkedKeys }: XmlHeaderProps
 
     return (
         <div>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Adicionar Xmls</Tooltip>}>
-                <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={() => setOpenCreate(true)} />
-            </Whisper>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Baixar Arquivos</Tooltip>}>
-                <IconButton icon={<FileDownloadIcon />} appearance="primary" color="blue" style={styles.iconButton} onClick={() => setOpenDownload(true)} />
-            </Whisper>
+            <MainComponent.ButtonHeader name="Adicionar Xmls" func={() => setOpenCreate(true)} icon={<PlusIcon />} color="green" />
+            <MainComponent.ButtonHeader name="Baixar Arquivos" func={() => setOpenDownload(true)} icon={<FileDownloadIcon />} color="blue" />
             <Xml.Create open={openCreate} setOpen={setOpenCreate} />
             <Xml.Download open={openDownload} setOpen={setOpenDownload} checkedKeys={checkedKeys} />
         </div>

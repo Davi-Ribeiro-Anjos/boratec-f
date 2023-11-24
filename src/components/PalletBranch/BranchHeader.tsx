@@ -1,11 +1,10 @@
-import { IconButton, Tooltip, Whisper } from "rsuite"
 import PlusIcon from '@rsuite/icons/Plus';
 import InfoOutlineIcon from '@rsuite/icons/InfoOutline';
-import { styles } from "../../assets/styles";
 
 import { useState, memo } from "react";
 
 import { PalletBranch } from ".";
+import { MainComponent } from "../Global/Component";
 
 interface BranchHeaderProps { }
 
@@ -18,12 +17,8 @@ export const BranchHeader = memo(
 
         return (
             <div>
-                <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Solicitar Transferência</Tooltip>}>
-                    <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={() => setOpenCreate(true)} />
-                </Whisper>
-                <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Quantidade por Filial</Tooltip>}>
-                    <IconButton icon={<InfoOutlineIcon />} appearance="primary" color="cyan" style={styles.iconButton} onClick={() => setOpenInfo(true)} />
-                </Whisper>
+                <MainComponent.ButtonHeader name="Solicitar Transferência" func={() => setOpenCreate(true)} icon={<PlusIcon />} color="green" />
+                <MainComponent.ButtonHeader name="Quantidade por Filial" func={() => setOpenInfo(true)} icon={<InfoOutlineIcon />} color="cyan" />
                 <PalletBranch.CreateTransfer open={openCreate} setOpen={setOpenCreate} />
                 <PalletBranch.Info open={openInfo} setOpen={setOpenInfo} />
             </div>

@@ -1,31 +1,21 @@
-import { Col, Form, Input, Row, SelectPicker } from "rsuite"
-import { styles } from "../../assets/styles";
+import { BranchesChoices, StatusEmployeeChoices } from "../../services/Choices";
 
-import { useContext } from "react"
-
-import { BranchesChoices } from "../../services/Choices";
-import { UserContext } from "../../providers/UserProviders";
+import { MainFormComponent } from "../Global/Component/Form";
 
 interface EmployeeFilterProps { }
 
 
 export function EmployeeFilter({ }: EmployeeFilterProps) {
-    const { userChoices } = useContext<any>(UserContext)
 
     return (
-        <Row style={styles.row}>
-            <Col xs={12}>
-                <Form.Group >
-                    <Form.ControlLabel>Funcionário: </Form.ControlLabel>
-                    <Form.Control style={styles.input} name="name__contains" data={userChoices} accepter={Input} />
-                </Form.Group>
-            </Col>
-            <Col xs={12}>
-                <Form.Group >
-                    <Form.ControlLabel>Filial: </Form.ControlLabel>
-                    <Form.Control style={styles.input} name="branch" data={BranchesChoices} accepter={SelectPicker} />
-                </Form.Group>
-            </Col>
-        </Row>
+        <>
+            <MainFormComponent.Row>
+                <MainFormComponent.Input text="Funcionário:" name="name__contains" showHelpText={false} />
+                <MainFormComponent.SelectPicker text="Filial:" name="branch" data={BranchesChoices} showHelpText={false} />
+            </MainFormComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.SelectPicker text="Status:" name="status" data={StatusEmployeeChoices} showHelpText={false} />
+            </MainFormComponent.Row>
+        </>
     )
 }

@@ -1,13 +1,12 @@
-import { IconButton, Tooltip, Whisper } from "rsuite"
 import PlusIcon from '@rsuite/icons/Plus';
 import ExitIcon from '@rsuite/icons/Exit';
 import MemberIcon from '@rsuite/icons/Member';
-import { styles } from "../../assets/styles";
 
 import { useState, memo, useContext } from "react";
 
 import { PalletClient } from ".";
 import { UserContext } from "../../providers/UserProviders";
+import { MainComponent } from "../Global/Component";
 
 interface ClientHeaderProps { }
 
@@ -24,17 +23,12 @@ export const ClientHeader = memo(
 
         return (
             <div>
-                <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Cadastrar Entrada</Tooltip>}>
-                    <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconButton} onClick={() => setOpenEntry(true)} />
-                </Whisper>
-                <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Cadastrar Saída</Tooltip>}>
-                    <IconButton icon={<ExitIcon />} appearance="primary" color="red" style={styles.iconButton} onClick={() => setOpenExit(true)} />
-                </Whisper>
+                <MainComponent.ButtonHeader name="Cadastrar Entrada" func={() => setOpenEntry(true)} icon={<PlusIcon />} color="green" />
+                <MainComponent.ButtonHeader name="Cadastrar Saída" func={() => setOpenExit(true)} icon={<ExitIcon />} color="red" />
                 {verifyPermission("pallet_client_admin") && (
-                    <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Cadastrar Cliente</Tooltip>}>
-                        <IconButton icon={<MemberIcon />} appearance="primary" color="blue" style={styles.iconButton} onClick={() => setOpenCreate(true)} />
-                    </Whisper>
+                    <MainComponent.ButtonHeader name="Cadastrar Cliente" func={() => setOpenCreate(true)} icon={<MemberIcon />} color="blue" />
                 )}
+
                 <PalletClient.Create open={openCreate} setOpen={setOpenCreate} />
                 <PalletClient.Entry open={openEntry} setOpen={setOpenEntry} />
                 <PalletClient.Exit open={openExit} setOpen={setOpenExit} />

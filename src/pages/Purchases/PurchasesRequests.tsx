@@ -140,7 +140,7 @@ export default function PurchasesRequests() {
 
     return (
         <MainPanel.Root shaded>
-            <MainPanel.Header title="Solicitações compras">
+            <MainPanel.Header title="Solicitações de Compras">
                 <PurchaseRequest.Header refetch={refetch} />
             </MainPanel.Header>
 

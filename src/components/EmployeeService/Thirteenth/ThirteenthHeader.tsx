@@ -1,30 +1,33 @@
-import { IconButton, Tooltip, Whisper } from 'rsuite';
 import PlusIcon from '@rsuite/icons/Plus';
 import ArowBackIcon from '@rsuite/icons/ArowBack';
-import { styles } from '../../../assets/styles';
+import SendIcon from '@rsuite/icons/Send';
 
 import { useState, memo } from "react";
 import { useNavigate } from 'react-router-dom';
 
-import { MainComponent } from "../../Global/Component";
 import { Thirteenth } from '.';
+import { MainComponent } from "../../Global/Component";
 
-interface ThirteenthHeaderProps { }
+interface ThirteenthHeaderProps {
+    checkedKeys: number[];
+    setCheckedKeys: any;
+}
 
 
-export const ThirteenthHeader = memo(function ThirteenthHeader({ }: ThirteenthHeaderProps) {
 
+export const ThirteenthHeader = memo(function ThirteenthHeader({ checkedKeys, setCheckedKeys }: ThirteenthHeaderProps) {
     const navigate = useNavigate()
 
     const [openCreate, setOpenCreate] = useState(false)
+    const [openSend, setOpenSend] = useState(false)
 
     return (
         <div>
-            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Voltar para Funcionários PJ</Tooltip>}>
-                <IconButton icon={<ArowBackIcon />} appearance="primary" color="cyan" style={styles.iconButton} onClick={() => navigate("/rh/funcionarios-pj")} />
-            </Whisper>
-            <MainComponent.ButtonHeader name="Novo 13º" setOpen={setOpenCreate} icon={<PlusIcon />} color="green" />
+            <MainComponent.ButtonHeader name="Voltar para Funcionários PJ" func={() => navigate("/rh/funcionarios-pj")} icon={<ArowBackIcon />} color="cyan" />
+            <MainComponent.ButtonHeader name="Novo 13º" func={() => setOpenCreate(true)} icon={<PlusIcon />} color="green" />
+            <MainComponent.ButtonHeader name="Enviar Email" func={() => setOpenSend(true)} icon={<SendIcon />} color="blue" />
             <Thirteenth.Create open={openCreate} setOpen={setOpenCreate} />
+            <Thirteenth.Send open={openSend} setOpen={setOpenSend} checkedKeys={checkedKeys} setCheckedKeys={setCheckedKeys} />
         </div>
     )
 })

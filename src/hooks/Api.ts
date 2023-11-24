@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCookie } from "../services/Cookies";
 
-const dev = false
+const dev = true
 
 export const baseUrl = dev ? "http://127.0.0.1:8000" : "https://back.bora.tec.br"
 

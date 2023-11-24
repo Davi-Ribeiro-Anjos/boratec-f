@@ -51,41 +51,44 @@ export function MainHeader() {
                 {verifyPermission("fleets") && (
                     <Nav.Menu title="Frotas">
                         {verifyPermission("fleet_availability") && (
-                            <Nav.Item onClick={() => navigate("/frotas/disponibilidades")} eventKey="40">Disponibilidade Frota</Nav.Item>
+                            <Nav.Item onClick={() => navigate("/frotas/disponibilidades")} eventKey="40">Disponibilidade de Frotas</Nav.Item>
                         )}
                     </Nav.Menu>
                 )}
                 {verifyPermission("purchases") && (
                     <Nav.Menu title="Compras">
                         {verifyPermission("purchase_request") && (
-                            <Nav.Item onClick={() => navigate("/compras/solicitacoes-compras")} eventKey="50">Solicitações Compras</Nav.Item>
+                            <Nav.Item onClick={() => navigate("/compras/solicitacoes-compras")} eventKey="50">Solicitações de Compras</Nav.Item>
                         )}
                     </Nav.Menu>
                 )}
-                {verifyPermission("tools_rh") && (
-                    <Nav.Menu title="Ferramentas RH">
-                        {verifyPermission("employee") && (
-                            <Nav.Item onClick={() => navigate("/rh/funcionarios-pj")} eventKey="60">Funcionários PJ</Nav.Item>
+                {verifyPermission("humans_resources") && (
+                    <Nav.Menu title="Recursos Humanos">
+                        {verifyPermission("employee_admin") && (
+                            <Nav.Item onClick={() => navigate("/rh/funcionarios-pj")} eventKey="60">Funcionários PJ's</Nav.Item>
                         )}
                         {verifyPermission("employee") && (
-                            <Nav.Item onClick={() => navigate("/rh/fichas-cadastrais")} eventKey="61">Ficha Cadastral</Nav.Item>
+                            <Nav.Item onClick={() => navigate("/rh/fichas-cadastrais")} eventKey="61">Fichas Cadastrais</Nav.Item>
+                        )}
+                        {verifyPermission("employee_vacancy") && (
+                            <Nav.Item onClick={() => navigate("/rh/controles-vagas")} eventKey="62">Controle de Vagas</Nav.Item>
                         )}
                     </Nav.Menu>
                 )}
                 {verifyPermission("tools") && (
                     <Nav.Menu title="Ferramentas">
                         {verifyPermission("xml") && (
-                            <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XMLS</Nav.Item>
+                            <Nav.Item onClick={() => navigate("/ferramentas/xmls")} eventKey="70">XML's</Nav.Item>
                         )}
                     </Nav.Menu>
                 )}
                 {verifyPermission("stocks") && (
                     <Nav.Menu title="Estoques">
-                        {verifyPermission("stocks_epis") && (
-                            <Nav.Item onClick={() => navigate("/estoques/epis/solicitacoes")} eventKey="80">Solicitações EPI's</Nav.Item>
+                        {verifyPermission("stock_epi") && (
+                            <Nav.Item onClick={() => navigate("/estoques/epis/solicitacoes")} eventKey="80">Solicitações de EPI's</Nav.Item>
                         )}
-                        {verifyPermission("stocks_epis_admin") && (
-                            <Nav.Item onClick={() => navigate("/estoques/epis/controles")} eventKey="81">Controle EPI's</Nav.Item>
+                        {verifyPermission("stock_epi_admin") && (
+                            <Nav.Item onClick={() => navigate("/estoques/epis/controles")} eventKey="81">Controle de EPI's</Nav.Item>
                         )}
                     </Nav.Menu>
                 )}
@@ -97,7 +100,7 @@ export function MainHeader() {
                     </Nav.Menu>
                 )}
                 <Nav.Menu title="Consultas">
-                    <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta NF</Nav.Item>
+                    <Nav.Item onClick={() => navigate("/consultas/nf")} eventKey="100">Consulta de NF's</Nav.Item>
                     <Nav.Item onClick={() => navigate("/consultas/manuais")} eventKey="101">Manuais</Nav.Item>
                 </Nav.Menu>
                 <Nav pullRight>

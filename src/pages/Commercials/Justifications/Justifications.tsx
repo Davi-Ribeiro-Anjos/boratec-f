@@ -20,7 +20,7 @@ interface Filter {
     date_emission: any;
     date_emission__gte: any;
     date_emission__lte: any;
-    id_garage: number | null;
+    branch_destination: number | null;
     confirmed: boolean;
 }
 
@@ -38,7 +38,7 @@ export default function Justifications() {
         date_emission: null,
         date_emission__gte: null,
         date_emission__lte: null,
-        id_garage: null,
+        branch_destination: null,
         confirmed: false,
     }
     const [filter, setFilter] = useState<Filter>({ ...initialFilter })
@@ -61,6 +61,14 @@ export default function Justifications() {
             let message = (
                 <Message showIcon type="error" closable >
                     Selecione um Período.
+                </ Message>
+            )
+            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+        }
+        if (!filter_.branch_destination) {
+            let message = (
+                <Message showIcon type="error" closable >
+                    Selecione uma Filial.
                 </ Message>
             )
             throw toaster.push(message, { placement: "topEnd", duration: 4000 })

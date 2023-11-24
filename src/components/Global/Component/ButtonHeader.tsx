@@ -3,14 +3,14 @@ import { styles } from "../../../assets/styles";
 
 interface ButtonHeaderInterface extends IconButtonProps {
     name: string;
-    setOpen: any;
+    func: any;
 }
 
 
-export default function MainButtonHeader({ name, setOpen, ...props }: ButtonHeaderInterface) {
+export default function MainButtonHeader({ name, func, ...props }: ButtonHeaderInterface) {
     return (
         <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>{name}</Tooltip>}>
-            <IconButton {...props} appearance="primary" style={styles.iconButton} onClick={() => setOpen(true)} />
+            <IconButton {...props} appearance="primary" style={styles.iconButton} onClick={func} />
         </Whisper>
     )
 }

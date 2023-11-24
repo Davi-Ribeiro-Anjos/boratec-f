@@ -210,7 +210,7 @@ export default function FleetsAvailabilities() {
     return (
         <MainPanel.Root>
 
-            <MainPanel.Header title="Disponibilidade Frota">
+            <MainPanel.Header title="Disponibilidade de Frotas">
             </MainPanel.Header>
 
             {verifyPermission("fleet_availability_admin") && (
