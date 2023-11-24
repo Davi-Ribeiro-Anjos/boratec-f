@@ -69,7 +69,7 @@ export function JustificationTable({ data, setData, isLoading }: JustificationTa
                     <SelectCell dataKey="description_justification" onChange={handleChange} />
                 </Column>
 
-                <Column width={110} align='center' fixed='left'>
+                <Column width={150} align='center' fixed='left'>
                     <HeaderCell>Anexo</HeaderCell>
                     <FileCell dataKey="file" onChange={handleChange} />
                 </Column>

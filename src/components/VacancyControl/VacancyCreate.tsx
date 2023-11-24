@@ -35,7 +35,7 @@ const DepartmentsChoices = [
     { label: "TI", value: "TI" },
 ]
 
-export const BranchesChoices = [
+const BranchesChoices = [
     { label: 'SPO', value: 1 },
     { label: 'REC', value: 2 },
     { label: 'SSA', value: 3 },

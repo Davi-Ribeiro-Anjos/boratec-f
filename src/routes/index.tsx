@@ -7,7 +7,7 @@ import Home from "../pages/Home/Home.tsx";
 import Error404 from "../pages/Errors/Error404.tsx";
 import Error403 from "../pages/Errors/Error403.tsx";
 import Login from "../pages/Login/Login.tsx";
-import ForgetPassword from "../pages/Login/ForgetPassword.tsx";
+// import ForgetPassword from "../pages/Login/ForgetPassword.tsx";
 
 // const Login = lazy(() => import("../pages/Login/Login.tsx"));
 // const ForgetPassword = lazy(() => import("../pages/Login/ForgetPassword.tsx"));
@@ -25,6 +25,7 @@ const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
 const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
 const Justifications = lazy(() => import("../pages/Commercials/Justifications/Justifications.tsx"));
 const JustificationsConfirmed = lazy(() => import("../pages/Commercials/Justifications/JustificationsConfirmed.tsx"));
+const ConsultsJustifications = lazy(() => import("../pages/Commercials/ConsultsJustifications.tsx"));
 const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
 const Manuals = lazy(() => import("../pages/Queries/Manuals.tsx"));
 
@@ -144,6 +145,13 @@ export function MainRoutes() {
                     </Suspense>
                 )
             } />
+            <Route path="/comercial/consultas/justificativas" element={
+                verifyPermissionPage("delivery_history") && (
+                    <Suspense>
+                        <ConsultsJustifications />
+                    </Suspense>
+                )
+            } />
             <Route path="/consultas/nf" element={
                 <Suspense>
                     <QueriesNFs />
@@ -179,9 +187,9 @@ export function NoPermissionRoutes() {
                     <Login />
                 </Suspense>
             } />
-            <Route path="/recuperar-senha" element={
+            {/* <Route path="/recuperar-senha" element={
                 <ForgetPassword />
-            } />
+            } /> */}
             <Route path="*" element={
                 <Error404 name="Login" />
             } />

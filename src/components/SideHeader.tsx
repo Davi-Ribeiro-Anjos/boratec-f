@@ -96,6 +96,9 @@ export function MainSideHeader() {
                             {verifyPermission("delivery_history") && (
                                 <Nav.Item onClick={() => navigate("/comercial/justificativas")} eventKey="90">Justificativas</Nav.Item>
                             )}
+                            {verifyPermission("delivery_history") && (
+                                <Nav.Item onClick={() => navigate("/comercial/consultas/justificativas")} eventKey="91">Consulta de Justificativas</Nav.Item>
+                            )}
                         </Nav.Menu>
                     )}
                     <Nav.Menu title="Consultas">

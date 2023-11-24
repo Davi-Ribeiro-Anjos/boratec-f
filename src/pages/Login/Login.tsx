@@ -126,7 +126,7 @@ export default function Login() {
                                         <Form.Group>
                                             <ButtonToolbar>
                                                 <Button appearance="primary" type="submit">Entrar</Button>
-                                                <Button appearance="link" style={styles.label} onClick={() => navigate("/recuperar-senha")}> Esqueceu a senha?</Button>
+                                                {/* <Button appearance="link" style={styles.label} onClick={() => navigate("/recuperar-senha")}> Esqueceu a senha?</Button> */}
                                             </ButtonToolbar>
                                         </Form.Group>
                                     </Form>
