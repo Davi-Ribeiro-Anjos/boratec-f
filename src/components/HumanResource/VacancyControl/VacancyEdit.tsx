@@ -161,7 +161,7 @@ export const VacancyEdit = memo(
 
             MainMessage.Info(toaster, "Emails estão sendo enviados...")
 
-            return await api.patch('vacancies/emails/', body)
+            return await api.post('vacancies/emails/', body)
         }
 
         const { mutate: mutateEmail } = useMutation({

@@ -69,9 +69,9 @@ export function MainSideHeader() {
                             {verifyPermission("employee") && (
                                 <Nav.Item onClick={() => navigate("/rh/fichas-cadastrais")} eventKey="61">Fichas Cadastrais</Nav.Item>
                             )}
-                            {/* {verifyPermission("employee_vacancy") && (
+                            {verifyPermission("employee_vacancy") && (
                                 <Nav.Item onClick={() => navigate("/rh/controles-vagas")} eventKey="62">Controle de Vagas</Nav.Item>
-                            )} */}
+                            )}
                         </Nav.Menu>
                     )}
                     {verifyPermission("tools") && (
