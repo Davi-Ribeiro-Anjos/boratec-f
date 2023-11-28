@@ -110,6 +110,7 @@ export default function StatusDeliveries() {
             "Destinatário": { dataKey: "recipient", propsColumn: { width: 200 } },
             "Data Emissão": { dataKey: "date_emission", propsColumn: { width: 130 } },
             "Lead Time": { dataKey: "lead_time", propsColumn: { width: 130 } },
+            "Data Entrega": { dataKey: "date_delivery", propsColumn: { width: 130 } },
             "Nota Fiscal": { dataKey: "nf", propsColumn: { width: 170 } },
             "Peso": { dataKey: "weight", propsColumn: { width: 100 } },
             "Filial Origem": { dataKey: "branch_issuing.abbreviation", propsColumn: { width: 100 } },
