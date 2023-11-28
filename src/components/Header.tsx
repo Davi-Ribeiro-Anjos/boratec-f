@@ -100,7 +100,7 @@ export function MainHeader() {
                         {verifyPermission("delivery_history") && (
                             <Nav.Item onClick={() => navigate("/comercial/performances")} eventKey="91">Performances</Nav.Item>
                         )}
-                        {verifyPermission("delivery_history") && (
+                        {verifyPermission("delivery_status") && (
                             <Nav.Item onClick={() => navigate("/comercial/status-entregas")} eventKey="92">Status das Entregas</Nav.Item>
                         )}
                     </Nav.Menu>

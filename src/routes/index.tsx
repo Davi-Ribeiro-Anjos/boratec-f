@@ -154,7 +154,7 @@ export function MainRoutes() {
                 )
             } />
             <Route path="/comercial/status-entregas" element={
-                verifyPermissionPage("delivery_history") && (
+                verifyPermissionPage("delivery_status") && (
                     <Suspense>
                         <StatusDeliveries />
                     </Suspense>
