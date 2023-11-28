@@ -26,6 +26,7 @@ const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
 const Justifications = lazy(() => import("../pages/Commercials/Justifications/Justifications.tsx"));
 const JustificationsConfirmed = lazy(() => import("../pages/Commercials/Justifications/JustificationsConfirmed.tsx"));
 const Performances = lazy(() => import("../pages/Commercials/Performances.tsx"));
+const StatusDeliveries = lazy(() => import("../pages/Commercials/StatusDeliveries.tsx"));
 const QueriesNFs = lazy(() => import("../pages/Queries/QueriesNF.tsx"));
 const Manuals = lazy(() => import("../pages/Queries/Manuals.tsx"));
 
@@ -145,10 +146,17 @@ export function MainRoutes() {
                     </Suspense>
                 )
             } />
-            <Route path="/comercial/performance" element={
+            <Route path="/comercial/performances" element={
                 verifyPermissionPage("delivery_history") && (
                     <Suspense>
                         <Performances />
+                    </Suspense>
+                )
+            } />
+            <Route path="/comercial/status-entregas" element={
+                verifyPermissionPage("delivery_history") && (
+                    <Suspense>
+                        <StatusDeliveries />
                     </Suspense>
                 )
             } />
