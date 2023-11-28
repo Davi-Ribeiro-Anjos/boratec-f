@@ -51,7 +51,7 @@ export const StatusDeliveryCSV = memo(
             mutationKey: ["performance-csv"],
             mutationFn: generate,
             onSuccess: (response) => {
-                FileDownload(response.data, "Relatório de Justificativas.csv")
+                FileDownload(response.data, "Relatório de Status de Entrega.csv")
 
                 close()
             },
