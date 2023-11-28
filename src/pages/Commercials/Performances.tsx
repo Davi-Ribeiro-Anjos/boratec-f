@@ -12,7 +12,7 @@ import { ColumnsInterface, DeliveryHistoryInterface } from "../../services/Inter
 import { MainPanel } from "../../components/Global/Panel";
 import { MainMessage } from "../../components/Global/Message";
 import { MainTable } from "../../components/Global/Table";
-import { Performance } from "../../components/Performance";
+import { Performance } from "../../components/Commercial/Performance";
 
 import FileDownload from 'js-file-download';
 

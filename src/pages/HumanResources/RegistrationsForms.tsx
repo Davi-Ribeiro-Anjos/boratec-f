@@ -14,7 +14,7 @@ import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
 import { UserContext } from "../../providers/UserProviders";
 import { MainMessage } from "../../components/Global/Message";
-import { RegistrationForm } from "../../components/RegistrationForm";
+import { RegistrationForm } from "../../components/HumanResource/RegistrationForm";
 
 interface Filter {
     name__contains: string;

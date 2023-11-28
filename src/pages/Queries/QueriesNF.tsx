@@ -10,7 +10,7 @@ import { ColumnsInterface, QueryNFInterface } from "../../services/Interfaces";
 import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
 import { useApi } from "../../hooks/Api";
-import { QueryNF } from "../../components/QueryNF";
+import { QueryNF } from "../../components/Query/QueryNF";
 import { MainMessage } from "../../components/Global/Message";
 import { AxiosError } from "axios";
 

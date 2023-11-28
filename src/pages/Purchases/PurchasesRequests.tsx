@@ -13,8 +13,8 @@ import { DateToString, StringToDate } from "../../services/Date";
 
 import { MainTable } from "../../components/Global/Table"
 import { MainPanel } from "../../components/Global/Panel"
-import { Annotation } from "../../components/PurchaseRequest/Annotation";
-import { PurchaseRequest } from "../../components/PurchaseRequest";
+import { Annotation } from "../../components/Purchase/PurchaseRequest/Annotation";
+import { PurchaseRequest } from "../../components/Purchase/PurchaseRequest";
 import { MainMessage } from "../../components/Global/Message";
 
 interface Filter {

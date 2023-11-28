@@ -1,0 +1,36 @@
+import { memo } from "react";
+
+import { ColumnsInterface } from "../../../services/Interfaces";
+
+import { MainModal } from "../../Global/Modal";
+import { MainTable } from "../../Global/Table";
+
+interface JustificationOccurrenceProps {
+    row: any[];
+    open: boolean;
+    setOpen: (value: boolean) => void;
+}
+
+
+export const JustificationOccurrence = memo(
+    function JustificationOccurrence({ row, open, setOpen }: JustificationOccurrenceProps) {
+        const close = () => {
+            setOpen(false);
+        }
+
+        const columns: ColumnsInterface = {
+            "Descrição da Ocorrência": { dataKey: "occurrence_description", propsColumn: { flexGrow: 1 } },
+            "Data da Ocorrência": { dataKey: "date_emission", propsColumn: { flexGrow: 1 } },
+        }
+
+        return (
+            <MainModal.Root open={open} close={close} size="sm" overflow={false}>
+                <MainModal.Header title="Lista de Ocorrências" />
+                <MainModal.Body>
+                    <MainTable.Root data={row} columns={columns} isLoading={false} pagination={false}
+                        bordered cellBordered autoHeight />
+                </MainModal.Body>
+                <MainModal.FooterOne close={close} />
+            </MainModal.Root>
+        );
+    });

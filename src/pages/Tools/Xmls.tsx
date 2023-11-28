@@ -7,7 +7,7 @@ import { AxiosError } from "axios";
 import { useApi } from "../../hooks/Api";
 import { ColumnsInterface, XmlInterface } from "../../services/Interfaces";
 
-import { Xml } from "../../components/Xml";
+import { Xml } from "../../components/Tool/Xml";
 import { MainPanel } from "../../components/Global/Panel";
 import { MainMessage } from "../../components/Global/Message";
 import { MainTable } from "../../components/Global/Table";

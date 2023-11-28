@@ -8,7 +8,7 @@ import { AxiosError } from "axios";
 import { useApi, useApiDownload } from "../../hooks/Api";
 import { ColumnsInterface, ManualInterface } from "../../services/Interfaces";
 
-import { Manual } from "../../components/Manual";
+import { Manual } from "../../components/Query/Manual";
 import { MainPanel } from "../../components/Global/Panel";
 import { MainTable } from "../../components/Global/Table";
 import { MainMessage } from "../../components/Global/Message";
