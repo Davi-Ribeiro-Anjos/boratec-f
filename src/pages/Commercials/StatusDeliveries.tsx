@@ -112,6 +112,7 @@ export default function StatusDeliveries() {
             "Lead Time": { dataKey: "lead_time", propsColumn: { width: 130 } },
             "Nota Fiscal": { dataKey: "nf", propsColumn: { width: 170 } },
             "Peso": { dataKey: "weight", propsColumn: { width: 100 } },
+            "Filial Origem": { dataKey: "branch_issuing.abbreviation", propsColumn: { width: 120 } },
             "Cidade": { dataKey: "branch_destination.name", propsColumn: { width: 130 } },
             "UF": { dataKey: "branch_destination.uf", propsColumn: { width: 100 } },
             "Filial": { dataKey: "branch_destination.abbreviation", propsColumn: { width: 100 } },
@@ -125,7 +126,7 @@ export default function StatusDeliveries() {
         <MainPanel.Root shaded>
 
             <MainPanel.Header title="Status das Entregas">
-                <StatusDelivery.Header />
+                <StatusDelivery.Header filter={filter} />
             </MainPanel.Header>
 
             <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} >
