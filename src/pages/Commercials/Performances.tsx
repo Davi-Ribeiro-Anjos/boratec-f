@@ -17,6 +17,8 @@ import { Performance } from "../../components/Commercial/Performance";
 import FileDownload from 'js-file-download';
 
 interface Filter {
+    cte: number | null;
+    nf: number | null;
     date_emission: any;
     date_emission__gte: any;
     date_emission__lte: any;
@@ -32,6 +34,8 @@ export default function Performances() {
 
     // FILTER
     const initialFilter = {
+        cte: null,
+        nf: null,
         date_emission: null,
         date_emission__gte: null,
         date_emission__lte: null,
@@ -48,26 +52,28 @@ export default function Performances() {
     const searchData = async () => {
         let filter_ = { ...filter }
 
+
+        if (!filter_.cte && !filter_.nf && !filter_.date_emission) {
+            let message = (
+                <Message showIcon type="error" closable >
+                    Selecione pelo menos um dos seguintes filtros CTE, NF ou Pedíodo.
+                </ Message>
+            )
+            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+        } else if (filter_.date_emission && !filter_.branch_destination) {
+            let message = (
+                <Message showIcon type="error" closable >
+                    Selecione um Período e uma Filial.
+                </ Message>
+            )
+            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+        }
+
         if (filter_.date_emission) {
             filter_.date_emission__gte = DateToString(filter_.date_emission[0])
             filter_.date_emission__lte = DateToString(filter_.date_emission[1])
 
             delete filter_.date_emission
-        } else {
-            let message = (
-                <Message showIcon type="error" closable >
-                    Selecione um Período.
-                </ Message>
-            )
-            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
-        }
-        if (!filter_.branch_destination) {
-            let message = (
-                <Message showIcon type="error" closable >
-                    Selecione uma Filial.
-                </ Message>
-            )
-            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
         }
 
         const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/performance/", { params: { ...filter_ } })

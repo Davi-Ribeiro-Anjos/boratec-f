@@ -14,9 +14,15 @@ const { allowedMaxDays, afterToday, combine }: any = DateRangePicker
 export function PerformanceFilter({ }: PerformanceFilterProps) {
 
     return (
-        <MainFormComponent.Row>
-            <MainFormComponent.DateRangePicker text="Período:" name="date_emission" shouldDisableDate={combine(allowedMaxDays(20), afterToday())} />
-            <MainFormComponent.SelectPicker text="Filial:" name="branch_destination" data={BranchesChoices} showHelpText={false} />
-        </MainFormComponent.Row>
+        <>
+            <MainFormComponent.Row>
+                <MainFormComponent.InputNumber text="CTE:" name="cte" showHelpText={false} />
+                <MainFormComponent.InputNumber text="NF:" name="nf" showHelpText={false} />
+            </MainFormComponent.Row>
+            <MainFormComponent.Row>
+                <MainFormComponent.DateRangePicker text="Período:" name="date_emission" shouldDisableDate={combine(allowedMaxDays(20), afterToday())} />
+                <MainFormComponent.SelectPicker text="Filial:" name="branch_destination" data={BranchesChoices} showHelpText={false} />
+            </MainFormComponent.Row>
+        </>
     )
 }
