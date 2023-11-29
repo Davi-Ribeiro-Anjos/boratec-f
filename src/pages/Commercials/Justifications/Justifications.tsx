@@ -26,10 +26,11 @@ interface Filter {
 
 
 export default function Justifications() {
-    const { }: any = useContext(UserContext)
+    const { me }: any = useContext(UserContext)
     const api = useApi()
     const toaster = useToaster()
 
+    console.log(me)
 
     // FILTER
     const initialFilter = {
@@ -38,7 +39,7 @@ export default function Justifications() {
         date_emission: null,
         date_emission__gte: null,
         date_emission__lte: null,
-        branch_destination: null,
+        branch_destination: me.branch.id,
         confirmed: false,
     }
     const [filter, setFilter] = useState<Filter>({ ...initialFilter })
@@ -65,14 +66,14 @@ export default function Justifications() {
             )
             throw toaster.push(message, { placement: "topEnd", duration: 4000 })
         }
-        if (!filter_.branch_destination) {
-            let message = (
-                <Message showIcon type="error" closable >
-                    Selecione uma Filial.
-                </ Message>
-            )
-            throw toaster.push(message, { placement: "topEnd", duration: 4000 })
-        }
+        // if (!filter_.branch_destination) {
+        //     let message = (
+        //         <Message showIcon type="error" closable >
+        //             Selecione uma Filial.
+        //         </ Message>
+        //     )
+        //     throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+        // }
 
         const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/", { params: { ...filter_ } })
 
