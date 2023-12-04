@@ -57,12 +57,12 @@ const BranchesChoices = [
 ]
 
 const RecruiterChoices = [
-    { label: "LARYSSA RODRIGUES", value: 1054 },
-    { label: "MELISSA COSTA", value: 1640 },
-    { label: "PAULA SANTOS", value: 2058 },
-    { label: "RAQUEL SILVA", value: 1480 },
-    { label: "THAYS ANDRADE", value: 650 },
-]
+    "LARYSSA RODRIGUES",
+    "MELISSA COSTA",
+    "PAULA SANTOS",
+    "RAQUEL SILVA",
+    "THAYS ANDRADE",
+].map(item => ({ label: item, value: item }))
 
 const PrioritiesChoices = [
     "NORMAL",
