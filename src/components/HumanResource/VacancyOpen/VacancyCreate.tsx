@@ -56,14 +56,6 @@ const BranchesChoices = [
     { label: 'JCS', value: 162 },
 ]
 
-const RecruiterChoices = [
-    "LARYSSA RODRIGUES",
-    "MELISSA COSTA",
-    "PAULA SANTOS",
-    "RAQUEL SILVA",
-    "THAYS ANDRADE",
-].map(item => ({ label: item, value: item }))
-
 const PrioritiesChoices = [
     "NORMAL",
     "MÉDIA",
@@ -109,7 +101,6 @@ interface Form {
     priority: string | null;
     replacement: string | null;
     work_schedule: string | null;
-    recruiter: number | null;
     description: string | null;
 }
 
@@ -138,7 +129,6 @@ export const VacancyCreate = memo(
             priority: null,
             replacement: null,
             work_schedule: null,
-            recruiter: null,
             description: null,
             status: "NOVO",
             author: me.id
@@ -187,7 +177,6 @@ export const VacancyCreate = memo(
                     date_expected_start: "Previsão de Início",
                     priority: "Prioridade",
                     work_schedule: "Escala de Trabalho",
-                    recruiter: "Recrutador",
                     description: "Descrição",
                 }
 
@@ -226,7 +215,6 @@ export const VacancyCreate = memo(
                         <MainFormComponent.Input text="Escala de Trabalho:" name="work_schedule" style={styles.input} md={6} showHelpText={false} />
                     </MainFormComponent.Row>
                     <MainFormComponent.Row>
-                        <MainFormComponent.SelectPicker text="Recrutador:" name="recruiter" data={RecruiterChoices} style={styles.input} md={6} showHelpText={false} />
                         <MainFormComponent.Textarea text="Descrição:" name="description" style={styles.input} md={6} />
                     </MainFormComponent.Row>
                 </MainModal.Body>

@@ -19,8 +19,6 @@ export const VacancyHeader = memo(function VacancyHeader({ filter }: VacancyHead
     const api = useApiDownload()
     const toaster = useToaster()
 
-    console.log(filter)
-
     const generate = async () => {
         let body: any = { ...filter }
 

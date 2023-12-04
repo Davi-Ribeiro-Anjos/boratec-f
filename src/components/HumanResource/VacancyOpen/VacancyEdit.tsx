@@ -12,6 +12,7 @@ import { MainMessage } from "../../Global/Message";
 import { MainFormComponent } from "../../Global/Component/Form";
 import { UserContext } from "../../../providers/UserProviders";
 import { DateToString } from "../../../services/Date";
+import { RecruiterChoices } from "../../../services/Choices";
 
 const DepartmentsChoices = [
     { label: "ADMINISTRATIVO", value: "ADMINISTRATIVO" },
@@ -55,14 +56,6 @@ export const BranchesChoices = [
     { label: 'JCT', value: 161 },
     { label: 'JCS', value: 162 },
 ]
-
-const RecruiterChoices = [
-    "LARYSSA RODRIGUES",
-    "MELISSA COSTA",
-    "PAULA SANTOS",
-    "RAQUEL SILVA",
-    "THAYS ANDRADE",
-].map(item => ({ label: item, value: item }))
 
 const PrioritiesChoices = [
     "NORMAL",
@@ -179,8 +172,6 @@ export const VacancyEdit = memo(
             if (row.email_regional_manager) body.email_regional_manager = row.email_regional_manager.toLowerCase()
             if (row.email_rh) body.email_rh = row.email_rh.toLowerCase()
             if (row.email_director) body.email_director = row.email_director.toLowerCase()
-
-            console.log(body)
 
             if (!body.email_manager) body.email_manager = ""
             if (!body.email_regional_manager) body.email_regional_manager = ""

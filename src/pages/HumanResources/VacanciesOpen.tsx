@@ -63,7 +63,27 @@ export default function VacanciesOpen() {
 
         const response = await api.get("vacancies/", { params: filter_ })
 
-        return response.data
+        let dataRes = response.data
+
+        const today: any = new Date()
+
+        for (const key in dataRes) {
+            if (Object.prototype.hasOwnProperty.call(dataRes, key)) {
+                let vacancy = dataRes[key]
+
+                if (vacancy.date_limit) vacancy.date_limit = StringToDate(vacancy.date_limit, true)
+
+                vacancy.opened = null
+
+                if (vacancy.date_limit && vacancy.date_limit < today) {
+                    vacancy.alert = "EM ATRASO"
+                    vacancy.opened = Math.abs(Math.trunc((vacancy.date_limit - today) / (1000 * 60 * 60 * 24)))
+                }
+                else vacancy.alert = "NO PRAZO"
+            }
+        }
+
+        return dataRes
     }
     const { data, isLoading, refetch } = useQuery({
         queryKey: ["vacancies"],
@@ -99,12 +119,14 @@ export default function VacanciesOpen() {
     }
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Solicitante": { dataKey: "author.name", propsColumn: { width: 250, fullText: true } },
-            "Responsavel": { dataKey: "recruiter", propsColumn: { width: 250, fullText: true } },
-            "Cargo": { dataKey: "role.name", propsColumn: { width: 250, fullText: true } },
+            "Solicitante": { dataKey: "author.name", propsColumn: { width: 230, fullText: true } },
+            "Responsavel": { dataKey: "recruiter", propsColumn: { width: 170, fullText: true } },
+            "Cargo": { dataKey: "role.name", propsColumn: { width: 170, fullText: true } },
             "Status": { dataKey: "status", propsColumn: { width: 130 } },
             "Empresa": { dataKey: "company", propsColumn: { width: 100 } },
             "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 100 } },
+            "Alerta": { dataKey: "alert", propsColumn: { width: 100 } },
+            "Dias em Aberto": { dataKey: "opened", propsColumn: { width: 110 } },
         }
     }, [])
     const view = useMemo<ColumnsInterface>(() => {
