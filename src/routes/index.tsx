@@ -4,9 +4,10 @@ import { Routes, Route } from "react-router-dom";
 import { UserContext } from "../providers/UserProviders.tsx";
 
 import Home from "../pages/Home/Home.tsx";
+import Login from "../pages/Login/Login.tsx";
 import Error404 from "../pages/Errors/Error404.tsx";
 import Error403 from "../pages/Errors/Error403.tsx";
-import Login from "../pages/Login/Login.tsx";
+import ApprovesVacancies from "../pages/Outhers/ApprovesVacancies.tsx";
 // import ForgetPassword from "../pages/Login/ForgetPassword.tsx";
 
 // const Login = lazy(() => import("../pages/Login/Login.tsx"));
@@ -19,7 +20,8 @@ const Employees = lazy(() => import("../pages/HumanResources/Employees.tsx"));
 const EmployeesPayments = lazy(() => import("../pages/HumanResources/EmployeesServices/EmployeesPayments.tsx"));
 const EmployeesThirteenths = lazy(() => import("../pages/HumanResources/EmployeesServices/EmployeesThirteenths.tsx"));
 const RegistrationsForms = lazy(() => import("../pages/HumanResources/RegistrationsForms.tsx"));
-// const VacanciesControls = lazy(() => import("../pages/HumanResources/VacanciesControls.tsx"));
+const VacanciesOpen = lazy(() => import("../pages/HumanResources/VacanciesOpen.tsx"));
+const VacanciesControls = lazy(() => import("../pages/HumanResources/VacanciesControls.tsx"));
 const Xmls = lazy(() => import("../pages/Tools/Xmls.tsx"));
 const EPIsRequests = lazy(() => import("../pages/Stocks/EPIsRequests.tsx"));
 const EPIsControls = lazy(() => import("../pages/Stocks/EPIsControls.tsx"));
@@ -97,13 +99,20 @@ export function MainRoutes() {
                     </Suspense>
                 )
             } />
-            {/* <Route path="/rh/controles-vagas" element={
+            <Route path="/rh/abertura-vagas" element={
+                verifyPermissionPage("employee_vacancy") && (
+                    <Suspense>
+                        <VacanciesOpen />
+                    </Suspense>
+                )
+            } />
+            <Route path="/rh/controle-vagas" element={
                 verifyPermissionPage("employee_vacancy") && (
                     <Suspense>
                         <VacanciesControls />
                     </Suspense>
                 )
-            } /> */}
+            } />
             {/* <Route path="/rh/funcionarios-pj/contratos" element={
                 verifyPermissionPage("employee_admin") && (
                     <Suspense>
@@ -180,6 +189,9 @@ export function MainRoutes() {
                     <Error404 />
                 </Suspense>
             } />
+            <Route path="vaga/:token" element={
+                <ApprovesVacancies />
+            } />
         </Routes>
     )
 }
@@ -194,6 +206,9 @@ export function NoPermissionRoutes() {
                 <Suspense>
                     <Login />
                 </Suspense>
+            } />
+            <Route path="vaga/:token" element={
+                <ApprovesVacancies />
             } />
             {/* <Route path="/recuperar-senha" element={
                 <ForgetPassword />

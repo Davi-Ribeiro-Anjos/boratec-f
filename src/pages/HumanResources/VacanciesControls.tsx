@@ -1,12 +1,10 @@
 import { useToaster } from "rsuite";
 import EditIcon from "@rsuite/icons/Edit";
-import SearchIcon from '@rsuite/icons/Search';
 
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
 import { useApi } from "../../hooks/Api";
-import { UserContext } from "../../providers/UserProviders";
 import { ColumnsInterface } from "../../services/Interfaces";
 
 import { MainPanel } from "../../components/Global/Panel";
@@ -18,32 +16,18 @@ import { StringToDate } from "../../services/Date";
 
 interface Filter {
     status: string | null;
+    author__name__contains: string | null;
 }
 
 
 export default function VacanciesControls() {
-    const { verifyPermission }: any = useContext(UserContext)
     const api = useApi()
     const toaster = useToaster()
 
-    const getRoles = async () => {
-        const response = await api.get('roles/')
-
-        return response.data.map((item: any) => ({ label: item.name, value: item.id }))
-    }
-    const { data: RolesChoices } = useQuery({
-        queryKey: ["roles-choices"],
-        queryFn: getRoles,
-        onError: (error: AxiosError) => {
-            MainMessage.Error401(toaster, error)
-            MainMessage.Error500(toaster, error, "Ocorreu um erro ao buscar os dados")
-        },
-        enabled: true
-    })
-
     // FILTER
     const initialFilter = {
-        status: null
+        status: null,
+        author__name__contains: null,
     }
     const [filter, setFilter] = useState<Filter>({ ...initialFilter })
     const clear = () => {
@@ -69,65 +53,53 @@ export default function VacanciesControls() {
 
 
     // TABLE
-    const [showColumn, setShowColumn] = useState<any>({})
     const [row, setRow] = useState({})
     const [openEdit, setOpenEdit] = useState(false)
     const modalEdit = (rowData: any) => {
         let row_ = { ...rowData }
 
-        if (row_.recruiter) row_.recruiter = row_.recruiter.id
+        row_.author = row_.author.name
         row_.branch = row_.branch.id
         row_.role = row_.role.id
-        row_.date_expected_start = StringToDate(row_.date_expected_start)
-        row_.date_reported = StringToDate(row_.date_reported)
+        row_.date_expected_start = StringToDate(row_.date_expected_start, true)
+        row_.date_requested = StringToDate(row_.date_requested, true)
+
+        if (row_.date_limit) row_.date_limit = StringToDate(row_.date_limit, true)
+        if (row_.date_closed) row_.date_closed = StringToDate(row_.date_closed, true)
+        if (row_.date_vetta) row_.date_vetta = StringToDate(row_.date_vetta, true)
+        if (row_.date_exam) row_.date_exam = StringToDate(row_.date_exam, true)
 
         setRow(row_)
         setOpenEdit(true)
 
-        let names = ""
-        if (!row_.email_send_manager) names += "Gestor, "
-        if (!row_.email_send_regional_manager) names += "Gestor Regional, "
-        if (!row_.email_send_rh) names += "Gerente RH, "
-        if (!row_.email_send_director) names += "Diretor, "
+        // let names = ""
+        // if (!row_.email_send_manager) names += "Gestor, "
+        // if (!row_.email_send_regional_manager) names += "Gestor Regional, "
+        // if (!row_.email_send_rh) names += "Gerente RH, "
+        // if (!row_.email_send_director) names += "Diretor, "
 
-        if (names.split(",").length > 1) MainMessage.Info(toaster, `Os e-mails de ${names}ainda não foram enviados.`, 7000)
-        else if (names) MainMessage.Info(toaster, `O e-mail do ${names}ainda não foi enviado.`, 7000)
-        else MainMessage.Info(toaster, "Todos os e-mails foram enviados.", 7000)
+        // if (names.split(",").length > 1) MainMessage.Info(toaster, `Os e-mails de ${names}ainda não foram enviados.`, 7000)
+        // else if (names) MainMessage.Info(toaster, `O e-mail do ${names}ainda não foi enviado.`, 7000)
+        // else MainMessage.Info(toaster, "Todos os e-mails foram enviados.", 7000)
     }
     const columns = useMemo<ColumnsInterface>(() => {
         return {
             "Solicitante": { dataKey: "author.name", propsColumn: { width: 300, fullText: true } },
+            "Responsavel": { dataKey: "recruiter", propsColumn: { width: 250, fullText: true } },
             "Cargo": { dataKey: "role.name", propsColumn: { width: 300, fullText: true } },
             "Status": { dataKey: "status", propsColumn: { width: 130 } },
             "Empresa": { dataKey: "company", propsColumn: { width: 100 } },
             "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 100 } },
-        }
-    }, [])
-    const view = useMemo<ColumnsInterface>(() => {
-        return {
-            "Visualizar": { dataKey: "button", propsColumn: { width: 80 }, click: modalEdit, icon: SearchIcon },
-        }
-    }, [])
-    const edit = useMemo<ColumnsInterface>(() => {
-        return {
             "Editar": { dataKey: "button", propsColumn: { width: 80 }, click: modalEdit, icon: EditIcon }
         }
     }, [])
-
-    useEffect(() => {
-        setShowColumn(() => {
-            return data && data.length > 0 &&
-                (verifyPermission("employee_vacancy_admin") && { ...columns, ...edit }) ||
-                { ...columns, ...view }
-        })
-    }, [data])
 
 
     return (
         <MainPanel.Root shaded>
 
             <MainPanel.Header title="Controle de Vagas">
-                <VacancyControl.Header RolesChoices={RolesChoices} />
+                <VacancyControl.Header filter={filter} />
             </MainPanel.Header>
 
             <MainPanel.Filter filter={filter} setFilter={setFilter} refetch={refetch} defaultExpanded={false} >
@@ -136,10 +108,10 @@ export default function VacanciesControls() {
             </MainPanel.Filter>
 
             <MainPanel.Body>
-                <MainTable.Root data={data ? data : []} columns={showColumn} isLoading={isLoading} />
+                <MainTable.Root data={data ? data : []} columns={columns} isLoading={isLoading} />
             </MainPanel.Body>
 
-            <VacancyControl.Edit open={openEdit} setOpen={setOpenEdit} row={row} setRow={setRow} RolesChoices={RolesChoices} />
+            <VacancyControl.Edit open={openEdit} setOpen={setOpenEdit} row={row} setRow={setRow} />
 
         </MainPanel.Root>
     )

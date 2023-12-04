@@ -17,8 +17,8 @@ import { Performance } from "../../components/Commercial/Performance";
 import FileDownload from 'js-file-download';
 
 interface Filter {
-    cte: number | null;
-    nf: number | null;
+    cte: number | null | undefined;
+    nf: number | null | undefined;
     date_emission: any;
     date_emission__gte: any;
     date_emission__lte: any;
@@ -75,6 +75,9 @@ export default function Performances() {
 
             delete filter_.date_emission
         }
+
+        if (filter_.cte) delete filter_.cte
+        if (filter_.nf) delete filter_.nf
 
         const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/performance/", { params: { ...filter_ } })
 

@@ -30,8 +30,6 @@ export default function Justifications() {
     const api = useApi()
     const toaster = useToaster()
 
-    console.log(me)
-
     // FILTER
     const initialFilter = {
         opened__gt: 0,

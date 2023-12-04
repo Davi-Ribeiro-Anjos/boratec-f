@@ -35,7 +35,6 @@ export const StatusDeliveryHeader = memo(function StatusDeliveryHeader({ filter 
         body.recipient__contains = body.recipient__contains.toUpperCase()
         body.sender__contains = body.sender__contains.toUpperCase()
 
-        console.log(body)
 
         return await api.post('deliveries-histories/status/export/', body)
     }
