@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { AxiosError, AxiosResponse } from "axios";
 import { useApi } from "../hooks/Api";
-import { getCookie } from "../services/Cookies";
+import { eraseCookie, getCookie } from "../services/Cookies";
 import { MeInterface } from "../services/Interfaces";
 
 import jwt_decode from "jwt-decode";
@@ -77,6 +77,16 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         enabled: false
     })
 
+    const logout = () => {
+        eraseCookie("me")
+        eraseCookie("token_access")
+        eraseCookie("token_refresh")
+        eraseCookie("sessionid")
+        eraseCookie("csrftoken")
+
+        setMe(undefined)
+    }
+
 
     // PERMISSIONS
     const getPermissions = () => {
@@ -106,7 +116,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
 
     return (
-        <UserContext.Provider value={{ me, setMe, userChoices, verifyPermission, verifyPermissionPage, GetUsersChoices }}>
+        <UserContext.Provider value={{ me, setMe, userChoices, verifyPermission, verifyPermissionPage, logout, GetUsersChoices }}>
             {children}
         </UserContext.Provider>
     );
