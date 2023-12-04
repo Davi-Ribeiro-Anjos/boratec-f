@@ -35,6 +35,7 @@ export const TypePalletChoices = [
     "PBR", "CHEP"
 ].map(item => ({ label: item, value: item }))
 
+
 // EMPLOYEES
 export const TypeContractChoices = [
     "CLT", "PJ"
@@ -122,4 +123,14 @@ export const JustificationChoices = [
     "ATRASO NA TRANSFERENCIA",
     "CUSTO",
     "ENTREGUE SEM LEAD TIME",
+].map(item => ({ label: item, value: item }))
+
+
+// HR
+export const RecruiterChoices = [
+    "LARYSSA RODRIGUES",
+    "MELISSA COSTA",
+    "PAULA SANTOS",
+    "RAQUEL SILVA",
+    "THAYS ANDRADE",
 ].map(item => ({ label: item, value: item }))

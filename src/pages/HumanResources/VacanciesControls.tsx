@@ -39,7 +39,27 @@ export default function VacanciesControls() {
     const searchData = async () => {
         const response = await api.get("vacancies/", { params: { ...filter } })
 
-        return response.data
+        let dataRes = response.data
+
+        const today: any = new Date()
+
+        for (const key in dataRes) {
+            if (Object.prototype.hasOwnProperty.call(dataRes, key)) {
+                let vacancy = dataRes[key]
+
+                if (vacancy.date_limit) vacancy.date_limit = StringToDate(vacancy.date_limit, true)
+
+                vacancy.opened = null
+
+                if (vacancy.date_limit && vacancy.date_limit < today) {
+                    vacancy.alert = "EM ATRASO"
+                    vacancy.opened = Math.abs(Math.trunc((vacancy.date_limit - today) / (1000 * 60 * 60 * 24)))
+                }
+                else vacancy.alert = "NO PRAZO"
+            }
+        }
+
+        return dataRes
     }
     const { data, isLoading, refetch } = useQuery({
         queryKey: ["vacancies"],
@@ -64,7 +84,6 @@ export default function VacanciesControls() {
         row_.date_expected_start = StringToDate(row_.date_expected_start, true)
         row_.date_requested = StringToDate(row_.date_requested, true)
 
-        if (row_.date_limit) row_.date_limit = StringToDate(row_.date_limit, true)
         if (row_.date_closed) row_.date_closed = StringToDate(row_.date_closed, true)
         if (row_.date_vetta) row_.date_vetta = StringToDate(row_.date_vetta, true)
         if (row_.date_exam) row_.date_exam = StringToDate(row_.date_exam, true)
@@ -72,7 +91,7 @@ export default function VacanciesControls() {
         setRow(row_)
         setOpenEdit(true)
 
-        // let names = ""
+        // let names = "" 
         // if (!row_.email_send_manager) names += "Gestor, "
         // if (!row_.email_send_regional_manager) names += "Gestor Regional, "
         // if (!row_.email_send_rh) names += "Gerente RH, "
@@ -84,12 +103,14 @@ export default function VacanciesControls() {
     }
     const columns = useMemo<ColumnsInterface>(() => {
         return {
-            "Solicitante": { dataKey: "author.name", propsColumn: { width: 300, fullText: true } },
-            "Responsavel": { dataKey: "recruiter", propsColumn: { width: 250, fullText: true } },
-            "Cargo": { dataKey: "role.name", propsColumn: { width: 300, fullText: true } },
+            "Solicitante": { dataKey: "author.name", propsColumn: { width: 230, fullText: true } },
+            "Responsavel": { dataKey: "recruiter", propsColumn: { width: 170, fullText: true } },
+            "Cargo": { dataKey: "role.name", propsColumn: { width: 170, fullText: true } },
             "Status": { dataKey: "status", propsColumn: { width: 130 } },
             "Empresa": { dataKey: "company", propsColumn: { width: 100 } },
             "Filial": { dataKey: "branch.abbreviation", propsColumn: { width: 100 } },
+            "Alerta": { dataKey: "alert", propsColumn: { width: 100 } },
+            "Dias em Aberto": { dataKey: "opened", propsColumn: { width: 110 } },
             "Editar": { dataKey: "button", propsColumn: { width: 80 }, click: modalEdit, icon: EditIcon }
         }
     }, [])

@@ -143,8 +143,8 @@ export const VacancyEdit = memo(
                         <MainFormComponent.Row>
                             <MainFormComponent.Input text="Título da Vaga:" name="title" style={styles.input} md={6} showHelpText={false} />
                             <MainFormComponent.SelectPicker text="Tipo de Vaga:" name="type_vacancy" data={TypeVacanciesChoices} style={styles.input} md={6} showHelpText={false} />
-                            <MainFormComponent.Input text="Solicitante:" name="author" style={styles.input} md={6} showHelpText={false} readOnly />
                             <MainFormComponent.SelectPicker text="Recrutador:" name="recruiter" data={RecruiterChoices} style={styles.input} md={6} showHelpText={false} />
+                            <MainFormComponent.Input text="Solicitante:" name="author" style={styles.input} md={6} showHelpText={false} readOnly />
                         </MainFormComponent.Row>
                         <MainFormComponent.Row>
                             <MainFormComponent.SelectPicker text="Empresa:" name="company" data={CompanyChoices} style={styles.input} md={6} showHelpText={false} />
@@ -159,14 +159,14 @@ export const VacancyEdit = memo(
                             <MainFormComponent.Textarea text="Observação:" name="observation" style={styles.input} md={6} showHelpText={false} />
                         </MainFormComponent.Row>
                         <MainFormComponent.Row>
-                            <MainFormComponent.DatePicker text="Data de Abertura:" name="date_requested" style={styles.input} md={6} showHelpText={false} readOnly />
-                            <MainFormComponent.DatePicker text="Data Admissão:" name="date_expected_start" style={styles.input} md={6} showHelpText={false} />
-                            <MainFormComponent.DatePicker text="Data Limite:" name="date_limit" style={styles.input} md={6} showHelpText={false} />
+                            <MainFormComponent.DatePicker text="Data Relatada:" name="date_requested" style={styles.input} md={6} showHelpText={false} readOnly />
+                            <MainFormComponent.DatePicker text="Previsão de Início:" name="date_expected_start" style={styles.input} md={6} showHelpText={false} />
+                            <MainFormComponent.DatePicker text="Data Limite do Fechamento:" name="date_limit" style={styles.input} md={6} showHelpText={false} />
                             <MainFormComponent.DatePicker text="Data do Vetta:" name="date_vetta" style={styles.input} md={6} showHelpText={false} />
                         </MainFormComponent.Row>
                         <MainFormComponent.Row>
-                            <MainFormComponent.DatePicker text="Date do Exame:" name="date_exam" style={styles.input} md={6} showHelpText={false} />
-                            <MainFormComponent.DatePicker text="Data de Fechamento:" name="date_closed" style={styles.input} md={6} showHelpText={false} />
+                            <MainFormComponent.DatePicker text="Data do Exame:" name="date_exam" style={styles.input} md={6} showHelpText={false} />
+                            <MainFormComponent.DatePicker text="Data do Fechamento:" name="date_closed" style={styles.input} md={6} showHelpText={false} />
                         </MainFormComponent.Row>
                     </Panel>
                 </MainModal.Body>
