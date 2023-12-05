@@ -50,6 +50,17 @@ export default function JustificationsConfirmed() {
     const searchData = async () => {
         const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/confirm/")
 
+        let dataRes = response.data
+
+        for (const res in dataRes) {
+            if (Object.prototype.hasOwnProperty.call(dataRes, res)) {
+                const line = dataRes[res];
+
+                if (line.date_delivery === "01/01/0001" || line.date_delivery === "01/01/1") line.date_delivery = null
+                if (line.lead_time === "01/01/0001" || line.lead_time === "01/01/1") line.lead_time = null
+
+            }
+        }
         return response.data
     }
     const { data, isLoading } = useQuery({
@@ -114,7 +125,10 @@ export default function JustificationsConfirmed() {
         return {
             "CTE": { dataKey: "cte", propsColumn: { flexGrow: 1 } },
             "NF": { dataKey: "nf", propsColumn: { flexGrow: 1 } },
-            "Justificativa": { dataKey: "description_justification", propsColumn: { flexGrow: 1 } },
+            "Justificativa": { dataKey: "description_justification", propsColumn: { flexGrow: 2 } },
+            "Data Emissão": { dataKey: "date_emission", propsColumn: { flexGrow: 1 } },
+            "Lead Time": { dataKey: "lead_time", propsColumn: { flexGrow: 1 } },
+            "Data Entrega": { dataKey: "date_delivery", propsColumn: { flexGrow: 1 } },
             "Anexo": { dataKey: "button", propsColumn: { flexGrow: 1 }, click: download, icon: FileDownloadIcon },
         }
     }, [])
