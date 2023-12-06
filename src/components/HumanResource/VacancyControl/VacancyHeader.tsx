@@ -47,7 +47,7 @@ export const VacancyHeader = memo(function VacancyHeader({ filter }: VacancyHead
 
     return (
         <div>
-            <MainComponent.ButtonHeader name="Baixar CSV" func={mutate} icon={<DetailIcon />} color="blue" />
+            <MainComponent.ButtonHeader name="Extrair Relatório" func={mutate} icon={<DetailIcon />} color="blue" />
         </div>
     )
 })

@@ -16,7 +16,7 @@ export const PerformanceHeader = memo(function PerformanceHeader({ }: Performanc
 
     return (
         <div>
-            <MainComponent.ButtonHeader name="Gerar CSV" func={() => setOpenCSV(true)} icon={<DetailIcon />} color="blue" />
+            <MainComponent.ButtonHeader name="Extrair Relatório" func={() => setOpenCSV(true)} icon={<DetailIcon />} color="blue" />
             <Performance.CSV open={openCSV} setOpen={setOpenCSV} />
         </div>
     )

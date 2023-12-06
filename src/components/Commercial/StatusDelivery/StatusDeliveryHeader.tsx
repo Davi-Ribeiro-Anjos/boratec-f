@@ -63,7 +63,7 @@ export const StatusDeliveryHeader = memo(function StatusDeliveryHeader({ filter 
 
     return (
         <div>
-            <MainComponent.ButtonHeader name="Gerar CSV" func={mutate} icon={<DetailIcon />} color="blue" />
+            <MainComponent.ButtonHeader name="Extrair Relatório" func={mutate} icon={<DetailIcon />} color="blue" />
         </div>
     )
 })
