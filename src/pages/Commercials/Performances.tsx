@@ -76,8 +76,8 @@ export default function Performances() {
             delete filter_.date_emission
         }
 
-        if (filter_.cte) delete filter_.cte
-        if (filter_.nf) delete filter_.nf
+        if (!filter_.cte) delete filter_.cte
+        if (!filter_.nf) delete filter_.nf
 
         const response = await api.get<DeliveryHistoryInterface[]>("/deliveries-histories/performance/", { params: { ...filter_ } })
 

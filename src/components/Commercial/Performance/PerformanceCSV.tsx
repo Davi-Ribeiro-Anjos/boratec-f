@@ -87,7 +87,7 @@ export const PerformanceCSV = memo(
 
         return (
             <MainModal.Form open={open} close={close} send={mutate} data={data} setData={setData} size="md" overflow={false}>
-                <MainModal.Header title="Exportar CSV" />
+                <MainModal.Header title="Extrair Relatório" />
                 <MainModal.Body>
                     <MainFormComponent.Row>
                         <MainFormComponent.DatePicker text="Data de Emissão:" name="date_selected" format="MM/yyyy" shouldDisableDate={(date: any) => isAfter(date, new Date())} />
