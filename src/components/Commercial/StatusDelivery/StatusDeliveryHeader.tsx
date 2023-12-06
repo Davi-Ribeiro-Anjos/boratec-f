@@ -35,6 +35,7 @@ export const StatusDeliveryHeader = memo(function StatusDeliveryHeader({ filter 
         body.recipient__contains = body.recipient__contains.toUpperCase()
         body.sender__contains = body.sender__contains.toUpperCase()
 
+        MainMessage.Info(toaster, "Gerando relatório...")
 
         return await api.post('deliveries-histories/status/export/', body)
     }
@@ -43,6 +44,8 @@ export const StatusDeliveryHeader = memo(function StatusDeliveryHeader({ filter 
         mutationKey: ["performance-csv"],
         mutationFn: generate,
         onSuccess: (response) => {
+            MainMessage.Ok(toaster, "Relatório extraido com sucesso.")
+
             FileDownload(response.data, "Relatório de Status de Entrega.csv")
 
             close()

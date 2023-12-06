@@ -44,6 +44,8 @@ export const PerformanceCSV = memo(
 
             if (body.date_selected) body.date_selected = DateToString(body.date_selected)
 
+            MainMessage.Info(toaster, "Gerando relatório...")
+
             return await api.post('deliveries-histories/performance/export/', body)
         }
 
@@ -52,6 +54,8 @@ export const PerformanceCSV = memo(
             mutationFn: generate,
             onSuccess: (response) => {
                 FileDownload(response.data, "Relatório de Justificativas.csv")
+
+                MainMessage.Ok(toaster, "Relatório extraido com sucesso.")
 
                 close()
             },
