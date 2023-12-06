@@ -1,4 +1,4 @@
-import { useToaster } from "rsuite";
+import { Message, useToaster } from "rsuite";
 import isAfter from "date-fns/isAfter";
 
 import { memo, useState } from "react";
@@ -41,6 +41,16 @@ export const PerformanceCSV = memo(
 
         const generate = async () => {
             let body: any = { ...data }
+
+            if (!body.date_selected) {
+                let message = (
+                    <Message showIcon type="error" closable >
+                        Selecione a Data de Emissão.
+                    </ Message>
+                )
+                throw toaster.push(message, { placement: "topEnd", duration: 4000 })
+            }
+
 
             if (body.date_selected) body.date_selected = DateToString(body.date_selected)
 
