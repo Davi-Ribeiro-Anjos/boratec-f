@@ -64,7 +64,7 @@ export default function PurchasesRequests() {
             delete filter_.date_request
         }
 
-        return await api.get("purchases-requests/", { params: { ...filter_ } })
+        return await api.get("purchases/requests/", { params: { ...filter_ } })
     }
     const { data, isLoading, refetch } = useQuery({
         queryKey: ["purchases-requests"],
@@ -112,7 +112,7 @@ export default function PurchasesRequests() {
     const [openAnnotation, setOpenAnnotation] = useState(false)
     const [annotations, setAnnotations] = useState()
     const annotationsData = async (rowData: PurchaseRequestInterface) => {
-        await api.get(`purchases-entries/${rowData.id}/`).then((response: AxiosResponse) => {
+        await api.get(`purchases/entries/${rowData.id}/`).then((response: AxiosResponse) => {
             setAnnotations(response.data)
             setRow(rowData)
             setOpenAnnotation(true)

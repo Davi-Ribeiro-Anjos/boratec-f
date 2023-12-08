@@ -54,7 +54,7 @@ export const PurchaseRequestCreate = memo(
 
             const dataPost = { ...data_, date_request: today.toISOString(), status: "ABERTO", author: me.id, latest_updater: me.id }
 
-            return await api.post('purchases-requests/', { ...dataPost })
+            return await api.post('purchases/requests/', { ...dataPost })
         }
 
         const { mutate } = useMutation({

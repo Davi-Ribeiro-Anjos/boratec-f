@@ -57,7 +57,7 @@ export default function PalletsBranches() {
         }
 
 
-        const response = await api.get<PalletMovementInterface[]>('pallets-movements/', { params: { ...newFilter } })
+        const response = await api.get<PalletMovementInterface[]>('pallets/movements/', { params: { ...newFilter } })
 
         return response.data
     }, [filter])
@@ -105,7 +105,7 @@ export default function PalletsBranches() {
             "Destino": { dataKey: "destiny.abbreviation", propsColumn: { width: 100 } },
             "Placa Veiculo": { dataKey: "vehicle_plate", propsColumn: { width: 130 } },
             "Autor": { dataKey: "author.name", propsColumn: { width: 160, fullText: true } },
-            "Código de barras": { dataKey: "link", propsColumn: { width: 130 }, url: `${baseUrl}/api/pallets-movements/document/`, icon: PageIcon },
+            "Código de barras": { dataKey: "link", propsColumn: { width: 130 }, url: `${baseUrl}/api/pallets/movements/document/`, icon: PageIcon },
             "Confirmar Recebimento": { dataKey: "button", propsColumn: { width: 160 }, click: confirmData, icon: CheckIcon }
         }
     }, [])

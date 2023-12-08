@@ -54,7 +54,7 @@ export default function Manuals() {
 
         if (filter_.title__contains) filter_.title__contains = filter_.title__contains.toUpperCase()
 
-        const response = await api.get<DataInterface>("queries/manuals/", { params: { ...filter_ } })
+        const response = await api.get<DataInterface>("manuals/", { params: { ...filter_ } })
 
         setSystemsChoices(response.data.systems.map((value) => { return value.system }).map(item => ({ label: item, value: item })))
         setModulesChoices(response.data.modules.map((value) => { return value.module }).map(item => ({ label: item, value: item })))

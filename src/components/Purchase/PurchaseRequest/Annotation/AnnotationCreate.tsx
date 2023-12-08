@@ -43,7 +43,7 @@ export function AnnotationCreate({ open, setOpen, id }: AnnotationCreateProps) {
         }
         delete body.attachment
 
-        await api.post('purchases-entries/', { ...body }).then(() => {
+        await api.post('purchases/entries/', { ...body }).then(() => {
             MainMessage.Ok(toaster, "Sucesso - Entrada criada.")
 
             setData({

@@ -40,7 +40,7 @@ export const BranchInfo = memo(
         const toaster = useToaster()
 
         const getData = async () => {
-            const response = await api.get<PalletControlInterface[]>("pallets-controls/")
+            const response = await api.get<PalletControlInterface[]>("pallets/controls/")
             return response.data
         }
 

@@ -35,7 +35,7 @@ export const BranchConfirmTransfer = memo(
                 destiny: row.destiny.id
             }
 
-            return await api.patch(`pallets-movements/confirm/${row.id}/`, data)
+            return await api.patch(`pallets/movements/confirm/${row.id}/`, data)
         }
 
         const { mutate } = useMutation({

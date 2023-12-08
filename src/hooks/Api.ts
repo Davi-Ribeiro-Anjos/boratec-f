@@ -1,9 +1,10 @@
 import axios from "axios";
+
 import { getCookie } from "../services/Cookies";
+import env from "../../env.json"
 
-const dev = false
 
-export const baseUrl = dev ? "http://127.0.0.1:8000" : "https://back.bora.tec.br"
+export const baseUrl = env.DEV ? "http://127.0.0.1:8000" : env.URL_PRODUCTION
 
 export const useApi = (media?: boolean) => {
     let token: string | null

@@ -53,7 +53,7 @@ export const PurchaseRequestEdit = memo(
             let data_patch = { ...row_, latest_updater: me.id }
 
             MainMessage.Info(toaster, "Enviando e-mail, aguarde...")
-            return await api.patch(`purchases-requests/${row_.id}/`, { ...data_patch })
+            return await api.patch(`purchases/requests/${row_.id}/`, { ...data_patch })
         }
 
         const { mutate } = useMutation({
