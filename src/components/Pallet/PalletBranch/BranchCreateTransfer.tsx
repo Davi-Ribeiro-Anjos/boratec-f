@@ -68,7 +68,7 @@ export const BranchCreateTransfer = memo(
                 }
             }
 
-            return await api.post<PalletMovementInterface[]>('pallets-movements/', listForm)
+            return await api.post<PalletMovementInterface[]>('pallets/movements/', listForm)
         }
 
         const { mutate } = useMutation({

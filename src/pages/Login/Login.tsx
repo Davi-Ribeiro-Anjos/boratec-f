@@ -47,7 +47,7 @@ export default function Login() {
     const login = () => {
         const api = useApi()
 
-        return api.post("login/", form)
+        return api.post("authentications/login/", form)
     }
     const { refetch } = useQuery({
         queryKey: "login",

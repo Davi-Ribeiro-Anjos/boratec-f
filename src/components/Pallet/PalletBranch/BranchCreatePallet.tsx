@@ -44,7 +44,7 @@ export const BranchCreatePallet = memo(
         const send = async () => {
             let form = { ...data }
 
-            return await api.post<PalletControlInterface>('pallets-controls/', form)
+            return await api.post<PalletControlInterface>('pallets/controls/', form)
         }
 
         const { mutate } = useMutation({
